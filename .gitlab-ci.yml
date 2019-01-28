@@ -21,6 +21,6 @@ test:
 deploy_staging:
   stage: deploy
   script:
-    - ./node_modules/.bin/now
+    - ./node_modules/.bin/now --token=$NOW_TOKEN
   only:
     - master
