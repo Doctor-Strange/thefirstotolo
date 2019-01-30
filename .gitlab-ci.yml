@@ -1,6 +1,4 @@
 image: node:10
-tags:
-    - docker
 cache:
   paths:
     - node_modules/
