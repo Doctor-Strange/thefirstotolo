@@ -6,4 +6,12 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export { GlobalStyle };
+const lightTheme = {
+  main: '#fff'
+};
+
+const darkTheme = {
+  main: '#000'
+};
+
+export { GlobalStyle, lightTheme, darkTheme };

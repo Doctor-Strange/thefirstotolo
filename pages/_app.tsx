@@ -5,7 +5,7 @@ import App, { Container } from 'next/app';
 import { ThemeProvider } from 'styled-components';
 import { getStore } from '../src/store';
 import { rtlTheme } from '../src/theme/directions';
-import { lightTheme } from '../src/theme/mainThemes';
+import { lightTheme } from '../src/theme/globalStyle';
 
 export default class extends App {
   static async getInitialProps({ Component, router, ctx }) {
