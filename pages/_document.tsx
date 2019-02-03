@@ -91,7 +91,7 @@ fbq('track', 'PageView'); `
               />
             </>
           )}
-          {/* Step 5: Output the styles in the head */}
+          {/* Output the styles in the head */}
           {this.props.styleTags}
         </Head>
         <body>
