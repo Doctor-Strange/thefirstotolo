@@ -1,8 +1,15 @@
-import * as React from 'react'
-import {Home} from '../src/components/Home'
-import {Layout} from '../src/components/Layout'
+import * as React from 'react';
+import styled from 'styled-components';
+import { Home } from '../src/components/Home';
+import { Layout } from '../src/components/Layout';
 
-export default props =>
+export default props => (
   <Layout>
-    <Home/>
+    <Title>First Next.js Page</Title>
+    <Home />
   </Layout>
+);
+
+const Title = styled.h1`
+  color: red;
+`;
