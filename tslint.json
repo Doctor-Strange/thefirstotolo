@@ -1,7 +1,31 @@
 {
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
+  "jsRules": {},
   "rules": {
-    "semicolon": [false, "never"],
-    "quotemark": [true, "single", "jsx-double"],
-    "indent": [true, "spaces", 2]
-  }
+    "curly": [true, "ignore-same-line"],
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "any",
+        "named-imports-order": "case-insensitive"
+      }
+    ],
+    "jsx-boolean-value": ["never"],
+    "member-access": [true, "no-public"],
+    "max-line-length": [true, 120],
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case",
+      "allow-snake-case"
+    ]
+  },
+  "rulesDirectory": []
 }
