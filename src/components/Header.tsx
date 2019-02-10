@@ -2,6 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Nav } from './Nav';
 import { Logo } from './Logo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/fontawesome-free-regular';
+
 const HeaderSticky = styled.div`
   header {
     position: fixed;
@@ -252,7 +256,7 @@ export const Header: React.FunctionComponent = props => (
                   className="login"
                   title="Sign In"
                 >
-                  👋 Sign In
+                  <FontAwesomeIcon size="2x" icon={faSignInAlt} />
                 </a>
               </li>
               <li>
@@ -261,7 +265,7 @@ export const Header: React.FunctionComponent = props => (
                   className="wishlist_bt_top"
                   title="Your wishlist"
                 >
-                  Your wishlist
+                  <FontAwesomeIcon size="2x" icon={faHeart} />
                 </a>
               </li>
             </ul>
