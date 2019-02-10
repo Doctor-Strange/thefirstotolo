@@ -95,7 +95,9 @@ fbq('track', 'PageView'); `
           {this.props.styleTags}
         </Head>
         <body>
-          <Main />
+          <div id="page">
+            <Main />
+          </div>
           <NextScript />
         </body>
       </html>

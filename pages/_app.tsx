@@ -5,7 +5,7 @@ import App, { Container } from 'next/app';
 import { ThemeProvider } from 'styled-components';
 import { getStore } from '../src/store';
 import { rtlTheme } from '../src/theme/directions';
-import { lightTheme } from '../src/theme/globalStyle';
+import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 
 export default class extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -32,6 +32,7 @@ export default class extends App {
 
     return (
       <Container>
+        <GlobalStyle />
         <Provider store={getStore(undefined, props.server)}>
           <ThemeProvider theme={rtlTheme}>
             <ThemeProvider theme={lightTheme}>
