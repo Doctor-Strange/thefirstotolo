@@ -12,7 +12,7 @@ export const Home: React.FunctionComponent = props => (
       <li>
         <Title>usage classnames in Home.tsx</Title>
       </li>
-      <li>Layout.tsx set background-color hot-pink using global styled jsx</li>
+      <li>hello world</li>
     </ul>
   </div>
 );
