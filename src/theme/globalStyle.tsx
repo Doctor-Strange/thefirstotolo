@@ -17,6 +17,8 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     text-align: left;
     display: block;
+    padding: 0;
+    margin: 0;
   }
   a {
     color: #004dda;
@@ -113,7 +115,50 @@ const GlobalStyle = createGlobalStyle`
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
   
+  .md-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    max-width: 630px;
+    min-width: 320px;
+    height: auto;
+    z-index: 2000;
+    transform: translateX(-50%) translateY(-50%) scale(.7);
+    opacity:0;
+    transition: all .3s;
+  }
+
+  .md-show.md-modal {
+    opacity:1;
+    transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+  .md-overlay{
+    text-align: center;
+    position: absolute;
+    visibility: visible;
+    background: hsla(0, 0%, 0%, 0.0);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding: 0 18px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 99999999999;
+    transition: all .3s;
+  }
+
+  .md-show.md-overlay {
+    background: hsla(0, 0%, 0%, 0.8);
+  }
 `;
 
 const lightTheme = {

@@ -5,6 +5,8 @@ import { Logo } from './Logo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/fontawesome-free-regular';
+import ReactModal from 'react-modal';
+import { Modal } from './Modal';
 
 const HeaderSticky = styled.div`
   header {
@@ -234,52 +236,96 @@ const HeaderSticky = styled.div`
     }
   }
 `;
-export const Header: React.FunctionComponent = props => (
-  <HeaderSticky>
-    <header className="header_in is_sticky menu_fixed">
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-3 col-12">
-            <Logo />
-          </div>
-          <div className="col-lg-9 col-12">
-            <ul id="top_menu">
-              <li>
-                <a href="/account" className="btn_add">
-                  Add Listing
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#sign-in-dialog"
-                  id="sign-in"
-                  className="login"
-                  title="Sign In"
-                >
-                  <FontAwesomeIcon size="2x" icon={faSignInAlt} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/wishlist"
-                  className="wishlist_bt_top"
-                  title="Your wishlist"
-                >
-                  <FontAwesomeIcon size="2x" icon={faHeart} />
-                </a>
-              </li>
-            </ul>
-            <a href="#menu" className="btn_mobile">
-              <div className="hamburger hamburger--spin" id="hamburger">
-                <div className="hamburger-box">
-                  <div className="hamburger-inner" />
+
+export class Header extends React.Component {
+  state = {
+    animation: null,
+    showModal: false
+  };
+
+  handleOpenModal = () => {
+    this.setState({ showModal: true });
+    setTimeout(() => {
+      this.setState({ animation: 'md-show' });
+    }, 3);
+  };
+
+  handleCloseModal = () => {
+    this.setState({ animation: null });
+    setTimeout(() => {
+      this.setState({ showModal: false });
+    }, 300);
+  };
+
+  componentWillMount() {
+    ReactModal.setAppElement('body');
+  }
+
+  render() {
+    return (
+      <>
+        <HeaderSticky>
+          <header className="header_in is_sticky menu_fixed">
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-3 col-12">
+                  <Logo />
+                </div>
+                <div className="col-lg-9 col-12">
+                  <ul id="top_menu">
+                    <li>
+                      <a href="/account" className="btn_add">
+                        Add Listing
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#sign-in-dialog"
+                        id="sign-in"
+                        className="login"
+                        title="Sign In"
+                        onClick={this.handleOpenModal}
+                      >
+                        <FontAwesomeIcon size="2x" icon={faSignInAlt} />
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/wishlist"
+                        className="wishlist_bt_top"
+                        title="Your wishlist"
+                      >
+                        <FontAwesomeIcon size="2x" icon={faHeart} />
+                      </a>
+                    </li>
+                  </ul>
+                  <a href="#menu" className="btn_mobile">
+                    <div className="hamburger hamburger--spin" id="hamburger">
+                      <div className="hamburger-box">
+                        <div className="hamburger-inner" />
+                      </div>
+                    </div>
+                  </a>
+                  <Nav />
                 </div>
               </div>
-            </a>
-            <Nav />
-          </div>
-        </div>
-      </div>
-    </header>
-  </HeaderSticky>
-);
+            </div>
+          </header>
+        </HeaderSticky>
+
+        <ReactModal
+          isOpen={this.state.showModal}
+          contentLabel="Minimal Modal Example"
+          className="md-contain"
+          overlayClassName={'md-overlay ' + this.state.animation}
+          shouldCloseOnOverlayClick={true}
+        >
+          <Modal
+            animationClass={this.state.animation}
+            handleClose={this.handleCloseModal}
+          />
+        </ReactModal>
+      </>
+    );
+  }
+}
