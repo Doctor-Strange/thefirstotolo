@@ -319,6 +319,7 @@ export class Header extends React.Component {
           className="md-contain"
           overlayClassName={'md-overlay ' + this.state.animation}
           shouldCloseOnOverlayClick={true}
+          onRequestClose={this.handleCloseModal}
         >
           <Modal
             animationClass={this.state.animation}
