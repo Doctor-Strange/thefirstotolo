@@ -14,6 +14,9 @@ const ModalDiv = styled.div`
     border-radius: 4px;
 
     .mfp-close {
+      position: absolute;
+      top: 12px;
+      right: 20px;
       color: #666;
       background-color: #e4e4e4;
       border-radius: 50%;
@@ -22,7 +25,8 @@ const ModalDiv = styled.div`
       width: 32px;
       height: 32px;
       line-height: 32px;
-
+      border: 0;
+      cursor: pointer !important;
       :hover {
         color: #fff;
         background-color: #66676b;
@@ -52,19 +56,22 @@ const ModalDiv = styled.div`
   }
 `;
 
-export const Modal = ({ handleClose, animationClass }) => {
+export const Modal = ({ handleClose, animationClass, title, children }) => {
   return (
     <ModalDiv className={'md-modal ' + animationClass}>
       <div id="sign-in-dialog" className="zoom-anim-dialog">
         <div className="small-dialog-header">
-          <h3>Sign In</h3>
+          <h3>{title}</h3>
         </div>
         <button
           title="Close (Esc)"
           type="button"
           className="mfp-close"
           onClick={handleClose}
-        />
+        >
+          X
+        </button>
+        {children}
       </div>
     </ModalDiv>
   );

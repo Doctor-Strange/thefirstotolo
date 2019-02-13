@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/fontawesome-free-regular';
 import ReactModal from 'react-modal';
-import { Modal } from './Modal';
+import { LoginModal } from './LoginModal';
 
 const HeaderSticky = styled.div`
   header {
@@ -237,29 +237,11 @@ const HeaderSticky = styled.div`
   }
 `;
 
-export class Header extends React.Component {
-  state = {
-    animation: null,
-    showModal: false
+export class Header extends React.Component<{}> {
+  [x: string]: any;
+  onClick = () => {
+    this.loginmodal.handleOpenModal(); // do stuff
   };
-
-  handleOpenModal = () => {
-    this.setState({ showModal: true });
-    setTimeout(() => {
-      this.setState({ animation: 'md-show' });
-    }, 3);
-  };
-
-  handleCloseModal = () => {
-    this.setState({ animation: null });
-    setTimeout(() => {
-      this.setState({ showModal: false });
-    }, 300);
-  };
-
-  componentWillMount() {
-    ReactModal.setAppElement('body');
-  }
 
   render() {
     return (
@@ -284,7 +266,7 @@ export class Header extends React.Component {
                         id="sign-in"
                         className="login"
                         title="Sign In"
-                        onClick={this.handleOpenModal}
+                        onClick={this.onClick}
                       >
                         <FontAwesomeIcon size="2x" icon={faSignInAlt} />
                       </a>
@@ -313,19 +295,7 @@ export class Header extends React.Component {
           </header>
         </HeaderSticky>
 
-        <ReactModal
-          isOpen={this.state.showModal}
-          contentLabel="Minimal Modal Example"
-          className="md-contain"
-          overlayClassName={'md-overlay ' + this.state.animation}
-          shouldCloseOnOverlayClick={true}
-          onRequestClose={this.handleCloseModal}
-        >
-          <Modal
-            animationClass={this.state.animation}
-            handleClose={this.handleCloseModal}
-          />
-        </ReactModal>
+        <LoginModal onRef={ref => (this.loginmodal = ref)} />
       </>
     );
   }
