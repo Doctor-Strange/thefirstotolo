@@ -1,9 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
-import { Modal } from './Modal';
+import { ModalCore } from './ModalCore';
 
-export class LoginModal extends React.Component<{ onRef: any }> {
+export class ModalWrapper extends React.Component<{
+  onRef: any;
+  title: String;
+}> {
   state = {
     animation: null,
     showModal: false
@@ -37,19 +40,19 @@ export class LoginModal extends React.Component<{ onRef: any }> {
     return (
       <ReactModal
         isOpen={this.state.showModal}
-        contentLabel="Sign In"
+        contentLabel={this.props.title}
         className="md-contain"
         overlayClassName={'md-overlay ' + this.state.animation}
         shouldCloseOnOverlayClick={true}
         onRequestClose={this.handleCloseModal}
       >
-        <Modal
-          title="Sign In"
+        <ModalCore
+          title={this.props.title}
           animationClass={this.state.animation}
           handleClose={this.handleCloseModal}
         >
-          Test
-        </Modal>
+          {this.props.children}
+        </ModalCore>
       </ReactModal>
     );
   }

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/fontawesome-free-regular';
 import ReactModal from 'react-modal';
-import { LoginModal } from './LoginModal';
+import { LoginModal } from './Modals/LoginModal';
 
 const HeaderSticky = styled.div`
   header {

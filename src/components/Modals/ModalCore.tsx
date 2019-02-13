@@ -56,7 +56,7 @@ const ModalDiv = styled.div`
   }
 `;
 
-export const Modal = ({ handleClose, animationClass, title, children }) => {
+export const ModalCore = ({ handleClose, animationClass, title, children }) => {
   return (
     <ModalDiv className={'md-modal ' + animationClass}>
       <div id="sign-in-dialog" className="zoom-anim-dialog">
