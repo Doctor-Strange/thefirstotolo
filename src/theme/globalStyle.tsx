@@ -38,6 +38,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
     color: #333;
     margin-bottom: .5rem;
     font-family: inherit;
@@ -70,12 +71,26 @@ const GlobalStyle = createGlobalStyle`
       max-width: 1140px;
     }
   }
+
   .row {
     display: flex;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
   }
+
+
+  /** col **/
+  .col, .col-10, .col-12, .col-2, .col-3, .col-4, .col-6, .col-8, .col-9, .col-lg-1, .col-lg-10,
+  .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9,
+  .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-8, .col-sm-6, .col-xl-4,
+  .col-xl-5, .col-xl-6, .col-xl-7 {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
 
   .col-12 {
     flex: 0 0 100%;
@@ -91,13 +106,19 @@ const GlobalStyle = createGlobalStyle`
       max-width: 75%;
     }
     .col-lg-6 {
-      -ms-flex: 0 0 50%;
       flex: 0 0 50%;
       max-width: 50%;
     }
     .col-lg-3 {
         flex: 0 0 25%;
         max-width: 25%;
+    }
+  }
+
+  @media (min-width: 768px){
+    .col-md-5 {
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
     }
   }
 
@@ -111,6 +132,14 @@ const GlobalStyle = createGlobalStyle`
 
   .float-left {
       float: left!important;
+  }
+
+  .justify-content-center {
+    justify-content: center!important;
+  }
+
+  .h1, h1 {
+    font-size: 2.5rem;
   }
 
   .form-control {
