@@ -4,7 +4,7 @@ import { Home } from '../src/components/Home';
 import { Layout } from '../src/components/Layout';
 
 export default props => (
-  <Layout>
+  <Layout haveSubHeader={true} pageTitle={'Hello World'}>
     <Title>First Next.js Page</Title>
     <Home />
   </Layout>

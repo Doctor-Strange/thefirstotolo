@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { Header } from './Header';
+import { SubHeader } from './SubHeader';
 import { Footer } from './Footer';
 import Head from 'next/head';
 
-export const Layout: React.FunctionComponent = props => (
+export const Layout: React.FunctionComponent<{
+  haveSubHeader: boolean;
+  pageTitle: string;
+}> = ({ children, haveSubHeader, pageTitle }) => (
   <div id="layout">
     <Head>
       <meta
@@ -12,7 +16,8 @@ export const Layout: React.FunctionComponent = props => (
       />
     </Head>
     <Header />
-    <main>{props.children}</main>
+    {haveSubHeader ? <SubHeader title={pageTitle} /> : null}
+    <main>{children}</main>
     <Footer />
   </div>
 );
