@@ -169,6 +169,11 @@ export class LoginModal extends React.Component<{ onRef: any }> {
     this.props.onRef(undefined);
   }
 
+  handleSubmit(e) {
+    // tslint:disable-next-line:no-console
+    console.log('form handled!');
+  }
+
   render() {
     return (
       // tslint:disable-next-line:jsx-no-lambda
@@ -187,6 +192,7 @@ export class LoginModal extends React.Component<{ onRef: any }> {
             <div className="form-group">
               <label>Email</label>
               <input
+                onChange={this.handleSubmit}
                 type="email"
                 className="form-control"
                 name="email"
@@ -197,6 +203,7 @@ export class LoginModal extends React.Component<{ onRef: any }> {
             <div className="form-group">
               <label>Password</label>
               <input
+                onChange={this.handleSubmit}
                 type="password"
                 className="form-control"
                 name="password"
