@@ -90,7 +90,7 @@ const GlobalStyle = createGlobalStyle`
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
-}
+  }
 
   .col-12 {
     flex: 0 0 100%;
@@ -108,6 +108,10 @@ const GlobalStyle = createGlobalStyle`
     .col-lg-6 {
       flex: 0 0 50%;
       max-width: 50%;
+    }
+    .col-lg-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
     }
     .col-lg-3 {
         flex: 0 0 25%;
@@ -566,4 +570,9 @@ const darkTheme = {
   main: '#000'
 };
 
-export { GlobalStyle, lightTheme, darkTheme };
+enum Margin {
+  Normal = 'margin_60',
+  Bitter = 'margin_60_35'
+}
+
+export { GlobalStyle, lightTheme, darkTheme, Margin };
