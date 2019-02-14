@@ -5,7 +5,7 @@ import { ModalCore } from './ModalCore';
 
 export class ModalWrapper extends React.Component<{
   onRef: any;
-  title: String;
+  title: string;
 }> {
   state = {
     animation: null,
