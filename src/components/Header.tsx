@@ -243,6 +243,10 @@ export class Header extends React.Component<{}> {
     this.loginmodal.handleOpenModal(); // do stuff
   };
 
+  doRef = ref => {
+    this.loginmodal = ref;
+  };
+
   render() {
     return (
       <>
@@ -295,7 +299,7 @@ export class Header extends React.Component<{}> {
           </header>
         </HeaderSticky>
 
-        <LoginModal onRef={ref => (this.loginmodal = ref)} />
+        <LoginModal onRef={this.doRef} />
       </>
     );
   }
