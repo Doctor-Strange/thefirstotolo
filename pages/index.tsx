@@ -29,19 +29,19 @@ export default props => (
         </Box>
       </Flex>
     </Section>
-    <Section bgColor="#fff" justifyCenter={true} margin={Margin.Normal}>
+    <Section bgColor="#fff" justifyCenter={true} margin={Margin.Bitter}>
       <Flex justifyContent="space-around" flexWrap="wrap">
-        <Box width={1 / 3} px={3}>
+        <Box px={3}>
           <BoxedList title="Need Help? Contact us">
             Cum appareat maiestatis interpretaris et, et sit.
           </BoxedList>
         </Box>
-        <Box width={1 / 3} px={3}>
+        <Box px={3}>
           <BoxedList title="Payments">
             Qui ea nemore eruditi, magna prima possit eu mei.
           </BoxedList>
         </Box>
-        <Box width={1 / 3} px={3}>
+        <Box px={3}>
           <BoxedList title="Cancel Policy">
             Hinc vituperata sed ut, pro laudem nonumes ex.
           </BoxedList>
