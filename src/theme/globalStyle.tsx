@@ -191,7 +191,7 @@ const GlobalStyle = createGlobalStyle`
 
   .md-overlay{
     text-align: center;
-    position: absolute;
+    position: fixed;
     visibility: visible;
     background: hsla(0, 0%, 0%, 0.0);
     width: 100%;
