@@ -95,14 +95,14 @@ const PrevElementGoRight = styled.div`
 const OtherElement = styled.div`
   width: 85%;
   transition: all 1s;
-  transform: translateX(0);
+  transform: translateX(130%);
   position: absolute;
   top: 70px;
   opacity: 0;
 `;
 
 const PanelsWrapperStyle = styled.div`
-  div:first-child {
+  .element:first-child {
     position: static;
     width: 100%;
   }
@@ -122,15 +122,27 @@ export class PanelsWrapper extends React.Component<{
     const slide = React.Children.map(children, (slide, i) => {
       if (localExit) return;
       else if (i === showIndex && i >= prevIndex) {
-        return <CurrentElementFormLeft>{slide}</CurrentElementFormLeft>;
+        return (
+          <CurrentElementFormLeft className="element">
+            {slide}
+          </CurrentElementFormLeft>
+        );
       } else if (i === showIndex && i < prevIndex) {
-        return <CurrentElementFromRight>{slide}</CurrentElementFromRight>;
+        return (
+          <CurrentElementFromRight className="element">
+            {slide}
+          </CurrentElementFromRight>
+        );
       } else if (i === prevIndex && i < showIndex) {
-        return <PrevElementGoLeft>{slide}</PrevElementGoLeft>;
+        return (
+          <PrevElementGoLeft className="element">{slide}</PrevElementGoLeft>
+        );
       } else if (i === prevIndex && i > showIndex) {
-        return <PrevElementGoRight>{slide}</PrevElementGoRight>;
+        return (
+          <PrevElementGoRight className="element">{slide}</PrevElementGoRight>
+        );
       } else if (showIndex <= lastIndex && showIndex >= 0) {
-        return <OtherElement>{slide}</OtherElement>;
+        return <OtherElement className="element">{slide}</OtherElement>;
       }
       localExit = true;
       return <span>Error: something is not right with me.</span>;
