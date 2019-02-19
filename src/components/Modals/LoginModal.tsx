@@ -162,6 +162,7 @@ export class LoginModal extends React.Component<{ onRef: any }> {
   constructor(props) {
     super(props);
     this.state = {
+      prevIndex: 0,
       showIndex: 0
     };
     this.nextPanel = this.nextPanel.bind(this);
@@ -185,16 +186,18 @@ export class LoginModal extends React.Component<{ onRef: any }> {
   }
 
   nextPanel() {
-    const nextVal = ++this.state.showIndex;
+    if (this.state.showIndex + 1 > 3) return;
     this.setState({
-      showIndex: nextVal
+      prevIndex: this.state.showIndex,
+      showIndex: this.state.showIndex + 1
     });
   }
 
   prevPanel() {
-    const nextVal = --this.state.showIndex;
+    if (this.state.showIndex - 1 < 0) return;
     this.setState({
-      showIndex: nextVal
+      prevIndex: this.state.showIndex,
+      showIndex: this.state.showIndex - 1
     });
   }
 
@@ -202,7 +205,10 @@ export class LoginModal extends React.Component<{ onRef: any }> {
     return (
       // tslint:disable-next-line:jsx-no-lambda
       <ModalWrapper title="Sign In" onRef={ref => (this.modalwrapper = ref)}>
-        <PanelsWrapper showIndex={this.state.showIndex}>
+        <PanelsWrapper
+          showIndex={this.state.showIndex}
+          prevIndex={this.state.prevIndex}
+        >
           <Panel>
             <LoginForm>
               <div className="sign-in-wrapper">
@@ -290,10 +296,32 @@ export class LoginModal extends React.Component<{ onRef: any }> {
             </LoginForm>
           </Panel>
           <Panel>
-            <div>Hello "panel 2" my old friend</div>
+            <div>
+              <input
+                type="submit"
+                value="Back"
+                className="btn_1 full-width"
+                onClick={this.prevPanel}
+              />
+              Hello "panel 2" my old friend
+              <input
+                type="submit"
+                value="Next"
+                className="btn_1 full-width"
+                onClick={this.nextPanel}
+              />
+            </div>
           </Panel>
           <Panel>
-            <div>panel 3</div>
+            <div>
+              <input
+                type="submit"
+                value="Back"
+                className="btn_1 full-width"
+                onClick={this.prevPanel}
+              />
+              panel 3
+            </div>
           </Panel>
         </PanelsWrapper>
       </ModalWrapper>

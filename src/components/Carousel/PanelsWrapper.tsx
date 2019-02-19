@@ -1,30 +1,140 @@
 import * as React from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-const PanelsWrapperStyle = styled.div``;
-
-export class PanelsWrapper extends React.Component<{ showIndex: number }> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      lastIndex: React.Children.count(this.props.children) - 1
-    };
+const slideOutLeft = keyframes`
+  0% {
+    transform: translateX(0);
+    opacity: 1;
   }
+  99% {
+    transform: translateX(-130%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-130%);
+    opacity: 0;
+  }
+`;
+
+const slideOutRight = keyframes`
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  99% {
+    transform: translateX(130%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(130%);
+    opacity: 0;
+  }
+`;
+
+const slideInLeft = keyframes`
+  0% {
+    transform: translateX(130%);
+    opacity: 0;
+  }
+  1% {
+    transform: translateX(130%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+`;
+
+const slideInRight = keyframes`
+  0% {
+    transform: translateX(-130%);
+    opacity: 0;
+  }
+  1% {
+    transform: translateX(-130%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+`;
+
+const CurrentElementFormLeft = styled.div`
+  width: 85%;
+  transition: all 1s;
+  transform: translateX(0);
+  animation: ${slideInLeft} 1s cubic-bezier(0.86, 0, 0.07, 1) both;
+  position: absolute;
+  top: 70px;
+`;
+const CurrentElementFromRight = styled.div`
+  width: 85%;
+  transition: all 1s;
+  transform: translateX(0);
+  animation: ${slideInRight} 1s cubic-bezier(0.86, 0, 0.07, 1) both;
+  position: absolute;
+  top: 70px;
+`;
+const PrevElementGoLeft = styled.div`
+  width: 85%;
+  transition: all 1s;
+  animation: ${slideOutLeft} 1s cubic-bezier(0.86, 0, 0.07, 1) both;
+  position: absolute;
+  top: 70px;
+`;
+const PrevElementGoRight = styled.div`
+  width: 85%;
+  transition: all 1s;
+  animation: ${slideOutRight} 1s cubic-bezier(0.86, 0, 0.07, 1) both;
+  position: absolute;
+  top: 70px;
+`;
+const OtherElement = styled.div`
+  width: 85%;
+  transition: all 1s;
+  transform: translateX(0);
+  position: absolute;
+  top: 70px;
+  opacity: 0;
+`;
+
+const PanelsWrapperStyle = styled.div`
+  div:first-child {
+    position: static;
+    width: 100%;
+  }
+`;
+export class PanelsWrapper extends React.Component<{
+  showIndex: number;
+  prevIndex: number;
+}> {
+  state = {
+    lastIndex: React.Children.count(this.props.children) - 1
+  };
 
   render() {
-    const { showIndex, children } = this.props;
+    const { prevIndex, showIndex, children } = this.props;
     const { lastIndex } = this.state;
     let localExit = false;
     const slide = React.Children.map(children, (slide, i) => {
       if (localExit) return;
-      else if (i === showIndex) return slide;
-      else if (showIndex <= lastIndex && showIndex >= 0) {
-        return;
-      } else localExit = true;
+      else if (i === showIndex && i >= prevIndex) {
+        return <CurrentElementFormLeft>{slide}</CurrentElementFormLeft>;
+      } else if (i === showIndex && i < prevIndex) {
+        return <CurrentElementFromRight>{slide}</CurrentElementFromRight>;
+      } else if (i === prevIndex && i < showIndex) {
+        return <PrevElementGoLeft>{slide}</PrevElementGoLeft>;
+      } else if (i === prevIndex && i > showIndex) {
+        return <PrevElementGoRight>{slide}</PrevElementGoRight>;
+      } else if (showIndex <= lastIndex && showIndex >= 0) {
+        return <OtherElement>{slide}</OtherElement>;
+      }
+      localExit = true;
       return <span>Error: something is not right with me.</span>;
     });
-    return <>{slide}</>;
+    return <PanelsWrapperStyle>{slide}</PanelsWrapperStyle>;
   }
 }

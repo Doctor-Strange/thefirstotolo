@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const ModalDiv = styled.div`
   #sign-in-dialog {
+    overflow: hidden;
     background: #fff;
     padding: 30px;
     padding-top: 0;
