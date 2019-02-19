@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ModalWrapper } from './ModalWrapper';
+import { PanelsWrapper } from '../Carousel/PanelsWrapper';
+import { Panel } from '../Carousel/Panel';
 
 const LoginForm = styled.form`
   .form-group {
@@ -157,6 +159,14 @@ const LoginForm = styled.form`
 `;
 
 export class LoginModal extends React.Component<{ onRef: any }> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showIndex: 0
+    };
+    this.nextPanel = this.nextPanel.bind(this);
+    this.prevPanel = this.prevPanel.bind(this);
+  }
   [x: string]: any;
   handleOpenModal = () => {
     this.modalwrapper.handleOpenModal(); // do stuff
@@ -174,89 +184,118 @@ export class LoginModal extends React.Component<{ onRef: any }> {
     console.log('form handled!');
   }
 
+  nextPanel() {
+    const nextVal = ++this.state.showIndex;
+    this.setState({
+      showIndex: nextVal
+    });
+  }
+
+  prevPanel() {
+    const nextVal = --this.state.showIndex;
+    this.setState({
+      showIndex: nextVal
+    });
+  }
+
   render() {
     return (
       // tslint:disable-next-line:jsx-no-lambda
       <ModalWrapper title="Sign In" onRef={ref => (this.modalwrapper = ref)}>
-        <LoginForm>
-          <div className="sign-in-wrapper">
-            <a href="#0" className="social_bt facebook">
-              Login with Facebook
-            </a>
-            <a href="#0" className="social_bt google">
-              Login with Google
-            </a>
-            <div className="divider">
-              <span>Or</span>
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                onChange={this.handleSubmit}
-                type="email"
-                className="form-control"
-                name="email"
-                id="email"
-              />
-              <i className="icon_mail_alt"> X </i>
-            </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                onChange={this.handleSubmit}
-                type="password"
-                className="form-control"
-                name="password"
-                id="password"
-                value=""
-              />
-              <i className="icon_lock_alt"> X </i>
-            </div>
-            <div className="clearfix add_bottom_15 flow-root">
-              <div className="checkboxes float-left">
-                <label className="container_check">
-                  Remember me
-                  <input type="checkbox" />
-                  <span className="checkmark" />
-                </label>
-              </div>
-              <div className="float-right mt-1">
-                <a id="forgot" href="javascript:void(0);">
-                  Forgot Password?
+        <PanelsWrapper showIndex={this.state.showIndex}>
+          <Panel>
+            <LoginForm>
+              <div className="sign-in-wrapper">
+                <a href="#0" className="social_bt facebook">
+                  Login with Facebook
                 </a>
+                <a href="#0" className="social_bt google">
+                  Login with Google
+                </a>
+                <div className="divider">
+                  <span>Or</span>
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    onChange={this.handleSubmit}
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    id="email"
+                  />
+                  <i className="icon_mail_alt"> X </i>
+                </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    onChange={this.handleSubmit}
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    id="password"
+                    value=""
+                  />
+                  <i className="icon_lock_alt"> X </i>
+                </div>
+                <div className="clearfix add_bottom_15 flow-root">
+                  <div className="checkboxes float-left">
+                    <label className="container_check">
+                      Remember me
+                      <input type="checkbox" />
+                      <span className="checkmark" />
+                    </label>
+                  </div>
+                  <div className="float-right mt-1">
+                    <a id="forgot" href="javascript:void(0);">
+                      Forgot Password?
+                    </a>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <input
+                    type="submit"
+                    value="Log In"
+                    className="btn_1 full-width"
+                    onClick={this.nextPanel}
+                  />
+                </div>
+                <div className="text-center">
+                  Don’t have an account? <a href="/register">Sign up</a>
+                </div>
+                <div id="forgot_pw">
+                  <div className="form-group">
+                    <label>Please confirm login email below</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="email_forgot"
+                      id="email_forgot"
+                    />
+                    <i className="icon_mail_alt" />
+                  </div>
+                  <p>
+                    You will receive an email containing a link allowing you to
+                    reset your password to a new preferred one.
+                  </p>
+                  <div className="text-center">
+                    <input
+                      type="submit"
+                      value="Reset Password"
+                      className="btn_1"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="text-center">
-              <input
-                type="submit"
-                value="Log In"
-                className="btn_1 full-width"
-              />
-            </div>
-            <div className="text-center">
-              Don’t have an account? <a href="/register">Sign up</a>
-            </div>
-            <div id="forgot_pw">
-              <div className="form-group">
-                <label>Please confirm login email below</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="email_forgot"
-                  id="email_forgot"
-                />
-                <i className="icon_mail_alt" />
-              </div>
-              <p>
-                You will receive an email containing a link allowing you to
-                reset your password to a new preferred one.
-              </p>
-              <div className="text-center">
-                <input type="submit" value="Reset Password" className="btn_1" />
-              </div>
-            </div>
-          </div>
-        </LoginForm>
+            </LoginForm>
+          </Panel>
+          <Panel>
+            <div>Hello "panel 2" my old friend</div>
+          </Panel>
+          <Panel>
+            <div>panel 3</div>
+          </Panel>
+        </PanelsWrapper>
       </ModalWrapper>
     );
   }
