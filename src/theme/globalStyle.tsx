@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+  @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
   *, ::after, ::before {
     box-sizing: border-box;
   }
@@ -130,6 +130,10 @@ const GlobalStyle = createGlobalStyle`
       margin-top: .25rem!important;
   }
 
+  .pt-2{
+    padding-top:.5rem!important
+  }
+
   .float-right {
       float: right!important;
   }
@@ -160,13 +164,22 @@ const GlobalStyle = createGlobalStyle`
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   }
-
-  .form-group {
-    margin-bottom: 1rem;
-  }
   
   .text-center {
       text-align: center!important;
+  }
+  .small, small {
+    font-size: 80%;
+    font-weight: 400;
+  }
+  hr {
+    margin: 30px 0 30px 0;
+    border-color: #ddd;
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
   }
 
   /*============================== Modal Styles ==============================*/
@@ -560,12 +573,6 @@ const GlobalStyle = createGlobalStyle`
     display: none !important;
   }
 }
-
-
-
-
-
-
 
 
 .react-phone-number-input__country-select{
