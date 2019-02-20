@@ -227,7 +227,7 @@ export class LoginModal extends React.Component<{ onRef: any }> {
                       aria-label="Country"
                       className="react-phone-number-input__country-select"
                     >
-                      <option value="ZZ">International</option>
+                      <option value="ZZ">IR</option>
                       <option value="AB">Abkhazia</option>
                       <option value="AF">
                         Afghanistan (&#8235;افغانستان&#8236;&lrm;)
