@@ -1,11 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Button } from 'semantic-ui-react';
 import { Section } from '../src/components/row/Sections';
 import { BoxedList } from '../src/components/Cards/BoxedList';
 import { Layout } from '../src/components/Layout';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import * as NewUser from '../static/new_user.svg';
+import { Select } from 'semantic-ui-react';
+import { countryOptions } from '../src/constants/options';
 
 const BoxAccount = styled.div`
   margin-bottom: 25px;
@@ -28,8 +31,20 @@ const BoxAccount = styled.div`
     background-color: #fff;
     padding: 25px;
     position: relative;
+    .form-group {
+      margin-bottom: 10px;
+    }
     hr {
       margin: 0 0 10px 0;
+    }
+  }
+  .selection {
+    height: calc(2.55rem + 2px);
+    font-size: 0.875rem;
+    border-radius: 3px;
+    border: 1px solid #d2d8dd;
+    &.wide {
+      width: 100%;
     }
   }
 `;
@@ -141,18 +156,13 @@ export default props => (
                   <div className="col-12">
                     <div className="form-group">
                       <div className="custom-select-form">
-                        <select
-                          className="wide add_bottom_10"
+                        <Select
                           name="country"
                           id="country"
-                        >
-                          <option value="" selected>
-                            Country*
-                          </option>
-                          <option value="Europe">Europe</option>
-                          <option value="United states">United states</option>
-                          <option value="Asia">Asia</option>
-                        </select>
+                          className="wide form-control"
+                          placeholder="Select your country"
+                          options={countryOptions}
+                        />
                       </div>
                     </div>
                   </div>
@@ -215,18 +225,13 @@ export default props => (
                   <div className="col-12">
                     <div className="form-group">
                       <div className="custom-select-form">
-                        <select
-                          className="wide add_bottom_10"
+                        <Select
+                          className="wide form-control"
                           name="country"
                           id="country"
-                        >
-                          <option value="" selected>
-                            Country*
-                          </option>
-                          <option value="Europe">Europe</option>
-                          <option value="United states">United states</option>
-                          <option value="Asia">Asia</option>
-                        </select>
+                          placeholder="Select your country"
+                          options={countryOptions}
+                        />
                       </div>
                     </div>
                   </div>
