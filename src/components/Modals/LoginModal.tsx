@@ -10,10 +10,10 @@ const PhoneRow = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
-  .input {
+  /* .input {
     width: 80%;
     float: right;
-  }
+  } */
   #country {
     width: 20%;
     min-width: 90px;
@@ -25,9 +25,9 @@ const LoginForm = styled.form`
   .form-group {
     position: relative;
 
-    input.form-control {
+    /* input.form-control {
       padding-left: 40px;
-    }
+    } */
 
     .box {
       font-size: 21px;
@@ -175,7 +175,10 @@ const LoginForm = styled.form`
   }
 `;
 
-export class LoginModal extends React.Component<{ onRef: any }> {
+export class LoginModal extends React.Component<
+  { onRef: any },
+  { showIndex: number; phone: number; prevIndex: number }
+> {
   constructor(props) {
     super(props);
     this.state = {
