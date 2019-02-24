@@ -164,6 +164,15 @@ const GlobalStyle = createGlobalStyle`
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   }
+
+  .ui.input {
+    display: block;
+    width: 100%;
+    input{
+      height: calc(2.55rem + 2px);
+      width: 100%;
+    }
+  }
   
   .text-center {
       text-align: center!important;
