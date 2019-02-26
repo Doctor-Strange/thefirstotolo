@@ -1,9 +1,11 @@
 const rtlTheme = {
-  main: '#ccc'
+  direction: 'rtl',
+  textAlign: 'right'
 };
 
 const ltrTheme = {
-  main: '#ccc'
+  direction: 'ltr',
+  textAlign: 'left'
 };
 
 export { rtlTheme, ltrTheme };
