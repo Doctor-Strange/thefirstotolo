@@ -30,6 +30,7 @@
     "moment": "^2.22.2",
     "next": "^7.0.2",
     "next-compose-plugins": "^2.1.1",
+    "next-i18next": "^0.32.1",
     "next-images": "^1.0.4",
     "next-offline": "^3.3.5",
     "react": "^16.7.0-alpha.2",
