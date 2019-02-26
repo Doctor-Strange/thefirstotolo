@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import { ThemeProvider } from 'styled-components';
 import { getStore } from '../src/store';
-import { rtlTheme } from '../src/theme/directions';
+import { ltrTheme, rtlTheme } from '../src/theme/directions';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 
 export default class extends App {
@@ -29,15 +29,23 @@ export default class extends App {
   render() {
     const { props } = this as any;
     const { Component, pageProps } = props;
-
+    const store = getStore(undefined, props.server);
+    console.log(store.getState().system.lang);
     return (
       <Container>
         <GlobalStyle />
-        <Provider store={getStore(undefined, props.server)}>
-          <ThemeProvider theme={rtlTheme}>
-            <ThemeProvider theme={lightTheme}>
-              <Component {...pageProps} />
-            </ThemeProvider>
+
+        <Provider store={store}>
+          <ThemeProvider
+            theme={{
+              direction:
+                store.getState().system.ChangeLang === 'fa'
+                  ? rtlTheme
+                  : ltrTheme,
+              mode: lightTheme
+            }}
+          >
+            <Component {...pageProps} />
           </ThemeProvider>
         </Provider>
       </Container>
