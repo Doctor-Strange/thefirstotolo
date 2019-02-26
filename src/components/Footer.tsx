@@ -1,5 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { session2 } from '../redux/system';
 import styled from 'styled-components';
 import * as CardsAll from '../../static/cards_all.svg';
 
@@ -37,10 +39,10 @@ const FooterTag = styled.footer`
 
   hr {
     @media (max-width: 575px) {
-        display: none;
+      display: none;
     }
   }
-  
+
   ul {
     li {
       margin-bottom: 5px;
@@ -53,7 +55,8 @@ const FooterTag = styled.footer`
           color: #004dda;
           opacity: 1;
         }
-        a,a i {
+        a,
+        a i {
           margin-right: 10px;
           color: #fff;
         }
@@ -117,7 +120,6 @@ const FooterTag = styled.footer`
         }
       }
     }
-    
   }
 
   .styled-select {
@@ -137,7 +139,7 @@ const FooterTag = styled.footer`
   }
 
   .styled-select#lang-selector {
-    color: #555; 
+    color: #555;
   }
 
   .styled-select#currency-selector:after {
@@ -173,7 +175,7 @@ const FooterTag = styled.footer`
     margin: 30px 0 30px 0;
     border-color: #ddd;
     border: 0;
-    border-top: 1px solid rgba(0,0,0,.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -195,7 +197,7 @@ const AdditionalLinks = styled.ul`
       margin-right: 20px;
     }
     :last-child:after {
-      content: "";
+      content: '';
     }
     span {
       color: #555;
@@ -210,7 +212,7 @@ const AdditionalLinks = styled.ul`
       }
     }
     :after {
-      content: "|";
+      content: '|';
       font-weight: 300;
       position: relative;
       left: 10px;
@@ -273,12 +275,11 @@ const Newsletter = styled.div`
     outline: none;
 
     :hover {
-      background-color: #FFC107;
+      background-color: #ffc107;
       color: #222;
     }
   }
 `;
-
 
 const FooterSelector = styled.ul`
   margin: 0 0 0 0;
@@ -298,7 +299,7 @@ const FooterSelector = styled.ul`
   }
 `;
 
-export const Footer: React.FunctionComponent = props => (
+const Footer: React.FunctionComponent = props => (
   <>
     <div id="toTop" />
     <FooterTag className="plus_border">
@@ -483,52 +484,62 @@ export const Footer: React.FunctionComponent = props => (
             </div>
           </div>
         </div>
-      <hr />
-      <div className="row">
-        <div className="col-lg-6">
-          <FooterSelector id="footer-selector">
-            <li>
-              <div className="styled-select" id="lang-selector">
-                <select>
-                  <option value="English" selected>
-                    English
-                  </option>
-                  <option value="French">French</option>
-                  <option value="Spanish">Spanish</option>
-                  <option value="Russian">Russian</option>
-                </select>
-              </div>
-            </li>
-            <li>
-              <div className="styled-select" id="currency-selector">
-                <select>
-                  <option value="US Dollars" selected>
-                    US Dollars
-                  </option>
-                  <option value="Euro">Euro</option>
-                </select>
-              </div>
-            </li>
-            <li>
-              <img src={CardsAll} alt="" />
-            </li>
-          </FooterSelector>
-        </div>
-        <div className="col-lg-6">
-          <AdditionalLinks>
-            <li>
-              <a href="#0">Terms and conditions</a>
-            </li>
-            <li>
-              <a href="#0">Privacy</a>
-            </li>
-            <li>
-              <span>© 2018 Sparker</span>
-            </li>
-          </AdditionalLinks>
+        <hr />
+        <div className="row">
+          <div className="col-lg-6">
+            <FooterSelector id="footer-selector">
+              <li>
+                <div className="styled-select" id="lang-selector">
+                  <button onClick={() => props.session2()}>CHANGE LANG</button>
+                  <select>
+                    <option value="English" selected>
+                      English
+                    </option>
+                    <option value="French">French</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="Russian">Russian</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div className="styled-select" id="currency-selector">
+                  <select>
+                    <option value="US Dollars" selected>
+                      US Dollars
+                    </option>
+                    <option value="Euro">Euro</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <img src={CardsAll} alt="" />
+              </li>
+            </FooterSelector>
+          </div>
+          <div className="col-lg-6">
+            <AdditionalLinks>
+              <li>
+                <a href="#0">Terms and conditions</a>
+              </li>
+              <li>
+                <a href="#0">Privacy</a>
+              </li>
+              <li>
+                <span>© 2018 Sparker</span>
+              </li>
+            </AdditionalLinks>
+          </div>
         </div>
       </div>
-            </div>
     </FooterTag>
   </>
 );
+
+const mapStateToProps = ({ session2 }) => ({
+  session2
+});
+
+export default connect(
+  mapStateToProps,
+  { session2 }
+)(Footer);
