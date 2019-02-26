@@ -43,5 +43,4 @@ export interface SystemState {
   boot: boolean;
   reHydrated: boolean;
   changeLangAction: string;
-  lang(lang: any): any;
 }

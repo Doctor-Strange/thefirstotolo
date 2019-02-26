@@ -38,9 +38,7 @@ export default class extends App {
           <ThemeProvider
             theme={{
               direction:
-                store.getState().system.ChangeLang === 'fa'
-                  ? rtlTheme
-                  : ltrTheme,
+                store.getState().system.lang === 'fa' ? rtlTheme : ltrTheme,
               mode: lightTheme
             }}
           >
