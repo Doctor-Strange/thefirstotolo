@@ -1,5 +1,5 @@
 import { ActionTypes, SystemStateTypes } from './systemTypes';
-import { changeLang } from './systemActions';
+import { changeLangAction } from './systemActions';
 import { Reducer } from 'redux';
 
 const defaultState = ({ lang: 'fa' } as unknown) as SystemState;
@@ -34,14 +34,14 @@ export function session() {
   };
 }
 
-export function session2() {
+export function changeLang() {
   return (dispatch, getState) => {
-    dispatch(changeLang('en'));
+    dispatch(changeLangAction('en'));
   };
 }
 export interface SystemState {
   boot: boolean;
   reHydrated: boolean;
-  ChangeLang: string;
+  changeLangAction: string;
   lang(lang: any): any;
 }

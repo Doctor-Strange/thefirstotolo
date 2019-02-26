@@ -5,6 +5,7 @@ export const reducer = combineReducers<RootState>({
   system
 });
 
+// tslint:disable-next-line:interface-name
 export interface RootState {
   system: SystemState;
 }

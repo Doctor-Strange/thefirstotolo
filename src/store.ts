@@ -22,13 +22,14 @@ export const getStore = (state, isServer?): Store<RootState> => {
       const mw = [thunk];
       if (!DEV) {
         if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-          window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function() {};
+          // tslint:disable-next-line:no-empty
+          window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = () => {};
         }
       } else {
         mw.push(
           createLogger({
-            predicate: (getState, action) => !/^@@/.test(action.type),
-            collapsed: true
+            collapsed: true,
+            predicate: (getState, action) => !/^@@/.test(action.type)
           })
         );
       }

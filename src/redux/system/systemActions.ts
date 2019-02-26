@@ -1,7 +1,7 @@
 import { createActions } from '../common';
 import { ActionTypes, SystemStateTypes } from './systemTypes';
 
-export const changeLang = lang => ({
+export const changeLangAction = lang => ({
   payload: lang,
   type: SystemStateTypes.CHANGE_LANG
 });

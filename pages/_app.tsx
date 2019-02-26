@@ -30,7 +30,6 @@ export default class extends App {
     const { props } = this as any;
     const { Component, pageProps } = props;
     const store = getStore(undefined, props.server);
-    console.log(store.getState().system.lang);
     return (
       <Container>
         <GlobalStyle />

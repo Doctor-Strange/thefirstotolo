@@ -1,7 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { session2 } from '../redux/system';
+import { changeLang } from '../redux/system';
 import styled from 'styled-components';
 import * as CardsAll from '../../static/cards_all.svg';
 
@@ -299,7 +299,7 @@ const FooterSelector = styled.ul`
   }
 `;
 
-const Footer: React.FunctionComponent = props => (
+const Footer: React.FunctionComponent = ({ changeLang }) => (
   <>
     <div id="toTop" />
     <FooterTag className="plus_border">
@@ -490,7 +490,7 @@ const Footer: React.FunctionComponent = props => (
             <FooterSelector id="footer-selector">
               <li>
                 <div className="styled-select" id="lang-selector">
-                  <button onClick={() => props.session2()}>CHANGE LANG</button>
+                  <button onClick={() => changeLang()}>CHANGE LANG</button>
                   <select>
                     <option value="English" selected>
                       English
@@ -535,11 +535,11 @@ const Footer: React.FunctionComponent = props => (
   </>
 );
 
-const mapStateToProps = ({ session2 }) => ({
-  session2
+const mapStateToProps = ({ changeLang }) => ({
+  changeLang
 });
 
 export default connect(
   mapStateToProps,
-  { session2 }
+  { changeLang }
 )(Footer);
