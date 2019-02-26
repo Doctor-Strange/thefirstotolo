@@ -1,13 +1,10 @@
-import {combineReducers} from 'redux'
-import {reducer as persist, PersistState} from './persist'
-import {reducer as system, SystemState} from './system'
+import { combineReducers } from 'redux';
+import { reducer as system, SystemState } from './system/systemReducer';
 
 export const reducer = combineReducers<RootState>({
-  persist,
-  system,
-})
+  system
+});
 
 export interface RootState {
-  persist: PersistState,
-  system: SystemState,
+  system: SystemState;
 }
