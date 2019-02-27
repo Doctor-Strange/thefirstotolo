@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Select } from 'semantic-ui-react';
+import { Formik } from 'formik';
 import { LoginForm, PhoneRow } from './LoginStyle';
 import { ModalWrapper } from './ModalWrapper';
 import { PanelsWrapper } from '../Carousel/PanelsWrapper';
