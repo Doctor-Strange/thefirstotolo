@@ -111,7 +111,7 @@ export const LoginForm = styled.form`
     height: 100%;
   }
 
-  a.social_bt {
+  /* a.social_bt {
     border-radius: 3px;
     text-align: center;
     color: #fff;
@@ -127,7 +127,7 @@ export const LoginForm = styled.form`
       filter: brightness(115%);
     }
   }
-
+  
   a.social_bt.facebook,
   a.social_bt.google,
   a.social_bt.linkedin {
@@ -138,8 +138,8 @@ export const LoginForm = styled.form`
       font-size: 1rem;
       color: #fff;
     }
-  }
-
+  } 
+  
   a.social_bt.facebook {
     background-color: #3b5998;
     :before {
@@ -152,7 +152,7 @@ export const LoginForm = styled.form`
     :before {
       content: 'g';
     }
-  }
+  } */
 
   .divider {
     text-align: center;

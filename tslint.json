@@ -25,7 +25,8 @@
       "allow-leading-underscore",
       "allow-pascal-case",
       "allow-snake-case"
-    ]
+    ],
+    "jsx-no-lambda": false
   },
   "rulesDirectory": []
 }

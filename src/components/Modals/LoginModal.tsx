@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Select } from 'semantic-ui-react';
+import Router from 'next/router';
+import { Button, Grid, Select } from 'semantic-ui-react';
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -14,32 +15,25 @@ interface LoginModalValues {
   phone: number;
 }
 
-const renderTimeTOSend = ({ hours, minutes, seconds, completed }) => {
-  if (completed) {
-    return 'Send Again!';
-  } else {
-    return (
-      <span>
-        You can resend the code in {minutes}:{seconds} minutes.
-      </span>
-    );
-  }
-};
+interface LoginModalCodeValues {
+  code: number;
+}
 
 export class LoginModal extends React.Component<
   { onRef: any },
   {
     showIndex: number;
-    phone: string;
-    timeToSendSMSAgain: number;
     prevIndex: number;
+    phone?: string;
+    code?: number;
+    timeToSendSMSAgain?: number;
   }
 > {
   constructor(props) {
     super(props);
     this.state = {
       phone: '',
-      timeToSendSMSAgain: 0,
+      timeToSendSMSAgain: null,
       prevIndex: 0,
       showIndex: 0
     };
@@ -59,7 +53,7 @@ export class LoginModal extends React.Component<
   }
 
   nextPanel() {
-    if (this.state.showIndex + 1 > 3) return;
+    if (this.state.showIndex + 1 > 2) return;
     this.setState({
       prevIndex: this.state.showIndex,
       showIndex: this.state.showIndex + 1
@@ -74,9 +68,20 @@ export class LoginModal extends React.Component<
     });
   }
 
+  renderTimeTOSend = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      return <span onClick={() => this.prevPanel()}>Send Again!</span>;
+    } else {
+      return (
+        <span>
+          You can resend the code in {minutes}:{seconds} minutes.
+        </span>
+      );
+    }
+  };
+
   render() {
     return (
-      // tslint:disable-next-line:jsx-no-lambda
       <ModalWrapper title="Sign In" onRef={ref => (this.modalwrapper = ref)}>
         <PanelsWrapper
           showIndex={this.state.showIndex}
@@ -84,36 +89,32 @@ export class LoginModal extends React.Component<
         >
           <Panel>
             <Formik
-              initialValues={{ phone: null }}
+              initialValues={{ phone: Number(this.state.phone) || null }}
               onSubmit={(
                 values: LoginModalValues,
                 actions: FormikActions<LoginModalValues>
               ) => {
-                // tslint:disable-next-line: jsx-no-lambda
-                setTimeout(() => {
-                  axios
-                    .post('https://otoli.net' + '/core/device/send-code', {
-                      cell: '0' + values.phone
-                    })
-                    .then(response => {
-                      if (response.data.success) {
-                        this.setState({
-                          phone: '0' + values.phone,
-                          timeToSendSMSAgain: Date.now() + 300000
-                        });
-                        this.nextPanel();
-                      }
-                    })
-                    .catch(error => {
-                      // tslint:disable-next-line:no-console
-                      console.error(error.response.data);
-                      alert(error.response.data.message);
-                    })
-                    .then(() => {
-                      // always executed
-                    });
-                  actions.setSubmitting(false);
-                }, 400);
+                axios
+                  .post('https://otoli.net' + '/core/device/send-code', {
+                    cell: '0' + values.phone
+                  })
+                  .then(response => {
+                    if (response.data.success) {
+                      this.setState({
+                        phone: '0' + values.phone,
+                        timeToSendSMSAgain: Date.now() + 30000
+                      });
+                      this.nextPanel();
+                    }
+                  })
+                  .catch(error => {
+                    // tslint:disable-next-line:no-console
+                    console.error(error.response.data);
+                    alert(error.response.data.message);
+                  })
+                  .then(() => {
+                    actions.setSubmitting(false);
+                  });
               }}
               validationSchema={Yup.object().shape({
                 phone: Yup.number().required('Required')
@@ -165,95 +166,127 @@ export class LoginModal extends React.Component<
                       </div> */}
                     </div>
                     <div className="text-center">
-                      <input
+                      <Button
+                        loading={isSubmitting}
+                        primary
                         type="submit"
-                        value="Log In"
                         className="btn_1 full-width"
-                        disabled={isSubmitting}
-                      />
-                    </div>
-                    <div id="forgot_pw">
-                      <div className="form-group">
-                        <label>Please confirm login email below</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          name="email_forgot"
-                          id="email_forgot"
-                        />
-                        <i className="icon_mail_alt" />
-                      </div>
-                      <p>
-                        You will receive an email containing a link allowing you
-                        to reset your password to a new preferred one.
-                      </p>
-                      <div className="text-center">
-                        <input
-                          type="submit"
-                          value="Reset Password"
-                          className="btn_1"
-                        />
-                      </div>
+                      >
+                        Log In
+                      </Button>
                     </div>
                     <div className="divider">
                       <span>Or</span>
                     </div>
-
-                    <a href="#0" className="social_bt google">
-                      Login with Google
-                    </a>
+                    <Button
+                      style={{ width: '100%' }}
+                      color="google plus"
+                      content="Login via Google"
+                      icon="google"
+                      labelPosition="left"
+                    />
                   </div>
                 </LoginForm>
               )}
             </Formik>
           </Panel>
           <Panel>
-            <LoginForm>
-              <div className="sign-in-wrapper">
-                <div className="form-group">
-                  <label>
-                    A code has been sent to {this.state.phone}.{' '}
-                    <span onClick={this.prevPanel}>(not you?)</span>
-                    <br />
-                    Enter it in this field:
-                  </label>
-                  <input
-                    onChange={this.handleSubmit}
-                    type="email"
-                    className="form-control"
-                    name="email"
-                    id="email"
-                  />
-                </div>
-                <div className="clearfix add_bottom_15 flow-root">
-                  <a id="forgot" href="javascript:void(0);">
-                    <Countdown
-                      date={this.state.timeToSendSMSAgain}
-                      renderer={renderTimeTOSend}
-                    />
-                  </a>
-                </div>
-                <div className="text-center">
-                  <input
-                    type="submit"
-                    value="Confirm"
-                    className="btn_1 full-width"
-                    onClick={this.nextPanel}
-                  />
-                </div>
-              </div>
-            </LoginForm>
-          </Panel>
-          <Panel>
-            <div>
-              <input
-                type="submit"
-                value="Back"
-                className="btn_1 full-width"
-                onClick={this.prevPanel}
-              />
-              panel 3
-            </div>
+            <Formik
+              initialValues={{ code: null }}
+              onSubmit={(
+                values: LoginModalCodeValues,
+                actions: FormikActions<LoginModalCodeValues>
+              ) => {
+                axios
+                  .post('https://otoli.net' + '/core/device/login', {
+                    cell: this.state.phone,
+                    code: values.code
+                  })
+                  .then(response => {
+                    if (response.data.token && !response.data.has_name) {
+                      // TODO: add token to local storage and redux;
+                      this.setState({
+                        code: values.code,
+                        timeToSendSMSAgain: null
+                      });
+                      Router.push({
+                        pathname: '/complete-register',
+                        query: {
+                          cell: this.state.phone,
+                          token: response.data.token
+                        }
+                      });
+                    } else if (response.data.token && response.data.has_name) {
+                      // TODO: add token to local storage and redux;
+                    } else {
+                      // tslint:disable-next-line:no-console
+                      console.error('error');
+                      // TODO: handle errors
+                    }
+                  })
+                  .catch(error => {
+                    // tslint:disable-next-line:no-console
+                    console.error(error.response.data);
+                    alert(error.response.data.message);
+                    // TODO: handle errors
+                  })
+                  .then(() => {
+                    actions.setSubmitting(false);
+                  });
+              }}
+              validationSchema={Yup.object().shape({
+                code: Yup.number().required('Required')
+              })}
+            >
+              {({
+                handleSubmit,
+                handleChange,
+                isSubmitting,
+                values,
+                errors,
+                touched
+              }) => (
+                <LoginForm onSubmit={handleSubmit}>
+                  <div className="sign-in-wrapper">
+                    <div className="form-group">
+                      <label>
+                        A code has been sent to {this.state.phone}.{' '}
+                        <span onClick={this.prevPanel}>(not you?)</span>
+                        <br />
+                        Enter it in this field:
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        value={values.code}
+                        type="number"
+                        className="form-control"
+                        name="code"
+                        id="code"
+                      />
+                      {errors.code && touched.code && errors.code}
+                    </div>
+                    <div className="clearfix add_bottom_15 flow-root">
+                      <a id="forgot" href="javascript:void(0);">
+                        <Countdown
+                          date={this.state.timeToSendSMSAgain}
+                          renderer={this.renderTimeTOSend}
+                        />
+                      </a>
+                    </div>
+                    <div className="text-center">
+                      <Button
+                        loading={isSubmitting}
+                        primary
+                        type="submit"
+                        className="btn_1 full-width"
+                      >
+                        Confirm
+                      </Button>
+                    </div>
+                  </div>
+                </LoginForm>
+              )}
+            </Formik>
           </Panel>
         </PanelsWrapper>
       </ModalWrapper>
