@@ -70,10 +70,14 @@ export class LoginModal extends React.Component<
 
   renderTimeTOSend = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
-      return <span onClick={() => this.prevPanel()}>Send Again!</span>;
+      return (
+        <span style={{ cursor: 'pointer' }} onClick={() => this.prevPanel()}>
+          Send Again!
+        </span>
+      );
     } else {
       return (
-        <span>
+        <span style={{ cursor: 'default' }}>
           You can resend the code in {minutes}:{seconds} minutes.
         </span>
       );
@@ -94,14 +98,23 @@ export class LoginModal extends React.Component<
                 values: LoginModalValues,
                 actions: FormikActions<LoginModalValues>
               ) => {
+                let validPhoneFormated;
+                const phone = values.phone.toString();
+                if (/^[0][9][1-2][0-9]{8,8}$/.test(phone)) {
+                  validPhoneFormated = phone;
+                } else if (/^[9][1-2][0-9]{8,8}$/.test(phone)) {
+                  validPhoneFormated = '0' + phone;
+                } else {
+                  validPhoneFormated = phone;
+                }
                 axios
                   .post('https://otoli.net' + '/core/device/send-code', {
-                    cell: '0' + values.phone
+                    cell: validPhoneFormated
                   })
                   .then(response => {
                     if (response.data.success) {
                       this.setState({
-                        phone: '0' + values.phone,
+                        phone: validPhoneFormated,
                         timeToSendSMSAgain: Date.now() + 30000
                       });
                       this.nextPanel();
@@ -117,7 +130,12 @@ export class LoginModal extends React.Component<
                   });
               }}
               validationSchema={Yup.object().shape({
-                phone: Yup.number().required('Required')
+                phone: Yup.string()
+                  .matches(
+                    /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$)/,
+                    'Phone number is not valid'
+                  )
+                  .required('A phone number is required.')
               })}
             >
               {({
@@ -134,12 +152,13 @@ export class LoginModal extends React.Component<
                       <label>Phone Number</label>
                       <PhoneRow>
                         <input
-                          type="number"
+                          type="tell"
                           className="form-control input"
                           name="phone"
                           id="phone"
                           onChange={handleChange}
                           value={values.phone}
+                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
                         />
                         <Select
                           name="country"
@@ -147,6 +166,7 @@ export class LoginModal extends React.Component<
                           className=" form-control country"
                           placeholder="+98"
                           options={mobileNumberOptions}
+                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
                         />
                       </PhoneRow>
                       {errors.phone && touched.phone && errors.phone}
@@ -171,6 +191,7 @@ export class LoginModal extends React.Component<
                         primary
                         type="submit"
                         className="btn_1 full-width"
+                        tabIndex={this.state.showIndex === 0 ? 0 : -1}
                       >
                         Log In
                       </Button>
@@ -184,6 +205,7 @@ export class LoginModal extends React.Component<
                       content="Login via Google"
                       icon="google"
                       labelPosition="left"
+                      tabIndex={this.state.showIndex === 0 ? 0 : -1}
                     />
                   </div>
                 </LoginForm>
@@ -251,7 +273,14 @@ export class LoginModal extends React.Component<
                     <div className="form-group">
                       <label>
                         A code has been sent to {this.state.phone}.{' '}
-                        <span onClick={this.prevPanel}>(not you?)</span>
+                        <a
+                          className="small"
+                          onClick={this.prevPanel}
+                          style={{ cursor: 'pointer' }}
+                          tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                        >
+                          (not you?)
+                        </a>
                         <br />
                         Enter it in this field:
                       </label>
@@ -262,11 +291,16 @@ export class LoginModal extends React.Component<
                         className="form-control"
                         name="code"
                         id="code"
+                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
                       />
                       {errors.code && touched.code && errors.code}
                     </div>
                     <div className="clearfix add_bottom_15 flow-root">
-                      <a id="forgot" href="javascript:void(0);">
+                      <a
+                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                        className="small"
+                        href="javascript:void(0);"
+                      >
                         <Countdown
                           date={this.state.timeToSendSMSAgain}
                           renderer={this.renderTimeTOSend}
@@ -279,6 +313,7 @@ export class LoginModal extends React.Component<
                         primary
                         type="submit"
                         className="btn_1 full-width"
+                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
                       >
                         Confirm
                       </Button>

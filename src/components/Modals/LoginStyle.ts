@@ -79,31 +79,11 @@ export const LoginForm = styled.form`
     margin-top: 5px;
   }
 
-  a#forgot {
+  a.small {
     color: #999;
     font-weight: 500;
     font-size: 13px;
     font-size: 0.8125rem;
-  }
-
-  #forgot_pw {
-    background-color: #fff;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    z-index: 99;
-    min-height: 430px;
-    display: none;
-    padding: 25px;
-
-    @media (max-width: 767px) {
-      padding: 0;
-    }
-
-    label {
-      font-weight: 500;
-    }
   }
 
   .sign-in-wrapper {
