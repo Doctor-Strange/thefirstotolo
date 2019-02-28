@@ -10,8 +10,12 @@ export const PhoneRow = styled.div`
   } */
   #country {
     width: 20%;
-    min-width: 90px;
+    min-width: 68px;
     float: left;
+    .menu {
+      position: absolute;
+      width: 100px;
+    }
   }
 `;
 

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Select } from 'semantic-ui-react';
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import Countdown from 'react-countdown-now';
 import { LoginForm, PhoneRow } from './LoginStyle';
 import { ModalWrapper } from './ModalWrapper';
 import { PanelsWrapper } from '../Carousel/PanelsWrapper';
@@ -12,14 +14,32 @@ interface LoginModalValues {
   phone: number;
 }
 
+const renderTimeTOSend = ({ hours, minutes, seconds, completed }) => {
+  if (completed) {
+    return 'Send Again!';
+  } else {
+    return (
+      <span>
+        You can resend the code in {minutes}:{seconds} minutes.
+      </span>
+    );
+  }
+};
+
 export class LoginModal extends React.Component<
   { onRef: any },
-  { showIndex: number; phone: number; prevIndex: number }
+  {
+    showIndex: number;
+    phone: string;
+    timeToSendSMSAgain: number;
+    prevIndex: number;
+  }
 > {
   constructor(props) {
     super(props);
     this.state = {
-      phone: 0,
+      phone: '',
+      timeToSendSMSAgain: 0,
       prevIndex: 0,
       showIndex: 0
     };
@@ -71,7 +91,27 @@ export class LoginModal extends React.Component<
               ) => {
                 // tslint:disable-next-line: jsx-no-lambda
                 setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
+                  axios
+                    .post('https://otoli.net' + '/core/device/send-code', {
+                      cell: '0' + values.phone
+                    })
+                    .then(response => {
+                      if (response.data.success) {
+                        this.setState({
+                          phone: '0' + values.phone,
+                          timeToSendSMSAgain: Date.now() + 300000
+                        });
+                        this.nextPanel();
+                      }
+                    })
+                    .catch(error => {
+                      // tslint:disable-next-line:no-console
+                      console.error(error.response.data);
+                      alert(error.response.data.message);
+                    })
+                    .then(() => {
+                      // always executed
+                    });
                   actions.setSubmitting(false);
                 }, 400);
               }}
@@ -184,7 +224,10 @@ export class LoginModal extends React.Component<
                 </div>
                 <div className="clearfix add_bottom_15 flow-root">
                   <a id="forgot" href="javascript:void(0);">
-                    We will resend the code in 3 minutes.
+                    <Countdown
+                      date={this.state.timeToSendSMSAgain}
+                      renderer={renderTimeTOSend}
+                    />
                   </a>
                 </div>
                 <div className="text-center">
