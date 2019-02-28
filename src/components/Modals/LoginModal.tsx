@@ -151,18 +151,18 @@ export class LoginModal extends React.Component<
                       {errors.phone && touched.phone && errors.phone}
                     </div>
                     <div className="clearfix add_bottom_15 flow-root">
-                      <div className="checkboxes float-left">
+                      {/* <div className="checkboxes float-left">
                         <label className="container_check">
                           Remember me
                           <input type="checkbox" />
                           <span className="checkmark" />
                         </label>
-                      </div>
-                      <div className="float-right mt-1">
+                      </div> */}
+                      {/* <div className="float-right mt-1">
                         <a id="forgot" href="javascript:void(0);">
                           Forgot Password?
                         </a>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="text-center">
                       <input
@@ -171,9 +171,6 @@ export class LoginModal extends React.Component<
                         className="btn_1 full-width"
                         disabled={isSubmitting}
                       />
-                    </div>
-                    <div className="text-center">
-                      Don’t have an account? <a href="/register">Sign up</a>
                     </div>
                     <div id="forgot_pw">
                       <div className="form-group">
@@ -201,6 +198,7 @@ export class LoginModal extends React.Component<
                     <div className="divider">
                       <span>Or</span>
                     </div>
+
                     <a href="#0" className="social_bt google">
                       Login with Google
                     </a>
@@ -213,7 +211,12 @@ export class LoginModal extends React.Component<
             <LoginForm>
               <div className="sign-in-wrapper">
                 <div className="form-group">
-                  <label>Enter The Code</label>
+                  <label>
+                    A code has been sent to {this.state.phone}.{' '}
+                    <span onClick={this.prevPanel}>(not you?)</span>
+                    <br />
+                    Enter it in this field:
+                  </label>
                   <input
                     onChange={this.handleSubmit}
                     type="email"
@@ -238,16 +241,6 @@ export class LoginModal extends React.Component<
                     onClick={this.nextPanel}
                   />
                 </div>
-                <div className="divider">
-                  <span>Or</span>
-                </div>
-                <br />
-                <input
-                  type="submit"
-                  value="Wrong Number"
-                  className="btn_1 full-width"
-                  onClick={this.prevPanel}
-                />
               </div>
             </LoginForm>
           </Panel>
