@@ -27,6 +27,7 @@ export class LoginModal extends React.Component<
     phone?: string;
     code?: number;
     timeToSendSMSAgain?: number;
+    codeError?: string;
   }
 > {
   constructor(props) {
@@ -34,6 +35,7 @@ export class LoginModal extends React.Component<
     this.state = {
       phone: '',
       timeToSendSMSAgain: null,
+      codeError: null,
       prevIndex: 0,
       showIndex: 0
     };
@@ -226,9 +228,11 @@ export class LoginModal extends React.Component<
                   })
                   .then(response => {
                     if (response.data.token && !response.data.has_name) {
-                      // TODO: add token to local storage and redux;
+                      // tslint:disable-next-line:no-console
+                      console.error(response.data);
                       this.setState({
                         code: values.code,
+                        codeError: null,
                         timeToSendSMSAgain: null
                       });
                       Router.push({
@@ -238,7 +242,10 @@ export class LoginModal extends React.Component<
                           token: response.data.token
                         }
                       });
+                      // TODO: add token to local storage and redux;
                     } else if (response.data.token && response.data.has_name) {
+                      // tslint:disable-next-line:no-console
+                      console.error(response.data);
                       // TODO: add token to local storage and redux;
                     } else {
                       // tslint:disable-next-line:no-console
@@ -249,8 +256,9 @@ export class LoginModal extends React.Component<
                   .catch(error => {
                     // tslint:disable-next-line:no-console
                     console.error(error.response.data);
-                    alert(error.response.data.message);
-                    // TODO: handle errors
+                    this.setState({
+                      codeError: error.response.data.message
+                    });
                   })
                   .then(() => {
                     actions.setSubmitting(false);
@@ -294,6 +302,7 @@ export class LoginModal extends React.Component<
                         tabIndex={this.state.showIndex === 1 ? 0 : -1}
                       />
                       {errors.code && touched.code && errors.code}
+                      {this.state.codeError || null}
                     </div>
                     <div className="clearfix add_bottom_15 flow-root">
                       <a
