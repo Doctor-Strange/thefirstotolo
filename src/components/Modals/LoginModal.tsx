@@ -235,6 +235,9 @@ export class LoginModal extends React.Component<
                         codeError: null,
                         timeToSendSMSAgain: null
                       });
+                      localStorage.setItem('token', response.data.token);
+                      localStorage.setItem('phone', this.state.phone);
+                      // TODO: add token to redux;
                       Router.push({
                         pathname: '/complete-register',
                         query: {
@@ -242,11 +245,10 @@ export class LoginModal extends React.Component<
                           token: response.data.token
                         }
                       });
-                      // TODO: add token to local storage and redux;
                     } else if (response.data.token && response.data.has_name) {
-                      // tslint:disable-next-line:no-console
-                      console.error(response.data);
-                      // TODO: add token to local storage and redux;
+                      // TODO: add token to redux;
+                      localStorage.setItem('token', response.data.token);
+                      localStorage.setItem('phone', this.state.phone);
                     } else {
                       // tslint:disable-next-line:no-console
                       console.error('error');
