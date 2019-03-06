@@ -1,14 +1,13 @@
 import * as React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import { Button, Grid, Input, Radio, Select } from 'semantic-ui-react';
-import { Formik, FormikActions } from 'formik';
+import { Button, Dropdown, Input, Radio } from 'semantic-ui-react';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { BoxedList } from './Cards/BoxedList';
-import { Margin } from '../theme/globalStyle';
 import * as NewUser from '../../static/new_user.svg';
 import { Box, Flex } from '@rebass/grid';
+import { monthsEnglish } from '../constants/options';
 
 const BoxAccount = styled.form`
   margin-bottom: 25px;
@@ -49,18 +48,26 @@ const BoxAccount = styled.form`
   }
 `;
 
-interface CompleteRegisterFormValues {
-  phone: string;
+interface ICompleteRegisterFormValues {
+  name: string;
+  nationalid: string;
+  email: string;
+  password: string;
+  birthdayday: number;
+  birthdaymonth: number;
+  birthdayyear: number;
+  subscribe: string;
 }
 
 export class CompleteRegisterForm extends React.Component<{
   phone?: string;
 }> {
+  state = {
+    phone: ''
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      phone: ''
-    };
   }
 
   componentDidMount() {
@@ -70,37 +77,52 @@ export class CompleteRegisterForm extends React.Component<{
   }
 
   render() {
+    const { phone } = this.state;
     return (
       <Formik
-        initialValues={{ phone: this.state.phone || null }}
-        onSubmit={(values: CompleteRegisterFormValues, { setSubmitting }) => {
-          let validPhoneFormated;
-          const phone = values.phone.toString();
-          if (/^[0][9][1-2][0-9]{8,8}$/.test(phone)) {
-            validPhoneFormated = phone;
-          } else if (/^[9][1-2][0-9]{8,8}$/.test(phone)) {
-            validPhoneFormated = '0' + phone;
-          } else {
-            validPhoneFormated = phone;
-          }
-          axios
-            .post('https://otoli.net' + '/core/device/send-code', {
-              cell: validPhoneFormated
-            })
-            .then(response => {
-              if (response.data.success) {
-                // do something
-              }
-            })
-            .catch(error => {
-              // tslint:disable-next-line:no-console
-              console.error(error.response.data);
-            })
-            .then(() => {
-              setSubmitting(false);
-            });
+        initialValues={{
+          name: '',
+          nationalid: '',
+          email: '',
+          password: '',
+          birthdayday: 1,
+          birthdaymonth: 1,
+          birthdayyear: 1300,
+          subscribe: ''
         }}
-        validationSchema={Yup.object().shape({})}
+        onSubmit={(values: ICompleteRegisterFormValues, { setSubmitting }) => {
+          console.log(values);
+          setSubmitting(false);
+        }}
+        validationSchema={Yup.object().shape({
+          name: Yup.string().required('Please fill out this field'),
+          nationalid: Yup.string()
+            .required('Please fill out this field')
+            .test(
+              'length',
+              'National IDs are 10 charechters long.',
+              value => (value || '').length === 10
+            )
+            .test(
+              'Validate National ID',
+              "Your ID doesn't seems right",
+              value => {
+                const check = parseInt(value[9], 10);
+                let sum = 0;
+                let i;
+                for (i = 0; i < 9; ++i) {
+                  sum += parseInt(value[i], 10) * (10 - i);
+                }
+                sum %= 11;
+
+                return (
+                  (sum < 2 && check == sum) || (sum >= 2 && check + sum == 11)
+                );
+              }
+            ),
+          email: Yup.string().email('Please enter valid email adress'),
+          birthday: Yup.string().required('Please fill out this field')
+        })}
       >
         {({
           handleSubmit,
@@ -110,13 +132,21 @@ export class CompleteRegisterForm extends React.Component<{
           errors,
           touched
         }) => (
-          <BoxAccount className="box_account">
+          <BoxAccount onSubmit={handleSubmit} className="box_account">
             <h3 className="new_client">New Client</h3>
             <small className="float-right pt-2">* Required Fields</small>
             <div className="form_container">
               <div className="form-group">
                 <label className="floatLabel">Name*</label>
-                <Input placeholder="You'r Name*" type="text" />
+                <Input
+                  placeholder="You'r Name"
+                  type="text"
+                  value={values.name}
+                  onChange={handleChange}
+                  name="name"
+                  id="name"
+                />
+                {errors.name && touched.name && errors.name}
               </div>
               <div className="form-group">
                 <label className="floatLabel">Phone Number*</label>
@@ -124,44 +154,119 @@ export class CompleteRegisterForm extends React.Component<{
                   placeholder="Phone Number*"
                   type="number"
                   disabled
-                  value={this.state.phone}
+                  value={phone}
+                  name="phone"
+                  id="phone"
                 />
               </div>
               <div className="form-group">
                 <label className="floatLabel">National ID*</label>
-                <Input placeholder="National ID" type="number" />
+                <Input
+                  placeholder="National ID"
+                  type="text"
+                  value={values.nationalid}
+                  onChange={handleChange}
+                  name="nationalid"
+                  id="nationalid"
+                />
+                {errors.nationalid && touched.nationalid && errors.nationalid}
               </div>
               <div className="form-group">
                 <label className="floatLabel">Email Address</label>
-                <Input placeholder="Email" type="email" />
+                <Input
+                  placeholder="Email"
+                  type="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  name="email"
+                  id="email"
+                />
+                {errors.email && touched.email && errors.email}
               </div>
 
               <div className="form-group">
                 <label className="floatLabel">Password</label>
-                <Input placeholder="Password" type="password" />
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  name="password"
+                  id="password"
+                />
               </div>
               <hr />
 
               <div className="form-group">
                 <label className="floatLabel">Birthday</label>
-                <Input type="date" />
+                <Flex>
+                  <Box width={2 / 3} px={2}>
+                    <Input
+                      placeholder="Day"
+                      type="number"
+                      value={values.birthdayday}
+                      onChange={handleChange}
+                      name="birthdayday"
+                      id="birthdayday"
+                      min={1}
+                      max={31}
+                    />
+                  </Box>
+                  <Box width={1 / 3} px={2}>
+                    <Dropdown
+                      placeholder="Select Month"
+                      name="birthdaymonth"
+                      id="birthdaymonth"
+                      fluid
+                      search
+                      selection
+                      options={monthsEnglish}
+                      value={values.birthdaymonth}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                  <Box width={1 / 3} px={2}>
+                    <Input
+                      placeholder="Year"
+                      type="number"
+                      value={values.birthdayyear}
+                      onChange={handleChange}
+                      name="birthdayyear"
+                      id="birthdayyear"
+                      min={1300}
+                      max={1380}
+                    />
+                  </Box>
+                </Flex>
+                {errors.birthdayyear &&
+                  touched.birthdayyear &&
+                  errors.birthdayyear}
               </div>
 
               <hr />
-              <Flex className="form-group">
+              {/* <Flex className="form-group">
                 <Box width={1 / 6} px={2} style={{ minWidth: '60px' }}>
-                  <Radio toggle />
+                  <Radio
+                    toggle
+                    checked={values.subscribe}
+                    onChange={handleChange}
+                    name="subscribe"
+                    id="subscribe"
+                  />
                 </Box>
                 <Box width={5 / 6} px={2} className="container_check">
                   Do you want to subscribe to our newsletter?
                 </Box>
-              </Flex>
+              </Flex> */}
               <div className="text-center">
-                <input
+                <Button
+                  loading={isSubmitting}
+                  primary
                   type="submit"
-                  value="Register"
                   className="btn_1 full-width"
-                />
+                >
+                  Send Information
+                </Button>
                 <label>
                   By Clicking Register, You Accept
                   <a href="#0"> Terms and conditions</a>
