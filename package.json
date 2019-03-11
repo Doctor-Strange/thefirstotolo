@@ -1,6 +1,6 @@
 {
   "name": "otoli-mvp-front",
-  "version": "0.0.01",
+  "version": "0.0.02",
   "main": "index.js",
   "repository": "https://gitlab.com/otoli/mvp-front",
   "author": "Mehrad Rousta <mehrad77@gmail.com>",
@@ -16,7 +16,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "heroku-postbuild": "NODE_ENV=production next build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-regular": "^5.0.13",
