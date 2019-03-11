@@ -74,7 +74,7 @@ export class CompleteRegisterForm extends React.Component<{
   componentDidMount() {
     this.setState({
       phone: window.localStorage.getItem('phone'),
-      toekn: window.localStorage.getItem('token')
+      token: window.localStorage.getItem('token')
     });
   }
 
