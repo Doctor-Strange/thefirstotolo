@@ -8,7 +8,7 @@ import { Box, Flex } from '@rebass/grid';
 export default props => (
   <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
     <Section justifyCenter={true}>
-      <Flex justifyContent="space-around" style={{ width: '450px' }}>
+      <Flex justifyContent="space-around" style={{ width: '600px' }}>
         <Box width={1 / 1} px={2}>
           <CompleteRegisterForm />
         </Box>

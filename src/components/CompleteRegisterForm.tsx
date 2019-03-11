@@ -1,7 +1,16 @@
 import * as React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import { Button, Dropdown, Input, Radio } from 'semantic-ui-react';
+import { Label, Segment } from 'semantic-ui-react';
+import {
+  Button,
+  Checkbox,
+  Dropdown,
+  Form,
+  Input,
+  Radio,
+  TextArea
+} from 'formik-semantic-ui';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -25,18 +34,6 @@ const BoxAccount = styled.form`
     }
   }
 
-  .form_container {
-    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    padding: 25px;
-    position: relative;
-    .form-group {
-      margin-bottom: 10px;
-    }
-    hr {
-      margin: 0 0 10px 0;
-    }
-  }
   .selection {
     height: calc(2.55rem + 2px);
     font-size: 0.875rem;
@@ -49,21 +46,25 @@ const BoxAccount = styled.form`
 `;
 
 interface ICompleteRegisterFormValues {
-  name: string;
+  firstName: string;
+  lastName: string;
   nationalid: string;
-  email: string;
+  emailAddress: string;
   password: string;
-  birthdayday: number;
-  birthdaymonth: number;
-  birthdayyear: number;
-  subscribe: string;
+  day: number;
+  month: number;
+  year: number;
+  subscribe: boolean;
 }
 
 export class CompleteRegisterForm extends React.Component<{
   phone?: string;
+  token?: string;
 }> {
   state = {
-    phone: ''
+    phone: '',
+    token: '',
+    error: ''
   };
 
   constructor(props) {
@@ -72,37 +73,80 @@ export class CompleteRegisterForm extends React.Component<{
 
   componentDidMount() {
     this.setState({
-      phone: window.localStorage.getItem('phone')
+      phone: window.localStorage.getItem('phone'),
+      toekn: window.localStorage.getItem('token')
     });
   }
 
   render() {
-    const { phone } = this.state;
+    const { phone, token, error } = this.state;
     return (
-      <Formik
+      <Form
         initialValues={{
-          name: '',
+          firstName: '',
+          lastName: '',
           nationalid: '',
-          email: '',
+          emailAddress: '',
           password: '',
-          birthdayday: 1,
-          birthdaymonth: 1,
-          birthdayyear: 1300,
-          subscribe: ''
+          day: null,
+          month: null,
+          year: null,
+          subscribe: false
         }}
         onSubmit={(values: ICompleteRegisterFormValues, { setSubmitting }) => {
-          console.log(values);
-          setSubmitting(false);
+          const {
+            firstName,
+            lastName,
+            nationalid,
+            emailAddress,
+            password,
+            day,
+            month,
+            year,
+            subscribe
+          } = values;
+          axios
+            .post(
+              'https://otoli.net' + '/core/user/info',
+              {
+                first_name: firstName,
+                last_name: lastName,
+                national_id: nationalid,
+                birth_date: `${year}/${month}/${day}`
+              },
+              {
+                headers: {
+                  Authorization: 'Bearer ' + this.state.token
+                }
+              }
+            )
+            .then(response => {
+              if (response.data.success) {
+                console.log(response.data);
+                alert('Your registration has been completed.');
+              }
+            })
+            .catch(error => {
+              // tslint:disable-next-line:no-console
+              console.error(error);
+              this.setState({ error: error });
+            })
+            .then(() => {
+              setSubmitting(false);
+            });
+          setTimeout(() => {
+            console.log(values);
+            setSubmitting(false);
+          }, 3000);
         }}
         validationSchema={Yup.object().shape({
-          name: Yup.string().required('Please fill out this field'),
+          firstName: Yup.string().required('Please fill out this field'),
+          lastName: Yup.string().required('Please fill out this field'),
           nationalid: Yup.string()
+            .ensure() //convert undefined values to an empety string
+            .trim()
             .required('Please fill out this field')
-            .test(
-              'length',
-              'National IDs are 10 charechters long.',
-              value => (value || '').length === 10
-            )
+            .length(10, 'National IDs are 10 charechters long.')
             .test(
               'Validate National ID',
               "Your ID doesn't seems right",
@@ -121,7 +165,9 @@ export class CompleteRegisterForm extends React.Component<{
               }
             ),
           email: Yup.string().email('Please enter valid email adress'),
-          birthday: Yup.string().required('Please fill out this field')
+          day: Yup.number().typeError('Please fill out birth day'),
+          month: Yup.number().typeError('Please fill out the month'),
+          year: Yup.number().typeError('Please fill out your birth year')
         })}
       >
         {({
@@ -135,147 +181,70 @@ export class CompleteRegisterForm extends React.Component<{
           <BoxAccount onSubmit={handleSubmit} className="box_account">
             <h3 className="new_client">New Client</h3>
             <small className="float-right pt-2">* Required Fields</small>
-            <div className="form_container">
-              <div className="form-group">
-                <label className="floatLabel">Name*</label>
-                <Input
-                  placeholder="You'r Name"
-                  type="text"
-                  value={values.name}
-                  onChange={handleChange}
-                  name="name"
-                  id="name"
-                />
-                {errors.name && touched.name && errors.name}
-              </div>
-              <div className="form-group">
-                <label className="floatLabel">Phone Number*</label>
-                <Input
-                  placeholder="Phone Number*"
-                  type="number"
-                  disabled
-                  value={phone}
-                  name="phone"
-                  id="phone"
-                />
-              </div>
-              <div className="form-group">
-                <label className="floatLabel">National ID*</label>
-                <Input
-                  placeholder="National ID"
-                  type="text"
-                  value={values.nationalid}
-                  onChange={handleChange}
-                  name="nationalid"
-                  id="nationalid"
-                />
-                {errors.nationalid && touched.nationalid && errors.nationalid}
-              </div>
-              <div className="form-group">
-                <label className="floatLabel">Email Address</label>
-                <Input
-                  placeholder="Email"
-                  type="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  name="email"
-                  id="email"
-                />
-                {errors.email && touched.email && errors.email}
-              </div>
+            <Segment>
+              {error && (
+                <Label attached="top" color="red">
+                  Ops! An error happend. It's all our fault. try again in a
+                  minute.
+                </Label>
+              )}
 
-              <div className="form-group">
-                <label className="floatLabel">Password</label>
+              <Form.Group widths="2">
+                <Input label="First Name" name="firstName" />
+                <Input label="Last Name" name="lastName" />
+              </Form.Group>
+              <Input label="National ID" name="nationalid" />
+              <Form.Field>
+                <label>Phone Number</label>
+                <input name="phone" value={this.state.phone} disabled />
+              </Form.Field>
+
+              <Form.Group widths="3">
                 <Input
-                  placeholder="Password"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  name="password"
-                  id="password"
+                  label="Day"
+                  name="day"
+                  inputProps={{
+                    type: 'number',
+                    min: '1',
+                    max: '31'
+                  }}
                 />
-              </div>
-              <hr />
+                <Dropdown label="Month" name="month" options={monthsEnglish} />
+                <Input
+                  label="Year"
+                  name="year"
+                  inputProps={{
+                    type: 'number',
+                    min: '1300',
+                    max: '1397'
+                  }}
+                />
+              </Form.Group>
+              <Input label="Email" name="emailAddress" />
+              <Input
+                label="Password"
+                name="password"
+                inputProps={{
+                  type: 'password'
+                }}
+              />
 
-              <div className="form-group">
-                <label className="floatLabel">Birthday</label>
-                <Flex>
-                  <Box width={2 / 3} px={2}>
-                    <Input
-                      placeholder="Day"
-                      type="number"
-                      value={values.birthdayday}
-                      onChange={handleChange}
-                      name="birthdayday"
-                      id="birthdayday"
-                      min={1}
-                      max={31}
-                    />
-                  </Box>
-                  <Box width={1 / 3} px={2}>
-                    <Dropdown
-                      placeholder="Select Month"
-                      name="birthdaymonth"
-                      id="birthdaymonth"
-                      fluid
-                      search
-                      selection
-                      options={monthsEnglish}
-                      value={values.birthdaymonth}
-                      onChange={handleChange}
-                    />
-                  </Box>
-                  <Box width={1 / 3} px={2}>
-                    <Input
-                      placeholder="Year"
-                      type="number"
-                      value={values.birthdayyear}
-                      onChange={handleChange}
-                      name="birthdayyear"
-                      id="birthdayyear"
-                      min={1300}
-                      max={1380}
-                    />
-                  </Box>
-                </Flex>
-                {errors.birthdayyear &&
-                  touched.birthdayyear &&
-                  errors.birthdayyear}
-              </div>
-
-              <hr />
-              {/* <Flex className="form-group">
-                <Box width={1 / 6} px={2} style={{ minWidth: '60px' }}>
-                  <Radio
-                    toggle
-                    checked={values.subscribe}
-                    onChange={handleChange}
-                    name="subscribe"
-                    id="subscribe"
-                  />
-                </Box>
-                <Box width={5 / 6} px={2} className="container_check">
-                  Do you want to subscribe to our newsletter?
-                </Box>
-              </Flex> */}
-              <div className="text-center">
-                <Button
+              {/* <TextArea label="Notes" name="notes" /> */}
+              <Checkbox label="I like subscribing" name="subscribe" />
+              <Form.Field>
+                <Button.Submit
                   loading={isSubmitting}
                   primary
                   type="submit"
                   className="btn_1 full-width"
                 >
-                  Send Information
-                </Button>
-                <label>
-                  By Clicking Register, You Accept
-                  <a href="#0"> Terms and conditions</a>
-                </label>
-              </div>
-            </div>
+                  Sign Up
+                </Button.Submit>
+              </Form.Field>
+            </Segment>
           </BoxAccount>
         )}
-      </Formik>
+      </Form>
     );
   }
 }

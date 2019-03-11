@@ -309,6 +309,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /**============================== Forms Style ==============================**/
+input{
+    width: 100% !important;
+}
 .form-control {
     height: calc(2.55rem + 2px);
     font-size: 14px;
@@ -598,6 +601,21 @@ const GlobalStyle = createGlobalStyle`
     border-radius: .25rem;
     width: 70px;
 }
+
+
+/**============================== Styles based on semantic UI==============================*/
+.ui.segment {
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 25px;
+    position: relative;
+    .form-group {
+      margin-bottom: 10px;
+    }
+    hr {
+      margin: 0 0 10px 0;
+    }
+  }
 `;
 
 const lightTheme = {
