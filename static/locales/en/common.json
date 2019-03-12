@@ -23,5 +23,6 @@
   "send_again": "Send Again",
   "you_can_resend_code1": "You can resend the code in ",
   "you_can_resend_code2": " minutes.",
-  "or": "Or"
+  "or": "Or",
+  "agreement_sentence": "‌By signing up you agree to the Terms and Conditions"
 }

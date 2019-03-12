@@ -13,13 +13,16 @@ const GlobalStyle = createGlobalStyle`
     background: #f8f8f8;
     font-size: 0.875rem;
     line-height: 1.6;
-    font-family: Poppins, Helvetica, sans-serif;
+    font-family: Vazir, Poppins, Helvetica, sans-serif;
     color: #555;
     font-weight: 400;
     text-align: left;
     display: block;
     padding: 0;
     margin: 0;
+  }
+  .ui {
+    font-family: Vazir, sans-serif !important;
   }
   a {
     color: #004dda;

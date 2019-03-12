@@ -11,6 +11,31 @@ import {
   SITE_TITLE
 } from '../src/constants/env';
 
+import Vazir_eot from '../static/fonts/Vazir.eot';
+import Vazir_woff from '../static/fonts/Vazir.woff';
+import Vazir_woff2 from '../static/fonts/Vazir.woff2';
+import Vazir_ttf from '../static/fonts/Vazir.ttf';
+
+import VazirBold_eot from '../static/fonts/Vazir-Bold.eot';
+import VazirBold_woff from '../static/fonts/Vazir-Bold.woff';
+import VazirBold_woff2 from '../static/fonts/Vazir-Bold.woff2';
+// import VazirBold_ttf from '../static/fonts/Vazir-Bold.ttf';
+
+import VazirBlack_eot from '../static/fonts/Vazir-Black.eot';
+import VazirBlack_woff from '../static/fonts/Vazir-Black.woff';
+import VazirBlack_woff2 from '../static/fonts/Vazir-Black.woff2';
+// import VazirBlack_ttf from '../static/fonts/Vazir-Black.ttf';
+
+import VazirMedium_eot from '../static/fonts/Vazir-Medium.eot';
+import VazirMedium_woff from '../static/fonts/Vazir-Medium.woff';
+import VazirMedium_woff2 from '../static/fonts/Vazir-Medium.woff2';
+// import VazirBlack_ttf from '../static/fonts/Vazir-Medium.ttf';
+
+import VazirLight_eot from '../static/fonts/Vazir-Light.eot';
+import VazirLight_woff from '../static/fonts/Vazir-Light.woff';
+import VazirLight_woff2 from '../static/fonts/Vazir-Light.woff2';
+// import Vazir_ttf from '../static/fonts/Vazir-Light.ttf';
+
 export default class extends Document {
   static async getInitialProps(...args) {
     const { req, renderPage } = args[0];
@@ -95,6 +120,64 @@ fbq('track', 'PageView'); `
               />
             </>
           )}
+          <style>
+            {`
+@font-face {
+  font-family: Vazir;
+  src: url('${Vazir_eot}');
+  src: url('${Vazir_eot}?#iefix') format('embedded-opentype'),
+       url('${Vazir_woff2}') format('woff2'),
+       url('${Vazir_woff}') format('woff'),
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('${VazirBold_eot}');
+  src: url('${VazirBold_eot}?#iefix') format('embedded-opentype'),
+       url('${VazirBold_woff2}') format('woff2'),
+       url('${VazirBold_woff}') format('woff'),
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('${VazirBlack_eot}.eot');
+  src: url('${VazirBlack_eot}?#iefix') format('embedded-opentype'),
+       url('${VazirBlack_woff2}') format('woff2'),
+       url('${VazirBlack_woff}') format('woff'),
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('${VazirMedium_eot}');
+  src: url('${VazirMedium_eot}?#iefix') format('embedded-opentype'),
+       url('${VazirMedium_woff2}') format('woff2'),
+       url('${VazirMedium_woff}') format('woff')
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('${VazirLight_eot}');
+  src: url('${VazirLight_eot}?#iefix') format('embedded-opentype'),
+       url('${VazirLight_woff2}') format('woff2'),
+       url('${VazirLight_woff}') format('woff')
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: Vazir;
+  src: url('Vazir-Thin.eot');
+  src: url('Vazir-Thin.eot?#iefix') format('embedded-opentype'),
+       url('Vazir-Thin.woff2') format('woff2'),
+       url('Vazir-Thin.woff') format('woff')
+  font-weight: 100;
+  font-style: normal;
+}
+            `}
+          </style>
           {/* Output the styles in the head */}
           {this.props.styleTags}
         </Head>

@@ -35,7 +35,8 @@ export default withNamespaces('common')(
                     $password: t('password'),
                     $subscribe_checkbox: t('subscribe_checkbox'),
                     $signup: t('signup'),
-                    $new_client: t('new_client')
+                    $new_client: t('new_client'),
+                    $agreement_sentence: t('agreement_sentence')
                   }}
                 />
               </Box>

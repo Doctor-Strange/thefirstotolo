@@ -93,7 +93,8 @@ export class CompleteRegisterForm extends React.Component<{
       $password,
       $subscribe_checkbox,
       $signup,
-      $new_client
+      $new_client,
+      $agreement_sentence
     } = this.props.strings;
     const { phone, token, error } = this.state;
     return (
@@ -210,10 +211,10 @@ export class CompleteRegisterForm extends React.Component<{
                 <Input label={$lastname} name="lastName" />
               </Form.Group>
               <Input label={$national_id} name="nationalid" />
-              <Form.Field>
+              {/* <Form.Field>
                 <label>{$phone_number}</label>
                 <input name="phone" value={this.state.phone} disabled />
-              </Form.Field>
+              </Form.Field> */}
 
               <Form.Group widths="3">
                 <Input
@@ -236,18 +237,20 @@ export class CompleteRegisterForm extends React.Component<{
                   }}
                 />
               </Form.Group>
+
               <Input label={$email} name="emailAddress" />
-              <Input
+
+              {/* <Input
                 label={$password}
                 name="password"
                 inputProps={{
                   type: 'password'
                 }}
-              />
+              /> */}
 
-              {/* <TextArea label="Notes" name="notes" /> */}
               <Checkbox label={$subscribe_checkbox} name="subscribe" />
-              <Form.Field>
+
+              <Form.Field style={{ textAlign: 'center', fontSize: '0.8em' }}>
                 <Button.Submit
                   loading={isSubmitting}
                   primary
@@ -256,6 +259,7 @@ export class CompleteRegisterForm extends React.Component<{
                 >
                   {$signup}
                 </Button.Submit>
+                <span>{$agreement_sentence}</span>
               </Form.Field>
             </Segment>
           </BoxAccount>

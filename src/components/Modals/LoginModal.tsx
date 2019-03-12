@@ -341,7 +341,7 @@ export default withNamespaces('common')(
                           className="btn_1 full-width"
                           tabIndex={this.state.showIndex === 1 ? 0 : -1}
                         >
-                          {$confirm}
+                          {t('confirm')}
                         </Button>
                       </div>
                     </div>
