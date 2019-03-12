@@ -619,6 +619,9 @@ input{
       margin: 0 0 10px 0;
     }
   }
+  .field {
+    width: 100%;
+  }
 `;
 
 const lightTheme = {

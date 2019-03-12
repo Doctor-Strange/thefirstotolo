@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Router from 'next/router';
-import { Button, Grid, Select } from 'semantic-ui-react';
+import { Select } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Input } from 'formik-semantic-ui';
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -106,7 +107,7 @@ export default withNamespaces('common')(
             prevIndex={this.state.prevIndex}
           >
             <Panel>
-              <Formik
+              <Form
                 initialValues={{ phone: Number(this.state.phone) || null }}
                 onSubmit={(
                   values: LoginModalValues,
@@ -150,6 +151,7 @@ export default withNamespaces('common')(
                       'Phone number is not valid'
                     )
                     .required('A phone number is required.')
+                    .typeError('A phone number is required.')
                 })}
               >
                 {({
@@ -160,71 +162,66 @@ export default withNamespaces('common')(
                   errors,
                   touched
                 }) => (
-                  <LoginForm onSubmit={handleSubmit}>
-                    <div className="sign-in-wrapper">
-                      <div className="form-group">
-                        <label>{t('phone_number')}</label>
-                        <PhoneRow>
-                          <input
-                            type="tell"
-                            className="form-control input"
-                            name="phone"
-                            id="phone"
-                            onChange={handleChange}
-                            value={values.phone}
-                            tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                          />
-                          <Select
-                            name="country"
-                            id="country"
-                            className=" form-control country"
-                            placeholder="+98"
-                            options={mobileNumberOptions}
-                            tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                          />
-                        </PhoneRow>
-                        {errors.phone && touched.phone && errors.phone}
-                      </div>
-                      <div className="clearfix add_bottom_15 flow-root">
-                        {/* <div className="checkboxes float-left">
+                  <LoginForm className="sign-in-wrapper">
+                    <Form.Group>
+                      <PhoneRow>
+                        <Input
+                          className="form-control input"
+                          name="phone"
+                          inputProps={{
+                            type: 'tell',
+                            tabIndex: this.state.showIndex === 0 ? 0 : -1
+                          }}
+                        />
+                        <Select
+                          name="country"
+                          id="country"
+                          className=" form-control country"
+                          placeholder="+98"
+                          options={mobileNumberOptions}
+                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
+                        />
+                      </PhoneRow>
+                    </Form.Group>
+                    <div className="clearfix add_bottom_15 flow-root">
+                      {/* <div className="checkboxes float-left">
                         <label className="container_check">
                           Remember me
                           <input type="checkbox" />
                           <span className="checkmark" />
                         </label>
                       </div> */}
-                        {/* <div className="float-right mt-1">
+                      {/* <div className="float-right mt-1">
                         <a id="forgot" href="javascript:void(0);">
                           Forgot Password?
                         </a>
                       </div> */}
-                      </div>
-                      <div className="text-center">
-                        <Button
-                          loading={isSubmitting}
-                          primary
-                          type="submit"
-                          className="btn_1 full-width"
-                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                        >
-                          {t('login')}
-                        </Button>
-                      </div>
-                      <div className="divider">
-                        <span>{t('or')}</span>
-                      </div>
-                      <Button
-                        style={{ width: '100%' }}
-                        color="google plus"
-                        content={t('login_with_google')}
-                        icon="google"
-                        labelPosition="left"
-                        tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                      />
                     </div>
+                    <div className="text-center">
+                      <Button.Submit
+                        loading={isSubmitting}
+                        primary
+                        type="submit"
+                        className="btn_1 full-width"
+                        tabIndex={this.state.showIndex === 0 ? 0 : -1}
+                      >
+                        {t('login')}
+                      </Button.Submit>
+                    </div>
+                    <div className="divider">
+                      <span>{t('or')}</span>
+                    </div>
+                    <Button
+                      style={{ width: '100%' }}
+                      color="google plus"
+                      content={t('login_with_google')}
+                      icon="google"
+                      labelPosition="left"
+                      tabIndex={this.state.showIndex === 0 ? 0 : -1}
+                    />
                   </LoginForm>
                 )}
-              </Formik>
+              </Form>
             </Panel>
             <Panel>
               <Formik
@@ -293,57 +290,55 @@ export default withNamespaces('common')(
                   errors,
                   touched
                 }) => (
-                  <LoginForm onSubmit={handleSubmit}>
-                    <div className="sign-in-wrapper">
-                      <div className="form-group">
-                        <label>
-                          {t('a_code_has_been_sent_to')} {this.state.phone}.{' '}
-                          <a
-                            className="small"
-                            onClick={this.prevPanel}
-                            style={{ cursor: 'pointer' }}
-                            tabIndex={this.state.showIndex === 1 ? 0 : -1}
-                          >
-                            {t('not_you')}
-                          </a>
-                          <br />
-                          {t('enter_code_in_field')}
-                        </label>
-                        <input
-                          onChange={handleChange}
-                          value={values.code}
-                          type="number"
-                          className="form-control"
-                          name="code"
-                          id="code"
-                          tabIndex={this.state.showIndex === 1 ? 0 : -1}
-                        />
-                        {errors.code && touched.code && errors.code}
-                        {this.state.codeError || null}
-                      </div>
-                      <div className="clearfix add_bottom_15 flow-root">
+                  <LoginForm className="sign-in-wrapper">
+                    <div className="form-group">
+                      <label>
+                        {t('a_code_has_been_sent_to')} {this.state.phone}.{' '}
                         <a
-                          tabIndex={this.state.showIndex === 1 ? 0 : -1}
                           className="small"
-                          href="javascript:void(0);"
-                        >
-                          <Countdown
-                            date={this.state.timeToSendSMSAgain}
-                            renderer={this.renderTimeTOSend}
-                          />
-                        </a>
-                      </div>
-                      <div className="text-center">
-                        <Button
-                          loading={isSubmitting}
-                          primary
-                          type="submit"
-                          className="btn_1 full-width"
+                          onClick={this.prevPanel}
+                          style={{ cursor: 'pointer' }}
                           tabIndex={this.state.showIndex === 1 ? 0 : -1}
                         >
-                          {t('confirm')}
-                        </Button>
-                      </div>
+                          {t('not_you')}
+                        </a>
+                        <br />
+                        {t('enter_code_in_field')}
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        value={values.code}
+                        type="number"
+                        className="form-control"
+                        name="code"
+                        id="code"
+                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                      />
+                      {errors.code && touched.code && errors.code}
+                      {this.state.codeError || null}
+                    </div>
+                    <div className="clearfix add_bottom_15 flow-root">
+                      <a
+                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                        className="small"
+                        href="javascript:void(0);"
+                      >
+                        <Countdown
+                          date={this.state.timeToSendSMSAgain}
+                          renderer={this.renderTimeTOSend}
+                        />
+                      </a>
+                    </div>
+                    <div className="text-center">
+                      <Button
+                        loading={isSubmitting}
+                        primary
+                        type="submit"
+                        className="btn_1 full-width"
+                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                      >
+                        {t('confirm')}
+                      </Button>
                     </div>
                   </LoginForm>
                 )}
