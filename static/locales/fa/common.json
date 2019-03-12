@@ -1,6 +1,6 @@
 {
   "h1": "افزودن خودرو",
-  "change-locale": "تغیر زبان",
+  "change_locale": "تغیر زبان",
   "required_fields": "فیلدهای ضروری",
   "firstname": "نام کوچک",
   "lastname": "نام خانوادگی",
@@ -13,5 +13,15 @@
   "password": "گذرواژه",
   "subscribe_checkbox": "با ارسال ایمیل به من موافقم",
   "signup": "ثبت نام",
-  "new_client": "تکمیل اطلاعات"
+  "new_client": "تکمیل اطلاعات",
+  "confirm": "تایید",
+  "enter_code_in_field": "کد دریافتی را در فیلد زیر وارد کنید:",
+  "not_you": "(شما نیستید؟)",
+  "a_code_has_been_sent_to": "یک کد به شماره‌ی رو به رو ارسال شد: ",
+  "login": "ارسال کد",
+  "login_with_google": "ورود با گوگل",
+  "send_again": "دوباره بفرست",
+  "you_can_resend_code1": "شما می‌توانید",
+  "you_can_resend_code2": "دقیقه‌ی دیگر، درخواست ارسال دوباره کد را بدهید..",
+  "or": "یا"
 }

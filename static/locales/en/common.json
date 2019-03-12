@@ -13,5 +13,15 @@
   "password": "Password",
   "subscribe_checkbox": "I want you to send me emails",
   "signup": "Sign Up",
-  "new_client": "New Client"
+  "new_client": "New Client",
+  "confirm": "Confirm",
+  "enter_code_in_field": "Enter it in this field:",
+  "not_you": "(not you?)",
+  "a_code_has_been_sent_to": "A code has been sent to ",
+  "login": "Login",
+  "login_with_google": "Login via Google",
+  "send_again": "Send Again",
+  "you_can_resend_code1": "You can resend the code in ",
+  "you_can_resend_code2": " minutes.",
+  "or": "Or"
 }
