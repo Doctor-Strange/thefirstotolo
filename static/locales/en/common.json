@@ -1,7 +1,17 @@
 {
   "h1": "List your car!",
-  "change-locale": "Change locale",
-  "to-second-page": "To second page",
-  "error-with-status": "A {{statusCode}} error occurred on server",
-  "error-without-status": "An error occurred on the server"
+  "change-locale": "Change Locale",
+  "required_fields": "Required Fields",
+  "firstname": "First Name",
+  "lastname": "Lastname",
+  "national_id": "National ID",
+  "phone_number": "Phone Number",
+  "day": "Day",
+  "month": "Month",
+  "year": "Year",
+  "email": "Email",
+  "password": "Password",
+  "subscribe_checkbox": "I want you to send me emails",
+  "signup": "Sign Up",
+  "new_client": "New Client"
 }

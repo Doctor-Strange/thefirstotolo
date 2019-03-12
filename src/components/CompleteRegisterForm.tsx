@@ -60,6 +60,7 @@ interface ICompleteRegisterFormValues {
 export class CompleteRegisterForm extends React.Component<{
   phone?: string;
   token?: string;
+  strings: object;
 }> {
   state = {
     phone: '',
@@ -79,6 +80,21 @@ export class CompleteRegisterForm extends React.Component<{
   }
 
   render() {
+    const {
+      $required_fields,
+      $firstname,
+      $lastname,
+      $national_id,
+      $phone_number,
+      $day,
+      $month,
+      $year,
+      $email,
+      $password,
+      $subscribe_checkbox,
+      $signup,
+      $new_client
+    } = this.props.strings;
     const { phone, token, error } = this.state;
     return (
       <Form
@@ -179,8 +195,8 @@ export class CompleteRegisterForm extends React.Component<{
           touched
         }) => (
           <BoxAccount onSubmit={handleSubmit} className="box_account">
-            <h3 className="new_client">New Client</h3>
-            <small className="float-right pt-2">* Required Fields</small>
+            <h3 className="new_client">{$new_client}</h3>
+            <small className="float-right pt-2">* {$required_fields}</small>
             <Segment>
               {error && (
                 <Label attached="top" color="red">
@@ -190,18 +206,18 @@ export class CompleteRegisterForm extends React.Component<{
               )}
 
               <Form.Group widths="2">
-                <Input label="First Name" name="firstName" />
-                <Input label="Last Name" name="lastName" />
+                <Input label={$firstname} name="firstName" />
+                <Input label={$lastname} name="lastName" />
               </Form.Group>
-              <Input label="National ID" name="nationalid" />
+              <Input label={$national_id} name="nationalid" />
               <Form.Field>
-                <label>Phone Number</label>
+                <label>{$phone_number}</label>
                 <input name="phone" value={this.state.phone} disabled />
               </Form.Field>
 
               <Form.Group widths="3">
                 <Input
-                  label="Day"
+                  label={$day}
                   name="day"
                   inputProps={{
                     type: 'number',
@@ -209,9 +225,9 @@ export class CompleteRegisterForm extends React.Component<{
                     max: '31'
                   }}
                 />
-                <Dropdown label="Month" name="month" options={monthsEnglish} />
+                <Dropdown label={$month} name="month" options={monthsEnglish} />
                 <Input
-                  label="Year"
+                  label={$year}
                   name="year"
                   inputProps={{
                     type: 'number',
@@ -220,9 +236,9 @@ export class CompleteRegisterForm extends React.Component<{
                   }}
                 />
               </Form.Group>
-              <Input label="Email" name="emailAddress" />
+              <Input label={$email} name="emailAddress" />
               <Input
-                label="Password"
+                label={$password}
                 name="password"
                 inputProps={{
                   type: 'password'
@@ -230,7 +246,7 @@ export class CompleteRegisterForm extends React.Component<{
               />
 
               {/* <TextArea label="Notes" name="notes" /> */}
-              <Checkbox label="I like subscribing" name="subscribe" />
+              <Checkbox label={$subscribe_checkbox} name="subscribe" />
               <Form.Field>
                 <Button.Submit
                   loading={isSubmitting}
@@ -238,7 +254,7 @@ export class CompleteRegisterForm extends React.Component<{
                   type="submit"
                   className="btn_1 full-width"
                 >
-                  Sign Up
+                  {$signup}
                 </Button.Submit>
               </Form.Field>
             </Segment>

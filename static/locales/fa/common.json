@@ -1,7 +1,17 @@
 {
   "h1": "افزودن خودرو",
-  "change-locale": "Change locale",
-  "to-second-page": "To second page",
-  "error-with-status": "A {{statusCode}} error occurred on server",
-  "error-without-status": "An error occurred on the server"
+  "change-locale": "تغیر زبان",
+  "required_fields": "فیلدهای ضروری",
+  "firstname": "نام کوچک",
+  "lastname": "نام خانوادگی",
+  "national_id": "کد ملی",
+  "phone_number": "شماره تماس",
+  "day": "روز",
+  "month": "ماه",
+  "year": "سال",
+  "email": "ایمیل",
+  "password": "گذرواژه",
+  "subscribe_checkbox": "با ارسال ایمیل به من موافقم",
+  "signup": "ثبت نام",
+  "new_client": "تکمیل اطلاعات"
 }

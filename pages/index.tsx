@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Section } from '../src/components/row/Sections';
 import { BoxedList } from '../src/components/Cards/BoxedList';
-import { Layout } from '../src/components/Layout';
+import Layout from '../src/components/Layout';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 

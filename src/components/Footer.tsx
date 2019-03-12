@@ -299,7 +299,7 @@ const FooterSelector = styled.ul`
   }
 `;
 
-const Footer: React.FunctionComponent = ({ changeLang }) => (
+const Footer: React.FunctionComponent = ({ changeLang, changeLangFunc }) => (
   <>
     <div id="toTop" />
     <FooterTag className="plus_border">
@@ -490,7 +490,8 @@ const Footer: React.FunctionComponent = ({ changeLang }) => (
             <FooterSelector id="footer-selector">
               <li>
                 <div className="styled-select" id="lang-selector">
-                  <button onClick={() => changeLang()}>CHANGE LANG</button>
+                  {/* <button onClick={() => changeLang()}>CHANGE LANG</button> */}
+                  <button onClick={changeLangFunc}>CHANGE LANG</button>
                   <select>
                     <option value="English" selected>
                       English
