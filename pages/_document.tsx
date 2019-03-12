@@ -56,7 +56,7 @@ export default class extends Document {
 
   render() {
     return (
-      <html lang="ko">
+      <html lang="fa">
         <Head>
           <meta
             name="viewport"
