@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header } from './Header';
+import Header from './Header';
 import { SubHeader } from './SubHeader';
 import Footer from './Footer';
 import Head from 'next/head';

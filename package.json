@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "start:dev": "next",
+    "dev": "nodemon server.js  --exec 'ts-node'",
     "build:dev": "next build",
     "build": "NODE_ENV=production next build",
     "export": "next export",

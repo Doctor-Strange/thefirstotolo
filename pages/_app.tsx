@@ -6,24 +6,20 @@ import { ThemeProvider } from 'styled-components';
 import { getStore } from '../src/store';
 import { ltrTheme, rtlTheme } from '../src/theme/directions';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
+import { appWithTranslation } from '../src/i18n';
 
-export default class extends App {
+class OtoliApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
+    let pageProps = {};
     const server = !!ctx.req;
     const store = getStore(undefined, server);
     const state = store.getState();
     const out = { state, server } as any;
-
     if (Component.getInitialProps) {
-      return {
-        ...out,
-        pageProps: {
-          ...(await Component.getInitialProps(ctx))
-        }
-      };
+      pageProps = await Component.getInitialProps(ctx);
     }
 
-    return out;
+    return { pageProps, ...out };
   }
 
   render() {
@@ -49,3 +45,5 @@ export default class extends App {
     );
   }
 }
+
+export default appWithTranslation(OtoliApp);

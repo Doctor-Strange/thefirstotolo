@@ -7,6 +7,7 @@ import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/fontawesome-free-regular';
 import ReactModal from 'react-modal';
 import { LoginModal } from './Modals/LoginModal';
+import { i18n, withNamespaces } from '../i18n';
 
 const HeaderSticky = styled.div`
   header {
@@ -237,8 +238,20 @@ const HeaderSticky = styled.div`
   }
 `;
 
-export class Header extends React.Component<{}> {
+class Header extends React.Component<{}> {
   [x: string]: any;
+
+  static async getInitialProps() {
+    return {
+      namespacesRequired: ['common']
+    };
+  }
+
+  changeLang = () => {
+    console.log('changeLang happend ', i18n.language);
+    i18n.changeLanguage(i18n.language === 'en' ? 'fa' : 'en');
+  };
+
   onClick = () => {
     this.loginmodal.handleOpenModal(); // do stuff
   };
@@ -261,10 +274,11 @@ export class Header extends React.Component<{}> {
                   <ul id="top_menu">
                     <li>
                       <a href="/account" className="btn_add">
-                        Add Listing
+                        {this.props.t('h1')}
                       </a>
                     </li>
                     <li>
+                      <button onClick={this.changeLang} />
                       <a
                         href="#sign-in-dialog"
                         id="sign-in"
@@ -304,3 +318,5 @@ export class Header extends React.Component<{}> {
     );
   }
 }
+
+export default withNamespaces('common')(Header);
