@@ -275,10 +275,10 @@ class Header extends React.Component<{
                     </li>
                     <li>
                       <a
-                        href="#sign-in-dialog"
+                        href="#"
                         id="sign-in"
                         className="login"
-                        title="Sign In"
+                        title={t('signup')}
                         onClick={this.onClick}
                       >
                         {t('signup')}

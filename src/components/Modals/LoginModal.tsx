@@ -100,7 +100,10 @@ export default withNamespaces('common')(
     render() {
       const { t } = this.props;
       return (
-        <ModalWrapper title="Sign In" onRef={ref => (this.modalwrapper = ref)}>
+        <ModalWrapper
+          title={t('signup')}
+          onRef={ref => (this.modalwrapper = ref)}
+        >
           <PanelsWrapper
             showIndex={this.state.showIndex}
             prevIndex={this.state.prevIndex}
