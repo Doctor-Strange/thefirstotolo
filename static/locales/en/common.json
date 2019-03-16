@@ -24,5 +24,8 @@
   "you_can_resend_code1": "You can resend the code in ",
   "you_can_resend_code2": " minutes.",
   "or": "Or",
-  "agreement_sentence": "‌By signing up you agree to the Terms and Conditions"
+  "agreement_sentence": "‌By signing up you agree to the Terms and Conditions",
+  "error_phone_not_valid": "Phone number is not valid",
+  "error_phone_required": "A phone number is required",
+  "error_filed_required": "This field is required"
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Router from 'next/router';
-import { Select } from 'semantic-ui-react';
-import { Button, Dropdown, Form, Input } from 'formik-semantic-ui';
+import { Button, Form, Input } from 'formik-semantic-ui';
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -10,7 +9,7 @@ import { LoginForm, PhoneRow } from './LoginStyle';
 import { ModalWrapper } from './ModalWrapper';
 import { PanelsWrapper } from '../Carousel/PanelsWrapper';
 import { Panel } from '../Carousel/Panel';
-import { mobileNumberOptions } from '../../constants/options';
+// import { mobileNumberOptions } from '../../constants/options';
 import { i18n, withNamespaces } from '../../i18n';
 
 interface LoginModalValues {
@@ -148,10 +147,10 @@ export default withNamespaces('common')(
                   phone: Yup.string()
                     .matches(
                       /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$)/,
-                      'Phone number is not valid'
+                      t('error_phone_not_valid')
                     )
-                    .required('A phone number is required.')
-                    .typeError('A phone number is required.')
+                    .required(t('error_phone_required'))
+                    .typeError(t('error_phone_required'))
                 })}
               >
                 {({
@@ -222,7 +221,7 @@ export default withNamespaces('common')(
               </Form>
             </Panel>
             <Panel>
-              <Formik
+              <Form
                 initialValues={{ code: null }}
                 onSubmit={(
                   values: LoginModalCodeValues,
@@ -234,6 +233,7 @@ export default withNamespaces('common')(
                       code: values.code
                     })
                     .then(response => {
+                      console.error('Sent');
                       if (response.data.token && !response.data.has_name) {
                         // tslint:disable-next-line:no-console
                         console.error(response.data);
@@ -277,7 +277,9 @@ export default withNamespaces('common')(
                     });
                 }}
                 validationSchema={Yup.object().shape({
-                  code: Yup.number().required('Required')
+                  code: Yup.number()
+                    .required(t('error_filed_required'))
+                    .typeError(t('error_filed_required'))
                 })}
               >
                 {({
@@ -303,16 +305,14 @@ export default withNamespaces('common')(
                         <br />
                         {t('enter_code_in_field')}
                       </label>
-                      <input
-                        onChange={handleChange}
-                        value={values.code}
-                        type="number"
-                        className="form-control"
+                      <Input
+                        className="form-control input"
                         name="code"
-                        id="code"
-                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                        inputProps={{
+                          type: 'number',
+                          tabIndex: this.state.showIndex === 1 ? 0 : -1
+                        }}
                       />
-                      {errors.code && touched.code && errors.code}
                       {this.state.codeError || null}
                     </div>
                     <div className="clearfix add_bottom_15 flow-root">
@@ -328,19 +328,19 @@ export default withNamespaces('common')(
                       </a>
                     </div>
                     <div className="text-center">
-                      <Button
+                      <Button.Submit
                         loading={isSubmitting}
                         primary
                         type="submit"
                         className="btn_1 full-width"
-                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                        tabIndex={this.state.showIndex === 0 ? 0 : -1}
                       >
                         {t('confirm')}
-                      </Button>
+                      </Button.Submit>
                     </div>
                   </LoginForm>
                 )}
-              </Formik>
+              </Form>
             </Panel>
           </PanelsWrapper>
         </ModalWrapper>
