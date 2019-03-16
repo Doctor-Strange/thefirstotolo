@@ -258,7 +258,7 @@ class Header extends React.Component<{
           <header className="header_in is_sticky menu_fixed">
             <div className="container">
               <div className="row">
-                <div className="col-lg-3 col-12">
+                <div className="col-lg-3 col-12 hidden_mobile">
                   <Logo />
                 </div>
                 <div className="col-lg-9 col-12">
@@ -277,15 +277,6 @@ class Header extends React.Component<{
                         onClick={this.onClick}
                       >
                         <FontAwesomeIcon size="2x" icon={faSignInAlt} />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/wishlist"
-                        className="wishlist_bt_top"
-                        title="Your wishlist"
-                      >
-                        <FontAwesomeIcon size="2x" icon={faHeart} />
                       </a>
                     </li>
                   </ul>
