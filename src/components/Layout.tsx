@@ -30,15 +30,16 @@ class Layout extends React.Component<{
   };
 
   render() {
+    const theme = i18n.language == 'fa' ? rtlTheme : ltrTheme;
     const { t, pageTitle, children } = this.props;
     return (
       <ThemeProvider
         theme={{
           lang: i18n.language,
-          direction: i18n.language == 'fa' ? rtlTheme : ltrTheme
+          direction: theme
         }}
       >
-        <div id="layout">
+        <div id="layout" className={theme.direction}>
           <Head>
             <meta
               name="viewport"

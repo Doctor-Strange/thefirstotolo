@@ -1,11 +1,13 @@
 const rtlTheme = {
   direction: 'rtl',
-  textAlign: 'right'
+  textAlign: 'right',
+  font: 'Vazir, sans-serif'
 };
 
 const ltrTheme = {
   direction: 'ltr',
-  textAlign: 'left'
+  textAlign: 'left',
+  font: 'Poppins, Helvetica, sans-serif'
 };
 
 export { rtlTheme, ltrTheme };

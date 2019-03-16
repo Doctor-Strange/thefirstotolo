@@ -163,26 +163,24 @@ export default withNamespaces('common')(
                   touched
                 }) => (
                   <LoginForm className="sign-in-wrapper">
-                    <Form.Group>
-                      <PhoneRow>
-                        <Input
-                          className="form-control input"
-                          name="phone"
-                          inputProps={{
-                            type: 'tell',
-                            tabIndex: this.state.showIndex === 0 ? 0 : -1
-                          }}
-                        />
-                        <Select
+                    <label>{t('phone_number')}</label>
+                    <Input
+                      className="form-control input"
+                      name="phone"
+                      inputProps={{
+                        type: 'tell',
+                        tabIndex: this.state.showIndex === 0 ? 0 : -1
+                      }}
+                    />
+                    {/* <Select
                           name="country"
                           id="country"
                           className=" form-control country"
                           placeholder="+98"
                           options={mobileNumberOptions}
                           tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                        />
-                      </PhoneRow>
-                    </Form.Group>
+                        /> */}
+
                     <div className="clearfix add_bottom_15 flow-root">
                       {/* <div className="checkboxes float-left">
                         <label className="container_check">

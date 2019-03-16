@@ -622,6 +622,37 @@ input{
   .field {
     width: 100%;
   }
+  .rtl {
+
+    .ui {
+      form {
+        direction:rtl;
+      }
+      input#field_input_lastName {
+          text-align: right;
+      }
+      input#field_input_firstName {
+          text-align: right;
+      }
+      .field {
+        text-align: right;
+        label {
+          direction: rtl;
+          text-align: right;
+        }
+      }
+      .checkbox .box, .checkbox label {
+        :before,:after {
+          right: 0 !important;
+        }
+      }
+      .checkbox label {
+        padding-right: 1.85714em;
+        padding-left: unset !important;
+      }
+    }
+
+  }
 `;
 
 const lightTheme = {

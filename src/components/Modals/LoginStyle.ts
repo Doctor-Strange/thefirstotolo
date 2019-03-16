@@ -8,7 +8,7 @@ export const PhoneRow = styled.div`
     width: 80%;
     float: right;
   } */
-  #country {
+  /* #country {
     width: 20%;
     min-width: 68px;
     float: left;
@@ -16,7 +16,7 @@ export const PhoneRow = styled.div`
       position: absolute;
       width: 100px;
     }
-  }
+  } */
 `;
 
 export const LoginForm = styled.div`
