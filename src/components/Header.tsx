@@ -2,9 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Nav } from './Nav';
 import { Logo } from './Logo';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/fontawesome-free-regular';
+import { i18n, withNamespaces } from '../i18n';
 import ReactModal from 'react-modal';
 import LoginModal from './Modals/LoginModal';
 
@@ -243,6 +241,12 @@ class Header extends React.Component<{
 }> {
   [x: string]: any;
 
+  static async getInitialProps() {
+    return {
+      namespacesRequired: ['common']
+    };
+  }
+
   onClick = () => {
     this.loginmodal.handleOpenModal(); // do stuff
   };
@@ -252,6 +256,7 @@ class Header extends React.Component<{
   };
 
   render() {
+    const { t } = this.props;
     return (
       <>
         <HeaderSticky>
@@ -276,7 +281,7 @@ class Header extends React.Component<{
                         title="Sign In"
                         onClick={this.onClick}
                       >
-                        <FontAwesomeIcon size="2x" icon={faSignInAlt} />
+                        {t('signup')}
                       </a>
                     </li>
                   </ul>
@@ -300,4 +305,4 @@ class Header extends React.Component<{
   }
 }
 
-export default Header;
+export default withNamespaces('common')(Header);

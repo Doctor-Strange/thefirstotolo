@@ -21,11 +21,6 @@
     "heroku-postbuild": "NODE_ENV=production next build"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free-regular": "^5.0.13",
-    "@fortawesome/fontawesome-svg-core": "^1.2.14",
-    "@fortawesome/free-brands-svg-icons": "^5.7.1",
-    "@fortawesome/free-solid-svg-icons": "^5.7.1",
-    "@fortawesome/react-fontawesome": "^0.1.4",
     "@rebass/grid": "^6.0.0-7",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
