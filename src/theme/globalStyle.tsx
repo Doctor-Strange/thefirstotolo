@@ -623,7 +623,9 @@ input{
     width: 100%;
   }
   .rtl {
-
+      .attached.label {
+        text-align: right;
+      }
     .ui {
       form {
         direction:rtl;

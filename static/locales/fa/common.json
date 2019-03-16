@@ -25,7 +25,13 @@
   "you_can_resend_code2": "دقیقه‌ی دیگر، درخواست ارسال دوباره کد را بدهید..",
   "or": "یا",
   "agreement_sentence": "با ثبت‌نام در اتولی شما با قوانین و شرایط‌استفاده موافقت می‌کنید",
-  "error_phone_not_valid": "شماره تماس معتبر نمی‌باشد",
-  "error_phone_required": "لطفا شماره موبایل را وارد کنید",
-  "error_filed_required": "ضروری*"
+  "forms": {
+    "error_phone_not_valid": "شماره تماس معتبر نمی‌باشد",
+    "error_phone_required": "لطفا شماره موبایل را وارد کنید",
+    "error_filed_required": "ضروری*",
+    "error_nationalID_10_char": "کد ملی باید ۱۰ رفم باشد",
+    "error_nationalID_not_valid": "کد ملی وارد شده معتبر نیست",
+    "error_email_not_valid": "ایمیل وارد شده معتبر نیست",
+    "error": "خطایی غیرمنتظره رخ داد!"
+  }
 }

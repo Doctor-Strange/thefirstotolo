@@ -25,7 +25,13 @@
   "you_can_resend_code2": " minutes.",
   "or": "Or",
   "agreement_sentence": "‌By signing up you agree to the Terms and Conditions",
-  "error_phone_not_valid": "Phone number is not valid",
-  "error_phone_required": "A phone number is required",
-  "error_filed_required": "This field is required"
+  "forms": {
+    "error_phone_not_valid": "Phone number is not valid",
+    "error_phone_required": "A phone number is required",
+    "error_filed_required": "This field is required",
+    "error_nationalID_10_char": "National IDs are 10 charechters long",
+    "error_nationalID_not_valid": "National ID isn't right",
+    "error_email_not_valid": "Enterd email isn't valid",
+    "error": "There's been an error!"
+  }
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Section } from '../src/components/row/Sections';
 import Layout from '../src/components/Layout';
-import { CompleteRegisterForm } from '../src/components/CompleteRegisterForm';
+import CompleteRegisterForm from '../src/components/CompleteRegisterForm';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
 

@@ -147,10 +147,10 @@ export default withNamespaces('common')(
                   phone: Yup.string()
                     .matches(
                       /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$)/,
-                      t('error_phone_not_valid')
+                      t('forms.error_phone_not_valid')
                     )
-                    .required(t('error_phone_required'))
-                    .typeError(t('error_phone_required'))
+                    .required(t('forms.error_phone_required'))
+                    .typeError(t('forms.error_phone_required'))
                 })}
               >
                 {({
@@ -278,8 +278,8 @@ export default withNamespaces('common')(
                 }}
                 validationSchema={Yup.object().shape({
                   code: Yup.number()
-                    .required(t('error_filed_required'))
-                    .typeError(t('error_filed_required'))
+                    .required(t('forms.error_filed_required'))
+                    .typeError(t('forms.error_filed_required'))
                 })}
               >
                 {({
