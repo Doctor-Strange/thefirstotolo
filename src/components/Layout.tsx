@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { ThemeProvider } from 'styled-components';
+import { ltrTheme, rtlTheme } from '../theme/directions';
+import { connect } from 'react-redux';
+import { changeLang } from '../redux/system';
 import Header from './Header';
 import { SubHeader } from './SubHeader';
 import Footer from './Footer';
@@ -9,6 +13,7 @@ class Layout extends React.Component<{
   haveSubHeader: boolean;
   pageTitle: string;
   t: any;
+  changeLang: any;
 }> {
   [x: string]: any;
 
@@ -18,28 +23,41 @@ class Layout extends React.Component<{
     };
   }
 
-  changeLang = () => {
+  changeLang_i18n = () => {
     console.log('changeLang happend ', i18n.language);
     i18n.changeLanguage(i18n.language === 'en' ? 'fa' : 'en');
+    this.props.changeLang(i18n.language === 'en' ? 'fa' : 'en');
   };
 
   render() {
     const { t, pageTitle, children } = this.props;
     return (
-      <div id="layout">
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-        </Head>
-        <Header headerBtn={t('h1')} changeLang={this.changeLang} />
-        {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
-        <main>{children}</main>
-        <Footer changeLangFunc={this.changeLang} />
-      </div>
+      <ThemeProvider
+        theme={{
+          lang: i18n.language,
+          direction: i18n.language == 'fa' ? rtlTheme : ltrTheme
+        }}
+      >
+        <div id="layout">
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+          </Head>
+          <Header headerBtn={t('h1')} changeLang={this.changeLang_i18n} />
+          {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
+          <main>{children}</main>
+          <Footer changeLangFunc={this.changeLang_i18n} />
+        </div>
+      </ThemeProvider>
     );
   }
 }
 
-export default withNamespaces('common')(Layout);
+const mapStateToProps = ({}) => ({});
+
+export default connect(
+  mapStateToProps,
+  { changeLang }
+)(withNamespaces('common')(Layout));

@@ -34,9 +34,9 @@ export function session() {
   };
 }
 
-export function changeLang() {
+export function changeLang(lang) {
   return (dispatch, getState) => {
-    dispatch(changeLangAction('en'));
+    dispatch(changeLangAction(lang));
   };
 }
 export interface SystemState {
