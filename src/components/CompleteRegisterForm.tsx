@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import * as NewUser from '../../static/new_user.svg';
 import { Box, Flex } from '@rebass/grid';
-import { monthsEnglish } from '../constants/options';
+import { monthsEnglish, monthsFarsi } from '../constants/options';
 
 const BoxAccount = styled.form`
   margin-bottom: 25px;
@@ -240,7 +240,9 @@ export default withNamespaces('common')(
                   <Dropdown
                     label={$month}
                     name="month"
-                    options={monthsEnglish}
+                    options={
+                      i18n.language === 'en' ? monthsEnglish : monthsFarsi
+                    }
                   />
                   <Input
                     label={$year}

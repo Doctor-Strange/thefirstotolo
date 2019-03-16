@@ -20,3 +20,18 @@ export const monthsEnglish = [
   { key: '11', value: '11', text: 'Bahman' },
   { key: '12', value: '12', text: 'Esfand' }
 ];
+
+export const monthsFarsi = [
+  { key: '1', value: '1', text: 'فروردین' },
+  { key: '2', value: '2', text: 'اردیبهشت' },
+  { key: '3', value: '3', text: 'خرداد' },
+  { key: '4', value: '4', text: 'تیر' },
+  { key: '5', value: '5', text: 'مرداد' },
+  { key: '6', value: '6', text: 'شهریور' },
+  { key: '7', value: '7', text: 'مهر' },
+  { key: '8', value: '8', text: 'آبان' },
+  { key: '9', value: '9', text: 'آذر' },
+  { key: '10', value: '10', text: 'دی' },
+  { key: '11', value: '11', text: 'بهمن' },
+  { key: '12', value: '12', text: 'اسفند' }
+];
