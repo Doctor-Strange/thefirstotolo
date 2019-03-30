@@ -128,6 +128,7 @@ fbq('track', 'PageView'); `
   src: url('${Vazir_eot}?#iefix') format('embedded-opentype'),
        url('${Vazir_woff2}') format('woff2'),
        url('${Vazir_woff}') format('woff'),
+       url('${Vazir_ttf}') format('ttf')
   font-weight: normal;
   font-style: normal;
 }
