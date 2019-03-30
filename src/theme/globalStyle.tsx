@@ -443,6 +443,10 @@ input{
   margin-bottom: 75px;
 }
 
+.add_top_8 {
+  margin-top: 8px;
+}
+
 .add_top_10 {
   margin-top: 10px;
 }
@@ -677,6 +681,13 @@ input{
   .sui-error-message {
     display: block;
     margin-top: 10px;
+  }
+  .ui.form .field.error input[type=tell]{
+    background: #fff6f6;
+    border-color: #e0b4b4;
+    color: #9f3a38;
+    border-radius: '';
+    box-shadow: none;
   }
 
 `;
