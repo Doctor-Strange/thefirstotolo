@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { ltrTheme, rtlTheme } from '../theme/directions';
+import { ltrTheme, rtlTheme } from '../../theme/directions';
 import { connect } from 'react-redux';
-import { changeLang } from '../redux/system';
-import Header from './Header';
-import { SubHeader } from './SubHeader';
-import Footer from './Footer';
+import { changeLang } from '../../redux/system';
+import { Header, SubHeader } from '../Header';
+import Footer from '../Footer';
 import Head from 'next/head';
-import { i18n, withNamespaces } from '../i18n';
+import { i18n, withNamespaces } from '../../i18n';
 
 class Layout extends React.Component<{
   haveSubHeader: boolean;

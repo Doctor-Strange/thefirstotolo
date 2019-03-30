@@ -2,7 +2,7 @@ import * as React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import { Label, Segment } from 'semantic-ui-react';
-import { i18n, withNamespaces } from '../i18n';
+import { i18n, withNamespaces } from '../../i18n';
 import {
   Button,
   Checkbox,
@@ -15,9 +15,9 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import * as NewUser from '../../static/new_user.svg';
+import * as NewUser from '../../../static/new_user.svg';
 import { Box, Flex } from '@rebass/grid';
-import { monthsEnglish, monthsFarsi } from '../constants/options';
+import { monthsEnglish, monthsFarsi } from '../../constants/options';
 
 const BoxAccount = styled.form`
   margin-bottom: 25px;

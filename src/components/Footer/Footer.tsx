@@ -1,7 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
 import styled from 'styled-components';
-import * as CardsAll from '../../static/cards_all.svg';
+import * as CardsAll from '../../../static/cards_all.svg';
 
 const FooterTag = styled.footer`
   border-top: 1px solid #ededed;

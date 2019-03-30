@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Nav } from './Nav';
-import { Logo } from './Logo';
-import { i18n, withNamespaces } from '../i18n';
+import { Nav } from '../Nav';
+import { Logo } from '../Logo';
+import { i18n, withNamespaces } from '../../i18n';
 import ReactModal from 'react-modal';
-import LoginModal from './Modals/LoginModal';
+import LoginModal from '../Modals/LoginModal';
 
 const HeaderSticky = styled.div`
   header {

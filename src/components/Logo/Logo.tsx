@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
-import * as LogoSVG from '../../static/logo_sticky.svg';
+import * as LogoSVG from '../../../static/logo_sticky.svg';
 
 export const Logo: React.FunctionComponent = props => (
   <div id="logo">
