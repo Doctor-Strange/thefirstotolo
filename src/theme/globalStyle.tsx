@@ -720,13 +720,15 @@ input[type="number"] {
     }
 
   }
-  input#field_input_phone {
-    text-align: left;
-    direction: ltr;
-    ::placeholder {
-      text-align: right;
-      direction: rtl;
-      font-family: Vazir;
+  input {
+    #field_input_phone,#field_input_code {
+      text-align: left;
+      direction: ltr;
+      ::placeholder {
+        text-align: right;
+        direction: rtl;
+        font-family: Vazir;
+      }
     }
   }
   .ui.loading.form {
