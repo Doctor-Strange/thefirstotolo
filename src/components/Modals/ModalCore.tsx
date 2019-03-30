@@ -3,16 +3,18 @@ import styled from 'styled-components';
 
 const ModalDiv = styled.div`
   #sign-in-dialog {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
     background: #fff;
     padding: 30px;
     padding-top: 0;
     text-align: left;
     max-width: 400px;
-    margin: 40px auto;
+    margin: 0px auto;
     position: relative;
     box-sizing: border-box;
     border-radius: 4px;
+    transition: all 0.4s ease;
 
     .mfp-close {
       position: absolute;
@@ -21,16 +23,25 @@ const ModalDiv = styled.div`
       color: #666;
       background-color: #e4e4e4;
       border-radius: 50%;
-      top: 12px;
-      right: 20px;
-      width: 32px;
-      height: 32px;
-      line-height: 32px;
+      top: 10px;
+      right: 10px;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      font-size: 15px;
       border: 0;
       cursor: pointer !important;
       :hover {
         color: #fff;
         background-color: #66676b;
+      }
+    }
+  }
+  .rtl {
+    .small-dialog-header {
+      h3 {
+        text-align: right;
+        margin-right: 40px;
       }
     }
   }
@@ -44,9 +55,8 @@ const ModalDiv = styled.div`
     border-radius: 4px 4px;
     display: inline-block;
     background-color: #f6f6f6;
-    padding: 18px 20px 15px 20px;
-    margin-bottom: 30px;
-
+    padding: 0px 0px 0px 0px;
+    margin-bottom: 44px;
     h3 {
       padding: 0;
       margin: 0;
@@ -57,10 +67,21 @@ const ModalDiv = styled.div`
   }
 `;
 
-export const ModalCore = ({ handleClose, animationClass, title, children }) => {
+export const ModalCore = ({
+  handleClose,
+  animationClass,
+  title,
+  direction,
+  height,
+  children
+}) => {
   return (
     <ModalDiv className={'md-modal ' + animationClass}>
-      <div id="sign-in-dialog" className="zoom-anim-dialog">
+      <div
+        id="sign-in-dialog"
+        className={`zoom-anim-dialog ${direction}`}
+        style={{ height: height }}
+      >
         <div className="small-dialog-header">
           <h3>{title}</h3>
         </div>

@@ -5,7 +5,9 @@ import { ModalCore } from './ModalCore';
 
 export class ModalWrapper extends React.Component<{
   onRef: any;
-  title: string;
+  title?: string;
+  direction: string;
+  height: number;
 }> {
   state = {
     animation: null,
@@ -50,6 +52,8 @@ export class ModalWrapper extends React.Component<{
           title={this.props.title}
           animationClass={this.state.animation}
           handleClose={this.handleCloseModal}
+          direction={this.props.direction}
+          height={this.props.height}
         >
           {this.props.children}
         </ModalCore>

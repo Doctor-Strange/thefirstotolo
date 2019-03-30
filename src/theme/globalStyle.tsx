@@ -244,7 +244,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     display: inline-block;
     text-decoration: none;
-    padding: 15px 30px;
+    padding: 17px 30px !important;
     color: #fff;
     font-weight: 600;
     text-align: center;
@@ -607,7 +607,7 @@ input{
 
 
 /**============================== Styles based on semantic UI==============================*/
-.ui.segment {
+  .ui.segment {
     box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     padding: 25px;
@@ -618,6 +618,9 @@ input{
     hr {
       margin: 0 0 10px 0;
     }
+  }
+  .ui.button {
+    margin: 0 0 0 0;
   }
   .field {
     width: 100%;
@@ -653,8 +656,29 @@ input{
         padding-left: unset !important;
       }
     }
+    .sign-in-wrapper {
+      direction: rtl;
+      text-align: right;
+    }
 
   }
+  input#field_input_phone {
+    text-align: left;
+    direction: ltr;
+  }
+  .ui.loading.form {
+    :before {
+    content: none;
+    }
+    :after {
+    content: none;
+    }
+  }
+  .sui-error-message {
+    display: block;
+    margin-top: 10px;
+  }
+
 `;
 
 const lightTheme = {

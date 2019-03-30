@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Router from 'next/router';
+import { ThemeProvider } from 'styled-components';
 import { Button, Form, Input } from 'formik-semantic-ui';
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
@@ -11,6 +12,7 @@ import { PanelsWrapper } from '../Carousel/PanelsWrapper';
 import { Panel } from '../Carousel/Panel';
 // import { mobileNumberOptions } from '../../constants/options';
 import { i18n, withNamespaces } from '../../i18n';
+import { ltrTheme, rtlTheme } from '../../theme/directions';
 
 interface LoginModalValues {
   phone: number;
@@ -30,6 +32,7 @@ export default withNamespaces('common')(
       code?: number;
       timeToSendSMSAgain?: number;
       codeError?: string;
+      height: number;
     }
   > {
     constructor(props) {
@@ -39,7 +42,8 @@ export default withNamespaces('common')(
         timeToSendSMSAgain: null,
         codeError: null,
         prevIndex: 0,
-        showIndex: 0
+        showIndex: 0,
+        height: 245
       };
       this.nextPanel = this.nextPanel.bind(this);
       this.prevPanel = this.prevPanel.bind(this);
@@ -60,7 +64,8 @@ export default withNamespaces('common')(
       if (this.state.showIndex + 1 > 2) return;
       this.setState({
         prevIndex: this.state.showIndex,
-        showIndex: this.state.showIndex + 1
+        showIndex: this.state.showIndex + 1,
+        height: 310
       });
     }
 
@@ -68,7 +73,8 @@ export default withNamespaces('common')(
       if (this.state.showIndex - 1 < 0) return;
       this.setState({
         prevIndex: this.state.showIndex,
-        showIndex: this.state.showIndex - 1
+        showIndex: this.state.showIndex - 1,
+        height: 250
       });
     }
 
@@ -99,82 +105,92 @@ export default withNamespaces('common')(
 
     render() {
       const { t } = this.props;
+      const theme = i18n.language == 'fa' ? rtlTheme : ltrTheme;
       return (
-        <ModalWrapper
-          title={t('signup')}
-          onRef={ref => (this.modalwrapper = ref)}
+        <ThemeProvider
+          theme={{
+            lang: i18n.language,
+            direction: theme
+          }}
         >
-          <PanelsWrapper
-            showIndex={this.state.showIndex}
-            prevIndex={this.state.prevIndex}
+          <ModalWrapper
+            title={''}
+            onRef={ref => (this.modalwrapper = ref)}
+            direction={theme.direction}
+            height={this.state.height}
           >
-            <Panel>
-              <Form
-                initialValues={{ phone: Number(this.state.phone) || null }}
-                onSubmit={(
-                  values: LoginModalValues,
-                  actions: FormikActions<LoginModalValues>
-                ) => {
-                  let validPhoneFormated;
-                  const phone = values.phone.toString();
-                  if (/^[0][9][1-2][0-9]{8,8}$/.test(phone)) {
-                    validPhoneFormated = phone;
-                  } else if (/^[9][1-2][0-9]{8,8}$/.test(phone)) {
-                    validPhoneFormated = '0' + phone;
-                  } else {
-                    validPhoneFormated = phone;
-                  }
-                  axios
-                    .post('https://otoli.net' + '/core/device/send-code', {
-                      cell: validPhoneFormated
-                    })
-                    .then(response => {
-                      if (response.data.success) {
-                        this.setState({
-                          phone: validPhoneFormated,
-                          timeToSendSMSAgain: Date.now() + 30000
-                        });
-                        this.nextPanel();
-                      }
-                    })
-                    .catch(error => {
-                      // tslint:disable-next-line:no-console
-                      console.error(error.response.data);
-                      alert(error.response.data.message);
-                    })
-                    .then(() => {
-                      actions.setSubmitting(false);
-                    });
-                }}
-                validationSchema={Yup.object().shape({
-                  phone: Yup.string()
-                    .matches(
-                      /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$)/,
-                      t('forms.error_phone_not_valid')
-                    )
-                    .required(t('forms.error_phone_required'))
-                    .typeError(t('forms.error_phone_required'))
-                })}
-              >
-                {({
-                  handleSubmit,
-                  handleChange,
-                  isSubmitting,
-                  values,
-                  errors,
-                  touched
-                }) => (
-                  <LoginForm className="sign-in-wrapper">
-                    <label>{t('phone_number')}</label>
-                    <Input
-                      className="form-control input"
-                      name="phone"
-                      inputProps={{
-                        type: 'tell',
-                        tabIndex: this.state.showIndex === 0 ? 0 : -1
-                      }}
-                    />
-                    {/* <Select
+            <PanelsWrapper
+              showIndex={this.state.showIndex}
+              prevIndex={this.state.prevIndex}
+            >
+              <Panel>
+                <Form
+                  initialValues={{ phone: Number(this.state.phone) || null }}
+                  loading={false}
+                  onSubmit={(
+                    values: LoginModalValues,
+                    actions: FormikActions<LoginModalValues>
+                  ) => {
+                    let validPhoneFormated;
+                    const phone = values.phone.toString();
+                    if (/^[0][9][1-2][0-9]{8,8}$/.test(phone)) {
+                      validPhoneFormated = phone;
+                    } else if (/^[9][1-2][0-9]{8,8}$/.test(phone)) {
+                      validPhoneFormated = '0' + phone;
+                    } else {
+                      validPhoneFormated = phone;
+                    }
+                    axios
+                      .post('https://otoli.net' + '/core/device/send-code', {
+                        cell: validPhoneFormated
+                      })
+                      .then(response => {
+                        if (response.data.success) {
+                          this.setState({
+                            phone: validPhoneFormated,
+                            timeToSendSMSAgain: Date.now() + 30000
+                          });
+                          this.nextPanel();
+                        }
+                      })
+                      .catch(error => {
+                        // tslint:disable-next-line:no-console
+                        console.error(error.response.data);
+                        alert(error.response.data.message);
+                      })
+                      .then(() => {
+                        actions.setSubmitting(false);
+                      });
+                  }}
+                  validationSchema={Yup.object().shape({
+                    phone: Yup.string()
+                      .matches(
+                        /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$)/,
+                        t('forms.error_phone_not_valid')
+                      )
+                      .required(t('forms.error_phone_required'))
+                      .typeError(t('forms.error_phone_required'))
+                  })}
+                >
+                  {({
+                    handleSubmit,
+                    handleChange,
+                    isSubmitting,
+                    values,
+                    errors,
+                    touched
+                  }) => (
+                    <LoginForm className="sign-in-wrapper">
+                      <label>{t('phone_number')}</label>
+                      <Input
+                        className="form-control input"
+                        name="phone"
+                        inputProps={{
+                          type: 'tell',
+                          tabIndex: this.state.showIndex === 0 ? 0 : -1
+                        }}
+                      />
+                      {/* <Select
                           name="country"
                           id="country"
                           className=" form-control country"
@@ -183,8 +199,8 @@ export default withNamespaces('common')(
                           tabIndex={this.state.showIndex === 0 ? 0 : -1}
                         /> */}
 
-                    <div className="clearfix add_bottom_15 flow-root">
-                      {/* <div className="checkboxes float-left">
+                      {/*<div className="clearfix add_bottom_15 flow-root">
+                         <div className="checkboxes float-left">
                         <label className="container_check">
                           Remember me
                           <input type="checkbox" />
@@ -195,158 +211,159 @@ export default withNamespaces('common')(
                         <a id="forgot" href="javascript:void(0);">
                           Forgot Password?
                         </a>
-                      </div> */}
-                    </div>
-                    <div className="text-center">
-                      <Button.Submit
-                        loading={isSubmitting}
-                        primary
-                        type="submit"
-                        className="btn_1 full-width"
-                        tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                      >
-                        {t('login')}
-                      </Button.Submit>
-                    </div>
-                    <div className="divider">
-                      <span>{t('or')}</span>
-                    </div>
-                    <Button
-                      style={{ width: '100%' }}
-                      color="google plus"
-                      content={t('login_with_google')}
-                      icon="google"
-                      labelPosition="left"
-                      tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                    />
-                  </LoginForm>
-                )}
-              </Form>
-            </Panel>
-            <Panel>
-              <Form
-                initialValues={{ code: null }}
-                onSubmit={(
-                  values: LoginModalCodeValues,
-                  actions: FormikActions<LoginModalCodeValues>
-                ) => {
-                  axios
-                    .post('https://otoli.net' + '/core/device/login', {
-                      cell: this.state.phone,
-                      code: values.code
-                    })
-                    .then(response => {
-                      console.error('Sent');
-                      if (response.data.token && !response.data.has_name) {
-                        // tslint:disable-next-line:no-console
-                        console.error(response.data);
-                        this.setState({
-                          code: values.code,
-                          codeError: null,
-                          timeToSendSMSAgain: null
-                        });
-                        localStorage.setItem('token', response.data.token);
-                        localStorage.setItem('phone', this.state.phone);
-                        // TODO: add token to redux;
-                        Router.push({
-                          pathname: '/complete-register',
-                          query: {
-                            cell: this.state.phone,
-                            token: response.data.token
-                          }
-                        });
-                      } else if (
-                        response.data.token &&
-                        response.data.has_name
-                      ) {
-                        // TODO: add token to redux;
-                        localStorage.setItem('token', response.data.token);
-                        localStorage.setItem('phone', this.state.phone);
-                      } else {
-                        // tslint:disable-next-line:no-console
-                        console.error('error');
-                        // TODO: handle errors
-                      }
-                    })
-                    .catch(error => {
-                      // tslint:disable-next-line:no-console
-                      console.error(error.response.data);
-                      this.setState({
-                        codeError: error.response.data.message
-                      });
-                    })
-                    .then(() => {
-                      actions.setSubmitting(false);
-                    });
-                }}
-                validationSchema={Yup.object().shape({
-                  code: Yup.number()
-                    .required(t('forms.error_filed_required'))
-                    .typeError(t('forms.error_filed_required'))
-                })}
-              >
-                {({
-                  handleSubmit,
-                  handleChange,
-                  isSubmitting,
-                  values,
-                  errors,
-                  touched
-                }) => (
-                  <LoginForm className="sign-in-wrapper">
-                    <div className="form-group">
-                      <label>
-                        {t('a_code_has_been_sent_to')} {this.state.phone}.{' '}
-                        <a
-                          className="small"
-                          onClick={this.prevPanel}
-                          style={{ cursor: 'pointer' }}
-                          tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                      </div> 
+                      </div>*/}
+                      <div className="text-center">
+                        <Button.Submit
+                          loading={isSubmitting}
+                          primary
+                          type="submit"
+                          className="btn_1 full-width"
+                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
                         >
-                          {t('not_you')}
-                        </a>
-                        <br />
-                        {t('enter_code_in_field')}
-                      </label>
-                      <Input
-                        className="form-control input"
-                        name="code"
-                        inputProps={{
-                          type: 'number',
-                          tabIndex: this.state.showIndex === 1 ? 0 : -1
-                        }}
-                      />
-                      {this.state.codeError || null}
-                    </div>
-                    <div className="clearfix add_bottom_15 flow-root">
-                      <a
-                        tabIndex={this.state.showIndex === 1 ? 0 : -1}
-                        className="small"
-                        href="javascript:void(0);"
-                      >
-                        <Countdown
-                          date={this.state.timeToSendSMSAgain}
-                          renderer={this.renderTimeTOSend}
-                        />
-                      </a>
-                    </div>
-                    <div className="text-center">
-                      <Button.Submit
-                        loading={isSubmitting}
-                        primary
-                        type="submit"
-                        className="btn_1 full-width"
+                          {t('login')}
+                        </Button.Submit>
+                      </div>
+                      {/* <div className="divider">
+                        <span>{t('or')}</span>
+                      </div>
+                      <Button
+                        style={{ width: '100%' }}
+                        color="google plus"
+                        content={t('login_with_google')}
+                        icon="google"
+                        labelPosition="left"
                         tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                      >
-                        {t('confirm')}
-                      </Button.Submit>
-                    </div>
-                  </LoginForm>
-                )}
-              </Form>
-            </Panel>
-          </PanelsWrapper>
-        </ModalWrapper>
+                      /> */}
+                    </LoginForm>
+                  )}
+                </Form>
+              </Panel>
+              <Panel>
+                <Form
+                  initialValues={{ code: null }}
+                  onSubmit={(
+                    values: LoginModalCodeValues,
+                    actions: FormikActions<LoginModalCodeValues>
+                  ) => {
+                    axios
+                      .post('https://otoli.net' + '/core/device/login', {
+                        cell: this.state.phone,
+                        code: values.code
+                      })
+                      .then(response => {
+                        console.error('Sent');
+                        if (response.data.token && !response.data.has_name) {
+                          // tslint:disable-next-line:no-console
+                          console.error(response.data);
+                          this.setState({
+                            code: values.code,
+                            codeError: null,
+                            timeToSendSMSAgain: null
+                          });
+                          localStorage.setItem('token', response.data.token);
+                          localStorage.setItem('phone', this.state.phone);
+                          // TODO: add token to redux;
+                          Router.push({
+                            pathname: '/complete-register',
+                            query: {
+                              cell: this.state.phone,
+                              token: response.data.token
+                            }
+                          });
+                        } else if (
+                          response.data.token &&
+                          response.data.has_name
+                        ) {
+                          // TODO: add token to redux;
+                          localStorage.setItem('token', response.data.token);
+                          localStorage.setItem('phone', this.state.phone);
+                        } else {
+                          // tslint:disable-next-line:no-console
+                          console.error('error');
+                          // TODO: handle errors
+                        }
+                      })
+                      .catch(error => {
+                        // tslint:disable-next-line:no-console
+                        console.error(error.response.data);
+                        this.setState({
+                          codeError: error.response.data.message
+                        });
+                      })
+                      .then(() => {
+                        actions.setSubmitting(false);
+                      });
+                  }}
+                  validationSchema={Yup.object().shape({
+                    code: Yup.number()
+                      .required(t('forms.error_filed_required'))
+                      .typeError(t('forms.error_filed_required'))
+                  })}
+                >
+                  {({
+                    handleSubmit,
+                    handleChange,
+                    isSubmitting,
+                    values,
+                    errors,
+                    touched
+                  }) => (
+                    <LoginForm className="sign-in-wrapper">
+                      <div className="form-group">
+                        <label>
+                          {t('a_code_has_been_sent_to')} {this.state.phone}.{' '}
+                          <a
+                            className="small"
+                            onClick={this.prevPanel}
+                            style={{ cursor: 'pointer' }}
+                            tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                          >
+                            {t('not_you')}
+                          </a>
+                          <br />
+                          {t('enter_code_in_field')}
+                        </label>
+                        <Input
+                          className="form-control input"
+                          name="code"
+                          inputProps={{
+                            type: 'number',
+                            tabIndex: this.state.showIndex === 1 ? 0 : -1
+                          }}
+                        />
+                        {this.state.codeError || null}
+                      </div>
+                      <div className="clearfix add_bottom_15 flow-root">
+                        <a
+                          tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                          className="small"
+                          href="javascript:void(0);"
+                        >
+                          <Countdown
+                            date={this.state.timeToSendSMSAgain}
+                            renderer={this.renderTimeTOSend}
+                          />
+                        </a>
+                      </div>
+                      <div className="text-center">
+                        <Button.Submit
+                          loading={isSubmitting}
+                          primary
+                          type="submit"
+                          className="btn_1 full-width"
+                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
+                        >
+                          {t('confirm')}
+                        </Button.Submit>
+                      </div>
+                    </LoginForm>
+                  )}
+                </Form>
+              </Panel>
+            </PanelsWrapper>
+          </ModalWrapper>
+        </ThemeProvider>
       );
     }
   }
