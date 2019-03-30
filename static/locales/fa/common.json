@@ -29,7 +29,7 @@
   "or": "یا",
   "agreement_sentence": "با ثبت‌نام در اتولی شما با قوانین و شرایط‌استفاده موافقت می‌کنید",
   "forms": {
-    "error_phone_not_valid": "شماره موبایل معتبر نمی‌باشد",
+    "error_phone_not_valid": "شماره موبایل درست نیست",
     "error_phone_required": "لطفا شماره موبایل را وارد کنید",
     "error_filed_required": "ضروری*",
     "error_nationalID_10_char": "کد ملی باید ۱۰ رفم باشد",

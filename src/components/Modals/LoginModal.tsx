@@ -184,7 +184,7 @@ export default withNamespaces('common')(
                       <Input
                         name="phone"
                         inputProps={{
-                          type: 'tell',
+                          type: 'tel',
                           tabIndex: this.state.showIndex === 0 ? 0 : -1,
                           className: 'add_top_8',
                           placeholder: t('please_enter_phone_number')
@@ -299,19 +299,24 @@ export default withNamespaces('common')(
                             onClick={this.prevPanel}
                             style={{ cursor: 'pointer' }}
                             tabIndex={this.state.showIndex === 1 ? 0 : -1}
-                          />
+                          >
+                            {t('not_you')}
+                          </a>
                         </label>
-                        <Input
-                          className="form-control input"
-                          name="code"
-                          inputProps={{
-                            type: 'number',
-                            tabIndex: this.state.showIndex === 1 ? 0 : -1,
-                            className: 'add_top_8',
-                            placeholder: t('enter_code_in_field')
-                          }}
-                        />
-                        {this.state.codeError || null}
+                        <div className="notShowErrors">
+                          <Input
+                            name="code"
+                            inputProps={{
+                              type: 'number',
+                              tabIndex: this.state.showIndex === 1 ? 0 : -1,
+                              className: 'add_top_8',
+                              placeholder: t('enter_code_in_field')
+                            }}
+                          />
+                        </div>
+                        <span className="sui-error-message">
+                          {this.state.codeError || null}
+                        </span>
                       </div>
                       <div className="clearfix add_bottom_15 flow-root">
                         <a
@@ -322,8 +327,7 @@ export default withNamespaces('common')(
                           <Countdown
                             date={this.state.timeToSendSMSAgain}
                             renderer={this.renderTimeTOSend}
-                          />{' '}
-                          {t('not_you')}
+                          />
                         </a>
                       </div>
                       <div className="text-center">

@@ -314,7 +314,6 @@ const GlobalStyle = createGlobalStyle`
 
     :hover {
       background-color: #FFC107;
-      color: #222 !important;
     }
 
     &.full-width {
@@ -322,24 +321,6 @@ const GlobalStyle = createGlobalStyle`
       width: 100%;
       text-align: center;
       margin-bottom: 5px;
-
-      .purchase {
-        background-color: #004dda;
-        :hover {
-          background-color: #32a067;
-          color: #fff !important;
-        }
-      }
-      
-      .wishlist {
-        border-color: #555;
-        color: #555;
-        :hover {
-          color: #fff !important;
-          background-color: #555;
-          border-color: #555;
-        }
-      }
 
     }
 
@@ -361,7 +342,6 @@ const GlobalStyle = createGlobalStyle`
 
       :hover {
         background: #0054a6;
-        color: #fff;
         border-color: #0054a6;
       }
 
@@ -476,6 +456,15 @@ input{
       transition: all 0.3s ease-in-out;
     }
   }
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+ 
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 /**============================== 3.4 Spacing ==============================*/
@@ -671,20 +660,22 @@ input{
 
 
 /**============================== Styles based on semantic UI==============================*/
-  .ui.segment {
-    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    padding: 25px;
-    position: relative;
-    .form-group {
-      margin-bottom: 10px;
+  .ui{
+    .button {
+      margin: 0 0 0 0;
     }
-    hr {
-      margin: 0 0 10px 0;
+    .segment {
+      box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      padding: 25px;
+      position: relative;
+      .form-group {
+        margin-bottom: 10px;
+      }
+      hr {
+        margin: 0 0 10px 0;
+      }
     }
-  }
-  .ui.button {
-    margin: 0 0 0 0;
   }
   .field {
     width: 100%;
@@ -696,18 +687,16 @@ input{
     .ui {
       form {
         direction:rtl;
-      }
-      
-      input{
-        height: 48px;
-        &#field_input_lastName {
+        input{
+          height: 48px;
+          &#field_input_lastName {
+              text-align: right;
+          }
+          &#field_input_firstName {
             text-align: right;
-        }
-        &#field_input_firstName {
-          text-align: right;
+          }
         }
       }
-      
       .field {
         text-align: right;
         label {
@@ -755,6 +744,9 @@ input{
     font-size: 13px;
     font-weight: 300;
   }
+  .notShowErrors .sui-error-message {
+    display: none;
+  }
   .ui.form .field.error input[type=tell]{
     background: #fff6f6;
     border-color: #e0b4b4;
@@ -772,6 +764,7 @@ input{
         background-color: #00ACC1;
         :hover{
           background-color: #00BCD4;
+          color: #fff !important;
         }
         :focus{
           background-color: #0097A7;
