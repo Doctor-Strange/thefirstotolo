@@ -285,8 +285,7 @@ export default withNamespaces('common')(
                       });
                   }}
                   validationSchema={Yup.object().shape({
-                    code: Yup.string()
-                      .matches(/^[^\s]{4}$/, t('forms.error_code_must_be_four'))
+                    code: Yup.number()
                       .required(t('forms.error_filed_required'))
                       .typeError(t('forms.error_filed_required'))
                   })}
@@ -317,12 +316,10 @@ export default withNamespaces('common')(
                           <Input
                             name="code"
                             inputProps={{
-                              type: 'text',
+                              type: 'number',
                               tabIndex: this.state.showIndex === 1 ? 0 : -1,
                               className: 'add_top_8',
-                              placeholder: t('enter_code_in_field'),
-                              pattern: '([0-9]*|[\u06F0-\u06F9]*)',
-                              inputmode: 'numeric'
+                              placeholder: t('enter_code_in_field')
                             }}
                           />
                         </div>
