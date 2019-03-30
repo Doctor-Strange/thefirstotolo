@@ -11,31 +11,6 @@ import {
   SITE_TITLE
 } from '../src/constants/env';
 
-import Vazir_eot from '../static/fonts/Vazir.eot';
-import Vazir_woff from '../static/fonts/Vazir.woff';
-import Vazir_woff2 from '../static/fonts/Vazir.woff2';
-import Vazir_ttf from '../static/fonts/Vazir.ttf';
-
-import VazirBold_eot from '../static/fonts/Vazir-Bold.eot';
-import VazirBold_woff from '../static/fonts/Vazir-Bold.woff';
-import VazirBold_woff2 from '../static/fonts/Vazir-Bold.woff2';
-import VazirBold_ttf from '../static/fonts/Vazir-Bold.ttf';
-
-import VazirBlack_eot from '../static/fonts/Vazir-Black.eot';
-import VazirBlack_woff from '../static/fonts/Vazir-Black.woff';
-import VazirBlack_woff2 from '../static/fonts/Vazir-Black.woff2';
-import VazirBlack_ttf from '../static/fonts/Vazir-Black.ttf';
-
-import VazirMedium_eot from '../static/fonts/Vazir-Medium.eot';
-import VazirMedium_woff from '../static/fonts/Vazir-Medium.woff';
-import VazirMedium_woff2 from '../static/fonts/Vazir-Medium.woff2';
-import VazirMedium_ttf from '../static/fonts/Vazir-Medium.ttf';
-
-import VazirLight_eot from '../static/fonts/Vazir-Light.eot';
-import VazirLight_woff from '../static/fonts/Vazir-Light.woff';
-import VazirLight_woff2 from '../static/fonts/Vazir-Light.woff2';
-import VazirLight_ttf from '../static/fonts/Vazir-Light.ttf';
-
 export default class extends Document {
   static async getInitialProps(...args) {
     const { req, renderPage } = args[0];
@@ -120,69 +95,6 @@ fbq('track', 'PageView'); `
               />
             </>
           )}
-          <style>
-            {`
-@font-face {
-  font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.ttf') format('truetype');
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.ttf') format('truetype');
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.ttf') format('truetype');
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.ttf') format('truetype');
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.ttf') format('truetype');
-  font-weight: 100;
-}
-
-@font-face {
-  font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.ttf') format('truetype');
-  font-weight: 900;
-}
-            `}
-          </style>
           {/* Output the styles in the head */}
           {this.props.styleTags}
         </Head>

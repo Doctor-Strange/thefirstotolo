@@ -180,13 +180,14 @@ export default withNamespaces('common')(
                     touched
                   }) => (
                     <LoginForm className="sign-in-wrapper">
-                      <label>{t('please_enter_phone_number')}</label>
+                      <label>{t('phone_number')}</label>
                       <Input
                         name="phone"
                         inputProps={{
                           type: 'tell',
                           tabIndex: this.state.showIndex === 0 ? 0 : -1,
-                          className: 'add_top_8'
+                          className: 'add_top_8',
+                          placeholder: t('please_enter_phone_number')
                         }}
                       />
 
@@ -200,8 +201,8 @@ export default withNamespaces('common')(
                         >
                           {t('login')}
                         </Button.Submit>
-                        <br />
-                        <small>ما از شماره‌ی شما سوءاستفاده نمی‌کنیم </small>
+                        {/* <br />
+                        <small>ما از شماره‌ی شما سوءاستفاده نمی‌کنیم </small> */}
                       </div>
                       {/* <div className="divider">
                         <span>{t('or')}</span>
