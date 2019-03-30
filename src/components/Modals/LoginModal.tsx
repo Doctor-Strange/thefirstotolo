@@ -65,7 +65,8 @@ export default withNamespaces('common')(
       this.setState({
         prevIndex: this.state.showIndex,
         showIndex: this.state.showIndex + 1,
-        height: 310
+        height: 310,
+        codeError: null
       });
     }
 
@@ -74,7 +75,8 @@ export default withNamespaces('common')(
       this.setState({
         prevIndex: this.state.showIndex,
         showIndex: this.state.showIndex - 1,
-        height: 250
+        height: 280,
+        codeError: null
       });
     }
 
@@ -88,10 +90,8 @@ export default withNamespaces('common')(
         );
       } else {
         return (
-          <span style={{ cursor: 'default' }}>
-            {t('you_can_resend_code1')}
-            {minutes}:{seconds}
-            {t('you_can_resend_code2')}
+          <span style={{ cursor: 'default', paddingTop: '8px' }}>
+            {t('you_can_resend_code1')} {seconds} {t('you_can_resend_code2')}
           </span>
         );
       }
@@ -126,7 +126,6 @@ export default withNamespaces('common')(
               <Panel>
                 <Form
                   initialValues={{ phone: Number(this.state.phone) || null }}
-                  loading={false}
                   onSubmit={(
                     values: LoginModalValues,
                     actions: FormikActions<LoginModalValues>
@@ -181,38 +180,16 @@ export default withNamespaces('common')(
                     touched
                   }) => (
                     <LoginForm className="sign-in-wrapper">
-                      <label>{t('phone_number')}</label>
+                      <label>{t('please_enter_phone_number')}</label>
                       <Input
-                        className="form-control input"
                         name="phone"
                         inputProps={{
                           type: 'tell',
-                          tabIndex: this.state.showIndex === 0 ? 0 : -1
+                          tabIndex: this.state.showIndex === 0 ? 0 : -1,
+                          className: 'add_top_8'
                         }}
                       />
-                      {/* <Select
-                          name="country"
-                          id="country"
-                          className=" form-control country"
-                          placeholder="+98"
-                          options={mobileNumberOptions}
-                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                        /> */}
 
-                      {/*<div className="clearfix add_bottom_15 flow-root">
-                         <div className="checkboxes float-left">
-                        <label className="container_check">
-                          Remember me
-                          <input type="checkbox" />
-                          <span className="checkmark" />
-                        </label>
-                      </div> */}
-                      {/* <div className="float-right mt-1">
-                        <a id="forgot" href="javascript:void(0);">
-                          Forgot Password?
-                        </a>
-                      </div> 
-                      </div>*/}
                       <div className="text-center">
                         <Button.Submit
                           loading={isSubmitting}
@@ -223,6 +200,8 @@ export default withNamespaces('common')(
                         >
                           {t('login')}
                         </Button.Submit>
+                        <br />
+                        <small>ما از شماره‌ی شما سوءاستفاده نمی‌کنیم </small>
                       </div>
                       {/* <div className="divider">
                         <span>{t('or')}</span>
@@ -312,7 +291,8 @@ export default withNamespaces('common')(
                     <LoginForm className="sign-in-wrapper">
                       <div className="form-group">
                         <label>
-                          {t('a_code_has_been_sent_to')} {this.state.phone}.{' '}
+                          {t('a_code_has_been_sent_to')} {this.state.phone}
+                          {t('a_code_has_been_sent_to2')}.{' '}
                           <a
                             className="small"
                             onClick={this.prevPanel}
@@ -329,7 +309,8 @@ export default withNamespaces('common')(
                           name="code"
                           inputProps={{
                             type: 'number',
-                            tabIndex: this.state.showIndex === 1 ? 0 : -1
+                            tabIndex: this.state.showIndex === 1 ? 0 : -1,
+                            className: 'add_top_8'
                           }}
                         />
                         {this.state.codeError || null}
@@ -354,7 +335,7 @@ export default withNamespaces('common')(
                           className="btn_1 full-width"
                           tabIndex={this.state.showIndex === 0 ? 0 : -1}
                         >
-                          {t('confirm')}
+                          {t('enter')}
                         </Button.Submit>
                       </div>
                     </LoginForm>
