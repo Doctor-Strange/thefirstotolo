@@ -721,7 +721,7 @@ input[type="number"] {
 
   }
   input {
-    #field_input_phone,#field_input_code {
+    &#field_input_phone,&#field_input_code {
       text-align: left;
       direction: ltr;
       ::placeholder {
