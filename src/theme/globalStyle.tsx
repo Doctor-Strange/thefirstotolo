@@ -729,6 +729,11 @@ input{
   input#field_input_phone {
     text-align: left;
     direction: ltr;
+    ::placeholder {
+      text-align: right;
+      direction: rtl;
+      font-family: Vazir;
+    }
   }
   .ui.loading.form {
     :before {
@@ -740,8 +745,10 @@ input{
   }
   .sui-error-message {
     display: block;
-    margin-top: 10px;
+    margin-top: 4px;
     color: #e81123;
+    font-size: 13px;
+    font-weight: 300;
   }
   .ui.form .field.error input[type=tell]{
     background: #fff6f6;
@@ -751,6 +758,22 @@ input{
     box-shadow: none;
   }
 
+
+
+/**============================== Colors of semantic UI==============================*/
+  .ui{
+    .primary{
+      &.button{
+        background-color: #00ACC1;
+        :hover{
+          background-color: #00BCD4;
+        }
+        :focus{
+          background-color: #0097A7;
+        }
+      }
+    }
+  }
 `;
 
 const lightTheme = {
