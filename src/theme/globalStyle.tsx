@@ -697,12 +697,17 @@ input{
       form {
         direction:rtl;
       }
-      input#field_input_lastName {
+      
+      input{
+        height: 48px;
+        &#field_input_lastName {
+            text-align: right;
+        }
+        &#field_input_firstName {
           text-align: right;
+        }
       }
-      input#field_input_firstName {
-          text-align: right;
-      }
+      
       .field {
         text-align: right;
         label {

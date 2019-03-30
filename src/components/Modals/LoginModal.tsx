@@ -299,11 +299,7 @@ export default withNamespaces('common')(
                             onClick={this.prevPanel}
                             style={{ cursor: 'pointer' }}
                             tabIndex={this.state.showIndex === 1 ? 0 : -1}
-                          >
-                            {t('not_you')}
-                          </a>
-                          <br />
-                          {t('enter_code_in_field')}
+                          />
                         </label>
                         <Input
                           className="form-control input"
@@ -311,7 +307,8 @@ export default withNamespaces('common')(
                           inputProps={{
                             type: 'number',
                             tabIndex: this.state.showIndex === 1 ? 0 : -1,
-                            className: 'add_top_8'
+                            className: 'add_top_8',
+                            placeholder: t('enter_code_in_field')
                           }}
                         />
                         {this.state.codeError || null}
@@ -325,7 +322,8 @@ export default withNamespaces('common')(
                           <Countdown
                             date={this.state.timeToSendSMSAgain}
                             renderer={this.renderTimeTOSend}
-                          />
+                          />{' '}
+                          {t('not_you')}
                         </a>
                       </div>
                       <div className="text-center">
