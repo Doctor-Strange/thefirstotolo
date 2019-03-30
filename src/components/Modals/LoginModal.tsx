@@ -238,7 +238,7 @@ export default withNamespaces('common')(
                     axios
                       .post('https://otoli.net' + '/core/device/login', {
                         cell: this.state.phone,
-                        code: values.code
+                        code: convertToEnglishNum(values.code)
                       })
                       .then(response => {
                         console.error('Sent');
@@ -246,7 +246,7 @@ export default withNamespaces('common')(
                           // tslint:disable-next-line:no-console
                           console.error(response.data);
                           this.setState({
-                            code: values.code,
+                            code: convertToEnglishNum(values.code),
                             codeError: null,
                             timeToSendSMSAgain: null
                           });
@@ -285,7 +285,8 @@ export default withNamespaces('common')(
                       });
                   }}
                   validationSchema={Yup.object().shape({
-                    code: Yup.number()
+                    code: Yup.string()
+                      .matches(/^[^\s]{4}$/, t('forms.error_code_must_be_four'))
                       .required(t('forms.error_filed_required'))
                       .typeError(t('forms.error_filed_required'))
                   })}
@@ -316,10 +317,12 @@ export default withNamespaces('common')(
                           <Input
                             name="code"
                             inputProps={{
-                              type: 'number',
+                              type: 'text',
                               tabIndex: this.state.showIndex === 1 ? 0 : -1,
                               className: 'add_top_8',
-                              placeholder: t('enter_code_in_field')
+                              placeholder: t('enter_code_in_field'),
+                              pattern: '([0-9]*|[\u06F0-\u06F9]*)',
+                              inputmode: 'numeric'
                             }}
                           />
                         </div>
