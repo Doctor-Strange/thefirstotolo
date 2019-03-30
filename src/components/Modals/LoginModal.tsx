@@ -73,7 +73,7 @@ export default withNamespaces('common')(
       this.setState({
         prevIndex: this.state.showIndex,
         showIndex: this.state.showIndex + 1,
-        height: 310,
+        height: 290,
         codeError: null
       });
     }
@@ -312,21 +312,21 @@ export default withNamespaces('common')(
                             {t('not_you')}
                           </a>
                         </label>
-                        <div className="notShowErrors">
-                          <Input
-                            name="code"
-                            inputProps={{
-                              type: 'number',
-                              tabIndex: this.state.showIndex === 1 ? 0 : -1,
-                              className: 'add_top_8',
-                              placeholder: t('enter_code_in_field')
-                            }}
-                          />
-                        </div>
-                        <span className="sui-error-message">
-                          {this.state.codeError || null}
-                        </span>
+                        {/* <div className="notShowErrors"> */}
+                        <Input
+                          name="code"
+                          inputProps={{
+                            type: 'number',
+                            tabIndex: this.state.showIndex === 1 ? 0 : -1,
+                            className: 'add_top_8',
+                            placeholder: t('enter_code_in_field')
+                          }}
+                        />
                       </div>
+                      <span className="sui-error-message">
+                        {this.state.codeError || null}
+                      </span>
+                      {/* </div> */}
                       <div className="clearfix add_bottom_15 flow-root">
                         <a
                           tabIndex={this.state.showIndex === 1 ? 0 : -1}

@@ -84,15 +84,15 @@ export const ModalCore = ({
       >
         <div className="small-dialog-header">
           <h3>{title}</h3>
+          <button
+            title="Close (Esc)"
+            type="button"
+            className="mfp-close"
+            onClick={handleClose}
+          >
+            X
+          </button>
         </div>
-        <button
-          title="Close (Esc)"
-          type="button"
-          className="mfp-close"
-          onClick={handleClose}
-        >
-          X
-        </button>
         {children}
       </div>
     </ModalDiv>

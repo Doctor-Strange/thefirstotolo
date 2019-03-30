@@ -68,7 +68,7 @@ const CurrentElementFormLeft = styled.div`
   transform: translateX(0);
   animation: ${slideInLeft} 1s cubic-bezier(0.86, 0, 0.07, 1) both;
   position: absolute;
-  top: 70px;
+  top: 60px;
 `;
 const CurrentElementFromRight = styled.div`
   width: 85%;
@@ -90,14 +90,14 @@ const PrevElementGoRight = styled.div`
   transition: all 1s;
   animation: ${slideOutRight} 1s cubic-bezier(0.86, 0, 0.07, 1) both;
   position: absolute;
-  top: 70px;
+  top: 60px;
 `;
 const OtherElement = styled.div`
   width: 85%;
   transition: all 1s;
   transform: translateX(130%);
   position: absolute;
-  top: 70px;
+  /* top: 70px; */
   opacity: 0;
 `;
 

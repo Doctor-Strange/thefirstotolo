@@ -113,6 +113,10 @@ const GlobalStyle = createGlobalStyle`
     padding-bottom: 35px;
   }
 
+  input,#field_dropdown_month{
+    height:48px;
+  }
+
 
   /**============================== Bootstrap Styles ==============================**/
   .container {
@@ -232,7 +236,7 @@ const GlobalStyle = createGlobalStyle`
     display: block;
     width: 100%;
     input{
-      height: calc(2.55rem + 2px);
+      height: 48px;
       width: 100%;
     }
   }
@@ -356,7 +360,6 @@ input{
     width: 100% !important;
 }
 .form-control {
-    height: calc(2.55rem + 2px);
     font-size: 14px;
     font-size: 0.875rem;
     border-radius: 3px;

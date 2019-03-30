@@ -36,7 +36,6 @@ const BoxAccount = styled.form`
   }
 
   .selection {
-    height: calc(2.55rem + 2px);
     font-size: 0.875rem;
     border-radius: 3px;
     border: 1px solid #d2d8dd;
