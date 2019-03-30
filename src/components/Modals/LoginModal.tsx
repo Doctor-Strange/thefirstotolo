@@ -14,6 +14,14 @@ import { Panel } from '../Carousel/Panel';
 import { i18n, withNamespaces } from '../../i18n';
 import { ltrTheme, rtlTheme } from '../../theme/directions';
 
+function convertToEnglishNum(s) {
+  var a = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  var p = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  for (var i = 0; i < 10; i++) {
+    s = s.replace(new RegExp(a[i], 'g'), i).replace(new RegExp(p[i], 'g'), i);
+  }
+  return s;
+}
 interface LoginModalValues {
   phone: number;
 }
@@ -131,7 +139,7 @@ export default withNamespaces('common')(
                     actions: FormikActions<LoginModalValues>
                   ) => {
                     let validPhoneFormated;
-                    const phone = values.phone.toString();
+                    const phone = convertToEnglishNum(values.phone.toString());
                     if (/^[0][9][1-2][0-9]{8,8}$/.test(phone)) {
                       validPhoneFormated = phone;
                     } else if (/^[9][1-2][0-9]{8,8}$/.test(phone)) {
@@ -164,7 +172,7 @@ export default withNamespaces('common')(
                   validationSchema={Yup.object().shape({
                     phone: Yup.string()
                       .matches(
-                        /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$)/,
+                        /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$|^[\u06F0][\u06F9][\u06F1-\u06F2][\u06F0-\u06F9]{8,8}$|^[\u06F9][\u06F1-\u06F2][\u06F0-\u06F9]{8,8}$)/,
                         t('forms.error_phone_not_valid')
                       )
                       .required(t('forms.error_phone_required'))
@@ -187,7 +195,8 @@ export default withNamespaces('common')(
                           type: 'tel',
                           tabIndex: this.state.showIndex === 0 ? 0 : -1,
                           className: 'add_top_8',
-                          placeholder: t('please_enter_phone_number')
+                          placeholder: t('please_enter_phone_number'),
+                          autofocus: 'enabled'
                         }}
                       />
 
