@@ -34,6 +34,7 @@
     "error_nationalID_10_char": "National IDs are 10 charechters long",
     "error_nationalID_not_valid": "National ID isn't right",
     "error_email_not_valid": "Enterd email isn't valid",
+    "error_code_must_be_four": "Code must be 4 digits",
     "error": "There's been an error!"
   }
 }
