@@ -11,6 +11,7 @@
   "month": "ماه",
   "year": "سال",
   "email": "ایمیل",
+  "optional": "اختیاری",
   "password": "گذرواژه",
   "subscribe_checkbox": "با ارسال ایمیل به من موافقم",
   "signup": "ورود/ثبت‌نام",
@@ -31,7 +32,8 @@
   "forms": {
     "error_phone_not_valid": "شماره موبایل درست نیست",
     "error_phone_required": "لطفا شماره موبایل را وارد کنید",
-    "error_filed_required": "لطفاً کد را وارد کنید.",
+    "error_code_filed_required": "لطفاً کد را وارد کنید.",
+    "error_filed_required": "لطفاً فیلد را پر کنید.",
     "error_nationalID_10_char": "کد ملی باید ۱۰ رفم باشد",
     "error_nationalID_not_valid": "کد ملی وارد شده معتبر نیست",
     "error_email_not_valid": "ایمیل وارد شده معتبر نیست",

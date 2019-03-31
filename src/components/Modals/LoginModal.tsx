@@ -286,8 +286,8 @@ export default withNamespaces('common')(
                   }}
                   validationSchema={Yup.object().shape({
                     code: Yup.number()
-                      .required(t('forms.error_filed_required'))
-                      .typeError(t('forms.error_filed_required'))
+                      .required(t('forms.error_code_filed_required'))
+                      .typeError(t('forms.error_code_filed_required'))
                   })}
                 >
                   {({
