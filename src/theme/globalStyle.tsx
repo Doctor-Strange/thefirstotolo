@@ -679,6 +679,16 @@ input[type="number"] {
         margin: 0 0 10px 0;
       }
     }
+      form {
+        .dropdown {
+          &.icon {
+              top: 1.4em !important;
+          }
+          .text {
+            line-height: 24px;
+          }
+        }
+      }
   }
   .field {
     width: 100%;
@@ -699,6 +709,16 @@ input[type="number"] {
               text-align: right;
           }
           &#field_input_firstName {
+            text-align: right;
+          }
+        }
+        .dropdown {
+          text-align:right;
+          &.icon {
+            left: 1em;
+            right: unset !important;
+          }
+          .menu>.item {
             text-align: right;
           }
         }
