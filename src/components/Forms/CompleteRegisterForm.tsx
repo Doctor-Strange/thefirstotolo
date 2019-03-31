@@ -21,15 +21,18 @@ import { monthsEnglish, monthsFarsi } from '../../constants/options';
 
 const BoxAccount = styled.form`
   margin-bottom: 25px;
-
+  margin-top: 25px;
   h3 {
     font-size: 21px;
     font-size: 1.3125rem;
     padding-left: 30px;
+    padding-right: 30px;
     height: 30px;
     padding-top: 5px;
     display: inline-block;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
     &.new_client {
       background: url(${NewUser}) center left no-repeat;
     }
@@ -208,7 +211,7 @@ export default withNamespaces('common')(
           }) => (
             <BoxAccount onSubmit={handleSubmit} className="box_account">
               <h3 className="new_client">{$new_client}</h3>
-              <small className="float-right pt-2">* {$required_fields}</small>
+              {/* <small className="float-right pt-2">* {$required_fields}</small> */}
               <Segment>
                 {error && (
                   <Label attached="top" color="red">
@@ -275,6 +278,7 @@ export default withNamespaces('common')(
                   >
                     {$signup}
                   </Button.Submit>
+                  <br />
                   <span>{$agreement_sentence}</span>
                 </Form.Field>
               </Segment>
