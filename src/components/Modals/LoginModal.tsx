@@ -187,7 +187,10 @@ export default withNamespaces('common')(
                     errors,
                     touched
                   }) => (
-                    <LoginForm className="sign-in-wrapper">
+                    <LoginForm
+                      onSubmit={handleSubmit}
+                      className="sign-in-wrapper"
+                    >
                       <label>{t('phone_number')}</label>
                       <Input
                         name="phone"
