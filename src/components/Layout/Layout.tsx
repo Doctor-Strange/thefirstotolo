@@ -29,7 +29,8 @@ class Layout extends React.Component<{
   };
 
   render() {
-    const theme = i18n.language == 'fa' ? rtlTheme : ltrTheme;
+    const theme = i18n.language == 'en' ? ltrTheme : rtlTheme;
+    console.log(i18n.language);
     const { t, pageTitle, children } = this.props;
     return (
       <ThemeProvider

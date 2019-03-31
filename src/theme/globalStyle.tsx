@@ -684,9 +684,12 @@ input[type="number"] {
     width: 100%;
   }
   .rtl {
-      .attached.label {
-        text-align: right;
-      }
+    h3.new_client {
+      background-position: right;
+    }
+    .attached.label {
+      text-align: right;
+    }
     .ui {
       form {
         direction:rtl;
