@@ -12,7 +12,7 @@ import {
   Radio,
   TextArea
 } from 'formik-semantic-ui';
-import { Formik } from 'formik';
+import { FormikActions } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
@@ -65,11 +65,15 @@ export default withNamespaces('common')(
     phone?: string;
     token?: string;
     strings: object;
+    success: boolean;
+    name: string;
   }> {
     state = {
       phone: '',
       token: '',
-      error: ''
+      error: '',
+      name: null,
+      success: false
     };
 
     constructor(props) {
@@ -123,8 +127,9 @@ export default withNamespaces('common')(
           }}
           onSubmit={(
             values: ICompleteRegisterFormValues,
-            { setSubmitting }
+            actions: FormikActions<ICompleteRegisterFormValues>
           ) => {
+            actions.setSubmitting(true);
             const {
               firstName,
               lastName,
@@ -138,12 +143,14 @@ export default withNamespaces('common')(
             } = values;
             axios
               .post(
-                'https://otoli.net' + '/core/user/info',
+                'https://otoli.net' + '/core/user/update',
                 {
                   first_name: firstName,
                   last_name: lastName,
                   national_id: nationalid,
-                  birth_date: `${year}/${month}/${day}`
+                  birth_date: `${year}/${month}/${day}`,
+                  email: emailAddress,
+                  is_ok_to_get_emails: subscribe
                 },
                 {
                   headers: {
@@ -154,7 +161,9 @@ export default withNamespaces('common')(
               .then(response => {
                 if (response.data.success) {
                   console.log(response.data);
-                  alert('Your registration has been completed.');
+                  this.setState({
+                    success: response.data.success
+                  });
                 }
               })
               .catch(error => {
@@ -163,11 +172,14 @@ export default withNamespaces('common')(
                 this.setState({ error: error });
               })
               .then(() => {
-                setSubmitting(false);
+                actions.setSubmitting(false);
               });
             setTimeout(() => {
               console.log(values);
-              setSubmitting(false);
+              this.setState({
+                name: values.firstName + ' ' + values.lastName
+              });
+              actions.setSubmitting(false);
             }, 3000);
           }}
           validationSchema={Yup.object().shape({
@@ -216,6 +228,11 @@ export default withNamespaces('common')(
                 {error && (
                   <Label attached="top" color="red">
                     {t('forms.error')}
+                  </Label>
+                )}
+                {this.state.success && this.state.name && (
+                  <Label attached="top" color="green">
+                    {this.state.name} خوش آمدی!
                   </Label>
                 )}
 
