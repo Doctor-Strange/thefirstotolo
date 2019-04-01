@@ -1,25 +1,27 @@
 import * as React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import { Label, Segment } from 'semantic-ui-react';
-import { i18n, withNamespaces } from '../../i18n';
 import {
+  Form,
+  Label,
+  Segment,
   Button,
   Checkbox,
   Dropdown,
-  Form,
   Input,
   Radio,
   TextArea
-} from 'formik-semantic-ui';
-import { FormikActions } from 'formik';
+} from 'semantic-ui-react';
+import { i18n, withNamespaces } from '../../i18n';
+// import {  } from 'formik-semantic-ui';
+import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
 import { Box, Flex } from '@rebass/grid';
 import { monthsEnglish, monthsFarsi } from '../../constants/options';
 
-const BoxAccount = styled.form`
+const BoxAccount = styled.div`
   margin-bottom: 25px;
   margin-top: 25px;
   h3 {
@@ -108,12 +110,13 @@ export default withNamespaces('common')(
         $subscribe_checkbox,
         $signup,
         $new_client,
-        $agreement_sentence
+        $agreement_sentence,
+        $birthdate
       } = this.props.strings;
       const { phone, token, error } = this.state;
       const { t } = this.props;
       return (
-        <Form
+        <Formik
           initialValues={{
             firstName: '',
             lastName: '',
@@ -130,6 +133,8 @@ export default withNamespaces('common')(
             actions: FormikActions<ICompleteRegisterFormValues>
           ) => {
             actions.setSubmitting(true);
+            this.setState({ error: '' });
+            console.log(values);
             const {
               firstName,
               lastName,
@@ -162,14 +167,15 @@ export default withNamespaces('common')(
                 if (response.data.success) {
                   console.log(response.data);
                   this.setState({
-                    success: response.data.success
+                    success: response.data.success,
+                    error: ''
                   });
                 }
               })
               .catch(error => {
                 // tslint:disable-next-line:no-console
                 console.error(error);
-                this.setState({ error: error });
+                this.setState({ error: error, success: false });
               })
               .then(() => {
                 actions.setSubmitting(false);
@@ -208,100 +214,170 @@ export default withNamespaces('common')(
                 }
               ),
             email: Yup.string().email(t('forms.error_email_not_valid')),
-            day: Yup.number().typeError(t('forms.error_filed_required')),
-            month: Yup.number().typeError(t('forms.error_filed_required')),
-            year: Yup.number().typeError(t('forms.error_filed_required'))
+            day: Yup.number()
+              .typeError(t('forms.error_filed_required'))
+              .required(t('forms.error_filed_required')),
+            month: Yup.number()
+              .typeError(t('forms.error_filed_required'))
+              .required(t('forms.error_filed_required')),
+            year: Yup.number()
+              .typeError(t('forms.error_filed_required'))
+              .required(t('forms.error_filed_required'))
           })}
         >
           {({
             handleSubmit,
             handleChange,
+            handleBlur,
             isSubmitting,
+            setFieldValue,
             values,
             errors,
             touched
           }) => (
-            <BoxAccount onSubmit={handleSubmit} className="box_account">
-              <h3 className="new_client">{$new_client}</h3>
-              {/* <small className="float-right pt-2">* {$required_fields}</small> */}
-              <Segment>
-                {error && (
-                  <Label attached="top" color="red">
-                    {t('forms.error')}
-                  </Label>
-                )}
-                {this.state.success && this.state.name && (
-                  <Label attached="top" color="green">
-                    {this.state.name} خوش آمدی!
-                  </Label>
-                )}
+            <BoxAccount className="box_account">
+              <Form onSubmit={handleSubmit}>
+                <h3 className="new_client">{$new_client}</h3>
+                {/* <small className="float-right pt-2">* {$required_fields}</small> */}
+                <Segment>
+                  <Form.Group widths="2">
+                    <Form.Input
+                      label={$firstname}
+                      name="firstName"
+                      error={Boolean(errors.firstName && touched.firstName)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.firstName}
+                    />
+                    <Form.Input
+                      label={$lastname}
+                      name="lastName"
+                      error={Boolean(errors.lastName && touched.lastName)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.lastName}
+                    />
+                  </Form.Group>
 
-                <Form.Group widths="2">
-                  <Input label={$firstname} name="firstName" />
-                  <Input label={$lastname} name="lastName" />
-                </Form.Group>
-                <Input label={$national_id} name="nationalid" />
-                {/* <Form.Field>
+                  <Form.Input
+                    label={$national_id}
+                    name="nationalid"
+                    error={Boolean(errors.nationalid && touched.nationalid)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.nationalid}
+                  />
+
+                  {/* <Form.Field>
                 <label>{$phone_number}</label>
                 <input name="phone" value={this.state.phone} disabled />
               </Form.Field> */}
 
-                <Form.Group widths="3">
-                  <Input
-                    label={$day}
-                    name="day"
-                    inputProps={{
-                      type: 'number',
-                      min: '1',
-                      max: '31'
-                    }}
-                  />
-                  <Dropdown
-                    label={$month}
-                    name="month"
-                    options={
-                      i18n.language === 'en' ? monthsEnglish : monthsFarsi
-                    }
-                  />
-                  <Input
-                    label={$year}
-                    name="year"
-                    inputProps={{
-                      type: 'number',
-                      min: '1300',
-                      max: '1397'
-                    }}
-                  />
-                </Form.Group>
+                  <Form.Group widths="3" className="paddingInMobile">
+                    <Form.Input
+                      name="day"
+                      label={$birthdate}
+                      type="number"
+                      placeholder={$day}
+                      min="1"
+                      max="31"
+                      error={Boolean(errors.day && touched.day)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.day}
+                    />
 
-                <Input label={$email} name="emailAddress" />
+                    <Form.Dropdown
+                      // label={$month}
+                      name="month"
+                      id="month"
+                      placeholder={$month}
+                      clearable
+                      selection
+                      options={
+                        i18n.language === 'en' ? monthsEnglish : monthsFarsi
+                      }
+                      style={{ marginTop: '25px' }}
+                      error={Boolean(errors.month && touched.month)}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, data.value);
+                        }
+                      }}
+                      value={values.month}
+                    />
 
-                {/* <Input
+                    <Form.Input
+                      name="year"
+                      type="number"
+                      min="1300"
+                      max="1397"
+                      placeholder={$year}
+                      style={{ marginTop: '25px' }}
+                      error={Boolean(errors.year && touched.year)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.year}
+                    />
+                  </Form.Group>
+
+                  <Form.Input
+                    label={$email}
+                    name="emailAddress"
+                    type="email"
+                    error={Boolean(errors.emailAddress && touched.emailAddress)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.emailAddress}
+                  />
+
+                  {/* <Input
                 label={$password}
                 name="password"
                 inputProps={{
                   type: 'password'
                 }}
               /> */}
-
-                <Checkbox label={$subscribe_checkbox} name="subscribe" />
-
-                <Form.Field style={{ textAlign: 'center', fontSize: '0.8em' }}>
-                  <Button.Submit
-                    loading={isSubmitting}
-                    primary
-                    type="submit"
-                    className="btn_1 full-width"
+                  <div className="field">
+                    <Checkbox
+                      label={$subscribe_checkbox}
+                      name="subscribe"
+                      id="subscribe"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      checked={values.subscribe}
+                    />
+                  </div>
+                  <Form.Field
+                    style={{ textAlign: 'center', fontSize: '0.8em' }}
                   >
-                    {$signup}
-                  </Button.Submit>
-                  <br />
-                  <span>{$agreement_sentence}</span>
-                </Form.Field>
-              </Segment>
+                    <Button
+                      loading={isSubmitting}
+                      primary
+                      type="submit"
+                      className="btn_1 full-width"
+                    >
+                      {$signup}
+                    </Button>
+                    <br />
+                    <span>{$agreement_sentence}</span>
+                  </Form.Field>
+
+                  {error && (
+                    <Label attached="bottom" color="red">
+                      {t('forms.error')}
+                    </Label>
+                  )}
+                  {this.state.success && this.state.name && (
+                    <Label attached="bottom" color="green">
+                      {this.state.name} خوش آمدی!
+                    </Label>
+                  )}
+                </Segment>
+              </Form>
             </BoxAccount>
           )}
-        </Form>
+        </Formik>
       );
     }
   }

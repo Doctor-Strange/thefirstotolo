@@ -113,11 +113,15 @@ const GlobalStyle = createGlobalStyle`
     padding-bottom: 35px;
   }
 
-  input,#field_dropdown_month{
+  input,.dropdown[name="month"]{
     height:48px;
+    
   }
-
-
+  @media (min-width: 768px){
+    #field_input_year,#field_dropdown_month{
+      margin-top:25px;
+    }
+  }
   /**============================== Bootstrap Styles ==============================**/
   .container {
     width: 100%;
@@ -232,14 +236,6 @@ const GlobalStyle = createGlobalStyle`
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   }
 
-  .ui.input {
-    display: block;
-    width: 100%;
-    input{
-      height: 48px;
-      width: 100%;
-    }
-  }
   
   .text-center {
       text-align: center!important;
@@ -645,6 +641,14 @@ input[type="number"] {
   }
 }
 
+@media (max-width: 767px){
+    .paddingInMobile {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+}
+
+
 
 .react-phone-number-input__country-select{
     display: inline-block;
@@ -663,35 +667,47 @@ input[type="number"] {
 
 
 /**============================== Styles based on semantic UI==============================*/
-  .ui{
-    .button {
-      margin: 0 0 0 0;
-    }
-    .segment {
-      box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-      background-color: #fff;
-      padding: 25px;
-      position: relative;
-      .form-group {
-        margin-bottom: 10px;
-      }
-      hr {
-        margin: 0 0 10px 0;
-      }
-    }
-      form {
-        .dropdown {
-          &.icon {
-              top: 1.4em !important;
-          }
-          .text {
-            line-height: 24px;
-          }
-        }
-      }
+
+  .button {
+    margin: 0 0 0 0;
   }
+  &.input {
+    display: block;
+    width: 100%;
+    input{
+      height: 48px;
+      width: 100%;
+    }
+  }
+  .segment {
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 25px;
+    position: relative;
+    .form-group {
+      margin-bottom: 10px;
+    }
+    hr {
+      margin: 0 0 10px 0;
+    }
+  }
+  form {
+    .dropdown {
+      &.icon {
+          top: 1.4em !important;
+      }
+      .text {
+        line-height: 24px;
+      }
+    }
+  }
+
   .field {
     width: 100%;
+    margin-bottom:16px !important;
+  }
+  .fields { 
+    margin-bottom:0px !important;
   }
   .rtl {
     h3.new_client {
@@ -700,10 +716,14 @@ input[type="number"] {
     .attached.label {
       text-align: right;
     }
-    .ui {
       form {
         direction:rtl;
         input{
+          ::placeholder {
+            text-align: right;
+            direction: rtl;
+            font-family: Vazir;
+          }
           height: 48px;
           &#field_input_lastName {
               text-align: right;
@@ -739,7 +759,7 @@ input[type="number"] {
         padding-right: 1.85714em;
         padding-left: unset !important;
       }
-    }
+
     .sign-in-wrapper {
       direction: rtl;
       text-align: right;
