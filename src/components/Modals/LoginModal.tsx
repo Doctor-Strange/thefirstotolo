@@ -61,6 +61,10 @@ export default withNamespaces('common')(
       this.modalwrapper.handleOpenModal(); // do stuff
     };
 
+    handleCloseModal = () => {
+      this.modalwrapper.handleCloseModal(); // do stuff
+    };
+
     componentDidMount() {
       this.props.onRef(this);
     }
@@ -271,6 +275,33 @@ export default withNamespaces('common')(
                           // TODO: add token to redux;
                           localStorage.setItem('token', response.data.token);
                           localStorage.setItem('phone', this.state.phone);
+                          axios
+                            .post(
+                              'https://otoli.net' + '/core/user/info',
+                              {},
+                              {
+                                headers: {
+                                  Authorization: 'Bearer ' + response.data.token
+                                }
+                              }
+                            )
+
+                            .then(response => {
+                              console.log(response);
+                              localStorage.setItem(
+                                'token',
+                                response.data.data.token
+                              );
+                              localStorage.setItem(
+                                'first_name',
+                                response.data.data.first_name
+                              );
+                              localStorage.setItem(
+                                'last_name',
+                                response.data.data.last_name
+                              );
+                              this.handleCloseModal();
+                            });
                         } else {
                           // tslint:disable-next-line:no-console
                           console.error('error');
