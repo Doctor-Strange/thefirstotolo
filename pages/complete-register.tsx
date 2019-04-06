@@ -31,6 +31,7 @@ export default withNamespaces('common')(
                     $day: t('day'),
                     $month: t('month'),
                     $year: t('year'),
+                    $year_hint: t('year_hint'),
                     $email: t('email') + ' (' + t('optional') + ')',
                     $password: t('password'),
                     $subscribe_checkbox: t('subscribe_checkbox'),

@@ -255,6 +255,7 @@ export default withNamespaces('common')(
                           });
                           localStorage.setItem('token', response.data.token);
                           localStorage.setItem('phone', this.state.phone);
+                          localStorage.setItem('complete_register', 'true');
                           // TODO: add token to redux;
                           Router.push({
                             pathname: '/complete-register',

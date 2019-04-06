@@ -238,9 +238,17 @@ const HeaderSticky = styled.div`
 class Header extends React.Component<{
   headerBtn: string;
   changeLang: any;
+  firstName?: string;
+  lastName?: string;
+  token?: string;
 }> {
   [x: string]: any;
 
+  state = {
+    token: '',
+    firstName: '',
+    lastName: ''
+  };
   static async getInitialProps() {
     return {
       namespacesRequired: ['common']
@@ -251,9 +259,29 @@ class Header extends React.Component<{
     this.loginmodal.handleOpenModal(); // do stuff
   };
 
+  logout = () => {
+    alert('Loging out...');
+    localStorage.removeItem('token');
+    localStorage.removeItem('first_name');
+    localStorage.removeItem('last_name');
+    this.setState({
+      token: '',
+      firstName: '',
+      lastName: ''
+    });
+  };
+
   doRef = ref => {
     this.loginmodal = ref;
   };
+
+  componentDidMount() {
+    this.setState({
+      firstName: window.localStorage.getItem('first_name'),
+      lastName: window.localStorage.getItem('last_name'),
+      token: window.localStorage.getItem('token')
+    });
+  }
 
   render() {
     const { t } = this.props;
@@ -274,15 +302,32 @@ class Header extends React.Component<{
                       </a>
                     </li>
                     <li>
-                      <a
-                        href="#"
-                        id="sign-in"
-                        className="login"
-                        title={t('signup')}
-                        onClick={this.onClick}
-                      >
-                        {t('signup')}
-                      </a>
+                      {!this.state.token && (
+                        <a
+                          href="#"
+                          id="sign-in"
+                          className="login"
+                          title={t('signup')}
+                          onClick={this.onClick}
+                        >
+                          {t('signup')}
+                        </a>
+                      )}
+                      {this.state.token && (
+                        <span>
+                          {t('hello')} {this.state.firstName}
+                          {', '}
+                          <a
+                            href="#"
+                            id="sign-in"
+                            className="login"
+                            title={t('logout')}
+                            onClick={this.logout}
+                          >
+                            {t('logout')}
+                          </a>
+                        </span>
+                      )}
                     </li>
                   </ul>
                   <a href="#menu" className="btn_mobile">

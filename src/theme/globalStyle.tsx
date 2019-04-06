@@ -468,6 +468,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
  
 input[type="number"] {
     -moz-appearance: textfield;
+    direction:ltr !important;
+    text-align:left !important;
 }
 
 /**============================== 3.4 Spacing ==============================*/
@@ -672,6 +674,10 @@ input[type="number"] {
 
 /**============================== Styles based on semantic UI==============================*/
 
+.ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
+  font-family: Vazir !important;
+}
+
   .button {
     margin: 0 0 0 0;
   }
@@ -720,6 +726,14 @@ input[type="number"] {
     .attached.label {
       text-align: right;
     }
+    .icon.message {
+      direction: rtl;
+      text-align: right;
+      .icon{
+        margin: 0 0 0 .6em;
+        margin-right: 0 !important;
+      }
+    }    
       form {
         direction:rtl;
         input{
@@ -728,7 +742,7 @@ input[type="number"] {
           ::placeholder {
             text-align: right;
             direction: rtl;
-            font-family: Vazir;
+            font-family: Vazir !important;
           }
           &[name="firstName"] {
               text-align: right;
@@ -792,12 +806,15 @@ input[type="number"] {
   }
   .sui-error-message {
     display: block;
-    margin-top: -10px;
-    margin-bottom: 10px;
     text-align:initial;
     color: #e81123;
     font-size: 13px;
     font-weight: 300;
+    margin-top: 8px;
+    &.sui-padd{
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
   }
   .notShowErrors .sui-error-message {
     display: none;
