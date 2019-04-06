@@ -4,14 +4,16 @@ import * as LogoSVG from '../../../static/logo_sticky.svg';
 
 export const Logo: React.FunctionComponent = props => (
   <div id="logo">
-    <a href="/">
-      <img
-        src={LogoSVG}
-        width="165"
-        height="35"
-        alt=""
-        className="logo_sticky"
-      />
-    </a>
+    <Link href="/">
+      <a>
+        <img
+          src={LogoSVG}
+          width="165"
+          height="35"
+          alt=""
+          className="logo_sticky"
+        />
+      </a>
+    </Link>
   </div>
 );
