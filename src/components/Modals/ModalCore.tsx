@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Icon } from 'semantic-ui-react';
 
 const ModalDiv = styled.div`
   #sign-in-dialog {
@@ -21,19 +22,17 @@ const ModalDiv = styled.div`
       top: 12px;
       right: 20px;
       color: #666;
-      background-color: #e4e4e4;
       border-radius: 50%;
       top: 10px;
       right: 10px;
       width: 26px;
       height: 26px;
       line-height: 26px;
-      font-size: 15px;
+      font-size: 20px;
       border: 0;
       cursor: pointer !important;
       :hover {
-        color: #fff;
-        background-color: #66676b;
+        color: #000;
       }
     }
   }
@@ -84,14 +83,9 @@ export const ModalCore = ({
       >
         <div className="small-dialog-header">
           <h3>{title}</h3>
-          <button
-            title="Close (Esc)"
-            type="button"
-            className="mfp-close"
-            onClick={handleClose}
-          >
-            X
-          </button>
+          <span onClick={handleClose}>
+            <Icon disabled name="close" className="mfp-close" />
+          </span>
         </div>
         {children}
       </div>

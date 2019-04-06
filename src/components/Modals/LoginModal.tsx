@@ -202,8 +202,7 @@ export default withNamespaces('common')(
                           type: 'tel',
                           tabIndex: this.state.showIndex === 0 ? 0 : -1,
                           className: 'add_top_8',
-                          placeholder: t('please_enter_phone_number'),
-                          autofocus: 'enabled'
+                          placeholder: t('please_enter_phone_number')
                         }}
                       />
 
