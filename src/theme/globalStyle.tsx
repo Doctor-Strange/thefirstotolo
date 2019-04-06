@@ -355,6 +355,10 @@ const GlobalStyle = createGlobalStyle`
 input{
     width: 100% !important;
 }
+.visible.menu {
+    height: 50vh !important;
+    max-height: 250px !important;
+}
 .form-control {
     font-size: 14px;
     font-size: 0.875rem;
