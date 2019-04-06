@@ -719,16 +719,17 @@ input[type="number"] {
       form {
         direction:rtl;
         input{
+          
+          height: 48px;
           ::placeholder {
             text-align: right;
             direction: rtl;
             font-family: Vazir;
           }
-          height: 48px;
-          &#field_input_lastName {
+          &[name="firstName"] {
               text-align: right;
           }
-          &#field_input_firstName {
+          &[name="lastName"]{
             text-align: right;
           }
         }
@@ -767,7 +768,7 @@ input[type="number"] {
 
   }
   input {
-    &#field_input_phone,&#field_input_code {
+    &#field_input_phone,&#field_input_code,&[name="nationalid"] {
       text-align: left;
       direction: ltr;
       ::placeholder {
@@ -787,7 +788,9 @@ input[type="number"] {
   }
   .sui-error-message {
     display: block;
-    margin-top: 4px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align:initial;
     color: #e81123;
     font-size: 13px;
     font-weight: 300;
@@ -802,6 +805,10 @@ input[type="number"] {
     border-radius: '';
     box-shadow: none;
   }
+  .ui .segment {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px 0px;
+    padding: 25px;
+}
 
 
 

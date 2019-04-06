@@ -7,6 +7,7 @@ import {
   Segment,
   Button,
   Checkbox,
+  Message,
   Dropdown,
   Input,
   Radio,
@@ -189,12 +190,20 @@ export default withNamespaces('common')(
             }, 3000);
           }}
           validationSchema={Yup.object().shape({
-            firstName: Yup.string().required(t('forms.error_filed_required')),
-            lastName: Yup.string().required(t('forms.error_filed_required')),
+            firstName: Yup.string().required(
+              t('forms.error_filed_required1') +
+                $firstname +
+                t('forms.error_filed_required2')
+            ),
+            lastName: Yup.string().required(
+              t('forms.error_filed_required1') +
+                $lastname +
+                t('forms.error_filed_required2')
+            ),
             nationalid: Yup.string()
               .ensure() //convert undefined values to an empety string
               .trim()
-              .required(t('forms.error_filed_required'))
+              .required('')
               .length(10, t('forms.error_nationalID_10_char'))
               .test(
                 'Validate National ID',
@@ -215,14 +224,42 @@ export default withNamespaces('common')(
               ),
             email: Yup.string().email(t('forms.error_email_not_valid')),
             day: Yup.number()
-              .typeError(t('forms.error_filed_required'))
-              .required(t('forms.error_filed_required')),
+              .typeError(
+                t('forms.error_filed_required1') +
+                  $day +
+                  t('forms.error_filed_required2')
+              )
+              .required(
+                t('forms.error_filed_required1') +
+                  $day +
+                  t('forms.error_filed_required2')
+              )
+              .min(1, t('forms.error_day_not_valid'))
+              .max(31, t('forms.error_day_not_valid')),
             month: Yup.number()
-              .typeError(t('forms.error_filed_required'))
-              .required(t('forms.error_filed_required')),
+              .typeError(
+                t('forms.error_filed_required1') +
+                  $month +
+                  t('forms.error_filed_required2')
+              )
+              .required(
+                t('forms.error_filed_required1') +
+                  $month +
+                  t('forms.error_filed_required2')
+              ),
             year: Yup.number()
-              .typeError(t('forms.error_filed_required'))
-              .required(t('forms.error_filed_required'))
+              .typeError(
+                t('forms.error_filed_required1') +
+                  $year +
+                  t('forms.error_filed_required2')
+              )
+              .required(
+                t('forms.error_filed_required1') +
+                  $year +
+                  t('forms.error_filed_required2')
+              )
+              .min(1300, t('forms.error_year_not_valid'))
+              .max(1398, t('forms.error_year_not_valid'))
           })}
         >
           {({
@@ -231,6 +268,7 @@ export default withNamespaces('common')(
             handleBlur,
             isSubmitting,
             setFieldValue,
+            submitCount,
             values,
             errors,
             touched
@@ -249,6 +287,7 @@ export default withNamespaces('common')(
                       onBlur={handleBlur}
                       value={values.firstName}
                     />
+
                     <Form.Input
                       label={$lastname}
                       name="lastName"
@@ -267,6 +306,11 @@ export default withNamespaces('common')(
                     onBlur={handleBlur}
                     value={values.nationalid}
                   />
+                  {errors.nationalid && touched.nationalid && (
+                    <label className="sui-error-message">
+                      {errors.nationalid}
+                    </label>
+                  )}
 
                   {/* <Form.Field>
                 <label>{$phone_number}</label>
@@ -279,8 +323,8 @@ export default withNamespaces('common')(
                       label={$birthdate}
                       type="number"
                       placeholder={$day}
-                      min="1"
-                      max="31"
+                      // min="1"
+                      // max="31"
                       error={Boolean(errors.day && touched.day)}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -310,8 +354,8 @@ export default withNamespaces('common')(
                     <Form.Input
                       name="year"
                       type="number"
-                      min="1300"
-                      max="1397"
+                      // min="1300"
+                      // max="1397"
                       placeholder={$year}
                       style={{ marginTop: '25px' }}
                       error={Boolean(errors.year && touched.year)}
@@ -320,6 +364,12 @@ export default withNamespaces('common')(
                       value={values.year}
                     />
                   </Form.Group>
+                  {(errors.day || errors.month || errors.year) &&
+                    (touched.day || touched.month || touched.year) && (
+                      <label className="sui-error-message">
+                        {errors.day || errors.month || errors.year}
+                      </label>
+                    )}
 
                   <Form.Input
                     label={$email}
@@ -330,6 +380,11 @@ export default withNamespaces('common')(
                     onBlur={handleBlur}
                     value={values.emailAddress}
                   />
+                  {errors.emailAddress && touched.emailAddress && (
+                    <label className="sui-error-message">
+                      {errors.emailAddress}
+                    </label>
+                  )}
 
                   {/* <Input
                 label={$password}
@@ -368,6 +423,12 @@ export default withNamespaces('common')(
                       {t('forms.error')}
                     </Label>
                   )}
+                  {Object.keys(errors).length >= 1 && submitCount >= 1 && (
+                    <Label attached="bottom" color="red">
+                      {Object.values(errors)[0]}
+                    </Label>
+                  )}
+
                   {this.state.success && this.state.name && (
                     <Label attached="bottom" color="green">
                       {this.state.name} خوش آمدی!
