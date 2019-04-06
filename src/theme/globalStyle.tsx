@@ -472,6 +472,11 @@ input[type="number"] {
     text-align:left !important;
 }
 
+input[type="email"] {
+    text-align: left;
+    direction: ltr;
+}
+
 /**============================== 3.4 Spacing ==============================*/
 .add_bottom_10 {
   margin-bottom: 10px;
