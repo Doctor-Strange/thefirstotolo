@@ -35,3 +35,17 @@ export const monthsFarsi = [
   { key: '11', value: '11', text: 'بهمن' },
   { key: '12', value: '12', text: 'اسفند' }
 ];
+
+export const kmDrivenEnglish = [
+  { key: '1', value: '1', text: '0 ~ 50,000' },
+  { key: '2', value: '2', text: '50,000 ~ 100,000' },
+  { key: '3', value: '3', text: '100,000 ~ 200,000' },
+  { key: '4', value: '4', text: '+200,000' }
+];
+
+export const kmDrivenFarsi = [
+  { key: '1', value: '1', text: '۰ ~ ۵۰٫۰۰۰' },
+  { key: '2', value: '2', text: '۵۰٫۰۰۰ ~ ۱۰۰٫۰۰۰' },
+  { key: '3', value: '3', text: '۱۰۰٫۰۰۰ ~ ۲۰۰٫۰۰۰' },
+  { key: '4', value: '4', text: '+۲۰۰٫۰۰۰' }
+];

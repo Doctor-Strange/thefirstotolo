@@ -1,5 +1,5 @@
 {
-  "h1": "افزودن خودرو",
+  "add_car": "افزودن خودرو",
   "change_locale": "تغیر زبان",
   "required_fields": "فیلدهای ضروری",
   "firstname": "نام کوچک",
@@ -46,6 +46,27 @@
     "error_email_not_valid": "ایمیل وارد شده معتبر نیست",
     "error_code_must_be_four": "کد باید چهار رقم باشد",
     "error": "خطایی غیرمنتظره رخ داد!"
+  },
+  "carProperty": {
+    "whereIsIt": "ماشین شما کجاست؟",
+    "brand": "برند",
+    "model": "مدل",
+    "year": "سال ساخت",
+    "gearBoxType": "نوع دنده",
+    "gearBoxAuto": "اتوماتیک",
+    "gearBoxManual": "دستی",
+    "cassis": "نوع شاسی",
+    "capasity": "طرفیت خودرو",
+    "person": "نفر",
+    "withDriver": "با راننده",
+    "color": "رنگ خودرو",
+    "kmDriven": "کارکرد خودرو",
+    "VIN": "کد شناسایی خودرو (VIN)",
+    "licensePlates": "پلاک خودرو",
+    "pictures": "عکس خودرو",
+    "option": "امکانات خودرو",
+    "options": {},
+    "description": "توضیح"
   },
   "birthdate": "تاریخ تولد"
 }

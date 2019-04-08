@@ -359,6 +359,14 @@ input{
     height: 50vh !important;
     max-height: 250px !important;
 }
+#kmdriven {
+  direction: ltr;
+  .visible.menu {
+    max-height: fit-content !important;
+    text-align: left;
+    direction: ltr;
+  }
+}
 .form-control {
     font-size: 14px;
     font-size: 0.875rem;
@@ -717,16 +725,17 @@ input[type="email"] {
     }
   }
 
-  .field {
-    width: 100%;
-    margin-bottom:16px !important;
-  }
-  .fields { 
+  
+  .fields:not(.inline) { 
     margin-bottom:0px !important;
+    .field {
+      width: 100%;
+      margin-bottom:16px !important;
+    }
   }
   .rtl {
     h3.new_client {
-      background-position: right;
+      background-position: right !important;
     }
     .attached.label {
       text-align: right;
@@ -741,8 +750,26 @@ input[type="email"] {
     }    
       form {
         direction:rtl;
+        .field {
+          label {
+            direction: rtl;
+            text-align: right;
+          }
+          &:not(.ltr) {
+            text-align: right;
+            .dropdown {
+              text-align:right;
+              &.icon {
+                left: 1em;
+                right: unset !important;
+              }
+              .menu>.item {
+                text-align: right;
+              }
+            }
+          }
+        }
         input{
-          
           height: 48px;
           ::placeholder {
             text-align: right;
@@ -756,22 +783,6 @@ input[type="email"] {
             text-align: right;
           }
         }
-        .dropdown {
-          text-align:right;
-          &.icon {
-            left: 1em;
-            right: unset !important;
-          }
-          .menu>.item {
-            text-align: right;
-          }
-        }
-      }
-      .field {
-        text-align: right;
-        label {
-          direction: rtl;
-          text-align: right;
         }
       }
       .checkbox .box, .checkbox label {

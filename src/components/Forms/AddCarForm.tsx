@@ -1,39 +1,94 @@
+/* tslint:disable */
 import * as React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import { Label, Segment } from 'semantic-ui-react';
-import { i18n, withNamespaces } from '../../i18n';
 import {
+  Form,
+  Label,
+  Segment,
   Button,
   Checkbox,
+  Message,
   Dropdown,
-  Form,
   Input,
   Radio,
   TextArea
-} from 'formik-semantic-ui';
-import { Formik } from 'formik';
+} from 'semantic-ui-react';
+import Error404 from '../404';
+import { i18n, withNamespaces } from '../../i18n';
+// import {  } from 'formik-semantic-ui';
+import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
+import * as Pelak from '../../../static/pelak2.png';
 import { Box, Flex } from '@rebass/grid';
+import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
 
-const BoxAccount = styled.form`
+const BoxAccount = styled.div`
   margin-bottom: 25px;
-
+  margin-top: 25px;
   h3 {
     font-size: 21px;
     font-size: 1.3125rem;
     padding-left: 30px;
+    padding-right: 30px;
     height: 30px;
     padding-top: 5px;
     display: inline-block;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
     &.new_client {
       background: url(${NewUser}) center left no-repeat;
     }
   }
 
+  .pelak {
+    background: url(${Pelak}) no-repeat;
+    height: 70px;
+    width: 300px;
+    #first {
+      background: transparent;
+      position: absolute;
+      left: 40px;
+      width: 40px !important;
+      padding: 8px;
+      top: -5px;
+      font-size: 18px;
+    }
+    #letter {
+      background: transparent;
+      position: relative;
+      left: -142px;
+      width: 70px !important;
+      height: 47px;
+      padding: 8px;
+      top: -28px;
+      font-size: 18px;
+      text-align: left;
+      direction: ltr;
+    }
+    #second {
+      background: transparent;
+      position: absolute;
+      left: 166px;
+      width: 55px !important;
+      padding: 8px;
+      top: -105px;
+      font-size: 18px;
+    }
+    #estateCode {
+      background: transparent;
+      position: absolute;
+      left: 235px;
+      width: 55px !important;
+      height: 39px;
+      padding: 8px;
+      top: -135px;
+      font-size: 18px;
+    }
+  }
   .selection {
     font-size: 0.875rem;
     border-radius: 3px;
@@ -45,29 +100,33 @@ const BoxAccount = styled.form`
 `;
 
 interface IAddCarFormValues {
-  city: string;
-  district: string;
-  brand: string;
-  model: string;
-  year: number;
-  autogearbox: boolean;
-  shasi: string;
-  capaicty: number;
-  color: string;
-  karkard: string;
-  NIN: string;
-  pelak: string;
-  picture: string;
-  options: [string];
-  descrition: string;
+  carAddress: string;
+  carBrand: string;
+  carModel: string;
+  carYear: string;
+  carGearboxType: string;
+  carChassis: string;
+  carCapasity: string;
+  carKmDriven: string;
+  carVIN: string;
+  carLicensePlates: string;
+  carPictures: string;
+  carOptions: [string];
+  carDescription: string;
 }
 
 export default withNamespaces('common')(
   class AddCarForm extends React.Component<{
     token?: string;
+    t: any;
+    success: boolean;
+    name: string;
   }> {
     state = {
-      token: ''
+      token: '',
+      error: '',
+      name: null,
+      success: false
     };
 
     constructor(props) {
@@ -89,44 +148,256 @@ export default withNamespaces('common')(
     render() {
       const { token, error } = this.state;
       const { t } = this.props;
-      return (
-        <Form
-          initialValues={{}}
-          onSubmit={(values: IAddCarFormValues, { setSubmitting }) => {}}
-          validationSchema={Yup.object().shape({})}
-        >
-          {({
-            handleSubmit,
-            handleChange,
-            isSubmitting,
-            values,
-            errors,
-            touched
-          }) => (
-            <BoxAccount onSubmit={handleSubmit} className="box_account">
-              <Segment>
-                {error && (
-                  <Label attached="top" color="red">
-                    {t('forms.error')}
-                  </Label>
-                )}
+      if (true) {
+        return (
+          <Formik
+            initialValues={{}}
+            onSubmit={(
+              values: IAddCarFormValues,
+              actions: FormikActions<IAddCarFormValues>
+            ) => {
+              actions.setSubmitting(true);
+              this.setState({ error: '' });
+              console.log(values);
+              const {} = values;
+              axios
+                .post(
+                  'https://otoli.net' + '/core/user/update',
+                  {
+                    // first_name: firstName,
+                    // last_name: lastName,
+                    // national_id: nationalid,
+                    // birth_date: `${year}/${month}/${day}`,
+                    // email: emailAddress,
+                    // is_ok_to_get_emails: false
+                  },
+                  {
+                    headers: {
+                      Authorization: 'Bearer ' + this.state.token
+                    }
+                  }
+                )
+                .then(response => {
+                  if (response.data.success) {
+                  }
+                })
+                .catch(error => {
+                  // tslint:disable-next-line:no-console
+                  console.error(error);
+                  this.setState({ error: error, success: false });
+                })
+                .then(() => {
+                  actions.setSubmitting(false);
+                });
+              setTimeout(() => {
+                console.log(values);
 
-                <Form.Field style={{ textAlign: 'center', fontSize: '0.8em' }}>
-                  <Button.Submit
-                    loading={isSubmitting}
-                    primary
-                    type="submit"
-                    className="btn_1 full-width"
-                  >
-                    Add car
-                  </Button.Submit>
-                  <span>n</span>
-                </Form.Field>
-              </Segment>
-            </BoxAccount>
-          )}
-        </Form>
-      );
+                actions.setSubmitting(false);
+              }, 3000);
+            }}
+            validationSchema={Yup.object().shape({})}
+          >
+            {({
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+              setFieldValue,
+              submitCount,
+              values,
+              errors,
+              touched
+            }) => (
+              <BoxAccount className="box_account">
+                <Form onSubmit={handleSubmit}>
+                  <h3 className="new_client">{t('add_car')}</h3>
+                  {/* <small className="float-right pt-2">* {$required_fields}</small> */}
+                  <Segment>
+                    {/* <label>ماشین شما کجاست؟</label> */}
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>ماشین شما کجاست؟</label>
+                    </Form.Field>
+                    <Form.Group>
+                      <Form.Field>
+                        <Input placeholder="شهر" />
+                      </Form.Field>
+                      <Form.Field>
+                        <Input placeholder="محله" />
+                      </Form.Field>
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Input
+                        label="برند"
+                        name="مدل"
+                        // error={Boolean(errors.lastName && touched.lastName)}
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        // value={values.lastName}
+                      />
+                      <Form.Input
+                        label="مدل"
+                        name="نوع"
+                        // error={Boolean(errors.lastName && touched.lastName)}
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        // value={values.lastName}
+                      />
+                      <Form.Input
+                        label="سال ساخت"
+                        name="نوع"
+                        // error={Boolean(errors.lastName && touched.lastName)}
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        // value={values.lastName}
+                      />
+                    </Form.Group>
+
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>نوع دنده</label>
+                    </Form.Field>
+                    <Form.Group inline>
+                      <Form.Radio
+                        label="دستی"
+                        value="sm"
+                        // checked={value === 'sm'}
+                        // onChange={this.handleChange}
+                      />
+                      <Form.Radio
+                        label="اتوماتیک"
+                        value="md"
+                        // checked={value === 'md'}
+                        // onChange={this.handleChange}
+                      />
+                    </Form.Group>
+
+                    <Form.Input
+                      label="نوع شاسی"
+                      name="نوع شاسی"
+                      // error={Boolean(errors.lastName && touched.lastName)}
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.lastName}
+                    />
+
+                    <Form.Input
+                      label="ظرفیت خودرو"
+                      name="dhs"
+                      type="number"
+                      // error={Boolean(errors.lastName && touched.lastName)}
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.lastName}
+                    />
+
+                    <Form.Input
+                      label="رنگ خودرو"
+                      name="dhبب"
+                      // error={Boolean(errors.lastName && touched.lastName)}
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.lastName}
+                    />
+
+                    <Form.Group>
+                      <Form.Dropdown
+                        name="kmdriven"
+                        id="kmdriven"
+                        label="کارکرد ماشین"
+                        placeholder="کارکرد ماشین"
+                        className="ltr"
+                        selection
+                        options={
+                          i18n.language === 'en'
+                            ? kmDrivenEnglish
+                            : kmDrivenFarsi
+                        }
+                        // error={Boolean(errors.month && touched.month)}
+                        // onChange={(e, data) => {
+                        //   if (data && data.name) {
+                        //     setFieldValue(data.name, data.value);
+                        //   }
+                        // }}
+                        // value={values.month}
+                      />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <label>کد شناسایی VIN</label>
+                    </Form.Group>
+
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>پلاک خودرو</label>
+                    </Form.Field>
+                    <Form.Group>
+                      <div className="pelak" style={{}}>
+                        <Form.Input name="first" id="first" style={{}} />
+                        <Form.Input
+                          name="letter"
+                          id="letter"
+                          style={{}}
+                          control="select"
+                        >
+                          <option value="alef">الف</option>
+                          <option value="be">ب</option>
+                        </Form.Input>
+                        <Form.Input name="second" id="second" style={{}} />
+                        <Form.Input
+                          name="estateCode"
+                          id="estateCode"
+                          style={{}}
+                        />
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group inline>
+                      <label>عکس ماشین</label>
+                    </Form.Group>
+
+                    <Form.Group>
+                      <label>امکانات ماشین</label>
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Field
+                        control={TextArea}
+                        label="توضیحات"
+                        placeholder="Tell us more about you..."
+                      />
+                    </Form.Group>
+
+                    <Form.Field
+                      style={{ textAlign: 'center', fontSize: '0.8em' }}
+                    >
+                      <Button
+                        loading={isSubmitting}
+                        primary
+                        type="submit"
+                        className="btn_1 full-width"
+                      >
+                        {t('signup')}
+                      </Button>
+                    </Form.Field>
+
+                    {error && (
+                      <Label attached="bottom" color="red">
+                        {t('forms.error')}
+                      </Label>
+                    )}
+                    {Object.keys(errors).length >= 1 && submitCount >= 1 && (
+                      <Label attached="bottom" color="red">
+                        {Object.values(errors)[0]}
+                      </Label>
+                    )}
+                  </Segment>
+                </Form>
+              </BoxAccount>
+            )}
+          </Formik>
+        );
+      } else {
+        return <Error404 />;
+      }
     }
   }
 );
