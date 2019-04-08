@@ -1,5 +1,12 @@
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
+import {
+  Header as SemanticHeader,
+  Icon,
+  Menu,
+  Segment,
+  Sidebar
+} from 'semantic-ui-react';
 import { ltrTheme, rtlTheme } from '../../theme/directions';
 import { connect } from 'react-redux';
 import { changeLang } from '../../redux/system';
@@ -22,6 +29,12 @@ class Layout extends React.Component<{
     };
   }
 
+  state = { visible: false };
+
+  handleHideClick = () => this.setState({ visible: false });
+  handleShowClick = () => this.setState({ visible: true });
+  handleSidebarHide = () => this.setState({ visible: false });
+
   changeLang_i18n = () => {
     console.log('changeLang happend ', i18n.language);
     i18n.changeLanguage(i18n.language === 'en' ? 'fa' : 'en');
@@ -39,18 +52,50 @@ class Layout extends React.Component<{
           direction: theme
         }}
       >
-        <div id="layout" className={theme.direction}>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
-          </Head>
-          <Header headerBtn={t('h1')} changeLang={this.changeLang_i18n} />
-          {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
-          <main>{children}</main>
-          <Footer changeLangFunc={this.changeLang_i18n} />
-        </div>
+        <Sidebar.Pushable as={Segment}>
+          <Sidebar
+            as={Menu}
+            animation="push"
+            icon="labeled"
+            inverted
+            onHide={this.handleSidebarHide}
+            vertical
+            visible={this.state.visible}
+            width="thin"
+          >
+            <Menu.Item as="a">
+              <Icon name="home" />
+              Home
+            </Menu.Item>
+            <Menu.Item as="a">
+              <Icon name="gamepad" />
+              Games
+            </Menu.Item>
+            <Menu.Item as="a">
+              <Icon name="camera" />
+              Channels
+            </Menu.Item>
+          </Sidebar>
+
+          <Sidebar.Pusher dimmed={this.state.visible}>
+            <div id="layout" className={theme.direction}>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+                />
+              </Head>
+              <Header
+                openMenu={this.handleShowClick}
+                headerBtn={t('h1')}
+                changeLang={this.changeLang_i18n}
+              />
+              {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
+              <main>{children}</main>
+              <Footer changeLangFunc={this.changeLang_i18n} />
+            </div>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
       </ThemeProvider>
     );
   }

@@ -143,6 +143,17 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  @media (min-width: 992px){
+    .justInMobile{
+      display:none;
+    }
+  }
+  @media (max-width: 992px){
+    .justInDesktop{
+      display:none;
+    }
+  }
+
   .row {
     display: flex;
     flex-wrap: wrap;
@@ -686,6 +697,10 @@ input[type="email"] {
 
 
 /**============================== Styles based on semantic UI==============================*/
+
+.sidebar.menu {
+    min-height: 100vh;
+}
 
 .ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
   font-family: Vazir !important;

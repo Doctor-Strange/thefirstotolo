@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Icon } from 'semantic-ui-react';
 import { Nav } from '../Nav';
 import { Logo } from '../Logo';
 import { i18n, withNamespaces } from '../../i18n';
@@ -60,7 +61,10 @@ const HeaderSticky = styled.div`
     }
 
     @media (max-width: 991px) {
-      padding: 10px 0 5px 0;
+      margin-top: 5px;
+      padding: 0;
+      border-bottom: none;
+      background: none;
 
       ul#top_menu {
         position: absolute;
@@ -73,12 +77,7 @@ const HeaderSticky = styled.div`
       }
     }
   }
-  .is_sticky {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
+
   .map_view {
     position: fixed;
     left: 0;
@@ -237,23 +236,24 @@ const HeaderSticky = styled.div`
 
 class Header extends React.Component<{
   headerBtn: string;
+  openMenu: any;
   changeLang: any;
   firstName?: string;
   lastName?: string;
   token?: string;
 }> {
   [x: string]: any;
+  static async getInitialProps() {
+    return {
+      namespacesRequired: ['common']
+    };
+  }
 
   state = {
     token: '',
     firstName: '',
     lastName: ''
   };
-  static async getInitialProps() {
-    return {
-      namespacesRequired: ['common']
-    };
-  }
 
   onClick = () => {
     this.loginmodal.handleOpenModal(); // do stuff
@@ -288,7 +288,7 @@ class Header extends React.Component<{
     return (
       <>
         <HeaderSticky>
-          <header className="header_in is_sticky menu_fixed">
+          <header className="header_in is_sticky menu_fixed justInDesktop">
             <div className="container">
               <div className="row">
                 <div className="col-lg-3 col-12 hidden_mobile">
@@ -316,7 +316,7 @@ class Header extends React.Component<{
                       {this.state.token && (
                         <span>
                           {t('hello')} {this.state.firstName}
-                          {', '}
+                          {/* {', '}
                           <a
                             href="#"
                             id="sign-in"
@@ -325,22 +325,44 @@ class Header extends React.Component<{
                             onClick={this.logout}
                           >
                             {t('logout')}
-                          </a>
+                          </a> */}
                         </span>
                       )}
                     </li>
                   </ul>
-                  <a href="#menu" className="btn_mobile">
-                    <div className="hamburger hamburger--spin" id="hamburger">
-                      <div className="hamburger-box">
-                        <div className="hamburger-inner" />
-                      </div>
-                    </div>
-                  </a>
+
                   <Nav />
                 </div>
               </div>
             </div>
+          </header>
+          <header className="justInMobile">
+            <Icon name="bars" onClick={this.props.openMenu} />
+            <ul id="top_menu">
+              <li>
+                <a href="/account" className="btn_add">
+                  {this.props.headerBtn}
+                </a>
+              </li>
+              <li>
+                {!this.state.token && (
+                  <a
+                    href="#"
+                    id="sign-in"
+                    className="login"
+                    title={t('signup')}
+                    onClick={this.onClick}
+                  >
+                    {t('signup')}
+                  </a>
+                )}
+                {this.state.token && (
+                  <span>
+                    {t('hello')} {this.state.firstName}
+                  </span>
+                )}
+              </li>
+            </ul>
           </header>
         </HeaderSticky>
 
