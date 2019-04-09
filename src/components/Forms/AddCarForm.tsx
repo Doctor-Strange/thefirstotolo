@@ -228,8 +228,10 @@ export default withNamespaces('common')(
             console.log(response.data.items);
             const colors = response.data.items.map((value, index) => ({
               key: value.id,
-              text: value.name.en,
-              value: value.id
+              text: '',
+              value: value.slug.en,
+              color: value.code,
+              label: { color: value.slug.en, empty: true, circular: true }
             }));
             console.log(response.data.items);
             this.setState({ colors });
