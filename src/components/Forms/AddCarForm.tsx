@@ -100,7 +100,8 @@ const BoxAccount = styled.div`
 `;
 
 interface IAddCarFormValues {
-  carAddress: string;
+  carCity: string;
+  carDistrict: string;
   carBrand: string;
   carModel: string;
   carYear: string;
@@ -127,8 +128,12 @@ export default withNamespaces('common')(
       error: '',
       name: null,
       success: false,
+      city: null,
       citiesFarsi: [{ text: 'Loading', value: null }],
-      citiesEnglish: [{ text: 'Loading', value: null }]
+      citiesEnglish: [{ text: 'Loading', value: null }],
+      cityDistrict: null,
+      cityDistrictFarsi: [{ text: 'Loading', value: null }],
+      cityDistrictEnglish: [{ text: 'Loading', value: null }]
     };
 
     constructor(props) {
@@ -164,6 +169,50 @@ export default withNamespaces('common')(
             }));
             console.log(citiesFarsi);
             this.setState({ citiesFarsi, citiesEnglish });
+          }
+        })
+        .catch(error => {
+          // tslint:disable-next-line:no-console
+          console.error(error);
+          this.setState({ error: error, success: false });
+        })
+        .then(() => {});
+    }
+
+    setCityDistrict(cityID) {
+      this.setState({ city: cityID });
+      axios
+        .post(
+          'https://otoli.net' +
+            '/core/location/list?limit=100&parent_id=' +
+            cityID
+        )
+        .then(response => {
+          if (
+            response.data.success &&
+            Object.keys(response.data.items).length >= 1
+          ) {
+            const cityDistrictFarsi = response.data.items.map(
+              (value, index) => ({
+                key: value.id,
+                text: value.name.fa,
+                value: value.id
+              })
+            );
+            const cityDistrictEnglish = response.data.items.map(
+              (value, index) => ({
+                key: value.id,
+                text: value.name.en,
+                value: value.id
+              })
+            );
+            this.setState({ cityDistrictFarsi, cityDistrictEnglish });
+          } else {
+            this.setState({
+              cityDistrict: null,
+              cityDistrictFarsi: [{ text: 'Loading', value: null }],
+              cityDistrictEnglish: [{ text: 'Loading', value: null }]
+            });
           }
         })
         .catch(error => {
@@ -252,6 +301,7 @@ export default withNamespaces('common')(
                           name="carCity"
                           id="carCity"
                           placeholder="شهر"
+                          search
                           selection
                           loading={this.state.citiesFarsi[0].value == null}
                           options={
@@ -259,17 +309,44 @@ export default withNamespaces('common')(
                               ? this.state.citiesEnglish
                               : this.state.citiesFarsi
                           }
-                          // error={Boolean(errors.month && touched.month)}
-                          // onChange={(e, data) => {
-                          //   if (data && data.name) {
-                          //     setFieldValue(data.name, data.value);
-                          //   }
-                          // }}
-                          // value={values.month}
+                          error={Boolean(errors.carCity && touched.carCity)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              this.setCityDistrict(data.value);
+                            }
+                          }}
+                          value={values.carCity}
                         />
                       </Form.Field>
                       <Form.Field>
-                        <Input placeholder="محله" />
+                        <Form.Dropdown
+                          name="carDistrict"
+                          id="carDistrict"
+                          search
+                          placeholder="محله"
+                          selection
+                          loading={
+                            this.state.cityDistrictFarsi[0].value == null
+                          }
+                          disabled={
+                            this.state.cityDistrictFarsi[0].value == null
+                          }
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.cityDistrictEnglish
+                              : this.state.cityDistrictFarsi
+                          }
+                          error={Boolean(
+                            errors.carDistrict && touched.carDistrict
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          value={values.carDistrict}
+                        />
                       </Form.Field>
                     </Form.Group>
 
