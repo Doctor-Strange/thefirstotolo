@@ -126,7 +126,9 @@ export default withNamespaces('common')(
       token: '',
       error: '',
       name: null,
-      success: false
+      success: false,
+      citiesFarsi: [{ text: 'Loading', value: null }],
+      citiesEnglish: [{ text: 'Loading', value: null }]
     };
 
     constructor(props) {
@@ -143,6 +145,33 @@ export default withNamespaces('common')(
       this.setState({
         token: window.localStorage.getItem('token')
       });
+
+      //get cities and genrate a dropdown input in form
+      axios
+        .post('https://otoli.net' + '/core/location/list?limit=100')
+        .then(response => {
+          if (response.data.success) {
+            console.log(response.data.items);
+            const citiesFarsi = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.fa,
+              value: value.id
+            }));
+            const citiesEnglish = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.en,
+              value: value.id
+            }));
+            console.log(citiesFarsi);
+            this.setState({ citiesFarsi, citiesEnglish });
+          }
+        })
+        .catch(error => {
+          // tslint:disable-next-line:no-console
+          console.error(error);
+          this.setState({ error: error, success: false });
+        })
+        .then(() => {});
     }
 
     render() {
@@ -219,7 +248,25 @@ export default withNamespaces('common')(
                     </Form.Field>
                     <Form.Group>
                       <Form.Field>
-                        <Input placeholder="شهر" />
+                        <Form.Dropdown
+                          name="carCity"
+                          id="carCity"
+                          placeholder="شهر"
+                          selection
+                          loading={this.state.citiesFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.citiesEnglish
+                              : this.state.citiesFarsi
+                          }
+                          // error={Boolean(errors.month && touched.month)}
+                          // onChange={(e, data) => {
+                          //   if (data && data.name) {
+                          //     setFieldValue(data.name, data.value);
+                          //   }
+                          // }}
+                          // value={values.month}
+                        />
                       </Form.Field>
                       <Form.Field>
                         <Input placeholder="محله" />
@@ -322,9 +369,14 @@ export default withNamespaces('common')(
                       />
                     </Form.Group>
 
-                    <Form.Group>
-                      <label>کد شناسایی VIN</label>
-                    </Form.Group>
+                    <Form.Input
+                      label="کد شناسایی خودرو"
+                      name="dhبب"
+                      // error={Boolean(errors.lastName && touched.lastName)}
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.lastName}
+                    />
 
                     <Form.Field style={{ margin: 0 }}>
                       <label>پلاک خودرو</label>

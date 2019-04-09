@@ -368,7 +368,8 @@ input{
 }
 .visible.menu {
     height: 50vh !important;
-    max-height: 250px !important;
+    /* max-height: 250px !important; */
+    max-height: fit-content !important;
 }
 #kmdriven {
   direction: ltr;
