@@ -52,7 +52,7 @@ class Layout extends React.Component<{
           direction: theme
         }}
       >
-        <Sidebar.Pushable as={Segment}>
+        <Sidebar.Pushable>
           <Sidebar
             as={Menu}
             animation="push"
