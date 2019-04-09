@@ -138,6 +138,7 @@ export default withNamespaces('common')(
       bodyStyleFarsi: [{ text: 'Loading', value: null }],
       bodyStyleEnglish: [{ text: 'Loading', value: null }],
       color: null,
+      colorCode: null,
       colors: [
         {
           text: 'Loading',
@@ -550,50 +551,7 @@ export default withNamespaces('common')(
                           </div>
                         </Form.Group>
                       </Grid.Column>
-                      <Grid.Column width={5}>
-                        <Form.Field style={{ margin: 0 }}>
-                          <label>رنگ خودرو</label>
-                        </Form.Field>
-                        <Form.Field>
-                          <Dropdown
-                            text="رنگ خودرو"
-                            icon={this.state.colorIcon || `paint brush`}
-                            id="carColor"
-                            name="carColor"
-                            floating
-                            labeled
-                            button
-                            className={`icon colorpicker ${this.state.color}`}
-                            error={Boolean(errors.carColor && touched.carColor)}
-                            value={values.carColor}
-                          >
-                            <Dropdown.Menu>
-                              {/* <Dropdown.Header
-                                icon="tags"
-                                content="Tag Label"
-                              /> */}
-                              <Dropdown.Menu scrolling>
-                                {this.state.colors.map(option => (
-                                  <Dropdown.Item
-                                    onClick={(e, data) => {
-                                      console.log(data);
-                                      if (data && data.value) {
-                                        setFieldValue('carColor', data.value);
-                                        this.setState({
-                                          color: data.value,
-                                          colorIcon: 'car'
-                                        });
-                                      }
-                                    }}
-                                    key={option.value}
-                                    {...option}
-                                  />
-                                ))}
-                              </Dropdown.Menu>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </Form.Field>
-                      </Grid.Column>
+                      <Grid.Column width={5} />
                     </Grid>
 
                     <Form.Group inline>
@@ -611,6 +569,52 @@ export default withNamespaces('common')(
                         placeholder="Tell us more about you..."
                       />
                     </Form.Group>
+
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>رنگ خودرو</label>
+                    </Form.Field>
+                    <Form.Field>
+                      <Dropdown
+                        text="رنگ خودرو"
+                        icon={this.state.colorIcon || `paint brush`}
+                        id="carColor"
+                        name="carColor"
+                        floating
+                        labeled
+                        button
+                        className={`icon colorpicker color${(
+                          this.state.colorCode || 'cc'
+                        ).substr(1)}`}
+                        error={Boolean(errors.carColor && touched.carColor)}
+                        value={values.carColor}
+                      >
+                        <Dropdown.Menu>
+                          {/* <Dropdown.Header
+                                icon="tags"
+                                content="Tag Label"
+                              /> */}
+                          <Dropdown.Menu scrolling>
+                            {this.state.colors.map(option => (
+                              <Dropdown.Item
+                                onClick={(e, data) => {
+                                  console.log(data);
+                                  if (data && data.value) {
+                                    setFieldValue('carColor', data.value);
+                                    this.setState({
+                                      color: data.value,
+                                      colorCode: data.color,
+                                      colorIcon: 'car'
+                                    });
+                                  }
+                                }}
+                                key={option.value}
+                                {...option}
+                              />
+                            ))}
+                          </Dropdown.Menu>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Form.Field>
 
                     <Form.Field
                       style={{ textAlign: 'center', fontSize: '0.8em' }}

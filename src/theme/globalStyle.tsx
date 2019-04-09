@@ -362,190 +362,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  /**============================== Forms Style ==============================**/
-input{
-    width: 100% !important;
-}
-.visible.menu {
-    height: 50vh !important;
-    /* max-height: 250px !important; */
-    max-height: fit-content !important;
-}
-#kmdriven {
-  direction: ltr;
-  .visible.menu {
-    max-height: fit-content !important;
-    text-align: left;
-    direction: ltr;
-  }
-}
-.form-control {
-    font-size: 14px;
-    font-size: 0.875rem;
-    border-radius: 3px;
-    border: 1px solid #d2d8dd;
-}
-
-/* Checkbox style */
-.container_check {
-  display: block;
-  position: relative;
-  font-size: 14px;
-  font-size: 0.875rem;
-  padding-left: 30px;
-  line-height: 1.4;
-  margin-bottom: 10px;
-  cursor: pointer;
-  user-select: none;
-  input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-  input:checked ~ .checkmark {
-    background-color: #004dda;
-    border: 1px solid transparent;
-  }
-  .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    border: 1px solid #d2d8dd;
-    border-radius: 3px;
-    transition: all 0.3s ease-in-out;
-    :after {
-      content: "";
-      position: absolute;
-      display: none;
-      left: 7px;
-      top: 3px;
-      width: 5px;
-      height: 10px;
-      border: solid white;
-      border-width: 0 2px 2px 0;
-      -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      transform: rotate(45deg);
-    }
-  }
-  input:checked ~ .checkmark:after {
-    display: block;
-  }
-}
-
-/* Radio buttons */
-.container_radio {
-  display: block;
-  position: relative;
-  font-size: 15px;
-  font-size: 0.9375rem;
-  padding-left: 30px;
-  line-height: 1.3;
-  margin-bottom: 10px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  input {
-    position: absolute;
-    opacity: 0;
-  }
-  input:checked ~ .checkmark:after {
-    opacity: 1;
-  }
-  .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    :after {
-      display: block;
-      content: "";
-      position: absolute;
-      opacity: 0;
-      transition: all 0.3s ease-in-out;
-      top: 3px;
-      left: 3px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #004dda;
-      transition: all 0.3s ease-in-out;
-    }
-  }
-}
-
-input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
- 
-input[type="number"] {
-    -moz-appearance: textfield;
-    direction:ltr !important;
-    text-align:left !important;
-}
-
-input[type="email"] {
-    text-align: left;
-    direction: ltr;
-}
-
-.visible.colorpicker {
-  .menu {
-      width: 222px !important;
-      display: flex !important;
-      flex-direction: row-reverse;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      align-items: flex-start;
-      >.item {
-        border-top: none;
-        display: inline-block;
-        width: auto;
-        padding: 5px 0px 0px 13px;
-      }
-    .circular.label {
-      width: 2.5em;
-      height: 2.5em;
-      border: solid 2px;
-    }
-  }
-}
-
-.item[color~="#FFFFFF"] .label {
-    background-color: #FFFFFF !important;
-}
-.item[color~="#000000"] .label {
-    background-color: #000000 !important;
-}
-.item[color~="#C0C0C0"] .label {
-    background-color: #C0C0C0 !important;
-}
-.item[color~="#808080"] .label {
-    background-color: #808080 !important;
-}
-.item[color~="#FF0000"] .label {
-    background-color: #FF0000 !important;
-}
-.item[color~="#0000FF"] .label {
-    background-color: #0000FF !important;
-}
-.item[color~="#CD853F"] .label {
-    background-color: #CD853F !important;
-}
-.item[color~="#008000"] .label {
-    background-color: #008000 !important;
-}
-.item[color~="#FFFF00"] .label {
-    background-color: #FFFF00 !important;
-}
+  
 
 
 /**============================== 3.4 Spacing ==============================*/
@@ -784,7 +601,7 @@ input[type="email"] {
   form {
     .dropdown {
       &.icon {
-          top: 1.4em !important;
+        top: 1.4em !important;
       }
       .text {
         line-height: 24px;
@@ -914,7 +731,220 @@ input[type="email"] {
     padding: 25px;
 }
 
+/**============================== Forms Style ==============================**/
+input{
+    width: 100% !important;
+}
+.visible.menu {
+    height: 50vh !important;
+    /* max-height: 250px !important; */
+    max-height: fit-content !important;
+}
+#kmdriven {
+  direction: ltr;
+  .visible.menu {
+    max-height: fit-content !important;
+    text-align: left;
+    direction: ltr;
+  }
+}
+.form-control {
+    font-size: 14px;
+    font-size: 0.875rem;
+    border-radius: 3px;
+    border: 1px solid #d2d8dd;
+}
 
+/* Checkbox style */
+.container_check {
+  display: block;
+  position: relative;
+  font-size: 14px;
+  font-size: 0.875rem;
+  padding-left: 30px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  cursor: pointer;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  input:checked ~ .checkmark {
+    background-color: #004dda;
+    border: 1px solid transparent;
+  }
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #d2d8dd;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+    :after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+}
+
+/* Radio buttons */
+.container_radio {
+  display: block;
+  position: relative;
+  font-size: 15px;
+  font-size: 0.9375rem;
+  padding-left: 30px;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+  }
+  input:checked ~ .checkmark:after {
+    opacity: 1;
+  }
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    :after {
+      display: block;
+      content: "";
+      position: absolute;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+      top: 3px;
+      left: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #004dda;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+ 
+input[type="number"] {
+    -moz-appearance: textfield;
+    direction:ltr !important;
+    text-align:left !important;
+}
+
+input[type="email"] {
+    text-align: left;
+    direction: ltr;
+}
+
+.colorpicker {
+  &.dropdown.icon{
+    top: 0 !important;
+  }
+  background: #fff !important;
+  border: 1px solid rgba(34,36,38,.15) !important;
+
+  &.visible{
+    .menu {
+        width: 222px !important;
+        display: flex !important;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        align-items: flex-start;
+        >.item {
+          border-top: none;
+          display: inline-block;
+          width: auto;
+          padding: 5px 0px 0px 13px;
+        }
+      .circular.label {
+        width: 2.5em;
+        height: 2.5em;
+        border: solid 2px;
+      }
+    }
+  }
+}
+
+.item[color~="#FFFFFF"],.colorFFFFFF {
+  .label, i {
+    background-color: #FFFFFF !important;
+  }
+}
+.item[color~="#000000"], .color000000 {
+  .label, i{
+    background-color: #000000 !important;
+    color: white;
+  }
+}
+.item[color~="#C0C0C0"], .colorC0C0C0 {
+  .label, i{
+    background-color: #C0C0C0 !important;
+  }
+}
+.item[color~="#808080"], .color808080{
+  .label, i{
+    background-color: #808080 !important;
+  }
+}
+.item[color~="#FF0000"], .colorFF0000{
+  .label, i{
+    background-color: #FF0000 !important;
+    color: white;
+  }
+}
+.item[color~="#0000FF"], .color0000FF {
+  .label, i{
+    background-color: #0000FF !important;
+    color: white;
+  }
+}
+.item[color~="#CD853F"], .colorCD853F  {
+  .label, i {
+    background-color: #CD853F !important;
+  }
+}
+.item[color~="#008000"], .color008000  {
+  .label, i{ 
+    background-color: #008000 !important;
+    color: white;
+  }
+}
+.item[color~="#FFFF00"], .colorFFFF00  {
+  .label, i {
+    background-color: #FFFF00 !important;
+  }
+}
 
 /**============================== Colors of semantic UI==============================*/
   .ui{
