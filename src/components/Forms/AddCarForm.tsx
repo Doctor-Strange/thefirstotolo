@@ -145,7 +145,16 @@ export default withNamespaces('common')(
           value: null,
           label: { color: 'red', empty: true, circular: true }
         }
-      ]
+      ],
+      brand: null,
+      brandsFarsi: [{ text: 'Loading', value: null }],
+      brandEnglish: [{ text: 'Loading', value: null }],
+      model: null,
+      modelsFarsi: [{ text: 'Loading', value: null }],
+      modelsEnglish: [{ text: 'Loading', value: null }],
+      year: null,
+      yearsFarsi: [{ text: 'Loading', value: null }],
+      yearsEnglish: [{ text: 'Loading', value: null }]
     };
 
     constructor(props) {
@@ -219,13 +228,57 @@ export default withNamespaces('common')(
             console.log(response.data.items);
             const colors = response.data.items.map((value, index) => ({
               key: value.id,
-              text: '',
-              value: value.slug.en,
-              color: value.code,
-              label: { color: value.slug.en, empty: true, circular: true }
+              text: value.name.en,
+              value: value.id
             }));
             console.log(response.data.items);
             this.setState({ colors });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          this.setState({ error: error, success: false });
+        });
+
+      //get car brands and genrate a dropdown input in form
+      axios
+        .post('https://otoli.net' + '/core/brand/list?limit=500')
+        .then(response => {
+          if (response.data.success) {
+            const brandsFarsi = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.fa,
+              value: value.id
+            }));
+            const brandsEnglish = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.en,
+              value: value.id
+            }));
+            this.setState({ brandsEnglish, brandsFarsi });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          this.setState({ error: error, success: false });
+        });
+
+      //get years and genrate a dropdown input in form
+      axios
+        .post('https://otoli.net' + '/core/year/list?limit=500')
+        .then(response => {
+          if (response.data.success) {
+            const yearsFarsi = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.fa,
+              value: value.id
+            }));
+            const yearsEnglish = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.en,
+              value: value.id
+            }));
+            this.setState({ yearsEnglish, yearsFarsi });
           }
         })
         .catch(error => {
@@ -267,6 +320,42 @@ export default withNamespaces('common')(
               cityDistrict: null,
               cityDistrictFarsi: [{ text: 'Loading', value: null }],
               cityDistrictEnglish: [{ text: 'Loading', value: null }]
+            });
+          }
+        })
+        .catch(error => {
+          // tslint:disable-next-line:no-console
+          console.error(error);
+          this.setState({ error: error, success: false });
+        })
+        .then(() => {});
+    }
+
+    setModels(brandID) {
+      this.setState({ brand: brandID });
+      axios
+        .post('https://otoli.net' + '/core/car/list?brand_id=' + brandID)
+        .then(response => {
+          if (
+            response.data.success &&
+            Object.keys(response.data.items).length >= 1
+          ) {
+            const modelsFarsi = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.fa,
+              value: value.id
+            }));
+            const modelsEnglish = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.en,
+              value: value.id
+            }));
+            this.setState({ modelsFarsi, modelsEnglish });
+          } else {
+            this.setState({
+              model: null,
+              modelsFarsi: [{ text: 'Loading', value: null }],
+              modelsEnglish: [{ text: 'Loading', value: null }]
             });
           }
         })
@@ -406,31 +495,74 @@ export default withNamespaces('common')(
                     </Form.Group>
 
                     <Form.Group>
-                      <Form.Input
+                      <Form.Dropdown
+                        name="carBrand"
+                        id="carBrand"
                         label="برند"
-                        name="مدل"
-                        // error={Boolean(errors.lastName && touched.lastName)}
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        // value={values.lastName}
+                        placeholder="برند"
+                        search
+                        selection
+                        loading={this.state.brandsFarsi[0].value == null}
+                        options={
+                          i18n.language === 'en'
+                            ? this.state.brandEnglish
+                            : this.state.brandsFarsi
+                        }
+                        error={Boolean(errors.carBrand && touched.carBrand)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            this.setModels(data.value);
+                          }
+                        }}
+                        value={values.carBrand}
                       />
-                      <Form.Input
+                      <Form.Dropdown
+                        name="carDistrict"
+                        id="carDistrict"
+                        search
+                        placeholder="مدل"
                         label="مدل"
-                        name="نوع"
-                        // error={Boolean(errors.lastName && touched.lastName)}
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        // value={values.lastName}
+                        selection
+                        loading={this.state.modelsFarsi[0].value == null}
+                        disabled={this.state.modelsFarsi[0].value == null}
+                        options={
+                          i18n.language === 'en'
+                            ? this.state.modelsEnglish
+                            : this.state.modelsFarsi
+                        }
+                        error={Boolean(errors.carModel && touched.carModel)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        value={values.carModel}
                       />
-                      <Form.Input
-                        label="سال ساخت"
-                        name="نوع"
-                        // error={Boolean(errors.lastName && touched.lastName)}
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        // value={values.lastName}
+                      <Form.Dropdown
+                        name="carYear"
+                        id="carYear"
+                        search
+                        placeholder="سال"
+                        label="سال"
+                        selection
+                        loading={this.state.yearsFarsi[0].value == null}
+                        disabled={this.state.yearsFarsi[0].value == null}
+                        options={
+                          i18n.language === 'en'
+                            ? this.state.yearsEnglish
+                            : this.state.yearsFarsi
+                        }
+                        error={Boolean(errors.carYear && touched.carYear)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        value={values.carYear}
                       />
                     </Form.Group>
+
                     <Form.Field style={{ margin: 0 }}>
                       <label>نوع دنده</label>
                     </Form.Field>
