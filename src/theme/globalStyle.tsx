@@ -497,6 +497,57 @@ input[type="email"] {
     direction: ltr;
 }
 
+.visible.colorpicker {
+  .menu {
+      width: 222px !important;
+      display: flex !important;
+      flex-direction: row-reverse;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      align-items: flex-start;
+      >.item {
+        border-top: none;
+        display: inline-block;
+        width: auto;
+        padding: 5px 0px 0px 13px;
+      }
+    .circular.label {
+      width: 2.5em;
+      height: 2.5em;
+      border: solid 2px;
+    }
+  }
+}
+
+.item[color~="#FFFFFF"] .label {
+    background-color: #FFFFFF !important;
+}
+.item[color~="#000000"] .label {
+    background-color: #000000 !important;
+}
+.item[color~="#C0C0C0"] .label {
+    background-color: #C0C0C0 !important;
+}
+.item[color~="#808080"] .label {
+    background-color: #808080 !important;
+}
+.item[color~="#FF0000"] .label {
+    background-color: #FF0000 !important;
+}
+.item[color~="#0000FF"] .label {
+    background-color: #0000FF !important;
+}
+.item[color~="#CD853F"] .label {
+    background-color: #CD853F !important;
+}
+.item[color~="#008000"] .label {
+    background-color: #008000 !important;
+}
+.item[color~="#FFFF00"] .label {
+    background-color: #FFFF00 !important;
+}
+
+
 /**============================== 3.4 Spacing ==============================*/
 .add_bottom_10 {
   margin-bottom: 10px;

@@ -8,7 +8,7 @@ import {
   Segment,
   Button,
   Checkbox,
-  Message,
+  Grid,
   Dropdown,
   Input,
   Radio,
@@ -106,7 +106,7 @@ interface IAddCarFormValues {
   carModel: string;
   carYear: string;
   carGearboxType: string;
-  carChassis: string;
+  carBodyStyle: string;
   carCapasity: string;
   carKmDriven: string;
   carVIN: string;
@@ -133,7 +133,18 @@ export default withNamespaces('common')(
       citiesEnglish: [{ text: 'Loading', value: null }],
       cityDistrict: null,
       cityDistrictFarsi: [{ text: 'Loading', value: null }],
-      cityDistrictEnglish: [{ text: 'Loading', value: null }]
+      cityDistrictEnglish: [{ text: 'Loading', value: null }],
+      bodyStyle: null,
+      bodyStyleFarsi: [{ text: 'Loading', value: null }],
+      bodyStyleEnglish: [{ text: 'Loading', value: null }],
+      color: null,
+      colors: [
+        {
+          text: 'Loading',
+          value: null,
+          label: { color: 'red', empty: true, circular: true }
+        }
+      ]
     };
 
     constructor(props) {
@@ -156,7 +167,6 @@ export default withNamespaces('common')(
         .post('https://otoli.net' + '/core/location/list?limit=100')
         .then(response => {
           if (response.data.success) {
-            console.log(response.data.items);
             const citiesFarsi = response.data.items.map((value, index) => ({
               key: value.id,
               text: value.name.fa,
@@ -167,16 +177,60 @@ export default withNamespaces('common')(
               text: value.name.en,
               value: value.id
             }));
-            console.log(citiesFarsi);
             this.setState({ citiesFarsi, citiesEnglish });
           }
         })
         .catch(error => {
-          // tslint:disable-next-line:no-console
           console.error(error);
           this.setState({ error: error, success: false });
+        });
+
+      //get body styles and genrate a dropdown input in form
+      axios
+        .post('https://otoli.net' + '/core/body-style/list?limit=100')
+        .then(response => {
+          if (response.data.success) {
+            const bodyStyleFarsi = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.fa,
+              value: value.id
+            }));
+            const bodyStyleEnglish = response.data.items.map(
+              (value, index) => ({
+                key: value.id,
+                text: value.name.en,
+                value: value.id
+              })
+            );
+            this.setState({ bodyStyleFarsi, bodyStyleEnglish });
+          }
         })
-        .then(() => {});
+        .catch(error => {
+          console.error(error);
+          this.setState({ error: error, success: false });
+        });
+
+      //get car colors and genrate a dropdown input in form
+      axios
+        .post('https://otoli.net' + '/core/color/list?limit=16')
+        .then(response => {
+          if (response.data.success) {
+            console.log(response.data.items);
+            const colors = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: '',
+              value: value.slug.en,
+              color: value.code,
+              label: { color: value.slug.en, empty: true, circular: true }
+            }));
+            console.log(response.data.items);
+            this.setState({ colors });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          this.setState({ error: error, success: false });
+        });
     }
 
     setCityDistrict(cityID) {
@@ -376,47 +430,61 @@ export default withNamespaces('common')(
                         // value={values.lastName}
                       />
                     </Form.Group>
-
                     <Form.Field style={{ margin: 0 }}>
                       <label>نوع دنده</label>
                     </Form.Field>
                     <Form.Group inline>
                       <Form.Radio
                         label="دستی"
-                        value="sm"
-                        // checked={value === 'sm'}
-                        // onChange={this.handleChange}
+                        value="manual"
+                        name="carGearboxType"
+                        checked={values.carGearboxType === 'manual'}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
                       />
                       <Form.Radio
                         label="اتوماتیک"
-                        value="md"
-                        // checked={value === 'md'}
-                        // onChange={this.handleChange}
+                        value="automatic"
+                        name="carGearboxType"
+                        checked={values.carGearboxType === 'automatic'}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
                       />
                     </Form.Group>
 
-                    <Form.Input
-                      label="نوع شاسی"
-                      name="نوع شاسی"
-                      // error={Boolean(errors.lastName && touched.lastName)}
-                      // onChange={handleChange}
-                      // onBlur={handleBlur}
-                      // value={values.lastName}
+                    <Form.Dropdown
+                      name="carBodyStyle"
+                      id="carBodyStyle"
+                      placeholder="نوع شاسی"
+                      search
+                      selection
+                      loading={this.state.bodyStyleFarsi[0].value == null}
+                      options={
+                        i18n.language === 'en'
+                          ? this.state.bodyStyleEnglish
+                          : this.state.bodyStyleFarsi
+                      }
+                      error={Boolean(
+                        errors.carBodyStyle && touched.carBodyStyle
+                      )}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, data.value);
+                        }
+                      }}
+                      value={values.carBodyStyle}
                     />
 
                     <Form.Input
                       label="ظرفیت خودرو"
                       name="dhs"
                       type="number"
-                      // error={Boolean(errors.lastName && touched.lastName)}
-                      // onChange={handleChange}
-                      // onBlur={handleBlur}
-                      // value={values.lastName}
-                    />
-
-                    <Form.Input
-                      label="رنگ خودرو"
-                      name="dhبب"
                       // error={Boolean(errors.lastName && touched.lastName)}
                       // onChange={handleChange}
                       // onBlur={handleBlur}
@@ -436,13 +504,15 @@ export default withNamespaces('common')(
                             ? kmDrivenEnglish
                             : kmDrivenFarsi
                         }
-                        // error={Boolean(errors.month && touched.month)}
-                        // onChange={(e, data) => {
-                        //   if (data && data.name) {
-                        //     setFieldValue(data.name, data.value);
-                        //   }
-                        // }}
-                        // value={values.month}
+                        error={Boolean(
+                          errors.carKmDriven && touched.carKmDriven
+                        )}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        value={values.carKmDriven}
                       />
                     </Form.Group>
 
@@ -454,30 +524,77 @@ export default withNamespaces('common')(
                       // onBlur={handleBlur}
                       // value={values.lastName}
                     />
-
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>پلاک خودرو</label>
-                    </Form.Field>
-                    <Form.Group>
-                      <div className="pelak" style={{}}>
-                        <Form.Input name="first" id="first" style={{}} />
-                        <Form.Input
-                          name="letter"
-                          id="letter"
-                          style={{}}
-                          control="select"
-                        >
-                          <option value="alef">الف</option>
-                          <option value="be">ب</option>
-                        </Form.Input>
-                        <Form.Input name="second" id="second" style={{}} />
-                        <Form.Input
-                          name="estateCode"
-                          id="estateCode"
-                          style={{}}
-                        />
-                      </div>
-                    </Form.Group>
+                    <Grid columns={2}>
+                      <Grid.Column width={9}>
+                        <Form.Field style={{ margin: 0 }}>
+                          <label>پلاک خودرو</label>
+                        </Form.Field>
+                        <Form.Group>
+                          <div className="pelak" style={{}}>
+                            <Form.Input name="first" id="first" style={{}} />
+                            <Form.Input
+                              name="letter"
+                              id="letter"
+                              style={{}}
+                              control="select"
+                            >
+                              <option value="alef">الف</option>
+                              <option value="be">ب</option>
+                            </Form.Input>
+                            <Form.Input name="second" id="second" style={{}} />
+                            <Form.Input
+                              name="estateCode"
+                              id="estateCode"
+                              style={{}}
+                            />
+                          </div>
+                        </Form.Group>
+                      </Grid.Column>
+                      <Grid.Column width={5}>
+                        <Form.Field style={{ margin: 0 }}>
+                          <label>رنگ خودرو</label>
+                        </Form.Field>
+                        <Form.Field>
+                          <Dropdown
+                            text="رنگ خودرو"
+                            icon={this.state.colorIcon || `paint brush`}
+                            id="carColor"
+                            name="carColor"
+                            floating
+                            labeled
+                            button
+                            className={`icon colorpicker ${this.state.color}`}
+                            error={Boolean(errors.carColor && touched.carColor)}
+                            value={values.carColor}
+                          >
+                            <Dropdown.Menu>
+                              {/* <Dropdown.Header
+                                icon="tags"
+                                content="Tag Label"
+                              /> */}
+                              <Dropdown.Menu scrolling>
+                                {this.state.colors.map(option => (
+                                  <Dropdown.Item
+                                    onClick={(e, data) => {
+                                      console.log(data);
+                                      if (data && data.value) {
+                                        setFieldValue('carColor', data.value);
+                                        this.setState({
+                                          color: data.value,
+                                          colorIcon: 'car'
+                                        });
+                                      }
+                                    }}
+                                    key={option.value}
+                                    {...option}
+                                  />
+                                ))}
+                              </Dropdown.Menu>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </Form.Field>
+                      </Grid.Column>
+                    </Grid>
 
                     <Form.Group inline>
                       <label>عکس ماشین</label>
