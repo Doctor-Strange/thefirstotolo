@@ -459,6 +459,7 @@ export default withNamespaces('common')(
                           onChange={(e, data) => {
                             if (data && data.name) {
                               setFieldValue(data.name, data.value);
+                              setFieldValue('carDistrict', undefined);
                               this.setCityDistrict(data.value);
                             }
                           }}
@@ -520,8 +521,8 @@ export default withNamespaces('common')(
                         value={values.carBrand}
                       />
                       <Form.Dropdown
-                        name="carDistrict"
-                        id="carDistrict"
+                        name="carModel"
+                        id="carModel"
                         search
                         placeholder="مدل"
                         label="مدل"
@@ -688,12 +689,30 @@ export default withNamespaces('common')(
                       <Grid.Column width={5} />
                     </Grid>
 
-                    <Form.Group inline>
-                      <label>عکس ماشین</label>
-                    </Form.Group>
-
-                    <Form.Group>
+                    <Form.Field style={{ margin: 0 }}>
                       <label>امکانات ماشین</label>
+                    </Form.Field>
+                    <Form.Group>
+                      <Form.Field
+                        control={Checkbox}
+                        label="Make my profile visible"
+                      />
+                      <Form.Field
+                        control={Checkbox}
+                        label="Make my profile visible"
+                      />
+                      <Form.Field
+                        control={Checkbox}
+                        label="Make my profile visible"
+                      />
+                      <Form.Field
+                        control={Checkbox}
+                        label="Make my profile visible"
+                      />
+                      <Form.Field
+                        control={Checkbox}
+                        label="Make my profile visible"
+                      />
                     </Form.Group>
 
                     <Form.Group>

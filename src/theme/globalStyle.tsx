@@ -946,6 +946,10 @@ input[type="email"] {
   }
 }
 
+
+.form .disabled.field, .ui.form .disabled.fields .field, .ui.form .field :disabled {
+    opacity: 1;
+}
 /**============================== Colors of semantic UI==============================*/
   .ui{
     .primary{
