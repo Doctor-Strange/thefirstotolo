@@ -48,7 +48,7 @@ const BoxAccount = styled.div`
     background: url(${Pelak}) no-repeat;
     height: 70px;
     width: 300px;
-    #first {
+    #carLicensePlates1 {
       background: transparent;
       position: absolute;
       left: 40px;
@@ -57,7 +57,7 @@ const BoxAccount = styled.div`
       top: -5px;
       font-size: 18px;
     }
-    #letter {
+    #carLicensePlates2 {
       background: transparent;
       position: relative;
       left: -142px;
@@ -66,10 +66,10 @@ const BoxAccount = styled.div`
       padding: 8px;
       top: -28px;
       font-size: 18px;
-      text-align: left;
-      direction: ltr;
+      text-align: center;
+      direction: rtl;
     }
-    #second {
+    #carLicensePlates3 {
       background: transparent;
       position: absolute;
       left: 166px;
@@ -78,7 +78,7 @@ const BoxAccount = styled.div`
       top: -105px;
       font-size: 18px;
     }
-    #estateCode {
+    #carLicensePlates4 {
       background: transparent;
       position: absolute;
       left: 235px;
@@ -110,7 +110,10 @@ interface IAddCarFormValues {
   carCapasity: string;
   carKmDriven: string;
   carVIN: string;
-  carLicensePlates: string;
+  carLicensePlates1: string;
+  carLicensePlates2: string;
+  carLicensePlates3: string;
+  carLicensePlates4: string;
   carPictures: string;
   carOptions: [string];
   carDescription: string;
@@ -619,12 +622,12 @@ export default withNamespaces('common')(
 
                     <Form.Input
                       label="ظرفیت خودرو"
-                      name="dhs"
+                      name="carCapasity"
                       type="number"
-                      // error={Boolean(errors.lastName && touched.lastName)}
-                      // onChange={handleChange}
-                      // onBlur={handleBlur}
-                      // value={values.lastName}
+                      error={Boolean(errors.carCapasity && touched.carCapasity)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.carCapasity}
                     />
 
                     <Form.Group>
@@ -654,34 +657,85 @@ export default withNamespaces('common')(
 
                     <Form.Input
                       label="کد شناسایی خودرو"
-                      name="dhبب"
-                      // error={Boolean(errors.lastName && touched.lastName)}
-                      // onChange={handleChange}
-                      // onBlur={handleBlur}
-                      // value={values.lastName}
+                      name="carVIN"
+                      error={Boolean(errors.carVIN && touched.carVIN)}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.carVIN}
                     />
+
                     <Grid columns={2}>
-                      <Grid.Column width={9}>
+                      <Grid.Column width={16}>
                         <Form.Field style={{ margin: 0 }}>
                           <label>پلاک خودرو</label>
                         </Form.Field>
                         <Form.Group>
                           <div className="pelak" style={{}}>
-                            <Form.Input name="first" id="first" style={{}} />
                             <Form.Input
-                              name="letter"
-                              id="letter"
-                              style={{}}
+                              name="carLicensePlates1"
+                              id="carLicensePlates1"
+                              error={Boolean(
+                                errors.carLicensePlates1 &&
+                                  touched.carLicensePlates1
+                              )}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.carLicensePlates1}
+                            />
+                            <Form.Input
+                              name="carLicensePlates2"
+                              id="carLicensePlates2"
                               control="select"
+                              error={Boolean(
+                                errors.carLicensePlates2 &&
+                                  touched.carLicensePlates2
+                              )}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.carLicensePlates2}
                             >
-                              <option value="alef">الف</option>
-                              <option value="be">ب</option>
+                              <option value="" selected disabled hidden>
+                                ...
+                              </option>
+                              <option value="الف">الف</option>
+                              <option value="ب">ب</option>
+                              <option value="ج">ج</option>
+                              <option value="د">د</option>
+                              <option value="ژ">ژ</option>
+                              <option value="س">س</option>
+                              <option value="ٌص">ص</option>
+                              <option value="ط">ط</option>
+                              <option value="ق">ق</option>
+                              <option value="ل">ل</option>
+                              <option value="م">م</option>
+                              <option value="ن">ن</option>
+                              <option value="و">و</option>
+                              <option value="ه">هـ</option>
+                              <option value="ی">ی</option>
+                              <option value="گ">گ</option>
+                              <option value="ت">ت</option>
                             </Form.Input>
-                            <Form.Input name="second" id="second" style={{}} />
                             <Form.Input
-                              name="estateCode"
-                              id="estateCode"
-                              style={{}}
+                              name="carLicensePlates3"
+                              id="carLicensePlates3"
+                              error={Boolean(
+                                errors.carLicensePlates3 &&
+                                  touched.carLicensePlates3
+                              )}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.carLicensePlates3}
+                            />
+                            <Form.Input
+                              name="carLicensePlates4"
+                              id="carLicensePlates4"
+                              error={Boolean(
+                                errors.carLicensePlates4 &&
+                                  touched.carLicensePlates4
+                              )}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.carLicensePlates4}
                             />
                           </div>
                         </Form.Group>
@@ -719,7 +773,16 @@ export default withNamespaces('common')(
                       <Form.Field
                         control={TextArea}
                         label="توضیحات"
-                        placeholder="Tell us more about you..."
+                        id="carDescription"
+                        name="carDescription"
+                        placeholder="توضیحات اضافی در مورد شرایط خودرو..."
+                        error={Boolean(
+                          errors.carDescription &&
+                            touched.carcarDescriptionLicensePlates4
+                        )}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.carDescription}
                       />
                     </Form.Group>
 

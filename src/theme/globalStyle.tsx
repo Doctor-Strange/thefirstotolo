@@ -948,7 +948,11 @@ input[type="email"] {
 
 
 .form .disabled.field, .ui.form .disabled.fields .field, .ui.form .field :disabled {
-    opacity: 1;
+    opacity: 1 !important;
+}
+
+.form .field>.selection.dropdown {
+    min-height: 48px;
 }
 /**============================== Colors of semantic UI==============================*/
   .ui{
