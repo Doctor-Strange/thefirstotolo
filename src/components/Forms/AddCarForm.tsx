@@ -451,6 +451,7 @@ export default withNamespaces('common')(
               carLicensePlates2: null,
               carLicensePlates3: null,
               carLicensePlates4: null,
+              carColor: null,
               carDescription: null
             }}
             onSubmit={(
@@ -577,7 +578,10 @@ export default withNamespaces('common')(
                 .required(fieldErrorGenrator(t('carProperty.licensePlates')))
                 .typeError(fieldErrorGenrator(t('carProperty.licensePlates')))
                 .min(10, t('forms.error_licensePlates4_not_valid'))
-                .max(99, t('forms.error_licensePlates4_not_valid'))
+                .max(99, t('forms.error_licensePlates4_not_valid')),
+              carColor: Yup.mixed()
+                .required(fieldErrorGenrator(t('carProperty.color')))
+                .typeError(fieldErrorGenrator(t('carProperty.color')))
               // carOptions: [string]:Yup.number().required( t('forms.error_filed_required1') +                   t('carProperty.city') + t('forms.error_filed_required2') ),
               // carDescription: Yup.string()
             })}
