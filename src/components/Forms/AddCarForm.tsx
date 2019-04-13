@@ -827,7 +827,9 @@ export default withNamespaces('common')(
                     <Form.Input
                       label="ظرفیت خودرو"
                       name="carCapasity"
+                      inputmode="numeric"
                       type="number"
+                      pattern="[0-9]*"
                       error={Boolean(errors.carCapasity && touched.carCapasity)}
                       onChange={(e, data) => {
                         if (data && data.name) {
@@ -891,6 +893,11 @@ export default withNamespaces('common')(
                             <Form.Input
                               name="carLicensePlates1"
                               id="carLicensePlates1"
+                              inputmode="numeric"
+                              type="number"
+                              pattern="[0-9]*"
+                              min="10"
+                              max="99"
                               error={Boolean(
                                 errors.carLicensePlates1 &&
                                   touched.carLicensePlates1
@@ -938,6 +945,11 @@ export default withNamespaces('common')(
                             <Form.Input
                               name="carLicensePlates3"
                               id="carLicensePlates3"
+                              inputmode="numeric"
+                              type="number"
+                              pattern="[0-9]*"
+                              min="100"
+                              max="999"
                               error={Boolean(
                                 errors.carLicensePlates3 &&
                                   touched.carLicensePlates3
@@ -953,6 +965,11 @@ export default withNamespaces('common')(
                             <Form.Input
                               name="carLicensePlates4"
                               id="carLicensePlates4"
+                              inputmode="numeric"
+                              type="number"
+                              pattern="[0-9]*"
+                              min="10"
+                              max="99"
                               error={Boolean(
                                 errors.carLicensePlates4 &&
                                   touched.carLicensePlates4
