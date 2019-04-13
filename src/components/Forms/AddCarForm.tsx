@@ -114,8 +114,6 @@ interface IAddCarFormValues {
   carLicensePlates2: string;
   carLicensePlates3: string;
   carLicensePlates4: string;
-  carPictures: string;
-  carOptions: [string];
   carDescription: string;
 }
 
@@ -142,6 +140,7 @@ export default withNamespaces('common')(
       bodyStyleEnglish: [{ text: 'Loading', value: null }],
       color: null,
       colorCode: null,
+      colorId: null,
       colors: [
         {
           text: 'Loading',
@@ -157,7 +156,11 @@ export default withNamespaces('common')(
       modelsEnglish: [{ text: 'Loading', value: null }],
       year: null,
       yearsFarsi: [{ text: 'Loading', value: null }],
-      yearsEnglish: [{ text: 'Loading', value: null }]
+      yearsEnglish: [{ text: 'Loading', value: null }],
+      checkboxesID: [],
+      checkboxes: [
+        { id: 0, label: 'loading...', checked: true, parsedID: null }
+      ]
     };
 
     constructor(props) {
@@ -228,7 +231,6 @@ export default withNamespaces('common')(
         .post('https://otoli.net' + '/core/color/list?limit=16')
         .then(response => {
           if (response.data.success) {
-            console.log(response.data.items);
             const colors = response.data.items.map((value, index) => ({
               key: value.id,
               text: '',
@@ -236,7 +238,6 @@ export default withNamespaces('common')(
               color: value.code,
               label: { color: value.slug.en, empty: true, circular: true }
             }));
-            console.log(response.data.items);
             this.setState({ colors });
           }
         })
@@ -290,6 +291,28 @@ export default withNamespaces('common')(
           console.error(error);
           this.setState({ error: error, success: false });
         });
+
+      //get facilities and genrate checkbox inputs in form
+      axios
+        .post('https://otoli.net' + '/core/facility/list?limit=10000')
+        .then(response => {
+          if (response.data.success) {
+            let checkboxes = [];
+            response.data.items.map((value, index) => {
+              checkboxes.push({
+                id: value.id,
+                label: value.name.fa,
+                checked: false,
+                parsedID: null
+              });
+            });
+            this.setState({ checkboxes });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          this.setState({ error: error, success: false });
+        });
     }
 
     setCityDistrict(cityID) {
@@ -322,9 +345,9 @@ export default withNamespaces('common')(
             this.setState({ cityDistrictFarsi, cityDistrictEnglish });
           } else {
             this.setState({
-              cityDistrict: null,
-              cityDistrictFarsi: [{ text: 'Loading', value: null }],
-              cityDistrictEnglish: [{ text: 'Loading', value: null }]
+              cityDistrict: cityID,
+              cityDistrictFarsi: [{ text: 'تمام شهر', value: cityID }],
+              cityDistrictEnglish: [{ text: 'تمام شهر', value: cityID }]
             });
           }
         })
@@ -372,13 +395,58 @@ export default withNamespaces('common')(
         .then(() => {});
     }
 
+    setFasalities(index) {
+      const { checkboxes } = this.state;
+
+      checkboxes[index].checked = !checkboxes[index].checked;
+      if (checkboxes[index].checked) {
+        checkboxes[index].parsedID = checkboxes[index].id;
+      } else {
+        checkboxes[index].parsedID = null;
+      }
+      let checkboxesID = [];
+      checkboxes.map((value, index) => {
+        if (value.parsedID) {
+          checkboxesID.push(value.parsedID);
+        }
+      });
+
+      this.setState({
+        checkboxes,
+        checkboxesID
+      });
+    }
+
     render() {
-      const { token, error } = this.state;
+      const { checkboxes, token, error } = this.state;
       const { t } = this.props;
+      const fieldErrorGenrator = fieldName => {
+        return (
+          t('forms.error_filed_required1') +
+          fieldName +
+          t('forms.error_filed_required2')
+        );
+      };
       if (true) {
         return (
           <Formik
-            initialValues={{}}
+            initialValues={{
+              carCity: null,
+              carDistrict: null,
+              carBrand: null,
+              carModel: null,
+              carYear: null,
+              carGearboxType: null,
+              carBodyStyle: null,
+              carCapasity: null,
+              carKmDriven: null,
+              carVIN: null,
+              carLicensePlates1: null,
+              carLicensePlates2: null,
+              carLicensePlates3: null,
+              carLicensePlates4: null,
+              carDescription: null
+            }}
             onSubmit={(
               values: IAddCarFormValues,
               actions: FormikActions<IAddCarFormValues>
@@ -386,17 +454,46 @@ export default withNamespaces('common')(
               actions.setSubmitting(true);
               this.setState({ error: '' });
               console.log(values);
-              const {} = values;
+              const {
+                carCity,
+                carDistrict,
+                carBrand,
+                carModel,
+                carYear,
+                carGearboxType,
+                carBodyStyle,
+                carCapasity,
+                carKmDriven,
+                carVIN,
+                carLicensePlates1,
+                carLicensePlates2,
+                carLicensePlates3,
+                carLicensePlates4,
+                carDescription
+              } = values;
               axios
                 .post(
-                  'https://otoli.net' + '/core/user/update',
+                  'https://otoli.net' + '/core/rental-car/new',
                   {
-                    // first_name: firstName,
-                    // last_name: lastName,
-                    // national_id: nationalid,
-                    // birth_date: `${year}/${month}/${day}`,
-                    // email: emailAddress,
-                    // is_ok_to_get_emails: false
+                    car_id: carModel,
+                    location_id: carDistrict,
+                    year_id: carYear,
+                    transmission_type_id: carGearboxType,
+                    body_style_id: carBodyStyle,
+                    mileage_range_id: carKmDriven,
+                    color_id: this.state.colorId,
+                    special_type_id: 1,
+                    vin: carVIN,
+                    registration_plate_first_part: carLicensePlates1,
+                    registration_plate_second_part: carLicensePlates2,
+                    registration_plate_third_part: carLicensePlates3,
+                    registration_plate_forth_part: carLicensePlates4,
+                    days_to_get_reminded: 3, // sample
+                    min_days_to_rent: 1, // sample
+                    capacity: carCapasity,
+                    deliver_at_renters_place: 0, // sample
+                    facility_id: this.state.checkboxesID[0],
+                    description: carDescription
                   },
                   {
                     headers: {
@@ -406,6 +503,7 @@ export default withNamespaces('common')(
                 )
                 .then(response => {
                   if (response.data.success) {
+                    console.log(response.data);
                   }
                 })
                 .catch(error => {
@@ -422,7 +520,61 @@ export default withNamespaces('common')(
                 actions.setSubmitting(false);
               }, 3000);
             }}
-            validationSchema={Yup.object().shape({})}
+            validationSchema={Yup.object().shape({
+              carCity: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.city')))
+                .typeError(fieldErrorGenrator(t('carProperty.city'))),
+              carDistrict: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.district')))
+                .typeError(fieldErrorGenrator(t('carProperty.district'))),
+              carBrand: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.brand')))
+                .typeError(fieldErrorGenrator(t('carProperty.brand'))),
+              carModel: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.model')))
+                .typeError(fieldErrorGenrator(t('carProperty.model'))),
+              carYear: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.year')))
+                .typeError(fieldErrorGenrator(t('carProperty.year'))),
+              carGearboxType: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.gearBoxType')))
+                .typeError(fieldErrorGenrator(t('carProperty.gearBoxType')))
+                .min(1)
+                .max(2),
+              carBodyStyle: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.cassis')))
+                .typeError(fieldErrorGenrator(t('carProperty.cassis'))),
+              carCapasity: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.capasity')))
+                .typeError(fieldErrorGenrator(t('carProperty.capasity'))),
+              carKmDriven: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.kmDriven')))
+                .typeError(fieldErrorGenrator(t('carProperty.kmDriven'))),
+              carVIN: Yup.string()
+                .required(fieldErrorGenrator(t('carProperty.VIN')))
+                .typeError(fieldErrorGenrator(t('carProperty.VIN')))
+                .matches(/[A-HJ-NPR-Z0-9]{17}/, t('forms.error_VIN_not_valid')),
+              carLicensePlates1: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.licensePlates')))
+                .typeError(fieldErrorGenrator(t('carProperty.licensePlates')))
+                .min(10, t('forms.error_licensePlates1_not_valid'))
+                .max(99, t('forms.error_licensePlates1_not_valid')),
+              carLicensePlates2: Yup.string()
+                .required(fieldErrorGenrator(t('carProperty.licensePlates')))
+                .typeError(fieldErrorGenrator(t('carProperty.licensePlates'))),
+              carLicensePlates3: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.licensePlates')))
+                .typeError(fieldErrorGenrator(t('carProperty.licensePlates')))
+                .min(100, t('forms.error_licensePlates3_not_valid'))
+                .max(999, t('forms.error_licensePlates3_not_valid')),
+              carLicensePlates4: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.licensePlates')))
+                .typeError(fieldErrorGenrator(t('carProperty.licensePlates')))
+                .min(10, t('forms.error_licensePlates4_not_valid'))
+                .max(99, t('forms.error_licensePlates4_not_valid'))
+              // carOptions: [string]:Yup.number().required( t('forms.error_filed_required1') +                   t('carProperty.city') + t('forms.error_filed_required2') ),
+              // carDescription: Yup.string()
+            })}
           >
             {({
               handleSubmit,
@@ -430,6 +582,7 @@ export default withNamespaces('common')(
               handleBlur,
               isSubmitting,
               setFieldValue,
+              setFieldTouched,
               submitCount,
               values,
               errors,
@@ -466,6 +619,12 @@ export default withNamespaces('common')(
                               this.setCityDistrict(data.value);
                             }
                           }}
+                          onClose={(e, data) => {
+                            console.log(e);
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
                           value={values.carCity}
                         />
                       </Form.Field>
@@ -495,6 +654,11 @@ export default withNamespaces('common')(
                               setFieldValue(data.name, data.value);
                             }
                           }}
+                          onClose={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
                           value={values.carDistrict}
                         />
                       </Form.Field>
@@ -521,6 +685,11 @@ export default withNamespaces('common')(
                             this.setModels(data.value);
                           }
                         }}
+                        onClose={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
                         value={values.carBrand}
                       />
                       <Form.Dropdown
@@ -541,6 +710,11 @@ export default withNamespaces('common')(
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        onClose={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
                           }
                         }}
                         value={values.carModel}
@@ -565,6 +739,11 @@ export default withNamespaces('common')(
                             setFieldValue(data.name, data.value);
                           }
                         }}
+                        onClose={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
                         value={values.carYear}
                       />
                     </Form.Group>
@@ -575,23 +754,33 @@ export default withNamespaces('common')(
                     <Form.Group inline>
                       <Form.Radio
                         label="دستی"
-                        value="manual"
+                        value={1}
                         name="carGearboxType"
-                        checked={values.carGearboxType === 'manual'}
+                        checked={values.carGearboxType === 1}
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
                           }
                         }}
+                        onClick={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
                       />
                       <Form.Radio
                         label="اتوماتیک"
-                        value="automatic"
+                        value={2}
                         name="carGearboxType"
-                        checked={values.carGearboxType === 'automatic'}
+                        checked={values.carGearboxType === 2}
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        onClick={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
                           }
                         }}
                       />
@@ -617,6 +806,11 @@ export default withNamespaces('common')(
                           setFieldValue(data.name, data.value);
                         }
                       }}
+                      onClose={(e, data) => {
+                        if (data && data.name) {
+                          setFieldTouched(data.name);
+                        }
+                      }}
                       value={values.carBodyStyle}
                     />
 
@@ -625,15 +819,19 @@ export default withNamespaces('common')(
                       name="carCapasity"
                       type="number"
                       error={Boolean(errors.carCapasity && touched.carCapasity)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, data.value);
+                          setFieldTouched(data.name);
+                        }
+                      }}
                       value={values.carCapasity}
                     />
 
                     <Form.Group>
                       <Form.Dropdown
-                        name="kmdriven"
-                        id="kmdriven"
+                        name="carKmDriven"
+                        id="carKmDriven"
                         label="کارکرد ماشین"
                         placeholder="کارکرد ماشین"
                         className="ltr"
@@ -651,6 +849,11 @@ export default withNamespaces('common')(
                             setFieldValue(data.name, data.value);
                           }
                         }}
+                        onClose={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
                         value={values.carKmDriven}
                       />
                     </Form.Group>
@@ -659,8 +862,12 @@ export default withNamespaces('common')(
                       label="کد شناسایی خودرو"
                       name="carVIN"
                       error={Boolean(errors.carVIN && touched.carVIN)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, data.value);
+                          setFieldTouched(data.name);
+                        }
+                      }}
                       value={values.carVIN}
                     />
 
@@ -678,8 +885,12 @@ export default withNamespaces('common')(
                                 errors.carLicensePlates1 &&
                                   touched.carLicensePlates1
                               )}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
+                              onChange={(e, data) => {
+                                if (data && data.name) {
+                                  setFieldValue(data.name, data.value);
+                                  setFieldTouched(data.name);
+                                }
+                              }}
                               value={values.carLicensePlates1}
                             />
                             <Form.Input
@@ -691,7 +902,6 @@ export default withNamespaces('common')(
                                   touched.carLicensePlates2
                               )}
                               onChange={handleChange}
-                              onBlur={handleBlur}
                               value={values.carLicensePlates2}
                             >
                               <option value="" selected disabled hidden>
@@ -722,8 +932,12 @@ export default withNamespaces('common')(
                                 errors.carLicensePlates3 &&
                                   touched.carLicensePlates3
                               )}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
+                              onChange={(e, data) => {
+                                if (data && data.name) {
+                                  setFieldValue(data.name, data.value);
+                                  setFieldTouched(data.name);
+                                }
+                              }}
                               value={values.carLicensePlates3}
                             />
                             <Form.Input
@@ -733,8 +947,12 @@ export default withNamespaces('common')(
                                 errors.carLicensePlates4 &&
                                   touched.carLicensePlates4
                               )}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
+                              onChange={(e, data) => {
+                                if (data && data.name) {
+                                  setFieldValue(data.name, data.value);
+                                  setFieldTouched(data.name);
+                                }
+                              }}
                               value={values.carLicensePlates4}
                             />
                           </div>
@@ -746,27 +964,16 @@ export default withNamespaces('common')(
                     <Form.Field style={{ margin: 0 }}>
                       <label>امکانات ماشین</label>
                     </Form.Field>
-                    <Form.Group>
-                      <Form.Field
-                        control={Checkbox}
-                        label="Make my profile visible"
-                      />
-                      <Form.Field
-                        control={Checkbox}
-                        label="Make my profile visible"
-                      />
-                      <Form.Field
-                        control={Checkbox}
-                        label="Make my profile visible"
-                      />
-                      <Form.Field
-                        control={Checkbox}
-                        label="Make my profile visible"
-                      />
-                      <Form.Field
-                        control={Checkbox}
-                        label="Make my profile visible"
-                      />
+                    <Form.Group style={{ flexWrap: 'wrap' }}>
+                      {checkboxes.map((checkbox, index) => (
+                        <Form.Field
+                          style={{ width: 'fit-content', minWidth: '168px' }}
+                          control={Checkbox}
+                          checked={checkbox.checked}
+                          onChange={this.setFasalities.bind(this, index)}
+                          label={checkbox.label}
+                        />
+                      ))}
                     </Form.Group>
 
                     <Form.Group>
@@ -778,9 +985,14 @@ export default withNamespaces('common')(
                         placeholder="توضیحات اضافی در مورد شرایط خودرو..."
                         error={Boolean(
                           errors.carDescription &&
-                            touched.carcarDescriptionLicensePlates4
+                            touched.carDescriptionLicensePlates4
                         )}
-                        onChange={handleChange}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            setFieldTouched(data.name);
+                          }
+                        }}
                         onBlur={handleBlur}
                         value={values.carDescription}
                       />
@@ -802,6 +1014,7 @@ export default withNamespaces('common')(
                           this.state.colorCode || 'cc'
                         ).substr(1)}`}
                         error={Boolean(errors.carColor && touched.carColor)}
+                        onBlur={handleBlur}
                         value={values.carColor}
                       >
                         <Dropdown.Menu>
@@ -813,13 +1026,13 @@ export default withNamespaces('common')(
                             {this.state.colors.map(option => (
                               <Dropdown.Item
                                 onClick={(e, data) => {
-                                  console.log(data);
                                   if (data && data.value) {
                                     setFieldValue('carColor', data.value);
                                     this.setState({
                                       color: data.value,
                                       colorCode: data.color,
-                                      colorIcon: 'car'
+                                      colorIcon: 'car',
+                                      colorId: option.key
                                     });
                                   }
                                 }}

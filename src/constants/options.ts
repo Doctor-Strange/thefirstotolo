@@ -37,15 +37,15 @@ export const monthsFarsi = [
 ];
 
 export const kmDrivenEnglish = [
-  { key: '1', value: '1', text: '0 ~ 50,000' },
-  { key: '2', value: '2', text: '50,000 ~ 100,000' },
-  { key: '3', value: '3', text: '100,000 ~ 200,000' },
-  { key: '4', value: '4', text: '+200,000' }
+  { key: '1', value: '1', text: '0km ~ 50,000km' },
+  { key: '2', value: '2', text: '50,000km ~ 100,000km' },
+  { key: '3', value: '3', text: '100,000km ~ 200,000km' },
+  { key: '4', value: '4', text: '+200,000km' }
 ];
 
 export const kmDrivenFarsi = [
-  { key: '1', value: '1', text: '۰ ~ ۵۰٫۰۰۰' },
-  { key: '2', value: '2', text: '۵۰٫۰۰۰ ~ ۱۰۰٫۰۰۰' },
-  { key: '3', value: '3', text: '۱۰۰٫۰۰۰ ~ ۲۰۰٫۰۰۰' },
-  { key: '4', value: '4', text: '+۲۰۰٫۰۰۰' }
+  { key: '1', value: '1', text: '۰ - ۵۰٫۰۰۰ ک.م.' },
+  { key: '2', value: '2', text: '۵۰٫۰۰۰ - ۱۰۰٫۰۰۰ ک.م.' },
+  { key: '3', value: '3', text: '۱۰۰٫۰۰۰ - ۲۰۰٫۰۰۰ ک.م.' },
+  { key: '4', value: '4', text: '+۲۰۰٫۰۰۰  ک.م.' }
 ];
