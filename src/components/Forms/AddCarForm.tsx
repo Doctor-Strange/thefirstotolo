@@ -97,6 +97,12 @@ const BoxAccount = styled.div`
       width: 100%;
     }
   }
+  .car_checkboxes {
+    .field {
+      width: fit-content !important;
+      min-width: 168px !important;
+    }
+  }
 `;
 
 interface IAddCarFormValues {
@@ -964,10 +970,12 @@ export default withNamespaces('common')(
                     <Form.Field style={{ margin: 0 }}>
                       <label>امکانات ماشین</label>
                     </Form.Field>
-                    <Form.Group style={{ flexWrap: 'wrap' }}>
+                    <Form.Group
+                      style={{ flexWrap: 'wrap' }}
+                      className="car_checkboxes"
+                    >
                       {checkboxes.map((checkbox, index) => (
                         <Form.Field
-                          style={{ width: 'fit-content', minWidth: '168px' }}
                           control={Checkbox}
                           checked={checkbox.checked}
                           onChange={this.setFasalities.bind(this, index)}
