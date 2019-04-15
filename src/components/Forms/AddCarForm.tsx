@@ -103,7 +103,6 @@ const BoxAccount = styled.div`
       background: url(${NewUser}) center left no-repeat;
     }
   }
-
   .pelak {
     background: url(${Pelak}) no-repeat;
     height: 70px;
@@ -163,6 +162,33 @@ const BoxAccount = styled.div`
       min-width: 168px !important;
     }
   }
+  @media (min-width: 767px) {
+    .carModelRow {
+      .field:not(:first-child) {
+        padding-right: 0px;
+      }
+    }
+  }
+  .gearBoxRow {
+    .field:first-child {
+      padding-right: 0px !important;
+    }
+    label {
+      padding-right: 19px !important;
+    }
+  }
+  .colorpicker {
+    .menu {
+      right: 0 !important;
+      @media only screen and (max-width: 767px) {
+        max-height: fit-content;
+      }
+    }
+  }
+  #carModel .text {
+    height: 24px;
+    overflow: hidden;
+  }
 `;
 
 interface IAddCarFormValues {
@@ -199,6 +225,8 @@ export default withNamespaces('common')(
       citiesFarsi: [{ text: 'Loading', value: null }],
       citiesEnglish: [{ text: 'Loading', value: null }],
       cityDistrict: null,
+      shouldCityDistrictLoad: false,
+      shouldCityDistrictShow: false,
       cityDistrictFarsi: [{ text: 'Loading', value: null }],
       cityDistrictEnglish: [{ text: 'Loading', value: null }],
       bodyStyle: null,
@@ -218,6 +246,7 @@ export default withNamespaces('common')(
       brandsFarsi: [{ text: 'Loading', value: null }],
       brandEnglish: [{ text: 'Loading', value: null }],
       model: null,
+      shouldModelLoad: false,
       modelsFarsi: [{ text: 'Loading', value: null }],
       modelsEnglish: [{ text: 'Loading', value: null }],
       year: null,
@@ -321,7 +350,7 @@ export default withNamespaces('common')(
           if (response.data.success) {
             const brandsFarsi = response.data.items.map((value, index) => ({
               key: value.id,
-              text: value.name.fa,
+              text: `${value.name.fa} - ${value.name.en}`,
               value: value.id
             }));
             const brandsEnglish = response.data.items.map((value, index) => ({
@@ -384,7 +413,8 @@ export default withNamespaces('common')(
     }
 
     setCityDistrict(cityID) {
-      this.setState({ city: cityID });
+      this.setState({ city: cityID, shouldCityDistrictLoad: true });
+
       axios
         .post(
           'https://otoli.net' +
@@ -410,12 +440,17 @@ export default withNamespaces('common')(
                 value: value.id
               })
             );
-            this.setState({ cityDistrictFarsi, cityDistrictEnglish });
+            this.setState({
+              cityDistrictFarsi,
+              cityDistrictEnglish,
+              shouldCityDistrictShow: true
+            });
           } else {
             this.setState({
               cityDistrict: cityID,
               cityDistrictFarsi: [{ text: 'تمام شهر', value: cityID }],
-              cityDistrictEnglish: [{ text: 'تمام شهر', value: cityID }]
+              cityDistrictEnglish: [{ text: 'تمام شهر', value: cityID }],
+              shouldCityDistrictShow: false
             });
           }
         })
@@ -424,11 +459,13 @@ export default withNamespaces('common')(
           console.error(error);
           this.setState({ error: error, success: false });
         })
-        .then(() => {});
+        .then(() => {
+          this.setState({ shouldCityDistrictLoad: false });
+        });
     }
 
     setModels(brandID) {
-      this.setState({ brand: brandID });
+      this.setState({ brand: brandID, shouldModelLoad: true });
       axios
         .post('https://otoli.net' + '/core/car/list?brand_id=' + brandID)
         .then(response => {
@@ -438,7 +475,7 @@ export default withNamespaces('common')(
           ) {
             const modelsFarsi = response.data.items.map((value, index) => ({
               key: value.id,
-              text: value.name.fa,
+              text: `${value.name.fa} - ${value.name.en}`,
               value: value.id
             }));
             const modelsEnglish = response.data.items.map((value, index) => ({
@@ -460,7 +497,9 @@ export default withNamespaces('common')(
           console.error(error);
           this.setState({ error: error, success: false });
         })
-        .then(() => {});
+        .then(() => {
+          this.setState({ shouldModelLoad: false });
+        });
     }
 
     setFasalities(index) {
@@ -681,14 +720,14 @@ export default withNamespaces('common')(
                   <Segment>
                     {/* <label>ماشین شما کجاست؟</label> */}
                     <Form.Field style={{ margin: 0 }}>
-                      <label>ماشین شما کجاست؟</label>
+                      <label>{t('carProperty.whereIsIt')}</label>
                     </Form.Field>
                     <Form.Group>
                       <Form.Field>
                         <Form.Dropdown
                           name="carCity"
                           id="carCity"
-                          placeholder="شهر"
+                          placeholder={t('carProperty.city')}
                           search
                           selection
                           loading={this.state.citiesFarsi[0].value == null}
@@ -714,48 +753,50 @@ export default withNamespaces('common')(
                           value={values.carCity}
                         />
                       </Form.Field>
-                      <Form.Field>
-                        <Form.Dropdown
-                          name="carDistrict"
-                          id="carDistrict"
-                          search
-                          placeholder="محله"
-                          selection
-                          loading={
-                            this.state.cityDistrictFarsi[0].value == null
-                          }
-                          disabled={
-                            this.state.cityDistrictFarsi[0].value == null
-                          }
-                          options={
-                            i18n.language === 'en'
-                              ? this.state.cityDistrictEnglish
-                              : this.state.cityDistrictFarsi
-                          }
-                          error={Boolean(
-                            errors.carDistrict && touched.carDistrict
-                          )}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
+                      {this.state.shouldCityDistrictShow ? (
+                        <Form.Field>
+                          <Form.Dropdown
+                            name="carDistrict"
+                            id="carDistrict"
+                            search
+                            placeholder={t('carProperty.district')}
+                            selection
+                            loading={this.state.shouldCityDistrictLoad}
+                            disabled={
+                              this.state.cityDistrictFarsi[0].value == null
                             }
-                          }}
-                          onClose={(e, data) => {
-                            if (data && data.name) {
-                              setFieldTouched(data.name);
+                            options={
+                              i18n.language === 'en'
+                                ? this.state.cityDistrictEnglish
+                                : this.state.cityDistrictFarsi
                             }
-                          }}
-                          value={values.carDistrict}
-                        />
-                      </Form.Field>
+                            error={Boolean(
+                              errors.carDistrict && touched.carDistrict
+                            )}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, data.value);
+                              }
+                            }}
+                            onClose={(e, data) => {
+                              if (data && data.name) {
+                                setFieldTouched(data.name);
+                              }
+                            }}
+                            value={values.carDistrict}
+                          />
+                        </Form.Field>
+                      ) : (
+                        <p />
+                      )}
                     </Form.Group>
 
-                    <Form.Group>
+                    <Form.Group className="carModelRow">
                       <Form.Dropdown
                         name="carBrand"
                         id="carBrand"
-                        label="برند"
-                        placeholder="برند"
+                        label={t('carProperty.brand')}
+                        placeholder={t('carProperty.brand')}
                         search
                         selection
                         loading={this.state.brandsFarsi[0].value == null}
@@ -782,10 +823,10 @@ export default withNamespaces('common')(
                         name="carModel"
                         id="carModel"
                         search
-                        placeholder="مدل"
-                        label="مدل"
+                        placeholder={t('carProperty.model')}
+                        label={t('carProperty.model')}
                         selection
-                        loading={this.state.modelsFarsi[0].value == null}
+                        loading={this.state.shouldModelLoad}
                         disabled={this.state.modelsFarsi[0].value == null}
                         options={
                           i18n.language === 'en'
@@ -809,8 +850,8 @@ export default withNamespaces('common')(
                         name="carYear"
                         id="carYear"
                         search
-                        placeholder="سال"
-                        label="سال"
+                        placeholder={t('carProperty.year')}
+                        label={t('carProperty.year')}
                         selection
                         loading={this.state.yearsFarsi[0].value == null}
                         disabled={this.state.yearsFarsi[0].value == null}
@@ -835,11 +876,11 @@ export default withNamespaces('common')(
                     </Form.Group>
 
                     <Form.Field style={{ margin: 0 }}>
-                      <label>نوع دنده</label>
+                      <label>{t('carProperty.gearBoxType')}</label>
                     </Form.Field>
-                    <Form.Group inline>
+                    <Form.Group inline className="gearBoxRow">
                       <Form.Radio
-                        label="دستی"
+                        label={t('carProperty.gearBoxManual')}
                         value={1}
                         name="carGearboxType"
                         checked={values.carGearboxType === 1}
@@ -855,7 +896,7 @@ export default withNamespaces('common')(
                         }}
                       />
                       <Form.Radio
-                        label="اتوماتیک"
+                        label={t('carProperty.gearBoxAuto')}
                         value={2}
                         name="carGearboxType"
                         checked={values.carGearboxType === 2}
@@ -875,7 +916,7 @@ export default withNamespaces('common')(
                     <Form.Dropdown
                       name="carBodyStyle"
                       id="carBodyStyle"
-                      placeholder="نوع شاسی"
+                      placeholder={t('carProperty.cassis')}
                       search
                       selection
                       loading={this.state.bodyStyleFarsi[0].value == null}
@@ -901,7 +942,7 @@ export default withNamespaces('common')(
                     />
 
                     <Form.Input
-                      label="ظرفیت خودرو"
+                      label={t('carProperty.capasity')}
                       name="carCapasity"
                       inputmode="numeric"
                       type="number"
@@ -920,9 +961,9 @@ export default withNamespaces('common')(
                       <Form.Dropdown
                         name="carKmDriven"
                         id="carKmDriven"
-                        label="کارکرد ماشین"
-                        placeholder="کارکرد ماشین"
-                        className="ltr"
+                        label={t('carProperty.kmDriven')}
+                        placeholder={t('carProperty.kmDriven')}
+                        // className="ltr"
                         selection
                         options={
                           i18n.language === 'en'
@@ -947,7 +988,7 @@ export default withNamespaces('common')(
                     </Form.Group>
 
                     <Form.Input
-                      label="کد شناسایی خودرو"
+                      label={t('carProperty.VIN')}
                       name="carVIN"
                       error={Boolean(errors.carVIN && touched.carVIN)}
                       onChange={(e, data) => {
@@ -962,7 +1003,7 @@ export default withNamespaces('common')(
                     <Grid columns={2}>
                       <Grid.Column width={16}>
                         <Form.Field style={{ margin: 0 }}>
-                          <label>پلاک خودرو</label>
+                          <label>{t('carProperty.licensePlates')}</label>
                         </Form.Field>
                         <Form.Group>
                           <div className="pelak" style={{}}>
@@ -1065,7 +1106,7 @@ export default withNamespaces('common')(
                     </Grid>
 
                     <Form.Field style={{ margin: 0 }}>
-                      <label>امکانات ماشین</label>
+                      <label>{t('carProperty.option')}</label>
                     </Form.Field>
                     <Form.Group
                       style={{ flexWrap: 'wrap' }}
@@ -1082,7 +1123,7 @@ export default withNamespaces('common')(
                     </Form.Group>
 
                     <Form.Field style={{ margin: 0 }}>
-                      <label>بارگذاری تصویر</label>
+                      <label>{t('carProperty.uploadImage')}</label>
                       <Dropzone
                         accept="image/jpeg, image/png"
                         onDrop={acceptedFiles => {
@@ -1168,13 +1209,12 @@ export default withNamespaces('common')(
                     <Form.Group>
                       <Form.Field
                         control={TextArea}
-                        label="توضیحات"
+                        label={t('carProperty.description')}
                         id="carDescription"
                         name="carDescription"
-                        placeholder="توضیحات اضافی در مورد شرایط خودرو..."
+                        placeholder={t('carProperty.descriptionPlaceholder')}
                         error={Boolean(
-                          errors.carDescription &&
-                            touched.carDescriptionLicensePlates4
+                          errors.carDescription && touched.carDescription
                         )}
                         onChange={(e, data) => {
                           if (data && data.name) {
@@ -1192,8 +1232,8 @@ export default withNamespaces('common')(
                     </Form.Field>
                     <Form.Field>
                       <Dropdown
-                        text="رنگ خودرو"
-                        icon={this.state.colorIcon || `paint brush`}
+                        text={t('carProperty.color')}
+                        icon={/*this.state.colorIcon || */ `paint brush`}
                         id="carColor"
                         name="carColor"
                         floating

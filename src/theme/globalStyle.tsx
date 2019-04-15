@@ -955,6 +955,36 @@ input[type="email"] {
     min-height: 48px;
 }
 /**============================== Colors of semantic UI==============================*/
+
+/** focus colors **/
+.ui.checkbox input:checked~.box:after, .ui.checkbox input:checked~label:after,
+.ui.checkbox input:focus~.box:after, .ui.checkbox input:focus~label:after  {
+    color: rgb(51, 172, 193) !important;
+    background: rgba(51, 172, 193, 0.05) !important;
+    border-color: rgb(51, 172, 193) !important;
+}
+
+.ui.radio.checkbox input:checked~.box:after, .ui.radio.checkbox input:checked~label:after {
+    background-color: rgb(51,172,193) !important;
+}
+
+.ui.checkbox input:focus~.box:before, .ui.checkbox input:focus~label:before {
+    background: rgba(51, 172, 193, 0.05);
+}
+
+.ui.dropdown .menu>.item:hover, .ui.dropdown .menu>.item:focus {
+    background: rgba(51, 172, 193, 0.05);
+}
+
+.ui.dropdown .menu .selected.item, .ui.dropdown.selected {
+  background: rgba(51, 172, 193, 0.05);
+}
+.ui.input input:focus {
+    background: rgba(51, 172, 193, 0.05) !important;
+}
+
+/** end of focus colors **/
+
   .ui{
     .primary{
       &.button{

@@ -44,8 +44,8 @@ export const kmDrivenEnglish = [
 ];
 
 export const kmDrivenFarsi = [
-  { key: '1', value: '1', text: '۰ - ۵۰٫۰۰۰ ک.م.' },
-  { key: '2', value: '2', text: '۵۰٫۰۰۰ - ۱۰۰٫۰۰۰ ک.م.' },
-  { key: '3', value: '3', text: '۱۰۰٫۰۰۰ - ۲۰۰٫۰۰۰ ک.م.' },
-  { key: '4', value: '4', text: '+۲۰۰٫۰۰۰  ک.م.' }
+  { key: '1', value: '1', text: '۰ - ۵۰٫۰۰۰ کیلومتر' },
+  { key: '2', value: '2', text: '۵۰٫۰۰۰ - ۱۰۰٫۰۰۰ کیلومتر' },
+  { key: '3', value: '3', text: '۱۰۰٫۰۰۰ - ۲۰۰٫۰۰۰ کیلومتر' },
+  { key: '4', value: '4', text: '+۲۰۰٫۰۰۰  کیلومتر' }
 ];
