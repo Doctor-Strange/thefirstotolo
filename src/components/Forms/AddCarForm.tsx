@@ -1,5 +1,6 @@
 /* tslint:disable */
 import * as React from 'react';
+import { useCallback } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import {
@@ -10,8 +11,8 @@ import {
   Checkbox,
   Grid,
   Dropdown,
-  Input,
-  Radio,
+  Icon,
+  Card,
   TextArea
 } from 'semantic-ui-react';
 import Error404 from '../404';
@@ -24,6 +25,65 @@ import * as NewUser from '../../../static/new_user.svg';
 import * as Pelak from '../../../static/pelak2.png';
 import { Box, Flex } from '@rebass/grid';
 import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
+import { useDropzone } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
+
+const DropZoneDiv = styled.section`
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  .dropzone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 16px;
+    border-width: 2px;
+    border-radius: 2px;
+    border-color: #eeeeee;
+    border-style: dashed;
+    background-color: #fafafa;
+    color: #bdbdbd;
+    outline: none;
+    transition: border 0.24s ease-in-out;
+    &:focus {
+      border-color: #2196f3;
+    }
+  }
+  .flexParentCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* justify-content: space-between; */
+    align-items: flex-start;
+    .flexItem {
+      margin: auto 8px;
+    }
+    i.delete.icon {
+      margin: 0;
+      display: table-cell;
+    }
+    .label {
+      position: relative;
+      bottom: -30px;
+      right: -2px;
+      z-index: 1;
+      padding: 5px;
+      font-size: 15px;
+    }
+  }
+  .card {
+    margin-top: 0;
+    height: 100px !important;
+    width: 150px !important;
+    .image {
+      height: 100px !important;
+      width: 150px !important;
+    }
+  }
+`;
 
 const BoxAccount = styled.div`
   margin-bottom: 25px;
@@ -106,20 +166,20 @@ const BoxAccount = styled.div`
 `;
 
 interface IAddCarFormValues {
-  carCity: string;
-  carDistrict: string;
-  carBrand: string;
-  carModel: string;
-  carYear: string;
-  carGearboxType: string;
-  carBodyStyle: string;
-  carCapasity: string;
-  carKmDriven: string;
+  carCity: number;
+  carDistrict: number;
+  carBrand: number;
+  carModel: number;
+  carYear: number;
+  carGearboxType: number;
+  carBodyStyle: number;
+  carCapasity: number;
+  carKmDriven: number;
   carVIN: string;
-  carLicensePlates1: string;
+  carLicensePlates1: number;
   carLicensePlates2: string;
-  carLicensePlates3: string;
-  carLicensePlates4: string;
+  carLicensePlates3: number;
+  carLicensePlates4: number;
   carDescription: string;
 }
 
@@ -166,7 +226,9 @@ export default withNamespaces('common')(
       checkboxesID: [],
       checkboxes: [
         { id: 0, label: 'loading...', checked: true, parsedID: null }
-      ]
+      ],
+      picturesID: [],
+      picturesPreview: []
     };
 
     constructor(props) {
@@ -423,6 +485,19 @@ export default withNamespaces('common')(
       });
     }
 
+    removePicture(i) {
+      var picturesPreview = this.state.picturesPreview;
+      var picturesID = this.state.picturesID;
+      console.log(picturesID);
+      var picturesPreviewIndex = picturesPreview.indexOf(i);
+      var picturesIDIndex = picturesID.indexOf(i);
+      console.log('going to delte');
+      picturesPreview.splice(i, 1);
+      picturesID.splice(i, 1);
+      console.log(picturesID);
+      this.setState({ picturesID, picturesPreview });
+    }
+
     render() {
       const { checkboxes, token, error } = this.state;
       const { t } = this.props;
@@ -499,8 +574,9 @@ export default withNamespaces('common')(
                     min_days_to_rent: 1, // sample
                     capacity: carCapasity,
                     deliver_at_renters_place: 0, // sample
-                    facility_id: this.state.checkboxesID[0],
-                    description: carDescription
+                    facility_id: this.state.checkboxesID,
+                    description: carDescription,
+                    media_id: this.state.picturesID
                   },
                   {
                     headers: {
@@ -1004,6 +1080,90 @@ export default withNamespaces('common')(
                         />
                       ))}
                     </Form.Group>
+
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>بارگذاری تصویر</label>
+                      <Dropzone
+                        accept="image/jpeg, image/png"
+                        onDrop={acceptedFiles => {
+                          acceptedFiles.forEach(file => {
+                            let form = new FormData();
+                            form.append('media', file);
+                            axios
+                              .post(
+                                'https://otoli.net' +
+                                  '/core/rental-car/media/new',
+                                form,
+                                {
+                                  headers: {
+                                    Authorization: 'Bearer ' + this.state.token,
+                                    'Content-Type':
+                                      'application/x-www-form-urlencoded'
+                                  }
+                                }
+                              )
+                              .then(response => {
+                                if (response.data.success) {
+                                  const { picturesID } = this.state;
+                                  picturesID.push(response.data.data.id);
+                                  this.setState({
+                                    picturesID
+                                  });
+                                }
+                              })
+                              .catch(error => {
+                                console.error(error);
+                                this.setState({ error: error, success: false });
+                              });
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onabort = () =>
+                              console.log('file reading was aborted');
+                            reader.onerror = () =>
+                              console.log('file reading has failed');
+                            reader.onload = () => {
+                              console.log('file reading was susceed');
+                              const { picturesPreview } = this.state;
+                              picturesPreview.push(reader.result);
+                              this.setState({
+                                picturesPreview
+                              });
+                            };
+                          });
+                        }}
+                      >
+                        {({ getRootProps, getInputProps }) => (
+                          <DropZoneDiv className="container">
+                            <div {...getRootProps({ className: 'dropzone' })}>
+                              <input {...getInputProps()} />
+                              <p>
+                                Drag 'n' drop some files here, or click to
+                                select files
+                              </p>
+                            </div>
+                            <aside>
+                              <div className="flexParentCards">
+                                {this.state.picturesPreview.map(
+                                  (image, index) => (
+                                    <div className="flexItem">
+                                      <Label
+                                        onClick={() =>
+                                          this.removePicture(index)
+                                        }
+                                        index={index}
+                                      >
+                                        <Icon name="delete" />
+                                      </Label>
+                                      <Card raised image={image} />
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            </aside>
+                          </DropZoneDiv>
+                        )}
+                      </Dropzone>
+                    </Form.Field>
 
                     <Form.Group>
                       <Form.Field
