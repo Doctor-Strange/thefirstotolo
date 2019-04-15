@@ -1,22 +1,23 @@
-import * as React from 'react';
-import Router from 'next/router';
-import styled from 'styled-components';
-import {
-  Form,
-  Label,
-  Segment,
-  Button,
-  Checkbox,
-  Message,
-  Dropdown,
-  Input,
-  Radio,
-  TextArea
-} from 'semantic-ui-react';
-import Error404 from '../404';
-import { i18n, withNamespaces } from '../../i18n';
 // import {  } from 'formik-semantic-ui';
 import { Formik, FormikActions, withFormik } from 'formik';
+import * as React from 'react';
+import styled from 'styled-components';
+import {
+  Button,
+  Checkbox,
+  Dropdown,
+  Form,
+  Input,
+  Label,
+  Message,
+  Radio,
+  Segment,
+  TextArea
+} from 'semantic-ui-react';
+import jsCookie from 'js-cookie';
+import Error404 from '../404';
+import { i18n, withNamespaces } from '../../i18n';
+import Router from 'next/router';
 import * as Yup from 'yup';
 import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
@@ -72,6 +73,11 @@ export default withNamespaces('common')(
     success: boolean;
     name: string;
   }> {
+    static async getInitialProps() {
+      return {
+        namespacesRequired: ['common']
+      };
+    }
     state = {
       phone: '',
       token: '',
@@ -84,17 +90,11 @@ export default withNamespaces('common')(
       super(props);
     }
 
-    static async getInitialProps() {
-      return {
-        namespacesRequired: ['common']
-      };
-    }
-
     componentDidMount() {
       this.setState({
-        completeRegister: window.localStorage.getItem('complete_register'),
-        phone: window.localStorage.getItem('phone'),
-        token: window.localStorage.getItem('token')
+        completeRegister: jsCookie.get('complete_register'),
+        phone: jsCookie.get('phone'),
+        token: jsCookie.get('token')
       });
     }
 
@@ -175,8 +175,8 @@ export default withNamespaces('common')(
                       success: response.data.success,
                       error: ''
                     });
-                    localStorage.setItem('first_name', firstName);
-                    localStorage.setItem('last_name', lastName);
+                    jsCookie.set('first_name', firstName);
+                    jsCookie.set('last_name', lastName);
                     localStorage.removeItem('complete_register');
                     Router.push({
                       pathname: '/me',
@@ -190,7 +190,7 @@ export default withNamespaces('common')(
                 .catch(error => {
                   // tslint:disable-next-line:no-console
                   console.error(error);
-                  this.setState({ error: error, success: false });
+                  this.setState({ error, success: false });
                 })
                 .then(() => {
                   actions.setSubmitting(false);
@@ -215,7 +215,7 @@ export default withNamespaces('common')(
                   t('forms.error_filed_required2')
               ),
               nationalid: Yup.string()
-                .ensure() //convert undefined values to an empety string
+                .ensure() // convert undefined values to an empety string
                 .trim()
                 .required('')
                 .length(10, t('forms.error_nationalID_10_char'))

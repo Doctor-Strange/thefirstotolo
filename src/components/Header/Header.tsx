@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
+import jsCookie from 'js-cookie';
 import { Nav } from '../Nav';
 import { Logo } from '../Logo';
 import { i18n, withNamespaces } from '../../i18n';
@@ -277,9 +278,9 @@ class Header extends React.Component<{
 
   componentDidMount() {
     this.setState({
-      firstName: window.localStorage.getItem('first_name'),
-      lastName: window.localStorage.getItem('last_name'),
-      token: window.localStorage.getItem('token')
+      firstName: jsCookie.get('first_name'),
+      lastName: jsCookie.get('last_name'),
+      token: jsCookie.get('token')
     });
   }
 

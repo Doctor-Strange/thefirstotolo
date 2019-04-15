@@ -15,6 +15,7 @@ import {
   Card,
   TextArea
 } from 'semantic-ui-react';
+import jsCookie from 'js-cookie';
 import Error404 from '../404';
 import { i18n, withNamespaces } from '../../i18n';
 // import {  } from 'formik-semantic-ui';
@@ -270,11 +271,13 @@ export default withNamespaces('common')(
       };
     }
 
-    componentDidMount() {
+    componentWillMount() {
       this.setState({
-        token: window.localStorage.getItem('token')
+        token: jsCookie.get('token')
       });
+    }
 
+    componentDidMount() {
       //get cities and genrate a dropdown input in form
       axios
         .post('https://otoli.net' + '/core/location/list?limit=100')
@@ -585,7 +588,7 @@ export default withNamespaces('common')(
           t('forms.error_filed_required2')
         );
       };
-      if (true) {
+      if (token) {
         return (
           <Formik
             initialValues={{

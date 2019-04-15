@@ -5,6 +5,7 @@ import { Button, Form, Input } from 'formik-semantic-ui';
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import jsCookie from 'js-cookie';
 import Countdown from 'react-countdown-now';
 import { LoginForm, PhoneRow } from './LoginStyle';
 import { ModalWrapper } from './ModalWrapper';
@@ -15,9 +16,9 @@ import { i18n, withNamespaces } from '../../i18n';
 import { ltrTheme, rtlTheme } from '../../theme/directions';
 
 function convertToEnglishNum(s) {
-  var a = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  var p = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  for (var i = 0; i < 10; i++) {
+  const a = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  const p = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  for (let i = 0; i < 10; i++) {
     s = s.replace(new RegExp(a[i], 'g'), i).replace(new RegExp(p[i], 'g'), i);
   }
   return s;
@@ -43,6 +44,13 @@ export default withNamespaces('common')(
       height: number;
     }
   > {
+    [x: string]: any;
+
+    static async getInitialProps() {
+      return {
+        namespacesRequired: ['common']
+      };
+    }
     constructor(props) {
       super(props);
       this.state = {
@@ -56,7 +64,6 @@ export default withNamespaces('common')(
       this.nextPanel = this.nextPanel.bind(this);
       this.prevPanel = this.prevPanel.bind(this);
     }
-    [x: string]: any;
     handleOpenModal = () => {
       this.modalwrapper.handleOpenModal(); // do stuff
     };
@@ -108,12 +115,6 @@ export default withNamespaces('common')(
         );
       }
     };
-
-    static async getInitialProps() {
-      return {
-        namespacesRequired: ['common']
-      };
-    }
 
     render() {
       const { t } = this.props;
@@ -256,9 +257,9 @@ export default withNamespaces('common')(
                             codeError: null,
                             timeToSendSMSAgain: null
                           });
-                          localStorage.setItem('token', response.data.token);
-                          localStorage.setItem('phone', this.state.phone);
-                          localStorage.setItem('complete_register', 'true');
+                          jsCookie.set('token', response.data.token);
+                          jsCookie.set('phone', this.state.phone);
+                          jsCookie.set('complete_register', 'true');
                           // TODO: add token to redux;
                           Router.push({
                             pathname: '/complete-register',
@@ -272,8 +273,8 @@ export default withNamespaces('common')(
                           response.data.has_name
                         ) {
                           // TODO: add token to redux;
-                          localStorage.setItem('token', response.data.token);
-                          localStorage.setItem('phone', this.state.phone);
+                          jsCookie.set('token', response.data.token);
+                          jsCookie.set('phone', this.state.phone);
                           axios
                             .post(
                               'https://otoli.net' + '/core/user/info',
@@ -287,15 +288,12 @@ export default withNamespaces('common')(
 
                             .then(response => {
                               console.log(response);
-                              localStorage.setItem(
-                                'token',
-                                response.data.data.token
-                              );
-                              localStorage.setItem(
+                              jsCookie.set('token', response.data.data.token);
+                              jsCookie.set(
                                 'first_name',
                                 response.data.data.first_name
                               );
-                              localStorage.setItem(
+                              jsCookie.set(
                                 'last_name',
                                 response.data.data.last_name
                               );
