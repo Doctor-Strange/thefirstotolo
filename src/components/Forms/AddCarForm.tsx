@@ -524,6 +524,44 @@ export default withNamespaces('common')(
       });
     }
 
+    getCarInfo(modelID) {
+      return new Promise(function(resolve, reject) {
+        axios
+          .post('https://otoli.net' + '/core/car/get?id=' + modelID)
+          .then(response => {
+            if (response.data.success) {
+              let output = {};
+              const {
+                facility_set,
+                transmission_type,
+                body_style
+              } = response.data.data;
+
+              let facilities = [];
+              facility_set.map((value, index) => {
+                facilities.push(value.id);
+              });
+              output['facilities'] = facilities;
+              if (transmission_type) {
+                output['transmission_type'] = transmission_type.id;
+              }
+              if (body_style) {
+                output['body_style'] = body_style.id;
+              }
+              console.log(output);
+              resolve(output);
+            } else {
+              resolve({});
+            }
+          })
+          .catch(error => {
+            // tslint:disable-next-line:no-console
+            console.error(error);
+            reject(new Error('Error in loading car data!'));
+          });
+      });
+    }
+
     removePicture(i) {
       var picturesPreview = this.state.picturesPreview;
       var picturesID = this.state.picturesID;
@@ -837,6 +875,23 @@ export default withNamespaces('common')(
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
+                            this.getCarInfo(data.value)
+                              .then(carInfo => {
+                                setFieldValue(
+                                  'carGearboxType',
+                                  carInfo.transmission_type
+                                );
+                                setFieldValue(
+                                  'carBodyStyle',
+                                  carInfo.body_style
+                                );
+                                carInfo.facilities.map((value, index) => {
+                                  this.setFasalities(value);
+                                });
+                              })
+                              .catch(function(error) {
+                                console.log(error.message);
+                              });
                           }
                         }}
                         onClose={(e, data) => {
