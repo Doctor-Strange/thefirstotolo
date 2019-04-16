@@ -647,7 +647,8 @@ const GlobalStyle = createGlobalStyle`
             .dropdown {
               text-align:right;
               &.icon {
-                left: 1em;
+                /* left: 1em; */
+                left: 0em;
                 right: unset !important;
               }
               .menu>.item {

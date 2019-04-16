@@ -61,6 +61,8 @@ const DropZoneDiv = styled.section`
     align-items: flex-start;
     .flexItem {
       margin: auto 8px;
+      margin-top: -29px;
+      margin-bottom: 16px;
     }
     i.delete.icon {
       margin: 0;
@@ -107,7 +109,7 @@ const BoxAccount = styled.div`
   .pelak {
     background: url(${Pelak}) no-repeat;
     height: 70px;
-    width: 300px;
+    width: 308px;
     #carLicensePlates1 {
       background: transparent;
       position: absolute;
@@ -182,7 +184,7 @@ const BoxAccount = styled.div`
     .menu {
       right: 0 !important;
       @media only screen and (max-width: 767px) {
-        max-height: fit-content;
+        max-height: fit-content !important;
       }
     }
   }
@@ -764,14 +766,15 @@ export default withNamespaces('common')(
                   <h3 className="new_client">{t('add_car')}</h3>
                   {/* <small className="float-right pt-2">* {$required_fields}</small> */}
                   <Segment>
-                    <Form.Field style={{ margin: 0 }}>
+                    {/* <Form.Field style={{ margin: 0 }}>
                       <label>{t('carProperty.whereIsIt')}</label>
-                    </Form.Field>
+                    </Form.Field> */}
                     <Form.Group>
                       <Form.Field>
                         <Form.Dropdown
                           name="carCity"
                           id="carCity"
+                          label={t('carProperty.whereIsIt')}
                           placeholder={t('carProperty.city')}
                           noResultsMessage={t('forms.error_no_result_found')}
                           search
@@ -805,6 +808,7 @@ export default withNamespaces('common')(
                             name="carDistrict"
                             id="carDistrict"
                             search
+                            label={t('carProperty.district')}
                             placeholder={t('carProperty.district')}
                             noResultsMessage={t('forms.error_no_result_found')}
                             selection
@@ -1082,6 +1086,7 @@ export default withNamespaces('common')(
                         }
                       }}
                       value={values.carVIN}
+                      style={{ direction: 'ltr' }}
                     />
 
                     <Grid columns={2}>
@@ -1265,7 +1270,10 @@ export default withNamespaces('common')(
                         }}
                       >
                         {({ getRootProps, getInputProps }) => (
-                          <DropZoneDiv className="container">
+                          <DropZoneDiv
+                            className="container"
+                            style={{ padding: 0 }}
+                          >
                             <div {...getRootProps({ className: 'dropzone' })}>
                               <input {...getInputProps()} />
                               <span>{t('carProperty.uploadImageNote')}</span>
