@@ -249,6 +249,7 @@ export default withNamespaces('common')(
                       })
                       .then(response => {
                         console.error('Sent');
+                        console.error(response.data);
                         if (response.data.token && !response.data.has_name) {
                           // tslint:disable-next-line:no-console
                           console.error(response.data);
@@ -288,7 +289,6 @@ export default withNamespaces('common')(
 
                             .then(response => {
                               console.log(response);
-                              jsCookie.set('token', response.data.data.token);
                               jsCookie.set(
                                 'first_name',
                                 response.data.data.first_name

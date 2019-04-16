@@ -6,13 +6,14 @@ const Error404: React.FunctionComponent<{ token: any; children: any }> = ({
   token,
   children
 }) => {
-  if (token)
+  if (!token)
     return (
-      <Message
-        icon="plug"
-        header="صفحه یافت نشد!"
-        content="صفحه درخواستی یافت نشد. "
-      />
+      <p>صفحه درخواستی یافت نشد. </p>
+      //   <Message
+      //   icon="plug"
+      //   header="صفحه یافت نشد!"
+      //   content="صفحه درخواستی یافت نشد. "
+      // />
     );
   else return children;
 };
