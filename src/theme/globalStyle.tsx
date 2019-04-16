@@ -614,8 +614,11 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom:0px !important;
     .field {
       width: 100%;
-      margin-bottom:16px !important;
+      margin-bottom:24px !important;
     }
+  }
+  .fields.inline { 
+      margin-bottom:24px !important;
   }
   .rtl {
     .message {
@@ -647,12 +650,16 @@ const GlobalStyle = createGlobalStyle`
             .dropdown {
               text-align:right;
               &.icon {
-                /* left: 1em; */
-                left: 0em;
+                left: 1em;
                 right: unset !important;
               }
               .menu>.item {
                 text-align: right;
+              }
+              &.colorpicker{
+                &.icon {
+                left: 0em !important;
+                }
               }
             }
           }

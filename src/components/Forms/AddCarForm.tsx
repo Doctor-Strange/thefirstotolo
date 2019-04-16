@@ -39,7 +39,7 @@ const DropZoneDiv = styled.section`
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     border-width: 2px;
     border-radius: 2px;
     border-color: #eeeeee;
@@ -48,7 +48,7 @@ const DropZoneDiv = styled.section`
     color: #bdbdbd;
     outline: none;
     transition: border 0.24s ease-in-out;
-    border-radius: .28571429rem;
+    border-radius: 0.28571429rem;
     &:focus {
       border-color: #33acc1;
     }
@@ -111,6 +111,7 @@ const BoxAccount = styled.div`
     background: url(${Pelak}) no-repeat;
     height: 70px;
     width: 308px;
+    margin-bottom: 24px;
     #carLicensePlates1 {
       background: transparent;
       position: absolute;
@@ -123,11 +124,11 @@ const BoxAccount = styled.div`
     #carLicensePlates2 {
       background: transparent;
       position: relative;
-      left: -142px;
+      left: -150px;
       width: 70px !important;
       height: 47px;
       padding: 8px;
-      top: -28px;
+      top: -36px;
       font-size: 18px;
       text-align: center;
       direction: rtl;
@@ -138,7 +139,7 @@ const BoxAccount = styled.div`
       left: 166px;
       width: 55px !important;
       padding: 8px;
-      top: -105px;
+      top: -122px;
       font-size: 18px;
     }
     #carLicensePlates4 {
@@ -148,7 +149,7 @@ const BoxAccount = styled.div`
       width: 55px !important;
       height: 39px;
       padding: 8px;
-      top: -135px;
+      top: -157px;
       font-size: 18px;
     }
   }
@@ -771,73 +772,69 @@ export default withNamespaces('common')(
                       <label>{t('carProperty.whereIsIt')}</label>
                     </Form.Field> */}
                     <Form.Group>
-                      <Form.Field>
+                      <Form.Dropdown
+                        name="carCity"
+                        id="carCity"
+                        label={t('carProperty.whereIsIt')}
+                        placeholder={t('carProperty.city')}
+                        noResultsMessage={t('forms.error_no_result_found')}
+                        search
+                        selection
+                        loading={this.state.citiesFarsi[0].value == null}
+                        options={
+                          i18n.language === 'en'
+                            ? this.state.citiesEnglish
+                            : this.state.citiesFarsi
+                        }
+                        error={Boolean(errors.carCity && touched.carCity)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            setFieldValue('carDistrict', undefined);
+                            this.setCityDistrict(data.value);
+                          }
+                        }}
+                        onClose={(e, data) => {
+                          console.log(e);
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={values.carCity}
+                      />
+                      {this.state.shouldCityDistrictShow ? (
                         <Form.Dropdown
-                          name="carCity"
-                          id="carCity"
-                          label={t('carProperty.whereIsIt')}
-                          placeholder={t('carProperty.city')}
-                          noResultsMessage={t('forms.error_no_result_found')}
+                          name="carDistrict"
+                          id="carDistrict"
                           search
+                          label={t('carProperty.district')}
+                          placeholder={t('carProperty.district')}
+                          noResultsMessage={t('forms.error_no_result_found')}
                           selection
-                          loading={this.state.citiesFarsi[0].value == null}
+                          loading={this.state.shouldCityDistrictLoad}
+                          disabled={
+                            this.state.cityDistrictFarsi[0].value == null
+                          }
                           options={
                             i18n.language === 'en'
-                              ? this.state.citiesEnglish
-                              : this.state.citiesFarsi
+                              ? this.state.cityDistrictEnglish
+                              : this.state.cityDistrictFarsi
                           }
-                          error={Boolean(errors.carCity && touched.carCity)}
+                          error={Boolean(
+                            errors.carDistrict && touched.carDistrict
+                          )}
                           onChange={(e, data) => {
                             if (data && data.name) {
                               setFieldValue(data.name, data.value);
-                              setFieldValue('carDistrict', undefined);
-                              this.setCityDistrict(data.value);
                             }
                           }}
                           onClose={(e, data) => {
-                            console.log(e);
                             if (data && data.name) {
                               setFieldTouched(data.name);
                             }
                           }}
-                          value={values.carCity}
+                          value={values.carDistrict}
                         />
-                      </Form.Field>
-                      {this.state.shouldCityDistrictShow ? (
-                        <Form.Field>
-                          <Form.Dropdown
-                            name="carDistrict"
-                            id="carDistrict"
-                            search
-                            label={t('carProperty.district')}
-                            placeholder={t('carProperty.district')}
-                            noResultsMessage={t('forms.error_no_result_found')}
-                            selection
-                            loading={this.state.shouldCityDistrictLoad}
-                            disabled={
-                              this.state.cityDistrictFarsi[0].value == null
-                            }
-                            options={
-                              i18n.language === 'en'
-                                ? this.state.cityDistrictEnglish
-                                : this.state.cityDistrictFarsi
-                            }
-                            error={Boolean(
-                              errors.carDistrict && touched.carDistrict
-                            )}
-                            onChange={(e, data) => {
-                              if (data && data.name) {
-                                setFieldValue(data.name, data.value);
-                              }
-                            }}
-                            onClose={(e, data) => {
-                              if (data && data.name) {
-                                setFieldTouched(data.name);
-                              }
-                            }}
-                            value={values.carDistrict}
-                          />
-                        </Form.Field>
                       ) : (
                         <p />
                       )}
@@ -1090,110 +1087,105 @@ export default withNamespaces('common')(
                       style={{ direction: 'ltr' }}
                     />
 
-                    <Grid columns={2}>
-                      <Grid.Column width={16}>
-                        <Form.Field style={{ margin: 0 }}>
-                          <label>{t('carProperty.licensePlates')}</label>
-                        </Form.Field>
-                        <Form.Group>
-                          <div className="pelak" style={{}}>
-                            <Form.Input
-                              name="carLicensePlates1"
-                              id="carLicensePlates1"
-                              inputmode="numeric"
-                              type="number"
-                              pattern="[0-9]*"
-                              min="10"
-                              max="99"
-                              error={Boolean(
-                                errors.carLicensePlates1 &&
-                                  touched.carLicensePlates1
-                              )}
-                              onChange={(e, data) => {
-                                if (data && data.name) {
-                                  setFieldValue(data.name, data.value);
-                                  setFieldTouched(data.name);
-                                }
-                              }}
-                              value={values.carLicensePlates1}
-                            />
-                            <Form.Input
-                              name="carLicensePlates2"
-                              id="carLicensePlates2"
-                              control="select"
-                              error={Boolean(
-                                errors.carLicensePlates2 &&
-                                  touched.carLicensePlates2
-                              )}
-                              onChange={handleChange}
-                              value={values.carLicensePlates2}
-                            >
-                              <option value="" selected disabled hidden>
-                                ...
-                              </option>
-                              <option value="الف">الف</option>
-                              <option value="ب">ب</option>
-                              <option value="ج">ج</option>
-                              <option value="د">د</option>
-                              <option value="ژ">ژ</option>
-                              <option value="س">س</option>
-                              <option value="ٌص">ص</option>
-                              <option value="ط">ط</option>
-                              <option value="ق">ق</option>
-                              <option value="ل">ل</option>
-                              <option value="م">م</option>
-                              <option value="ن">ن</option>
-                              <option value="و">و</option>
-                              <option value="ه">هـ</option>
-                              <option value="ی">ی</option>
-                              <option value="گ">گ</option>
-                              <option value="ت">ت</option>
-                            </Form.Input>
-                            <Form.Input
-                              name="carLicensePlates3"
-                              id="carLicensePlates3"
-                              inputmode="numeric"
-                              type="number"
-                              pattern="[0-9]*"
-                              min="100"
-                              max="999"
-                              error={Boolean(
-                                errors.carLicensePlates3 &&
-                                  touched.carLicensePlates3
-                              )}
-                              onChange={(e, data) => {
-                                if (data && data.name) {
-                                  setFieldValue(data.name, data.value);
-                                  setFieldTouched(data.name);
-                                }
-                              }}
-                              value={values.carLicensePlates3}
-                            />
-                            <Form.Input
-                              name="carLicensePlates4"
-                              id="carLicensePlates4"
-                              inputmode="numeric"
-                              type="number"
-                              pattern="[0-9]*"
-                              min="10"
-                              max="99"
-                              error={Boolean(
-                                errors.carLicensePlates4 &&
-                                  touched.carLicensePlates4
-                              )}
-                              onChange={(e, data) => {
-                                if (data && data.name) {
-                                  setFieldValue(data.name, data.value);
-                                  setFieldTouched(data.name);
-                                }
-                              }}
-                              value={values.carLicensePlates4}
-                            />
-                          </div>
-                        </Form.Group>
-                      </Grid.Column>
-                      <Grid.Column width={5} />
-                    </Grid>
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>{t('carProperty.licensePlates')}</label>
+                    </Form.Field>
+                    <Form.Group>
+                      <div className="pelak" style={{}}>
+                        <Form.Input
+                          name="carLicensePlates1"
+                          id="carLicensePlates1"
+                          inputmode="numeric"
+                          type="number"
+                          pattern="[0-9]*"
+                          min="10"
+                          max="99"
+                          error={Boolean(
+                            errors.carLicensePlates1 &&
+                              touched.carLicensePlates1
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carLicensePlates1}
+                        />
+                        <Form.Input
+                          name="carLicensePlates2"
+                          id="carLicensePlates2"
+                          control="select"
+                          error={Boolean(
+                            errors.carLicensePlates2 &&
+                              touched.carLicensePlates2
+                          )}
+                          onChange={handleChange}
+                          value={values.carLicensePlates2}
+                        >
+                          <option value="" selected disabled hidden>
+                            ...
+                          </option>
+                          <option value="الف">الف</option>
+                          <option value="ب">ب</option>
+                          <option value="ج">ج</option>
+                          <option value="د">د</option>
+                          <option value="ژ">ژ</option>
+                          <option value="س">س</option>
+                          <option value="ٌص">ص</option>
+                          <option value="ط">ط</option>
+                          <option value="ق">ق</option>
+                          <option value="ل">ل</option>
+                          <option value="م">م</option>
+                          <option value="ن">ن</option>
+                          <option value="و">و</option>
+                          <option value="ه">هـ</option>
+                          <option value="ی">ی</option>
+                          <option value="گ">گ</option>
+                          <option value="ت">ت</option>
+                        </Form.Input>
+                        <Form.Input
+                          name="carLicensePlates3"
+                          id="carLicensePlates3"
+                          inputmode="numeric"
+                          type="number"
+                          pattern="[0-9]*"
+                          min="100"
+                          max="999"
+                          error={Boolean(
+                            errors.carLicensePlates3 &&
+                              touched.carLicensePlates3
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carLicensePlates3}
+                        />
+                        <Form.Input
+                          name="carLicensePlates4"
+                          id="carLicensePlates4"
+                          inputmode="numeric"
+                          type="number"
+                          pattern="[0-9]*"
+                          min="10"
+                          max="99"
+                          error={Boolean(
+                            errors.carLicensePlates4 &&
+                              touched.carLicensePlates4
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carLicensePlates4}
+                        />
+                      </div>
+                    </Form.Group>
 
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carProperty.option')}</label>
@@ -1328,7 +1320,7 @@ export default withNamespaces('common')(
                     <Form.Field style={{ margin: 0 }}>
                       <label>رنگ خودرو</label>
                     </Form.Field>
-                    <Form.Field>
+                    <Form.Field style={{ marginBottom: '24px' }}>
                       <Dropdown
                         text={t('carProperty.color')}
                         icon={/*this.state.colorIcon || */ `paint brush`}
