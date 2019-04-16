@@ -618,6 +618,9 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   .rtl {
+    .message {
+      text-align: right;
+    }
     h3.new_client {
       background-position: right !important;
     }

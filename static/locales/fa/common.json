@@ -49,6 +49,7 @@
     "error_licensePlates1_not_valid": "بخش نخست شماره پلاک باید ۲ رقم باشد",
     "error_licensePlates3_not_valid": "بخش سوم شماره پلاک باید ۳ رقم باشد",
     "error_licensePlates4_not_valid": "کد استانی شماره پلاک باید ۲ رقم باشد",
+    "error_no_result_found": "نتیجه‌ای یافت نشد",
     "error": "خطایی غیرمنتظره رخ داد!"
   },
   "carProperty": {
