@@ -119,8 +119,8 @@ export default withNamespaces('common')(
       } = this.props.strings;
       const { phone, token, error, completeRegister } = this.state;
       const { t } = this.props;
-      if (completeRegister) {
-        return (
+      return (
+        <Error404 token={completeRegister}>
           <Formik
             initialValues={{
               firstName: '',
@@ -458,10 +458,8 @@ export default withNamespaces('common')(
               </BoxAccount>
             )}
           </Formik>
-        );
-      } else {
-        return <Error404 />;
-      }
+        </Error404>
+      );
     }
   }
 );
