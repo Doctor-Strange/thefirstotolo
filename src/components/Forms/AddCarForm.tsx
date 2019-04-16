@@ -200,7 +200,7 @@ interface IAddCarFormValues {
   carYear: number;
   carGearboxType: number;
   carBodyStyle: number;
-  carCapasity: number;
+  carCapacity: number;
   carKmDriven: number;
   carVIN: string;
   carLicensePlates1: number;
@@ -538,7 +538,8 @@ export default withNamespaces('common')(
               const {
                 facility_set,
                 transmission_type,
-                body_style
+                body_style,
+                capacity
               } = response.data.data;
 
               let facilities = [];
@@ -551,6 +552,9 @@ export default withNamespaces('common')(
               }
               if (body_style) {
                 output['body_style'] = body_style.id;
+              }
+              if (capacity && capacity != 0) {
+                output['capacity'] = capacity;
               }
               console.log(output);
               resolve(output);
@@ -600,7 +604,7 @@ export default withNamespaces('common')(
               carYear: null,
               carGearboxType: null,
               carBodyStyle: null,
-              carCapasity: null,
+              carCapacity: null,
               carKmDriven: null,
               carVIN: null,
               carLicensePlates1: null,
@@ -625,7 +629,7 @@ export default withNamespaces('common')(
                 carYear,
                 carGearboxType,
                 carBodyStyle,
-                carCapasity,
+                carCapacity,
                 carKmDriven,
                 carVIN,
                 carLicensePlates1,
@@ -653,7 +657,7 @@ export default withNamespaces('common')(
                     registration_plate_forth_part: carLicensePlates4,
                     days_to_get_reminded: 3, // sample
                     min_days_to_rent: 1, // sample
-                    capacity: carCapasity,
+                    capacity: carCapacity,
                     deliver_at_renters_place: 0, // sample
                     facility_id: this.state.checkboxesID,
                     description: carDescription,
@@ -708,9 +712,9 @@ export default withNamespaces('common')(
               carBodyStyle: Yup.number()
                 .required(fieldErrorGenrator(t('carProperty.cassis')))
                 .typeError(fieldErrorGenrator(t('carProperty.cassis'))),
-              carCapasity: Yup.number()
-                .required(fieldErrorGenrator(t('carProperty.capasity')))
-                .typeError(fieldErrorGenrator(t('carProperty.capasity'))),
+              carCapacity: Yup.number()
+                .required(fieldErrorGenrator(t('carProperty.capacity')))
+                .typeError(fieldErrorGenrator(t('carProperty.capacity'))),
               carKmDriven: Yup.number()
                 .required(fieldErrorGenrator(t('carProperty.kmDriven')))
                 .typeError(fieldErrorGenrator(t('carProperty.kmDriven'))),
@@ -893,6 +897,7 @@ export default withNamespaces('common')(
                                   'carBodyStyle',
                                   carInfo.body_style
                                 );
+                                setFieldValue('carCapacity', carInfo.capacity);
                                 // clear checkboxes
                                 let checkboxes = this.state.checkboxes;
                                 let newcheckboxes = [];
@@ -1020,19 +1025,19 @@ export default withNamespaces('common')(
                     />
 
                     <Form.Input
-                      label={t('carProperty.capasity')}
-                      name="carCapasity"
+                      label={t('carProperty.capacity')}
+                      name="carCapacity"
                       inputmode="numeric"
                       type="number"
                       pattern="[0-9]*"
-                      error={Boolean(errors.carCapasity && touched.carCapasity)}
+                      error={Boolean(errors.carCapacity && touched.carCapacity)}
                       onChange={(e, data) => {
                         if (data && data.name) {
                           setFieldValue(data.name, data.value);
                           setFieldTouched(data.name);
                         }
                       }}
-                      value={values.carCapasity}
+                      value={values.carCapacity}
                     />
 
                     <Form.Group>
