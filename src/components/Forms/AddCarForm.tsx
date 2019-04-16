@@ -964,7 +964,7 @@ export default withNamespaces('common')(
                     <Form.Group inline className="gearBoxRow">
                       <Form.Radio
                         label={t('carProperty.gearBoxManual')}
-                        value={1}
+                        value={2}
                         name="carGearboxType"
                         checked={values.carGearboxType === 2}
                         onChange={(e, data) => {
@@ -980,7 +980,7 @@ export default withNamespaces('common')(
                       />
                       <Form.Radio
                         label={t('carProperty.gearBoxAuto')}
-                        value={2}
+                        value={1}
                         name="carGearboxType"
                         checked={values.carGearboxType === 1}
                         onChange={(e, data) => {
