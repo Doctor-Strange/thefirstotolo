@@ -223,39 +223,39 @@ export default withNamespaces('common')(
       name: null,
       success: false,
       city: null,
-      citiesFarsi: [{ text: 'Loading', value: null }],
-      citiesEnglish: [{ text: 'Loading', value: null }],
+      citiesFarsi: [{ text: 'کمی صبر کنید...', value: null }],
+      citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       cityDistrict: null,
       shouldCityDistrictLoad: false,
       shouldCityDistrictShow: false,
-      cityDistrictFarsi: [{ text: 'Loading', value: null }],
-      cityDistrictEnglish: [{ text: 'Loading', value: null }],
+      cityDistrictFarsi: [{ text: 'کمی صبر کنید...', value: null }],
+      cityDistrictEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       bodyStyle: null,
-      bodyStyleFarsi: [{ text: 'Loading', value: null }],
-      bodyStyleEnglish: [{ text: 'Loading', value: null }],
+      bodyStyleFarsi: [{ text: 'کمی صبر کنید...', value: null }],
+      bodyStyleEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       color: null,
       colorCode: null,
       colorId: null,
       colors: [
         {
-          text: 'Loading',
+          text: 'کمی صبر کنید...',
           value: null,
           label: { color: 'red', empty: true, circular: true }
         }
       ],
       brand: null,
-      brandsFarsi: [{ text: 'Loading', value: null }],
-      brandEnglish: [{ text: 'Loading', value: null }],
+      brandsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
+      brandEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       model: null,
       shouldModelLoad: false,
-      modelsFarsi: [{ text: 'Loading', value: null }],
-      modelsEnglish: [{ text: 'Loading', value: null }],
+      modelsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
+      modelsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       year: null,
-      yearsFarsi: [{ text: 'Loading', value: null }],
-      yearsEnglish: [{ text: 'Loading', value: null }],
+      yearsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
+      yearsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       checkboxesID: [],
       checkboxes: [
-        { id: 0, label: 'loading...', checked: true, parsedID: null }
+        { id: 0, label: 'کمی صبر کنید...', checked: true, parsedID: null }
       ],
       picturesID: [],
       picturesPreview: []
@@ -898,6 +898,7 @@ export default withNamespaces('common')(
                                   carInfo.body_style
                                 );
                                 setFieldValue('carCapacity', carInfo.capacity);
+
                                 // clear checkboxes
                                 let checkboxes = this.state.checkboxes;
                                 let newcheckboxes = [];
@@ -1267,10 +1268,7 @@ export default withNamespaces('common')(
                           <DropZoneDiv className="container">
                             <div {...getRootProps({ className: 'dropzone' })}>
                               <input {...getInputProps()} />
-                              <p>
-                                Drag 'n' drop some files here, or click to
-                                select files
-                              </p>
+                              <span>{t('carProperty.uploadImageNote')}</span>
                             </div>
                             <aside>
                               <div className="flexParentCards">

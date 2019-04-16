@@ -72,7 +72,8 @@
     "licensePlates": "پلاک خودرو",
     "pictures": "عکس خودرو",
     "option": "امکانات خودرو",
-    "uploadImage": "بارگذاری تصویر",
+    "uploadImage": "بارگذاری عکس‌ها",
+    "uploadImageNote": "جهت باگذاری عکس اینجا کلیک کنید و یا عکس خود را داخل این کادر بیاندازید",
     "description": "توضیح",
     "descriptionPlaceholder": "توضیحات اضافی در مورد شرایط خودرو..."
   },
