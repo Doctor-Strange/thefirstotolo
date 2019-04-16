@@ -48,8 +48,9 @@ const DropZoneDiv = styled.section`
     color: #bdbdbd;
     outline: none;
     transition: border 0.24s ease-in-out;
+    border-radius: .28571429rem;
     &:focus {
-      border-color: #2196f3;
+      border-color: #33acc1;
     }
   }
   .flexParentCards {
