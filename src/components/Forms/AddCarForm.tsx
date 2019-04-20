@@ -676,6 +676,12 @@ export default withNamespaces('common')(
                 .then(response => {
                   if (response.data.success) {
                     console.log(response.data);
+                    Router.push({
+                      pathname: '/set-car-timing',
+                      query: {
+                        car_id: response.data.data.id
+                      }
+                    });
                   }
                 })
                 .catch(error => {
@@ -778,7 +784,6 @@ export default withNamespaces('common')(
                         label={t('carProperty.whereIsIt')}
                         placeholder={t('carProperty.city')}
                         noResultsMessage={t('forms.error_no_result_found')}
-                        search
                         selection
                         loading={this.state.citiesFarsi[0].value == null}
                         options={

@@ -337,7 +337,7 @@ const GlobalStyle = createGlobalStyle`
 
     .medium {
       font-size: 16px;
-      font-size: 1rem;
+      font-size: 1re                  m;
       padding: 18px 40px;
     }
 
@@ -617,7 +617,7 @@ const GlobalStyle = createGlobalStyle`
       margin-bottom:24px !important;
     }
   }
-  .fields.inline { 
+  .fields.inline, *[inputmode='numeric'] { 
       margin-bottom:24px !important;
   }
   .rtl {
@@ -694,8 +694,29 @@ const GlobalStyle = createGlobalStyle`
       direction: rtl;
       text-align: right;
     }
+    .ui.items>.item>.image+.content {
+      padding-right: 1.5em;
+      padding-left: 0;
+      margin-right: 0;
+      direction:rtl;
+      text-align:right;
+    }
+    .ui.header {
+      margin-left: 0.75rem;
+     .icon:only-child {
+        margin-left: .25rem;
+      }
+    }
+    .ui.labeled.input:not([class*="corner labeled"]) .label:first-child+input {
+      width: 87% !important;
+    }
+    .ui.input {
+      flex-direction: row-reverse;
+    }
+    
 
   }
+  /** end of RTL **/
   input {
     &#field_input_phone,&#field_input_code,&[name="nationalid"] {
       text-align: left;

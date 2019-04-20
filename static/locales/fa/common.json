@@ -18,6 +18,7 @@
   "signup": "ثبت‌نام",
   "new_client": "تکمیل اطلاعات",
   "confirm": "تایید",
+  "rentIt": "اجاره بده!",
   "enter": "ورود",
   "logout": "خروج",
   "hello": "سلام",
@@ -76,6 +77,29 @@
     "uploadImageNote": "جهت باگذاری عکس اینجا کلیک کنید و یا عکس خود را داخل این کادر بیاندازید",
     "description": "توضیح",
     "descriptionPlaceholder": "توضیحات اضافی در مورد شرایط خودرو..."
+  },
+  "carTiming": {
+    "daysToGetReminded": "زمان اطلاع از اجاره",
+    "minDaysToRent": "حداقل مدت اجاره",
+    "distanceLimit": "محدودیت مسافت",
+    "extraKmCost": "هزینه هر کیلومتر اضافه",
+    "kmPerDay": "کیلومتر در روز",
+    "tomanPerDay": "تومان در روز",
+    "deliver_at_renters_place": "در محل اجاره‌گیرنده تحویل می‌دهم",
+    "rentDateAndPrice": "تاریخ و نرخ اجاره",
+    "atAllDatesIllRentSamePrice": "در تمام تاریخ‌ها با نرخ ثابت اجاره می‌دهم",
+    "price": "قیمت",
+    "toman": "تومان",
+    "defineTimeRangeAndRentCost": "تعریف بازه زمانی و نرخ اجاره",
+    "from": "از تاریخ",
+    "to": "تا تاریخ",
+    "perDay": "روزی",
+    "dayBefore": "روز قبل",
+    "addMore": "اضافه کردن",
+    "cancellationPolicy": "قوانین کنسلی و اجاره",
+    "availableInAllDatesWithSamePrice": "موجود در تمام تاریخ‌ها با قیمت یکسان",
+    "availableInDifferentDateRangesWithDifferentPrice": "موجود در بازه‌های زمانی مختلف با قیمت‌های متفاوت",
+    "addRange": "افزودن بازه"
   },
   "birthdate": "تاریخ تولد"
 }
