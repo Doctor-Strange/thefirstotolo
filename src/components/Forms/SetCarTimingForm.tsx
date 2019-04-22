@@ -11,6 +11,7 @@ import {
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment-jalaali';
+moment.loadPersian();
 import {
   Form,
   Divider,
@@ -20,7 +21,7 @@ import {
   Button,
   Checkbox,
   Grid,
-  Dropdown,
+  Progress,
   Icon,
   Radio,
   TextArea,
@@ -173,7 +174,9 @@ const BoxAccount = styled.div`
     float: right;
     position: relative;
     top: -24px;
-    border: none;
+    .DateRangePickerInput {
+      border: none !important;
+    }
   }
   i.close {
     float: left;
@@ -193,6 +196,8 @@ interface ISetCarTimingFormValues {
   start_date: string;
   end_date: string;
   price: string;
+  availableInAllPrice: string;
+  cancellationPolicy: string;
 }
 
 export default withNamespaces('common')(
@@ -228,7 +233,8 @@ export default withNamespaces('common')(
       startDate: moment(),
       endDate: moment(),
       focusedInput: 'startDate',
-      showNewEntery: true
+      showNewEntery: true,
+      submittingSteps: 0
     };
 
     constructor(props) {
@@ -370,7 +376,6 @@ export default withNamespaces('common')(
           t('forms.error_filed_required2')
         );
       };
-      moment.loadPersian();
       return (
         <Error404 token={this.state.token}>
           <Formik
@@ -390,17 +395,199 @@ export default withNamespaces('common')(
               this.setState({ error: '' });
               console.log(values);
               const {
-                // carCity,
-                // carDistrict,
-                // carBrand,
-                // carModel,
-                // carYear,
+                availableInAllPrice,
+                cancellationPolicy,
+                daysToGetReminded,
+                deliverAtRentersPlace,
+                distanceLimit,
+                extraKm,
+                minDaysToRent,
+                radioGroup
               } = values;
-              setTimeout(() => {
-                console.log(values);
-
-                actions.setSubmitting(false);
-              }, 3000);
+              const header = {
+                headers: {
+                  Authorization: 'Bearer ' + this.state.token
+                }
+              };
+              const id = this.props.rentalCarID;
+              axios
+                .post(
+                  'https://otoli.net' +
+                    '/core/rental-car/set-deliver-at-renters-place',
+                  {
+                    id,
+                    value: deliverAtRentersPlace
+                  },
+                  header
+                )
+                .then(response => {
+                  if (response.data.success) {
+                    console.log(1);
+                    this.setState({ submittingSteps: 1 });
+                    axios
+                      .post(
+                        'https://otoli.net' +
+                          '/core/rental-car/set-max-km-per-day',
+                        {
+                          id,
+                          value: distanceLimit
+                        },
+                        header
+                      )
+                      .then(response => {
+                        if (response.data.success) {
+                          console.log(2);
+                          this.setState({ submittingSteps: 2 });
+                          axios
+                            .post(
+                              'https://otoli.net' +
+                                '/core/rental-car/set-extra-km-price',
+                              {
+                                id,
+                                value: extraKm
+                              },
+                              header
+                            )
+                            .then(response => {
+                              if (response.data.success) {
+                                console.log(3);
+                                this.setState({ submittingSteps: 3 });
+                                axios
+                                  .post(
+                                    'https://otoli.net' +
+                                      '/core/rental-car/set-cancellation-policy',
+                                    {
+                                      id,
+                                      value: cancellationPolicy
+                                    },
+                                    header
+                                  )
+                                  .then(response => {
+                                    if (response.data.success) {
+                                      console.log(4);
+                                      this.setState({ submittingSteps: 4 });
+                                      axios
+                                        .post(
+                                          'https://otoli.net' +
+                                            '/core/rental-car/set-days-to-get-reminded',
+                                          {
+                                            id,
+                                            value: daysToGetReminded
+                                          },
+                                          header
+                                        )
+                                        .then(response => {
+                                          if (response.data.success) {
+                                            console.log(5);
+                                            this.setState({
+                                              submittingSteps: 5
+                                            });
+                                            axios
+                                              .post(
+                                                'https://otoli.net' +
+                                                  '/core/rental-car/set-min-days-to-rent',
+                                                {
+                                                  id,
+                                                  value: minDaysToRent
+                                                },
+                                                header
+                                              )
+                                              .then(response => {
+                                                if (response.data.success) {
+                                                  console.log(6);
+                                                  this.setState({
+                                                    submittingSteps: 6
+                                                  });
+                                                  if (radioGroup == false) {
+                                                    axios
+                                                      .post(
+                                                        'https://otoli.net' +
+                                                          '/core/rental-car/availability/new',
+                                                        {
+                                                          rental_car_id: id,
+                                                          is_all_time: 1,
+                                                          price: clearNumber(
+                                                            availableInAllPrice
+                                                          ),
+                                                          status_id: 'available'
+                                                        },
+                                                        header
+                                                      )
+                                                      .then(response => {
+                                                        if (
+                                                          response.data.success
+                                                        ) {
+                                                          this.setState({
+                                                            submittingSteps: 7
+                                                          });
+                                                          setTimeout(() => {
+                                                            actions.setSubmitting(
+                                                              false
+                                                            );
+                                                          }, 1500);
+                                                        }
+                                                      });
+                                                  } else {
+                                                    this.state.carTimings.map(
+                                                      (val, index) => {
+                                                        axios
+                                                          .post(
+                                                            'https://otoli.net' +
+                                                              '/core/rental-car/availability/new',
+                                                            {
+                                                              rental_car_id: id,
+                                                              start_date: val.startDate.format(
+                                                                'jYYYY/jMM/jDD'
+                                                              ),
+                                                              end_date: val.endDate.format(
+                                                                'jYYYY/jMM/jDD'
+                                                              ),
+                                                              price: clearNumber(
+                                                                val.price
+                                                              ),
+                                                              status_id:
+                                                                'available'
+                                                            },
+                                                            header
+                                                          )
+                                                          .then(response => {
+                                                            if (
+                                                              response.data
+                                                                .success
+                                                            ) {
+                                                              console.log(
+                                                                response.data
+                                                                  .data.id
+                                                              );
+                                                            }
+                                                          });
+                                                      }
+                                                    );
+                                                    this.setState({
+                                                      submittingSteps: 7
+                                                    });
+                                                    setTimeout(() => {
+                                                      actions.setSubmitting(
+                                                        false
+                                                      );
+                                                    }, 1500);
+                                                  }
+                                                }
+                                              });
+                                          }
+                                        });
+                                    }
+                                  });
+                              }
+                            });
+                        }
+                      });
+                  }
+                })
+                .catch(error => {
+                  console.error(error);
+                  this.setState({ error: error, success: false });
+                });
             }}
             validationSchema={Yup.object().shape({
               daysToGetReminded: Yup.number()
@@ -909,6 +1096,14 @@ export default withNamespaces('common')(
                       >
                         {t('signup')}
                       </Button>
+                      {isSubmitting && (
+                        <Progress
+                          value={this.state.submittingSteps}
+                          total="7"
+                          indicating={isSubmitting}
+                          success={this.state.submittingSteps == 7}
+                        />
+                      )}
                     </Form.Field>
                     {error && (
                       <Label attached="bottom" color="red">
