@@ -524,7 +524,15 @@ export default withNamespaces('common')(
                                                             actions.setSubmitting(
                                                               false
                                                             );
-                                                          }, 1500);
+                                                            Router.push({
+                                                              pathname: '/done',
+                                                              query: {
+                                                                car_id:
+                                                                  response.data
+                                                                    .data.id
+                                                              }
+                                                            });
+                                                          }, 1000);
                                                         }
                                                       });
                                                   } else {
@@ -570,7 +578,15 @@ export default withNamespaces('common')(
                                                       actions.setSubmitting(
                                                         false
                                                       );
-                                                    }, 1500);
+                                                      Router.push({
+                                                        pathname: '/done',
+                                                        query: {
+                                                          car_id:
+                                                            response.data.data
+                                                              .id
+                                                        }
+                                                      });
+                                                    }, 1000);
                                                   }
                                                 }
                                               });
