@@ -4,6 +4,14 @@ import { useCallback } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import {
+  DateRangePicker,
+  SingleDatePicker,
+  DayPickerRangeController
+} from 'react-dates';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import moment from 'moment-jalaali';
+import {
   Form,
   Divider,
   Header,
@@ -46,7 +54,7 @@ const BoxAccount = styled.div`
   margin-bottom: 25px;
   margin-top: 25px;
   .ui.segments {
-    .segment:last-child {
+    .segment.timingEntery {
       min-height: 225px;
     }
   }
@@ -161,6 +169,18 @@ const BoxAccount = styled.div`
       }
     }
   }
+  .DateRangePicker {
+    float: right;
+    position: relative;
+    top: -24px;
+    border: none;
+  }
+  i.close {
+    float: left;
+    position: relative;
+    top: -20px;
+    font-size: 24px;
+  }
 `;
 
 interface ISetCarTimingFormValues {
@@ -204,9 +224,11 @@ export default withNamespaces('common')(
       plate3: null,
       plate4: null,
       carTimings: [],
-      from: '',
-      to: '',
-      price: ''
+      price: '',
+      startDate: moment(),
+      endDate: moment(),
+      focusedInput: 'startDate',
+      showNewEntery: true
     };
 
     constructor(props) {
@@ -348,6 +370,7 @@ export default withNamespaces('common')(
           t('forms.error_filed_required2')
         );
       };
+      moment.loadPersian();
       return (
         <Error404 token={this.state.token}>
           <Formik
@@ -709,9 +732,15 @@ export default withNamespaces('common')(
                       <div style={{ maxWidth: '370px' }}>
                         <Segment.Group style={{ marginBottom: '12px' }}>
                           {this.state.carTimings.map((val, index) => (
-                            <Segment>
-                              از تاریخ {val.from} تا تاریخ {val.from} با قیمت{' '}
-                              {val.from} تومان
+                            <Segment style={{ textAlign: 'right' }}>
+                              <span>
+                                <label>از</label>{' '}
+                                {val.startDate.format('jDD jMMMM jYY')}{' '}
+                                <label>تا</label>{' '}
+                                {val.endDate.format('jDD jMMMM jYY')} <br />
+                                <label>با قیمت</label> {val.price} تومان
+                              </span>
+                              <Icon name="close" />
                               {/* <Form.Group>
                                 <Form.Input
                                   disabled
@@ -735,91 +764,110 @@ export default withNamespaces('common')(
                               /> */}
                             </Segment>
                           ))}
-
                           {/* ======================  new form ========================= */}
-                          <Segment>
-                            <Form.Group>
-                              <Form.Input
-                                placeholder="تاریخ"
-                                name="from"
-                                label={t('carTiming.from')}
-                                onChange={(e, data) => {
-                                  if (data && data.name) {
-                                    this.setState({ from: data.value });
-                                  }
-                                }}
-                                value={this.state.from}
-                              />
-                              <Form.Input
-                                placeholder="تاریخ"
-                                name="to"
-                                label={t('carTiming.to')}
-                                onChange={(e, data) => {
-                                  if (data && data.name) {
-                                    this.setState({ to: data.value });
-                                  }
-                                }}
-                                value={this.state.to}
-                              />
-                            </Form.Group>
-                            <Form.Input
-                              style={{ width: '47%' }}
-                              name="price"
-                              placeholder="قیمت"
-                              label={t('carTiming.price')}
-                              onChange={(e, data) => {
-                                if (data && data.name) {
-                                  this.setState({ price: data.value });
+                          {this.state.showNewEntery && (
+                            <Segment className="timingEntery">
+                              <Form.Group>
+                                <Form.Field style={{ margin: 0 }}>
+                                  <label>{t('carTiming.from')}</label>
+                                </Form.Field>
+                                <Form.Field style={{ margin: 0 }}>
+                                  <label>{t('carTiming.to')}</label>
+                                </Form.Field>
+                              </Form.Group>
+                              <DateRangePicker
+                                isRTL
+                                startDate={this.state.startDate}
+                                startDateId="your_unique_start_date_id"
+                                endDate={this.state.endDate}
+                                endDateId="your_unique_end_date_id"
+                                onDatesChange={({ startDate, endDate }) =>
+                                  this.setState({ startDate, endDate })
                                 }
-                              }}
-                              value={
-                                this.state.price
-                                  ? numberWithCommas(this.state.price)
-                                  : this.state.price
-                              }
-                            />
-                            <Button.Group
-                              size="tiny"
-                              style={{
-                                flexDirection: 'row-reverse',
-                                position: 'relative',
-                                bottom: '-30px',
-                                left: '-15px'
-                              }}
-                            >
-                              <Button
-                                positive
-                                onClick={e => {
-                                  let data = this.state.carTimings;
-                                  if (
-                                    this.state.from &&
-                                    this.state.to &&
-                                    this.state.price
-                                  ) {
-                                    data.push({
-                                      from: this.state.from,
-                                      to: this.state.to,
-                                      price: this.state.price
-                                    });
-                                    this.setState({
-                                      carTimings: data,
-                                      from: '',
-                                      to: '',
-                                      price: ''
-                                    });
+                                focusedInput={this.state.focusedInput}
+                                onFocusChange={focusedInput =>
+                                  this.setState({ focusedInput })
+                                }
+                                startDatePlaceholderText="تاریخ شروع"
+                                endDatePlaceholderText="تاریخ پایان"
+                                // minimumNights={1}
+                                monthFormat={'jMMMM jYYYY'}
+                                numberOfMonths={1}
+                                renderMonthText={month =>
+                                  moment(month).format('jMMMM jYYYY')
+                                }
+                                renderDayContents={day =>
+                                  moment(day).format('jD')
+                                }
+                              />
+                              <Form.Input
+                                style={{ width: '47%' }}
+                                name="price"
+                                placeholder="قیمت"
+                                label={t('carTiming.price')}
+                                onChange={(e, data) => {
+                                  if (data && data.name) {
+                                    this.setState({ price: data.value });
                                   }
+                                }}
+                                value={
+                                  this.state.price
+                                    ? numberWithCommas(this.state.price)
+                                    : this.state.price
+                                }
+                              />
+                              <Button.Group
+                                size="tiny"
+                                style={{
+                                  flexDirection: 'row-reverse',
+                                  position: 'relative',
+                                  bottom: '-30px',
+                                  left: '-15px'
                                 }}
                               >
-                                ثبت
-                              </Button>
-                              <Button>حذف</Button>
-                            </Button.Group>
-                          </Segment>
+                                <Button
+                                  positive
+                                  type="button"
+                                  onClick={e => {
+                                    console.log(e);
+                                    let data = this.state.carTimings;
+                                    if (
+                                      this.state.startDate &&
+                                      this.state.endDate &&
+                                      this.state.price
+                                    ) {
+                                      data.push({
+                                        startDate: this.state.startDate,
+                                        endDate: this.state.endDate,
+                                        price: this.state.price
+                                      });
+                                      this.setState({
+                                        carTimings: data,
+                                        startDate: moment(),
+                                        endDate: moment(),
+                                        price: '',
+                                        showNewEntery: false
+                                      });
+                                    }
+                                  }}
+                                >
+                                  ثبت
+                                </Button>
+                                <Button>حذف</Button>
+                              </Button.Group>
+                            </Segment>
+                          )}
                         </Segment.Group>
                         <Button
                           icon
                           labelPosition="left"
+                          type="button"
                           style={{ marginBottom: '12px' }}
+                          onClick={e => {
+                            this.setState({
+                              showNewEntery: true
+                            });
+                          }}
                         >
                           <Icon name="plus" />
                           افزودن
