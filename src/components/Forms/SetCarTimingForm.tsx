@@ -183,6 +183,7 @@ const BoxAccount = styled.div`
     position: relative;
     top: -20px;
     font-size: 24px;
+    cursor: pointer;
   }
 `;
 
@@ -385,7 +386,8 @@ export default withNamespaces('common')(
               deliverAtRentersPlace: false,
               distanceLimit: null,
               extraKm: null,
-              radioGroup: false
+              radioGroup: false,
+              cancellationPolicy: ''
             }}
             onSubmit={(
               values: ISetCarTimingFormValues,
@@ -394,7 +396,7 @@ export default withNamespaces('common')(
               actions.setSubmitting(true);
               this.setState({ error: '' });
               console.log(values);
-              const {
+              let {
                 availableInAllPrice,
                 cancellationPolicy,
                 daysToGetReminded,
@@ -404,6 +406,7 @@ export default withNamespaces('common')(
                 minDaysToRent,
                 radioGroup
               } = values;
+              if (!deliverAtRentersPlace) deliverAtRentersPlace = 0;
               const header = {
                 headers: {
                   Authorization: 'Bearer ' + this.state.token
@@ -619,7 +622,12 @@ export default withNamespaces('common')(
                 .typeError(fieldErrorGenrator(t('carTiming.distanceLimit'))),
               extraKm: Yup.number()
                 .required(fieldErrorGenrator(t('carTiming.extraKmCost')))
-                .typeError(fieldErrorGenrator(t('carTiming.extraKmCost')))
+                .typeError(fieldErrorGenrator(t('carTiming.extraKmCost'))),
+              cancellationPolicy: Yup.string()
+                .required(fieldErrorGenrator(t('carTiming.cancellationPolicy')))
+                .typeError(
+                  fieldErrorGenrator(t('carTiming.cancellationPolicy'))
+                )
             })}
           >
             {({
@@ -633,318 +641,344 @@ export default withNamespaces('common')(
               values,
               errors,
               touched
-            }) => (
-              <BoxAccount className="box_account">
-                <Form onSubmit={handleSubmit}>
-                  <h3 className="new_client">{t('add_car')}</h3>
-                  {/* <small className="float-right pt-2">* {$required_fields}</small> */}
-                  <Segment>
-                    {/* <Divider horizontal>
+            }) => {
+              let radioPad;
+              if (values.radioGroup == false) {
+                radioPad = '16px';
+              } else {
+                radioPad = '0px';
+              }
+              return (
+                <BoxAccount className="box_account">
+                  <Form onSubmit={handleSubmit}>
+                    <h3 className="new_client">{t('add_car')}</h3>
+                    {/* <small className="float-right pt-2">* {$required_fields}</small> */}
+                    <Segment>
+                      {/* <Divider horizontal>
                       <Header as="h4">
                         <Icon name="car" />
                         پیشنمایش خودرو
                       </Header>
                     </Divider> */}
-                    <Item.Group>
-                      <Item>
-                        <Item.Image
-                          src={(carMedia_set[0] || { url: '' }).url}
-                        />
-                        <Item.Content>
-                          <Item.Header as="a">
-                            {`${carBrand} - ${carName}`}.
-                          </Item.Header>
-                          <Item.Meta>{carDescription}</Item.Meta>
-                          <Item.Description>
-                            <div className="pelak" style={{}}>
-                              <span id="carLicensePlates1">{plate1}</span>
-                              <span id="carLicensePlates2">{plate2}</span>
-                              <span id="carLicensePlates3">{plate3}</span>
-                              <span id="carLicensePlates4">{plate4}</span>
-                            </div>
-                          </Item.Description>
-                          <Item.Extra>{carLocation}</Item.Extra>
-                        </Item.Content>
-                      </Item>
-                      {/* carPelak, carColor, carYear, carMin_days_to_rent,
+                      <Item.Group>
+                        <Item>
+                          <Item.Image
+                            src={(carMedia_set[0] || { url: '' }).url}
+                          />
+                          <Item.Content>
+                            <Item.Header as="a">
+                              {`${carBrand} - ${carName}`}.
+                            </Item.Header>
+                            <Item.Meta>{carDescription}</Item.Meta>
+                            <Item.Description>
+                              <div className="pelak" style={{}}>
+                                <span id="carLicensePlates1">{plate1}</span>
+                                <span id="carLicensePlates2">{plate2}</span>
+                                <span id="carLicensePlates3">{plate3}</span>
+                                <span id="carLicensePlates4">{plate4}</span>
+                              </div>
+                            </Item.Description>
+                            <Item.Extra>{carLocation}</Item.Extra>
+                          </Item.Content>
+                        </Item>
+                        {/* carPelak, carColor, carYear, carMin_days_to_rent,
                             carDeliver_at_renters_place, , ,
                              */}
-                    </Item.Group>
-                    {/* ===================================================================== */}
-                    <Divider horizontal>
-                      <Header as="h4">
-                        <Icon name="edit" />
-                        شرایط اجاره
-                      </Header>
-                    </Divider>
-                    {/* ===================================================================== */}
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carTiming.daysToGetReminded')}</label>
-                    </Form.Field>
-                    <Input
-                      name="daysToGetReminded"
-                      className="numstep daysToGetReminded"
-                      inputMode="numeric"
-                      type="number"
-                      pattern="[0-9]*"
-                      error={Boolean(
-                        errors.daysToGetReminded && touched.daysToGetReminded
-                      )}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, data.value);
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.daysToGetReminded}
-                    >
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (values.daysToGetReminded < 31) {
-                            let val = Number(values.daysToGetReminded);
-                            setFieldValue('daysToGetReminded', ++val);
-                          }
-                        }}
-                      >
-                        <Icon name="plus" />
-                      </Label>
-                      <input />
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (values.daysToGetReminded > 1) {
-                            let val = Number(values.daysToGetReminded);
-                            setFieldValue('daysToGetReminded', --val);
-                          }
-                        }}
-                      >
-                        <Icon name="minus" />
-                      </Label>
-                      <span>روز قبل</span>
-                    </Input>
-                    {/* ===================================================================== */}
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carTiming.minDaysToRent')}</label>
-                    </Form.Field>
-                    <Input
-                      name="minDaysToRent"
-                      className="numstep minDaysToRent"
-                      inputMode="numeric"
-                      type="number"
-                      pattern="[0-9]*"
-                      error={Boolean(
-                        errors.minDaysToRent && touched.minDaysToRent
-                      )}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, data.value);
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.minDaysToRent}
-                    >
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (values.minDaysToRent < 31) {
-                            let val = Number(values.minDaysToRent);
-                            setFieldValue('minDaysToRent', ++val);
-                          }
-                        }}
-                      >
-                        <Icon name="plus" />
-                      </Label>
-                      <input />
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (values.minDaysToRent > 1) {
-                            let val = Number(values.minDaysToRent);
-                            setFieldValue('minDaysToRent', --val);
-                          }
-                        }}
-                      >
-                        <Icon name="minus" />
-                      </Label>
-                      <span>روز</span>
-                    </Input>
-                    {/* ===================================================================== */}
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carTiming.distanceLimit')}</label>
-                    </Form.Field>
-                    <Form.Input
-                      // icon="search"
-                      // iconPosition="left"
-                      name="distanceLimit"
-                      className="distanceLimit"
-                      inputMode="numeric"
-                      type="number"
-                      pattern="[0-9]*"
-                      error={Boolean(
-                        errors.distanceLimit && touched.distanceLimit
-                      )}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, data.value);
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.distanceLimit}
-                    />
-                    <span
-                      style={{
-                        float: 'right',
-                        lineHeight: '48px',
-                        marginRight: '8px'
-                      }}
-                    >
-                      کیلومتر در روز
-                    </span>
-                    {/* ===================================================================== */}
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carTiming.extraKmCost')}</label>
-                    </Form.Field>
-                    <Form.Input
-                      // icon="search"
-                      // iconPosition="left"
-                      name="extraKm"
-                      className="extraKm"
-                      inputMode="numeric"
-                      //   type="number"
-                      error={Boolean(errors.extraKm && touched.extraKm)}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, clearNumber(data.value));
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={
-                        values.extraKm
-                          ? numberWithCommas(values.extraKm)
-                          : values.extraKm
-                      }
-                    />
-                    <span
-                      style={{
-                        float: 'right',
-                        lineHeight: '48px',
-                        marginRight: '8px'
-                      }}
-                    >
-                      تومان
-                    </span>
-                    {/* ===================================================================== */}
-                    <Form.Field>
-                      <Checkbox
-                        label={t('carTiming.deliver_at_renters_place')}
-                        name="deliverAtRentersPlace"
-                        id="deliverAtRentersPlace"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        checked={values.deliverAtRentersPlace}
-                      />
-                    </Form.Field>
-                    {/* ===================================================================== */}
-                    {/* ===================================================================== */}
-                    <Divider horizontal>
-                      <Header as="h4">
-                        <Icon name="calendar alternate outline" />
-                        {t('carTiming.rentDateAndPrice')}
-                      </Header>
-                    </Divider>
-                    {/* ===================================================================== */}
-                    <Form.Field>
-                      <Radio
-                        label={t('carTiming.availableInAllDatesWithSamePrice')}
-                        name="radioGroup"
-                        value={false}
-                        checked={values.radioGroup === false}
+                      </Item.Group>
+                      {/* ===================================================================== */}
+                      <Divider horizontal>
+                        <Header as="h4">
+                          <Icon name="edit" />
+                          شرایط اجاره
+                        </Header>
+                      </Divider>
+                      {/* ===================================================================== */}
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carTiming.daysToGetReminded')}</label>
+                      </Form.Field>
+                      <Input
+                        name="daysToGetReminded"
+                        className="numstep daysToGetReminded"
+                        inputMode="numeric"
+                        type="number"
+                        pattern="[0-9]*"
+                        error={Boolean(
+                          errors.daysToGetReminded && touched.daysToGetReminded
+                        )}
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClick={(e, data) => {
-                          if (data && data.name) {
                             setFieldTouched(data.name);
                           }
                         }}
+                        value={values.daysToGetReminded}
+                      >
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (values.daysToGetReminded < 31) {
+                              let val = Number(values.daysToGetReminded);
+                              setFieldValue('daysToGetReminded', ++val);
+                            }
+                          }}
+                        >
+                          <Icon name="plus" />
+                        </Label>
+                        <input />
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (values.daysToGetReminded > 1) {
+                              let val = Number(values.daysToGetReminded);
+                              setFieldValue('daysToGetReminded', --val);
+                            }
+                          }}
+                        >
+                          <Icon name="minus" />
+                        </Label>
+                        <span>روز قبل</span>
+                      </Input>
+                      {/* ===================================================================== */}
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carTiming.minDaysToRent')}</label>
+                      </Form.Field>
+                      <Input
+                        name="minDaysToRent"
+                        className="numstep minDaysToRent"
+                        inputMode="numeric"
+                        type="number"
+                        pattern="[0-9]*"
+                        error={Boolean(
+                          errors.minDaysToRent && touched.minDaysToRent
+                        )}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={values.minDaysToRent}
+                      >
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (values.minDaysToRent < 31) {
+                              let val = Number(values.minDaysToRent);
+                              setFieldValue('minDaysToRent', ++val);
+                            }
+                          }}
+                        >
+                          <Icon name="plus" />
+                        </Label>
+                        <input />
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (values.minDaysToRent > 1) {
+                              let val = Number(values.minDaysToRent);
+                              setFieldValue('minDaysToRent', --val);
+                            }
+                          }}
+                        >
+                          <Icon name="minus" />
+                        </Label>
+                        <span>روز</span>
+                      </Input>
+                      {/* ===================================================================== */}
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carTiming.distanceLimit')}</label>
+                      </Form.Field>
+                      <Form.Input
+                        // icon="search"
+                        // iconPosition="left"
+                        name="distanceLimit"
+                        className="distanceLimit"
+                        inputMode="numeric"
+                        type="number"
+                        pattern="[0-9]*"
+                        error={Boolean(
+                          errors.distanceLimit && touched.distanceLimit
+                        )}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={values.distanceLimit}
                       />
-                    </Form.Field>
-                    {values.radioGroup == false && (
-                      <div>
-                        {/* <Form.Field style={{ margin: 0 }}>
-                          <label>{t('carTiming.extraKmCost')}</label>
-                        </Form.Field> */}
-                        <Input
-                          // icon="search"
-                          // iconPosition="left"
-                          name="availableInAllPrice"
-                          className="extraKm"
-                          inputMode="numeric"
-                          //   type="number"
-                          error={Boolean(
-                            errors.availableInAllPrice &&
-                              touched.availableInAllPrice
+                      <span
+                        style={{
+                          float: 'right',
+                          lineHeight: '48px',
+                          marginRight: '8px'
+                        }}
+                      >
+                        کیلومتر در روز
+                      </span>
+                      {/* ===================================================================== */}
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carTiming.extraKmCost')}</label>
+                      </Form.Field>
+                      <Form.Input
+                        // icon="search"
+                        // iconPosition="left"
+                        name="extraKm"
+                        className="extraKm"
+                        inputMode="numeric"
+                        //   type="number"
+                        error={Boolean(errors.extraKm && touched.extraKm)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, clearNumber(data.value));
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={
+                          values.extraKm
+                            ? numberWithCommas(values.extraKm)
+                            : values.extraKm
+                        }
+                      />
+                      <span
+                        style={{
+                          float: 'right',
+                          lineHeight: '48px',
+                          marginRight: '8px'
+                        }}
+                      >
+                        تومان
+                      </span>
+                      {/* ===================================================================== */}
+                      <Form.Field>
+                        <Checkbox
+                          label={t('carTiming.deliver_at_renters_place')}
+                          name="deliverAtRentersPlace"
+                          id="deliverAtRentersPlace"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          checked={values.deliverAtRentersPlace}
+                        />
+                      </Form.Field>
+                      {/* ===================================================================== */}
+                      {/* ===================================================================== */}
+                      <Divider horizontal>
+                        <Header as="h4">
+                          <Icon name="calendar alternate outline" />
+                          {t('carTiming.rentDateAndPrice')}
+                        </Header>
+                      </Divider>
+                      {/* ===================================================================== */}
+                      <Form.Field>
+                        <Radio
+                          label={t(
+                            'carTiming.availableInAllDatesWithSamePrice'
                           )}
+                          name="radioGroup"
+                          value={false}
+                          checked={values.radioGroup === false}
                           onChange={(e, data) => {
                             if (data && data.name) {
-                              setFieldValue(data.name, clearNumber(data.value));
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          onClick={(e, data) => {
+                            if (data && data.name) {
                               setFieldTouched(data.name);
                             }
                           }}
-                          value={
-                            values.availableInAllPrice
-                              ? numberWithCommas(values.availableInAllPrice)
-                              : values.availableInAllPrice
-                          }
                         />
-                        <span
-                          style={{
-                            float: 'right',
-                            lineHeight: '48px',
-                            marginRight: '8px'
+                      </Form.Field>
+                      {values.radioGroup == false && (
+                        <div>
+                          {/* <Form.Field style={{ margin: 0 }}>
+                          <label>{t('carTiming.extraKmCost')}</label>
+                        </Form.Field> */}
+                          <Input
+                            // icon="search"
+                            // iconPosition="left"
+                            name="availableInAllPrice"
+                            className="extraKm"
+                            inputMode="numeric"
+                            //   type="number"
+                            error={Boolean(
+                              errors.availableInAllPrice &&
+                                touched.availableInAllPrice
+                            )}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(
+                                  data.name,
+                                  clearNumber(data.value)
+                                );
+                                setFieldTouched(data.name);
+                              }
+                            }}
+                            value={
+                              values.availableInAllPrice
+                                ? numberWithCommas(values.availableInAllPrice)
+                                : values.availableInAllPrice
+                            }
+                          />
+                          <span
+                            style={{
+                              float: 'right',
+                              lineHeight: '48px',
+                              marginRight: '8px'
+                            }}
+                          >
+                            {t('carTiming.toman')}
+                          </span>
+                        </div>
+                      )}
+
+                      <Form.Field style={{ paddingTop: radioPad }}>
+                        <Radio
+                          label={t(
+                            'carTiming.availableInDifferentDateRangesWithDifferentPrice'
+                          )}
+                          name="radioGroup"
+                          value={true}
+                          checked={values.radioGroup === true}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
                           }}
-                        >
-                          {t('carTiming.toman')}
-                        </span>
-                      </div>
-                    )}
-                    <Form.Field>
-                      <Radio
-                        label={t(
-                          'carTiming.availableInDifferentDateRangesWithDifferentPrice'
-                        )}
-                        name="radioGroup"
-                        value={true}
-                        checked={values.radioGroup === true}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClick={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                      />
-                    </Form.Field>
-                    {values.radioGroup == true && (
-                      <div style={{ maxWidth: '370px' }}>
-                        <Segment.Group style={{ marginBottom: '12px' }}>
-                          {this.state.carTimings.map((val, index) => (
-                            <Segment style={{ textAlign: 'right' }}>
-                              <span>
-                                <label>از</label>{' '}
-                                {val.startDate.format('jDD jMMMM jYY')}{' '}
-                                <label>تا</label>{' '}
-                                {val.endDate.format('jDD jMMMM jYY')} <br />
-                                <label>با قیمت</label> {val.price} تومان
-                              </span>
-                              <Icon name="close" />
-                              {/* <Form.Group>
+                          onClick={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                        />
+                      </Form.Field>
+                      {values.radioGroup == true && (
+                        <div style={{ maxWidth: '370px' }}>
+                          <Segment.Group style={{ marginBottom: '12px' }}>
+                            {this.state.carTimings.map((val, index) => (
+                              <Segment
+                                key={index}
+                                style={{ textAlign: 'right' }}
+                              >
+                                <span>
+                                  <label>از</label>{' '}
+                                  {val.startDate.format('jDD jMMMM jYY')}{' '}
+                                  <label>تا</label>{' '}
+                                  {val.endDate.format('jDD jMMMM jYY')} <br />
+                                  <label>با قیمت</label> {val.price} تومان
+                                </span>
+                                <Icon
+                                  name="close"
+                                  onClick={e => {
+                                    let data = this.state.carTimings;
+                                    data.splice(index, 1);
+                                    this.setState({
+                                      carTimings: data
+                                    });
+                                    carColor;
+                                  }}
+                                />
+                                {/* <Form.Group>
                                 <Form.Input
                                   disabled
                                   placeholder="تاریخ"
@@ -965,176 +999,186 @@ export default withNamespaces('common')(
                                 label={t('carTiming.price')}
                                 value={val.price}
                               /> */}
-                            </Segment>
-                          ))}
-                          {/* ======================  new form ========================= */}
-                          {this.state.showNewEntery && (
-                            <Segment className="timingEntery">
-                              <Form.Group>
-                                <Form.Field style={{ margin: 0 }}>
-                                  <label>{t('carTiming.from')}</label>
-                                </Form.Field>
-                                <Form.Field style={{ margin: 0 }}>
-                                  <label>{t('carTiming.to')}</label>
-                                </Form.Field>
-                              </Form.Group>
-                              <DateRangePicker
-                                isRTL
-                                startDate={this.state.startDate}
-                                startDateId="your_unique_start_date_id"
-                                endDate={this.state.endDate}
-                                endDateId="your_unique_end_date_id"
-                                onDatesChange={({ startDate, endDate }) =>
-                                  this.setState({ startDate, endDate })
-                                }
-                                focusedInput={this.state.focusedInput}
-                                onFocusChange={focusedInput =>
-                                  this.setState({ focusedInput })
-                                }
-                                startDatePlaceholderText="تاریخ شروع"
-                                endDatePlaceholderText="تاریخ پایان"
-                                // minimumNights={1}
-                                monthFormat={'jMMMM jYYYY'}
-                                numberOfMonths={1}
-                                renderMonthText={month =>
-                                  moment(month).format('jMMMM jYYYY')
-                                }
-                                renderDayContents={day =>
-                                  moment(day).format('jD')
-                                }
-                              />
-                              <Form.Input
-                                style={{ width: '47%' }}
-                                name="price"
-                                placeholder="قیمت"
-                                label={t('carTiming.price')}
-                                onChange={(e, data) => {
-                                  if (data && data.name) {
-                                    this.setState({ price: data.value });
+                              </Segment>
+                            ))}
+                            {/* ======================  new form ========================= */}
+                            {this.state.showNewEntery && (
+                              <Segment className="timingEntery">
+                                <Form.Group>
+                                  <Form.Field style={{ margin: 0 }}>
+                                    <label>{t('carTiming.from')}</label>
+                                  </Form.Field>
+                                  <Form.Field style={{ margin: 0 }}>
+                                    <label>{t('carTiming.to')}</label>
+                                  </Form.Field>
+                                </Form.Group>
+                                <DateRangePicker
+                                  isRTL
+                                  startDate={this.state.startDate}
+                                  startDateId="your_unique_start_date_id"
+                                  endDate={this.state.endDate}
+                                  endDateId="your_unique_end_date_id"
+                                  onDatesChange={({ startDate, endDate }) =>
+                                    this.setState({ startDate, endDate })
                                   }
-                                }}
-                                value={
-                                  this.state.price
-                                    ? numberWithCommas(this.state.price)
-                                    : this.state.price
-                                }
-                              />
-                              <Button.Group
-                                size="tiny"
-                                style={{
-                                  flexDirection: 'row-reverse',
-                                  position: 'relative',
-                                  bottom: '-30px',
-                                  left: '-15px'
-                                }}
-                              >
-                                <Button
-                                  positive
-                                  type="button"
-                                  onClick={e => {
-                                    console.log(e);
-                                    let data = this.state.carTimings;
-                                    if (
-                                      this.state.startDate &&
-                                      this.state.endDate &&
-                                      this.state.price
-                                    ) {
-                                      data.push({
-                                        startDate: this.state.startDate,
-                                        endDate: this.state.endDate,
-                                        price: this.state.price
-                                      });
-                                      this.setState({
-                                        carTimings: data,
-                                        startDate: moment(),
-                                        endDate: moment(),
-                                        price: '',
-                                        showNewEntery: false
-                                      });
+                                  focusedInput={this.state.focusedInput}
+                                  onFocusChange={focusedInput =>
+                                    this.setState({ focusedInput })
+                                  }
+                                  startDatePlaceholderText="تاریخ شروع"
+                                  endDatePlaceholderText="تاریخ پایان"
+                                  // minimumNights={1}
+                                  monthFormat={'jMMMM jYYYY'}
+                                  numberOfMonths={1}
+                                  renderMonthText={month =>
+                                    moment(month).format('jMMMM jYYYY')
+                                  }
+                                  renderDayContents={day =>
+                                    moment(day).format('jD')
+                                  }
+                                />
+                                <Form.Input
+                                  style={{ width: '47%' }}
+                                  name="price"
+                                  placeholder="قیمت"
+                                  label={t('carTiming.price')}
+                                  onChange={(e, data) => {
+                                    if (data && data.name) {
+                                      this.setState({ price: data.value });
                                     }
                                   }}
+                                  value={
+                                    this.state.price
+                                      ? numberWithCommas(this.state.price)
+                                      : this.state.price
+                                  }
+                                />
+                                <Button.Group
+                                  size="tiny"
+                                  style={{
+                                    flexDirection: 'row-reverse',
+                                    position: 'relative',
+                                    bottom: '-30px',
+                                    left: '-15px'
+                                  }}
                                 >
-                                  ثبت
-                                </Button>
-                                <Button>حذف</Button>
-                              </Button.Group>
-                            </Segment>
-                          )}
-                        </Segment.Group>
-                        <Button
-                          icon
-                          labelPosition="left"
-                          type="button"
-                          style={{ marginBottom: '12px' }}
-                          onClick={e => {
-                            this.setState({
-                              showNewEntery: true
-                            });
-                          }}
-                        >
-                          <Icon name="plus" />
-                          افزودن
-                        </Button>
-                      </div>
-                    )}
-                    {/* ===================================================================== */}
-                    <Form.Group>
-                      <Form.Field
-                        control={TextArea}
-                        label={t('carTiming.cancellationPolicy')}
-                        id="cancellationPolicy"
-                        name="cancellationPolicy"
-                        placeholder={t('carTiming.cancellationPolicy')}
-                        style={{ minHeight: 150 }}
-                        error={Boolean(
-                          errors.cancellationPolicy &&
-                            touched.cancellationPolicy
-                        )}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        onBlur={handleBlur}
-                        value={values.cancellationPolicy}
-                      />
-                    </Form.Group>
-                    {/* ===================================================================== */}
-                    <Form.Field
-                      style={{ textAlign: 'center', fontSize: '0.8em' }}
-                    >
-                      <Button
-                        loading={isSubmitting}
-                        primary
-                        type="submit"
-                        className="btn_1 full-width"
-                      >
-                        {t('signup')}
-                      </Button>
-                      {isSubmitting && (
-                        <Progress
-                          value={this.state.submittingSteps}
-                          total="7"
-                          indicating={isSubmitting}
-                          success={this.state.submittingSteps == 7}
-                        />
+                                  <Button
+                                    positive
+                                    type="button"
+                                    onClick={e => {
+                                      console.log(e);
+                                      let data = this.state.carTimings;
+                                      if (
+                                        this.state.startDate &&
+                                        this.state.endDate &&
+                                        this.state.price
+                                      ) {
+                                        data.push({
+                                          startDate: this.state.startDate,
+                                          endDate: this.state.endDate,
+                                          price: this.state.price
+                                        });
+                                        this.setState({
+                                          carTimings: data,
+                                          startDate: moment(),
+                                          endDate: moment(),
+                                          price: '',
+                                          showNewEntery: false
+                                        });
+                                      }
+                                    }}
+                                  >
+                                    ثبت
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    onClick={e => {
+                                      this.setState({
+                                        showNewEntery: false
+                                      });
+                                    }}
+                                  >
+                                    حذف
+                                  </Button>
+                                </Button.Group>
+                              </Segment>
+                            )}
+                          </Segment.Group>
+                          <Button
+                            icon
+                            labelPosition="left"
+                            type="button"
+                            style={{ marginBottom: '12px' }}
+                            onClick={e => {
+                              this.setState({
+                                showNewEntery: true
+                              });
+                            }}
+                          >
+                            <Icon name="plus" />
+                            افزودن
+                          </Button>
+                        </div>
                       )}
-                    </Form.Field>
-                    {error && (
-                      <Label attached="bottom" color="red">
-                        {t('forms.error')}
-                      </Label>
-                    )}
-                    {Object.keys(errors).length >= 1 && submitCount >= 1 && (
-                      <Label attached="bottom" color="red">
-                        {Object.values(errors)[0]}
-                      </Label>
-                    )}
-                  </Segment>
-                </Form>
-              </BoxAccount>
-            )}
+                      {/* ===================================================================== */}
+                      <Form.Group>
+                        <Form.Field
+                          control={TextArea}
+                          label={t('carTiming.cancellationPolicy')}
+                          id="cancellationPolicy"
+                          name="cancellationPolicy"
+                          placeholder={t('carTiming.cancellationPolicy')}
+                          style={{ minHeight: 150 }}
+                          error={Boolean(
+                            errors.cancellationPolicy &&
+                              touched.cancellationPolicy
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          onBlur={handleBlur}
+                          value={values.cancellationPolicy}
+                        />
+                      </Form.Group>
+                      {/* ===================================================================== */}
+                      <Form.Field
+                        style={{ textAlign: 'center', fontSize: '0.8em' }}
+                      >
+                        <Button
+                          loading={isSubmitting}
+                          primary
+                          type="submit"
+                          className="btn_1 full-width"
+                        >
+                          {t('signup')}
+                        </Button>
+                        {isSubmitting && (
+                          <Progress
+                            value={this.state.submittingSteps}
+                            total="7"
+                            indicating={isSubmitting}
+                            success={this.state.submittingSteps == 7}
+                          />
+                        )}
+                      </Form.Field>
+                      {error && (
+                        <Label attached="bottom" color="red">
+                          {t('forms.error')}
+                        </Label>
+                      )}
+                      {Object.keys(errors).length >= 1 && submitCount >= 1 && (
+                        <Label attached="bottom" color="red">
+                          {Object.values(errors)[0]}
+                        </Label>
+                      )}
+                    </Segment>
+                  </Form>
+                </BoxAccount>
+              );
+            }}
           </Formik>
         </Error404>
       );
