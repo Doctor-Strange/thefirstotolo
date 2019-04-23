@@ -1001,9 +1001,9 @@ export default withNamespaces('common')(
                                   )
                                 : values.availableInAllPrice
                             }
-                            >
+                          >
                             <input inputMode="numeric" />
-                          </Form.Input>
+                          </Input>
                           <span
                             style={{
                               float: 'right',
