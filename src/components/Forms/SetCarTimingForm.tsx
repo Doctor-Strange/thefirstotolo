@@ -676,11 +676,7 @@ export default withNamespaces('common')(
               distanceLimit: Yup.number()
                 .required(fieldErrorGenrator(t('carTiming.distanceLimit')))
                 .typeError(fieldErrorGenrator(t('carTiming.distanceLimit')))
-                .min(50, MinErrorGenrator(t('carTiming.distanceLimit'), 50))
-                .max(
-                  3000,
-                  MaxErrorGenrator(t('carTiming.distanceLimit'), 3000)
-                ),
+                .min(50, MinErrorGenrator(t('carTiming.distanceLimit'), 50)),
               extraKm: Yup.number()
                 .required(fieldErrorGenrator(t('carTiming.extraKmCost')))
                 .typeError(fieldErrorGenrator(t('carTiming.extraKmCost')))
@@ -1005,7 +1001,9 @@ export default withNamespaces('common')(
                                   )
                                 : values.availableInAllPrice
                             }
-                          />
+                            >
+                            <input inputMode="numeric" />
+                          </Form.Input>
                           <span
                             style={{
                               float: 'right',
