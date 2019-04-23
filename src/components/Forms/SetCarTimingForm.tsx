@@ -34,6 +34,13 @@ import Error404 from '../404';
 import { i18n, withNamespaces } from '../../i18n';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
+// import { setLocale } from 'yup';
+// setLocale({
+//   number: {
+//     min: 'مقدار وارد شده از ${min} کمتر است',
+//     max: 'مقدار وارد شده از ${max} بیشتر است'
+//   }
+// });
 import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
 import * as Pelak from '../../../static/pelak2.png';
@@ -107,28 +114,28 @@ const BoxAccount = styled.div`
       direction: ltr;
       left: -125px;
       top: 11px;
-      font-size: 20px;
+      font-size: 25px;
     }
     #carLicensePlates2 {
       position: relative;
       direction: ltr;
-      left: -63px;
+      left: -80px;
       top: 11px;
-      font-size: 20px;
+      font-size: 25px;
     }
     #carLicensePlates3 {
       position: relative;
       direction: ltr;
-      left: 31px;
+      left: 10px;
       top: 11px;
-      font-size: 20px;
+      font-size: 25px;
     }
     #carLicensePlates4 {
       position: relative;
       direction: ltr;
-      left: 45px;
+      left: 25px;
       top: 15px;
-      font-size: 20px;
+      font-size: 25px;
     }
   }
   .ui.input {
@@ -202,12 +209,16 @@ const BoxAccount = styled.div`
       border: none !important;
     }
   }
-  i.close {
+  i.close,
+  i.edit.outline {
     float: left;
     position: relative;
     top: -20px;
     font-size: 24px;
     cursor: pointer;
+  }
+  .ui.form input[type='text'] {
+    direction: ltr;
   }
 `;
 
@@ -259,6 +270,7 @@ export default withNamespaces('common')(
       endDate: moment(),
       focusedInput: 'startDate',
       showNewEntery: true,
+      openEditFor: null,
       submittingSteps: 0
     };
 
@@ -296,7 +308,7 @@ export default withNamespaces('common')(
         })
         .catch(error => {
           console.error(error);
-          this.setState({ error: error, success: false });
+          this.setState({ error: true, success: false });
         });
     }
 
@@ -401,8 +413,23 @@ export default withNamespaces('common')(
           t('forms.error_filed_required2')
         );
       };
+      const MaxErrorGenrator = (fieldName, val) => {
+        return `${t('forms.error_filed_maxmin_required1')} ${fieldName} ${t(
+          'forms.error_filed_max_required2'
+        )} (${convertNumbers2Persian(val)}) ${t(
+          'forms.error_filed_max_required3'
+        )}`;
+      };
+      const MinErrorGenrator = (fieldName, val) => {
+        return `${t('forms.error_filed_maxmin_required1')} ${fieldName} ${t(
+          'forms.error_filed_min_required2'
+        )} (${convertNumbers2Persian(val)}) ${t(
+          'forms.error_filed_min_required3'
+        )}`;
+      };
+
       return (
-        <Error404 token={this.state.token}>
+        <Error404 token={!this.state.error && this.state.token}>
           <Formik
             initialValues={{
               daysToGetReminded: 1,
@@ -629,24 +656,38 @@ export default withNamespaces('common')(
                 })
                 .catch(error => {
                   console.error(error);
-                  this.setState({ error: error, success: false });
+                  this.setState({ error: true, success: false });
                 });
             }}
             validationSchema={Yup.object().shape({
               daysToGetReminded: Yup.number()
                 .required(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
-                .typeError(
-                  fieldErrorGenrator(t('carTiming.daysToGetReminded'))
+                .typeError(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
+                .min(1, MinErrorGenrator(t('carTiming.daysToGetReminded'), 1))
+                .max(
+                  31,
+                  MaxErrorGenrator(t('carTiming.daysToGetReminded'), 31)
                 ),
               minDaysToRent: Yup.number()
                 .required(fieldErrorGenrator(t('carTiming.minDaysToRent')))
-                .typeError(fieldErrorGenrator(t('carTiming.minDaysToRent'))),
+                .typeError(fieldErrorGenrator(t('carTiming.minDaysToRent')))
+                .min(1, MinErrorGenrator(t('carTiming.minDaysToRent'), 1))
+                .max(31, MaxErrorGenrator(t('carTiming.minDaysToRent'), 31)),
               distanceLimit: Yup.number()
                 .required(fieldErrorGenrator(t('carTiming.distanceLimit')))
-                .typeError(fieldErrorGenrator(t('carTiming.distanceLimit'))),
+                .typeError(fieldErrorGenrator(t('carTiming.distanceLimit')))
+                .min(50, MinErrorGenrator(t('carTiming.distanceLimit'), 50))
+                .max(
+                  3000,
+                  MaxErrorGenrator(t('carTiming.distanceLimit'), 3000)
+                ),
               extraKm: Yup.number()
                 .required(fieldErrorGenrator(t('carTiming.extraKmCost')))
-                .typeError(fieldErrorGenrator(t('carTiming.extraKmCost'))),
+                .typeError(fieldErrorGenrator(t('carTiming.extraKmCost')))
+                .max(
+                  10000000,
+                  MaxErrorGenrator(t('carTiming.extraKmCost'), 10000000)
+                ),
               cancellationPolicy: Yup.string()
                 .required(fieldErrorGenrator(t('carTiming.cancellationPolicy')))
                 .typeError(
@@ -696,10 +737,16 @@ export default withNamespaces('common')(
                             <Item.Meta>{carDescription}</Item.Meta>
                             <Item.Description>
                               <div className="pelak" style={{}}>
-                                <span id="carLicensePlates1">{plate1}</span>
+                                <span id="carLicensePlates1">
+                                  {convertNumbers2Persian(plate1)}
+                                </span>
                                 <span id="carLicensePlates2">{plate2}</span>
-                                <span id="carLicensePlates3">{plate3}</span>
-                                <span id="carLicensePlates4">{plate4}</span>
+                                <span id="carLicensePlates3">
+                                  {convertNumbers2Persian(plate3)}
+                                </span>
+                                <span id="carLicensePlates4">
+                                  {convertNumbers2Persian(plate4)}
+                                </span>
                               </div>
                             </Item.Description>
                             <Item.Extra>{carLocation}</Item.Extra>
@@ -895,6 +942,7 @@ export default withNamespaces('common')(
                           checked={values.deliverAtRentersPlace}
                         />
                       </Form.Field>
+                      <br />
                       {/* ===================================================================== */}
                       {/* ===================================================================== */}
                       <Divider horizontal>
@@ -992,61 +1040,192 @@ export default withNamespaces('common')(
                       {values.radioGroup == true && (
                         <div style={{ maxWidth: '370px' }}>
                           <Segment.Group style={{ marginBottom: '12px' }}>
-                            {this.state.carTimings.map((val, index) => (
-                              <Segment
-                                key={index}
-                                style={{ textAlign: 'right' }}
-                              >
-                                <span>
-                                  <label>از</label>{' '}
-                                  {val.startDate.format('jDD jMMMM jYY')}{' '}
-                                  <label>تا</label>{' '}
-                                  {val.endDate.format('jDD jMMMM jYY')} <br />
-                                  <label>با قیمت</label>{' '}
-                                  {convertNumbers2Persian(val.price)} تومان
-                                </span>
-                                <Icon
-                                  name="close"
-                                  onClick={e => {
-                                    let data = this.state.carTimings;
-                                    data.splice(index, 1);
-                                    this.setState({
-                                      carTimings: data
-                                    });
-                                    carColor;
-                                  }}
-                                />
-                                {/* <Form.Group>
-                                <Form.Input
-                                  disabled
-                                  placeholder="تاریخ"
-                                  label={t('carTiming.from')}
-                                  value={val.from}
-                                />
-                                <Form.Input
-                                  disabled
-                                  placeholder="تاریخ"
-                                  label={t('carTiming.to')}
-                                  value={val.to}
-                                />
-                              </Form.Group>
-                              <Form.Input
-                                disabled
-                                style={{ width: '47%' }}
-                                placeholder="قیمت"
-                                label={t('carTiming.price')}
-                                value={val.price}
-                              /> */}
-                              </Segment>
-                            ))}
+                            {this.state.carTimings.map((val, index) => {
+                              if (this.state.openEditFor == index) {
+                                if (
+                                  this.state.startDate === null ||
+                                  this.state.endDate === null ||
+                                  this.state.price === null
+                                ) {
+                                  this.setState({
+                                    startDate: val.startDate,
+                                    endDate: val.endDate,
+                                    price: val.price
+                                  });
+                                }
+                                return (
+                                  <Segment
+                                    key={index}
+                                    style={{ textAlign: 'right' }}
+                                  >
+                                    <Form.Group>
+                                      <Form.Field
+                                        style={{ margin: 0, maxWidth: '47%' }}
+                                      >
+                                        <label>{t('carTiming.from')}</label>
+                                      </Form.Field>
+                                      <Form.Field
+                                        style={{ margin: 0, maxWidth: '47%' }}
+                                      >
+                                        <label>{t('carTiming.to')}</label>
+                                      </Form.Field>
+                                    </Form.Group>
+                                    <DateRangePicker
+                                      isRTL
+                                      startDate={this.state.startDate}
+                                      startDateId="unique_start_date_id"
+                                      endDate={this.state.endDate}
+                                      endDateId="unique_end_date_id"
+                                      onDatesChange={({ startDate, endDate }) =>
+                                        this.setState({ startDate, endDate })
+                                      }
+                                      focusedInput={this.state.focusedInput}
+                                      onFocusChange={focusedInput =>
+                                        this.setState({ focusedInput })
+                                      }
+                                      startDatePlaceholderText="تاریخ شروع"
+                                      endDatePlaceholderText="تاریخ پایان"
+                                      // minimumNights={1}
+                                      monthFormat={'jMMMM jYYYY'}
+                                      numberOfMonths={1}
+                                      renderMonthText={month =>
+                                        moment(month).format('jMMMM jYYYY')
+                                      }
+                                      renderDayContents={day =>
+                                        moment(day).format('jD')
+                                      }
+                                    />
+                                    <Form.Input
+                                      style={{ width: '47%' }}
+                                      placeholder="قیمت"
+                                      label={t('carTiming.price')}
+                                      onChange={(e, data) => {
+                                        if (data) {
+                                          this.setState({
+                                            price: clearNumber(data.value)
+                                          });
+                                        }
+                                      }}
+                                      value={
+                                        this.state.price
+                                          ? convertNumbers2Persian(
+                                              numberWithCommas(this.state.price)
+                                            )
+                                          : this.state.price
+                                      }
+                                    />
+                                    <Button.Group
+                                      size="tiny"
+                                      style={{
+                                        flexDirection: 'row-reverse',
+                                        position: 'relative',
+                                        bottom: '-5px',
+                                        left: '-70px'
+                                      }}
+                                    >
+                                      <Button
+                                        positive
+                                        type="button"
+                                        onClick={e => {
+                                          console.log(e);
+                                          let data = this.state.carTimings;
+                                          if (
+                                            this.state.startDate &&
+                                            this.state.endDate &&
+                                            this.state.price
+                                          ) {
+                                            data.splice(index, 1, {
+                                              startDate: this.state.startDate,
+                                              endDate: this.state.endDate,
+                                              price: this.state.price
+                                            });
+                                            this.setState({
+                                              carTimings: data,
+                                              startDate: moment(),
+                                              endDate: moment(),
+                                              price: '',
+                                              showNewEntery: false,
+                                              openEditFor: null
+                                            });
+                                          }
+                                        }}
+                                      >
+                                        ثبت
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        onClick={e => {
+                                          this.setState({
+                                            startDate: moment(),
+                                            endDate: moment(),
+                                            price: '',
+                                            showNewEntery: false,
+                                            openEditFor: null
+                                          });
+                                        }}
+                                      >
+                                        لغو
+                                      </Button>
+                                    </Button.Group>
+                                  </Segment>
+                                );
+                              } else {
+                                return (
+                                  <Segment
+                                    key={index}
+                                    style={{ textAlign: 'right' }}
+                                  >
+                                    <span>
+                                      <label>از</label>{' '}
+                                      {val.startDate.format('jDD jMMMM jYY')}{' '}
+                                      <label>تا</label>{' '}
+                                      {val.endDate.format('jDD jMMMM jYY')}{' '}
+                                      <br />
+                                      <label>با قیمت</label>{' '}
+                                      {convertNumbers2Persian(
+                                        numberWithCommas(val.price)
+                                      )}{' '}
+                                      تومان
+                                    </span>
+                                    <Icon
+                                      name="close"
+                                      onClick={e => {
+                                        let data = this.state.carTimings;
+                                        data.splice(index, 1);
+                                        this.setState({
+                                          carTimings: data
+                                        });
+                                      }}
+                                    />
+                                    <Icon
+                                      name="edit outline"
+                                      onClick={e => {
+                                        this.setState({
+                                          showNewEntery: false,
+                                          openEditFor: index,
+                                          startDate: null,
+                                          endDate: null,
+                                          price: null
+                                        });
+                                      }}
+                                    />
+                                  </Segment>
+                                );
+                              }
+                            })}
+
                             {/* ======================  new form ========================= */}
                             {this.state.showNewEntery && (
                               <Segment className="timingEntery">
                                 <Form.Group>
-                                  <Form.Field style={{ margin: 0 }}>
+                                  <Form.Field
+                                    style={{ margin: 0, maxWidth: '47%' }}
+                                  >
                                     <label>{t('carTiming.from')}</label>
                                   </Form.Field>
-                                  <Form.Field style={{ margin: 0 }}>
+                                  <Form.Field
+                                    style={{ margin: 0, maxWidth: '47%' }}
+                                  >
                                     <label>{t('carTiming.to')}</label>
                                   </Form.Field>
                                 </Form.Group>
@@ -1153,7 +1332,11 @@ export default withNamespaces('common')(
                             style={{ marginBottom: '12px' }}
                             onClick={e => {
                               this.setState({
-                                showNewEntery: true
+                                showNewEntery: true,
+                                openEditFor: null,
+                                startDate: moment(),
+                                endDate: moment(),
+                                price: ''
                               });
                             }}
                           >
