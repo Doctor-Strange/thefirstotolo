@@ -47,8 +47,31 @@ function numberWithCommas(x) {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
+function convertNumbers2Persian(num) {
+  if (num !== null) {
+    const id = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return num.toString().replace(/[0-9]/g, function(w) {
+      return id[+w];
+    });
+  } else {
+    return num;
+  }
+}
+function convertNumbers2English(string) {
+  return string
+    .replace(/[\u0660-\u0669]/g, function(c) {
+      return c.charCodeAt(0) - 0x0660;
+    })
+    .replace(/[\u06f0-\u06f9]/g, function(c) {
+      return c.charCodeAt(0) - 0x06f0;
+    });
+}
+
 function clearNumber(x) {
-  return x.toString().replace(',', '');
+  return convertNumbers2English(x.toString())
+    .replace(/,/g, '')
+    .replace(/\./g, '')
+    .replace(/\D/g, '');
 }
 
 const BoxAccount = styled.div`
@@ -120,7 +143,7 @@ const BoxAccount = styled.div`
       max-width: 150px;
       margin-right: 5px;
       margin-left: 5px;
-      input[type='number'] {
+      input {
         width: 70px !important;
         height: 32px !important;
         margin: 0px 5px;
@@ -130,6 +153,7 @@ const BoxAccount = styled.div`
       .label {
         z-index: 2;
         border: none;
+        cursor: pointer;
         background-color: #85b7d924;
         i.minus.icon,
         i.plus.icon {
@@ -188,10 +212,10 @@ const BoxAccount = styled.div`
 `;
 
 interface ISetCarTimingFormValues {
-  daysToGetReminded: number;
-  minDaysToRent: number;
+  daysToGetReminded: string;
+  minDaysToRent: string;
   deliverAtRentersPlace: boolean;
-  distanceLimit: number;
+  distanceLimit: string;
   extraKm: string;
   radioGroup: boolean;
   start_date: string;
@@ -699,19 +723,16 @@ export default withNamespaces('common')(
                       <Input
                         name="daysToGetReminded"
                         className="numstep daysToGetReminded"
-                        inputMode="numeric"
-                        type="number"
-                        pattern="[0-9]*"
                         error={Boolean(
                           errors.daysToGetReminded && touched.daysToGetReminded
                         )}
                         onChange={(e, data) => {
                           if (data && data.name) {
-                            setFieldValue(data.name, data.value);
+                            setFieldValue(data.name, clearNumber(data.value));
                             setFieldTouched(data.name);
                           }
                         }}
-                        value={values.daysToGetReminded}
+                        value={convertNumbers2Persian(values.daysToGetReminded)}
                       >
                         <Label
                           basic
@@ -746,25 +767,28 @@ export default withNamespaces('common')(
                         name="minDaysToRent"
                         className="numstep minDaysToRent"
                         inputMode="numeric"
-                        type="number"
-                        pattern="[0-9]*"
                         error={Boolean(
                           errors.minDaysToRent && touched.minDaysToRent
                         )}
                         onChange={(e, data) => {
                           if (data && data.name) {
-                            setFieldValue(data.name, data.value);
+                            setFieldValue(data.name, clearNumber(data.value));
                             setFieldTouched(data.name);
                           }
                         }}
-                        value={values.minDaysToRent}
+                        value={convertNumbers2Persian(values.minDaysToRent)}
                       >
                         <Label
                           basic
                           onClick={(e, data) => {
-                            if (values.minDaysToRent < 31) {
-                              let val = Number(values.minDaysToRent);
-                              setFieldValue('minDaysToRent', ++val);
+                            if (clearNumber(values.minDaysToRent) < 31) {
+                              let val = Number(
+                                clearNumber(values.minDaysToRent)
+                              );
+                              setFieldValue(
+                                'minDaysToRent',
+                                clearNumber(++val)
+                              );
                             }
                           }}
                         >
@@ -774,9 +798,14 @@ export default withNamespaces('common')(
                         <Label
                           basic
                           onClick={(e, data) => {
-                            if (values.minDaysToRent > 1) {
-                              let val = Number(values.minDaysToRent);
-                              setFieldValue('minDaysToRent', --val);
+                            if (clearNumber(values.minDaysToRent) > 1) {
+                              let val = Number(
+                                clearNumber(values.minDaysToRent)
+                              );
+                              setFieldValue(
+                                'minDaysToRent',
+                                clearNumber(--val)
+                              );
                             }
                           }}
                         >
@@ -794,18 +823,22 @@ export default withNamespaces('common')(
                         name="distanceLimit"
                         className="distanceLimit"
                         inputMode="numeric"
-                        type="number"
-                        pattern="[0-9]*"
                         error={Boolean(
                           errors.distanceLimit && touched.distanceLimit
                         )}
                         onChange={(e, data) => {
                           if (data && data.name) {
-                            setFieldValue(data.name, data.value);
+                            setFieldValue(data.name, clearNumber(data.value));
                             setFieldTouched(data.name);
                           }
                         }}
-                        value={values.distanceLimit}
+                        value={
+                          values.distanceLimit
+                            ? convertNumbers2Persian(
+                                numberWithCommas(values.distanceLimit)
+                              )
+                            : values.distanceLimit
+                        }
                       />
                       <span
                         style={{
@@ -836,7 +869,9 @@ export default withNamespaces('common')(
                         }}
                         value={
                           values.extraKm
-                            ? numberWithCommas(values.extraKm)
+                            ? convertNumbers2Persian(
+                                numberWithCommas(values.extraKm)
+                              )
                             : values.extraKm
                         }
                       />
@@ -916,7 +951,9 @@ export default withNamespaces('common')(
                             }}
                             value={
                               values.availableInAllPrice
-                                ? numberWithCommas(values.availableInAllPrice)
+                                ? convertNumbers2Persian(
+                                    numberWithCommas(values.availableInAllPrice)
+                                  )
                                 : values.availableInAllPrice
                             }
                           />
@@ -965,7 +1002,8 @@ export default withNamespaces('common')(
                                   {val.startDate.format('jDD jMMMM jYY')}{' '}
                                   <label>تا</label>{' '}
                                   {val.endDate.format('jDD jMMMM jYY')} <br />
-                                  <label>با قیمت</label> {val.price} تومان
+                                  <label>با قیمت</label>{' '}
+                                  {convertNumbers2Persian(val.price)} تومان
                                 </span>
                                 <Icon
                                   name="close"
@@ -1044,12 +1082,16 @@ export default withNamespaces('common')(
                                   label={t('carTiming.price')}
                                   onChange={(e, data) => {
                                     if (data && data.name) {
-                                      this.setState({ price: data.value });
+                                      this.setState({
+                                        price: clearNumber(data.value)
+                                      });
                                     }
                                   }}
                                   value={
                                     this.state.price
-                                      ? numberWithCommas(this.state.price)
+                                      ? convertNumbers2Persian(
+                                          numberWithCommas(this.state.price)
+                                        )
                                       : this.state.price
                                   }
                                 />

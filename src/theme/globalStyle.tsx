@@ -882,15 +882,15 @@ input{
   }
 }
 
-input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+input[type='number'] {
+  -moz-appearance: textfield;/*For FireFox*/
+  direction:ltr !important;
+  text-align:left !important;
+
+  &::-webkit-inner-spin-button, &::-webkit-outer-spin-button { /*For Webkits like Chrome and Safari*/
     -webkit-appearance: none;
     margin: 0;
-}
- 
-input[type="number"] {
-    -moz-appearance: textfield;
-    direction:ltr !important;
-    text-align:left !important;
+  }
 }
 
 input[type="email"] {
