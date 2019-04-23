@@ -89,6 +89,9 @@ const BoxAccount = styled.div`
       min-height: 225px;
     }
   }
+  .DateInput {
+    max-width: 105px;
+  }
   h3 {
     font-size: 21px;
     font-size: 1.3125rem;
