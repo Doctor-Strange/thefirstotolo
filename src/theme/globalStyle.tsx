@@ -978,6 +978,12 @@ input[type="email"] {
   }
 }
 
+.error input {
+    background: #fff6f6 !important;
+    border-color: #e0b4b4 !important;
+    color: #9f3a38 !important;
+}
+
 
 .form .disabled.field, .ui.form .disabled.fields .field, .ui.form .field :disabled {
     opacity: 1 !important;

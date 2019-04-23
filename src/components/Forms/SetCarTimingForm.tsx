@@ -792,7 +792,7 @@ export default withNamespaces('common')(
                         >
                           <Icon name="plus" />
                         </Label>
-                        <input />
+                        <input inputMode="numeric" />
                         <Label
                           basic
                           onClick={(e, data) => {
@@ -841,7 +841,7 @@ export default withNamespaces('common')(
                         >
                           <Icon name="plus" />
                         </Label>
-                        <input />
+                        <input inputMode="numeric" />
                         <Label
                           basic
                           onClick={(e, data) => {
@@ -869,7 +869,6 @@ export default withNamespaces('common')(
                         // iconPosition="left"
                         name="distanceLimit"
                         className="distanceLimit"
-                        inputMode="numeric"
                         error={Boolean(
                           errors.distanceLimit && touched.distanceLimit
                         )}
@@ -886,7 +885,9 @@ export default withNamespaces('common')(
                               )
                             : values.distanceLimit
                         }
-                      />
+                      >
+                        <input inputMode="numeric" />
+                      </Form.Input>
                       <span
                         style={{
                           float: 'right',
@@ -921,7 +922,9 @@ export default withNamespaces('common')(
                               )
                             : values.extraKm
                         }
-                      />
+                      >
+                        <input inputMode="numeric" />
+                      </Form.Input>
                       <span
                         style={{
                           float: 'right',
@@ -982,8 +985,6 @@ export default withNamespaces('common')(
                             // iconPosition="left"
                             name="availableInAllPrice"
                             className="extraKm"
-                            inputMode="numeric"
-                            //   type="number"
                             error={Boolean(
                               errors.availableInAllPrice &&
                                 touched.availableInAllPrice
@@ -1113,7 +1114,9 @@ export default withNamespaces('common')(
                                             )
                                           : this.state.price
                                       }
-                                    />
+                                    >
+                                      <input inputMode="numeric" />
+                                    </Form.Input>
                                     <Button.Group
                                       size="tiny"
                                       style={{
@@ -1273,7 +1276,9 @@ export default withNamespaces('common')(
                                         )
                                       : this.state.price
                                   }
-                                />
+                                >
+                                  <input inputMode="numeric" />
+                                </Form.Input>
                                 <Button.Group
                                   size="tiny"
                                   style={{
