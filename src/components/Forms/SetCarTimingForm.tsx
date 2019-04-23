@@ -192,7 +192,7 @@ const BoxAccount = styled.div`
   }
   .extraKm,
   .distanceLimit {
-    max-width: 300px !important;
+    max-width: 150px !important;
     margin: 0 !important;
     div {
       max-width: 300px !important;
