@@ -106,5 +106,6 @@
     "availableInDifferentDateRangesWithDifferentPrice": "موجود در بازه‌های زمانی مختلف با قیمت‌های متفاوت",
     "addRange": "افزودن بازه"
   },
-  "birthdate": "تاریخ تولد"
+  "birthdate": "تاریخ تولد",
+  "search": "جست‌وجو"
 }
