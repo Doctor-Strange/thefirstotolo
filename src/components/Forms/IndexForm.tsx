@@ -81,7 +81,7 @@ const BoxAccount = styled.div`
 `;
 
 interface IIndexFormValues {
-  city: string;
+  carCity: number;
   startDate: any;
   endDate: any;
 }
@@ -99,6 +99,8 @@ export default withNamespaces('common')(
       error: '',
       name: null,
       success: false,
+      citiesFarsi: [{ text: 'کمی صبر کنید...', value: null }],
+      citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       startDate: moment(),
       endDate: moment()
     };
@@ -111,6 +113,31 @@ export default withNamespaces('common')(
       this.setState({
         token: jsCookie.get('token')
       });
+    }
+
+    componentDidMount() {
+      //get cities and genrate a dropdown input in form
+      axios
+        .post('https://otoli.net' + '/core/location/list?brief=1')
+        .then(response => {
+          if (response.data.success) {
+            const citiesFarsi = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.fa,
+              value: value.id
+            }));
+            const citiesEnglish = response.data.items.map((value, index) => ({
+              key: value.id,
+              text: value.name.en,
+              value: value.id
+            }));
+            this.setState({ citiesFarsi, citiesEnglish });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          this.setState({ error: error, success: false });
+        });
     }
 
     render() {
@@ -126,7 +153,7 @@ export default withNamespaces('common')(
 
       return (
         <Formik
-          initialValues={{}}
+          initialValues={{ carCity: null }}
           onSubmit={(
             values: IIndexFormValues,
             actions: FormikActions<IIndexFormValues>
@@ -169,27 +196,25 @@ export default withNamespaces('common')(
                         placeholder={t('carProperty.city')}
                         noResultsMessage={t('forms.error_no_result_found')}
                         selection
-                        // loading={this.state.citiesFarsi[0].value == null}
-                        // options={
-                        //   i18n.language === 'en'
-                        //     ? this.state.citiesEnglish
-                        //     : this.state.citiesFarsi
-                        // }
-                        // error={Boolean(errors.carCity && touched.carCity)}
-                        // onChange={(e, data) => {
-                        //   if (data && data.name) {
-                        //     setFieldValue(data.name, data.value);
-                        //     setFieldValue('carDistrict', undefined);
-                        //     this.setCityDistrict(data.value);
-                        //   }
-                        // }}
-                        // onClose={(e, data) => {
-                        //   console.log(e);
-                        //   if (data && data.name) {
-                        //     setFieldTouched(data.name);
-                        //   }
-                        // }}
-                        // value={values.carCity}
+                        loading={this.state.citiesFarsi[0].value == null}
+                        options={
+                          i18n.language === 'en'
+                            ? this.state.citiesEnglish
+                            : this.state.citiesFarsi
+                        }
+                        error={Boolean(errors.carCity && touched.carCity)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        onClose={(e, data) => {
+                          console.log(e);
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={values.carCity}
                       />
                     </Box>
                     <Box width={6 / 12}>
