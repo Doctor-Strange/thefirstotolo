@@ -17,54 +17,63 @@ export default withNamespaces('common')(
       };
     }
 
+    state = {
+      error: '',
+      showFilters: false
+    };
+
+    constructor(props) {
+      super(props);
+      this.toggleShowFilters = this.toggleShowFilters.bind(this);
+    }
+
+    toggleShowFilters(val) {
+      this.setState({ showFilters: val })
+    }
+
+
     render() {
       const { t } = this.props;
+      const { showFilters } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar count={43} t={t} />
-          <FilterAndSortBar t={t} />
+          <FilterAndSortBar t={t} showFilters={showFilters} toggleShowFilters={this.toggleShowFilters} />
           <Section justifyCenter={true}>
-            <Box width={4 / 12} px={2}>
-              <CarCard
-                title="The Sample Title"
-                img="http://localhost:3000/img/location_1.jpg"
-                descrabtion="God himself did made this car."
-                text2="tet" 
-                score="8.4"/>
-            </Box>
-            <Box width={4 / 12} px={2}>
             <CarCard
-                title="The Sample Title"
-                img="http://localhost:3000/img/location_1.jpg"
-                descrabtion="God himself did made this car."
-                text2="tet" 
-                score="8.4"/>
-              </Box>
-            <Box width={4 / 12} px={2}>
-              <CarCard
-                title="The Sample Title"
-                img="http://localhost:3000/img/location_1.jpg"
-                descrabtion="God himself did made this car."
-                text2="tet" 
-                score="8.4"/>
-            </Box>
-            <Box width={4 / 12} px={2}>
-              <CarCard
-                title="The Sample Title"
-                img="http://localhost:3000/img/location_1.jpg"
-                descrabtion="God himself did made this car."
-                text2="tet" 
-                score="8.4"/>
-            </Box>
-            <Box width={4 / 12} px={2}>
-              <CarCard
-                title="The Sample Title"
-                img="http://localhost:3000/img/location_1.jpg"
-                descrabtion="God himself did made this car."
-                text2="tet" 
-                score="8.4"/>
-            </Box>
+              title="The Sample Title"
+              img="http://localhost:3000/img/location_1.jpg"
+              description="God himself did made this car."
+              text2="tet"
+              score="8.4" />
+            <CarCard
+              title="The Sample Title"
+              img="http://localhost:3000/img/location_1.jpg"
+              description="God himself did made this car."
+              text2="tet"
+              score="8.4" />
+            <CarCard
+              title="The Sample Title"
+              img="http://localhost:3000/img/location_1.jpg"
+              description="God himself did made this car."
+              text2="tet"
+              score="8.4" />
+            <CarCard
+              title="The Sample Title"
+              img="http://localhost:3000/img/location_1.jpg"
+              description="God himself did made this car."
+              text2="tet"
+              score="8.4" />
+            <CarCard
+              title="The Sample Title"
+              img="http://localhost:3000/img/location_1.jpg"
+              description="God himself did made this car."
+              text2="tet"
+              score="8.4" />
           </Section>
+          <p className="text-center">
+            <a href="#0" className="btn_1 rounded add_top_30">Load more</a>
+          </p>
         </Layout>
       );
     }

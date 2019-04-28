@@ -11,7 +11,8 @@ import {
   Icon,
   Label,
   Segment,
-  TextArea
+  TextArea,
+  Transition
 } from 'semantic-ui-react';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -79,7 +80,6 @@ const FilterAndSort = styled.div`
             }
         }   
         label {
-            float: left;
             display: inline-block;
             min-width: 65px;
             color: rgba(0, 0, 0, 0.5);
@@ -120,6 +120,7 @@ const FilterAndSort = styled.div`
         font-size: 0.75rem;
         color: rgba(0, 0, 0, 0.5);
         position: relative;
+        cursor: pointer;
     }
     a.btn_map {
         border-radius: 3px;
@@ -133,7 +134,27 @@ const FilterAndSort = styled.div`
         font-size: 0.75rem;
         color: rgba(0, 0, 0, 0.5);
     }
-    
+`;
+
+let FiltersDiv = styled.div`
+  background-color: #fff;
+  border-bottom: 1px solid #ededed;
+  overflow: hidden;
+  h6 {
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-size: 1rem;
+  }
+  ul li small {
+    font-weight: 600;
+    float: right;
+    position: relative;
+    top: 4px;
+  }
+  /* &:not(.show) {
+    display: none;
+  } */
+
 `;
 
 // interface ISearchResultFormValues {
@@ -143,8 +164,9 @@ const FilterAndSort = styled.div`
 // }
 
 export class FilterAndSortBar extends React.Component<{
-  count?: number;
   t?: any;
+  showFilters: boolean;
+  toggleShowFilters: any;
 }> {
   state = {
     error: ''
@@ -154,60 +176,63 @@ export class FilterAndSortBar extends React.Component<{
     super(props);
   }
 
+  click = () => {
+    this.props.toggleShowFilters(!this.props.showFilters);
+  }
+
   render() {
-    const { t } = this.props;
+    const { t, showFilters, toggleShowFilters } = this.props;
     return (
-        <FilterAndSort class="filters_listing sticky_horizontal">
-            <div class="container">
-                <ul class="clearfix">
-                    <li>
-                        <div class="switch-field">
-                            <input
-                            type="radio"
-                            id="all"
-                            name="listing_filter"
-                            value="all"
-                            checked
-                            />
-                            <label for="all">All</label>
-                            <input
-                            type="radio"
-                            id="popular"
-                            name="listing_filter"
-                            value="popular"
-                            />
-                            <label for="popular">Popular</label>
-                            <input
-                            type="radio"
-                            id="latest"
-                            name="listing_filter"
-                            value="latest"
-                            />
-                            <label for="latest">Latest</label>
-                        </div>
-                    </li>
-                    <li>
+      <>
+        <FilterAndSort className="filters_listing sticky_horizontal">
+          <div className="container">
+            <ul className="clearfix">
+              <li>
+                <div className="switch-field">
+                  <input
+                    type="radio"
+                    id="all"
+                    name="listing_filter"
+                    value="all"
+                    checked
+                  />
+                  <label>All</label>
+                  <input
+                    type="radio"
+                    id="popular"
+                    name="listing_filter"
+                    value="popular"
+                  />
+                  <label>Popular</label>
+                  <input
+                    type="radio"
+                    id="latest"
+                    name="listing_filter"
+                    value="latest"
+                  />
+                  <label>Latest</label>
+                </div>
+              </li>
+              <li>
+                <a
+                  className="btn_filt"
+                  data-toggle="collapse"
+                  aria-expanded="false"
+                  aria-controls="filters"
+                  onClick={() => { this.click() }}
+                >{showFilters ? "Less filters" : "More filters"}</a
+                >
+              </li>
+              <li>
+                <div className="layout_view">
+                  <a href="#0" class="active"><i class="icon-th"></i></a>
+                  <a href="/listing-2"><i class="icon-th-list"></i></a>
+                  <a href="/list-map"><i class="icon-map"></i></a>
+                </div>
+              </li>
+              {/* <li>
                     <a
-                        class="btn_filt"
-                        data-toggle="collapse"
-                        href="#filters"
-                        aria-expanded="false"
-                        aria-controls="filters"
-                        data-text-swap="Less filters"
-                        data-text-original="More filters"
-                        >More filters</a
-                    >
-                    </li>
-                    <li>
-                    <div class="layout_view">
-                        <a href="#0" class="active"><i class="icon-th"></i></a>
-                        <a href="/listing-2"><i class="icon-th-list"></i></a>
-                        <a href="/list-map"><i class="icon-map"></i></a>
-                    </div>
-                    </li>
-                    <li>
-                    <a
-                        class="btn_map"
+                        className="btn_map"
                         data-toggle="collapse"
                         href="#collapseMap"
                         aria-expanded="false"
@@ -216,9 +241,84 @@ export class FilterAndSortBar extends React.Component<{
                         data-text-original="View on map"
                         >View on map</a
                     >
-                    </li>
-                </ul>
-            </div>
+                    </li> */}
+            </ul>
+          </div>
         </FilterAndSort>
-    )}
+        <Transition visible={showFilters} duration={300}>
+          <FiltersDiv className="collapse" id="filters">
+            <div className="container margin_30_5">
+              <div className="row">
+                <div className="col-md-4">
+                  <h6>Rating</h6>
+                  <ul>
+                    <li>
+                      <label className="container_check">Superb 9+ <small>67</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">Very Good 8+ <small>89</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">Good 7+ <small>45</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">Pleasant 6+ <small>78</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-md-4">
+                  <h6>Tags</h6>
+                  <ul>
+                    <li>
+                      <label className="container_check">Wireless Internet <small>12</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">Smoking Allowed <small>11</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">Wheelchair Accesible <small>23</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">Parking <small>56</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-md-4">
+                  <div className="add_bottom_30">
+                    <h6>Distance</h6>
+                    <div className="distance"> Radius around selected destination <span></span> km</div>
+                    <input type="range" min="10" max="100" step="10" value="30" data-orientation="horizontal" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </FiltersDiv>
+        </Transition>
+      </>
+    )
+  }
 }
