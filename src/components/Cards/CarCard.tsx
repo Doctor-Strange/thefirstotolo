@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 
 const Card = styled.div`
+  min-width: 300px;
+  margin: 10px 10px;
   background-color: #fff;
   display: block;
   position: relative;
