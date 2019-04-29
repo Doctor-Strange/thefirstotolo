@@ -14,6 +14,7 @@ import {
   TextArea,
   Transition
 } from 'semantic-ui-react';
+import InputRange from 'react-input-range';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 import jsCookie from 'js-cookie';
@@ -29,6 +30,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 import { Box, Flex } from '@rebass/grid';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const FilterAndSort = styled.div`
     padding: 10px 0 5px 0;
@@ -144,10 +146,11 @@ let FiltersDiv = styled.div`
       margin-bottom: 15px;
       font-size: 16px;
       font-size: 1rem;
+      text-align: right
   }
   ul li small {
     font-weight: 600;
-    float: right;
+    float: left;
     position: relative;
     top: 4px;
   }
@@ -167,23 +170,35 @@ export class FilterAndSortBar extends React.Component<{
   t?: any;
   showFilters: boolean;
   toggleShowFilters: any;
+  toggleDeliverAtRentersPlace: any;
+  setBrandAndGetModels: any;
+  setModel: any;
+  brand: any;
+  model: any;
+  brands: any;
+  models: any;
+  deliverAtRentersPlace: any;
 }> {
   state = {
-    error: ''
+    error: '',
+    price: {
+      max: 1000000,
+      min: 0
+    },
   };
 
   constructor(props) {
     super(props);
   }
 
-  click = () => {
-    this.props.toggleShowFilters(!this.props.showFilters);
-  }
 
   render() {
-    const { t, showFilters, toggleShowFilters } = this.props;
+    const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace } = this.props;
+    const { setBrandAndGetModels, setModel, toggleShowFilters, toggleDeliverAtRentersPlace } = this.props;
+    const { brandsEnglish, brandsFarsi } = brands;
+    const { modelsEnglish, modelsFarsi } = models;
     return (
-      <>
+      <Form>
         <FilterAndSort className="filters_listing sticky_horizontal">
           <div className="container">
             <ul className="clearfix">
@@ -219,7 +234,7 @@ export class FilterAndSortBar extends React.Component<{
                   data-toggle="collapse"
                   aria-expanded="false"
                   aria-controls="filters"
-                  onClick={() => { this.click() }}
+                  onClick={() => { toggleShowFilters(!showFilters) }}
                 >{showFilters ? "Less filters" : "More filters"}</a
                 >
               </li>
@@ -249,76 +264,160 @@ export class FilterAndSortBar extends React.Component<{
           <FiltersDiv className="collapse" id="filters">
             <div className="container margin_30_5">
               <div className="row">
-                <div className="col-md-4">
-                  <h6>Rating</h6>
+                <div className="col-md-2">
+                  <h6>نوع شاسی</h6>
                   <ul>
                     <li>
-                      <label className="container_check">Superb 9+ <small>67</small>
+                      <label className="container_check"> سواری <small>67</small>
                         <input type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
-                      <label className="container_check">Very Good 8+ <small>89</small>
+                      <label className="container_check"> مینی ون <small>89</small>
                         <input type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
-                      <label className="container_check">Good 7+ <small>45</small>
+                      <label className="container_check">  هاچ‌بک <small>45</small>
                         <input type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
-                      <label className="container_check">Pleasant 6+ <small>78</small>
+                      <label className="container_check">شاسی‌بلند<small>78</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+
+                  </ul>
+                </div>
+                <div className="col-md-2" style={{ marginTop: '30px' }}>
+                  <ul>
+                    <li>
+                      <label className="container_check">کروک<small>78</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">کوپه<small>78</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">ون <small>78</small>
+                        <input type="checkbox" />
+                        <span className="checkmark"></span>
+                      </label>
+                    </li>
+                    <li>
+                      <label className="container_check">وانت<small>78</small>
                         <input type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                   </ul>
                 </div>
-                <div className="col-md-4">
-                  <h6>Tags</h6>
-                  <ul>
-                    <li>
-                      <label className="container_check">Wireless Internet <small>12</small>
-                        <input type="checkbox" />
-                        <span className="checkmark"></span>
-                      </label>
-                    </li>
-                    <li>
-                      <label className="container_check">Smoking Allowed <small>11</small>
-                        <input type="checkbox" />
-                        <span className="checkmark"></span>
-                      </label>
-                    </li>
-                    <li>
-                      <label className="container_check">Wheelchair Accesible <small>23</small>
-                        <input type="checkbox" />
-                        <span className="checkmark"></span>
-                      </label>
-                    </li>
-                    <li>
-                      <label className="container_check">Parking <small>56</small>
-                        <input type="checkbox" />
-                        <span className="checkmark"></span>
-                      </label>
-                    </li>
-                  </ul>
+                <div className="col-md-3">
+
+                  <Form.Dropdown
+                    name="carBrand"
+                    id="carBrand"
+                    label={t('carProperty.brand')}
+                    placeholder={t('carProperty.brand')}
+                    noResultsMessage={t('forms.error_no_result_found')}
+                    search
+                    selection
+                    loading={brandsFarsi[0].value == null}
+                    options={
+                      i18n.language === 'en'
+                        ? brandsEnglish
+                        : brandsFarsi
+                    }
+                    // error={Boolean(errors.carBrand && touched.carBrand)}
+                    onChange={(e, data) => {
+                      if (data && data.name) {
+                        setBrandAndGetModels(data.value, "");
+                        // setFieldValue(data.name, data.value);
+                      }
+                    }}
+                    // onClose={(e, data) => {
+
+                    // }}
+                    value={brand}
+                  />
+                  <Form.Dropdown
+                    name="carModel"
+                    id="carModel"
+                    search
+                    placeholder={t('carProperty.model')}
+                    noResultsMessage={t('forms.error_no_result_found')}
+                    // label={t('carProperty.model')}
+                    selection
+                    // loading={this.state.shouldModelLoad}
+                    // disabled={this.state.modelsFarsi[0].value == null}
+                    options={
+                      i18n.language === 'en'
+                        ? modelsEnglish
+                        : modelsFarsi
+                    }
+                    // error={Boolean(errors.carModel && touched.carModel)}
+                    onChange={(e, data) => {
+                      if (data && data.name) {
+                        setModel(data.value, "");
+                        // setFieldValue(data.name, data.value);
+                      }
+                    }}
+                    // onClose={(e, data) => {
+                    //   if (data && data.name) {
+                    //     setFieldTouched(data.name);
+                    //   }
+                    // }}
+                    value={model}
+                  />
                 </div>
+                {/* <div className="col-md-1">
+                </div> */}
                 <div className="col-md-4">
                   <div className="add_bottom_30">
-                    <h6>Distance</h6>
-                    <div className="distance"> Radius around selected destination <span></span> km</div>
-                    <input type="range" min="10" max="100" step="10" value="30" data-orientation="horizontal" />
+                    <h6>قیمت</h6>
+                    <InputRange
+                      maxValue={1000000}
+                      minValue={0}
+                      step={10000}
+                      formatLabel={value => `${convertNumbers2Persian(
+                        numberWithCommas(value)
+                      )} تومان`}
+                      value={this.state.price}
+                      onChange={price => this.setState({ price })}
+                    // onChangeComplete={value => console.log(value)}
+                    />
+
+                    <br /><br />
+                    <ul>
+                      <li>
+                        <label className="container_check">تحویل در محل<small>12</small>
+                          <input
+                            onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
+                            type="checkbox"
+                            checked={deliverAtRentersPlace}
+                          />
+                          <span className="checkmark"/>
+                        </label>
+                      </li>
+                    </ul>
                   </div>
+
                 </div>
               </div>
             </div>
           </FiltersDiv>
         </Transition>
-      </>
+      </Form>
     )
   }
 }

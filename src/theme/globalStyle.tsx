@@ -903,9 +903,10 @@ input{
   position: relative;
   font-size: 14px;
   font-size: 0.875rem;
-  padding-left: 30px;
+  padding-right: 25px;
   line-height: 1.4;
   margin-bottom: 10px;
+  text-align: right;
   cursor: pointer;
   user-select: none;
   input {
@@ -920,7 +921,7 @@ input{
   .checkmark {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     height: 20px;
     width: 20px;
     border: 1px solid #d2d8dd;
@@ -952,13 +953,10 @@ input{
   position: relative;
   font-size: 15px;
   font-size: 0.9375rem;
-  padding-left: 30px;
+  padding-right: 30px;
   line-height: 1.3;
   margin-bottom: 10px;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   input {
     position: absolute;
@@ -970,7 +968,7 @@ input{
   .checkmark {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     height: 20px;
     width: 20px;
     border: 1px solid #ccc;
@@ -1266,12 +1264,13 @@ div#filters{
     min-height: 0px;
     height: 0px;
     transition: all .3s;
-    overflow: hidden;
+    overflow: initial;
   }
   div#filters.in {
     min-height: 190px;
     height: auto;
     transition: all .3s;
+    overflow: hidden;
   }
   div#filters.visible{
     min-height: 190px;
@@ -1282,12 +1281,104 @@ div#filters{
     min-height: 0px;
     height: 0px !important;
     transition: all .3s;
+    overflow: hidden;
   }
   div#filters.hidden {
     min-height: 0px;
     height: 0px;
     visibility: hidden;
+    overflow: hidden;
   }
+
+
+
+  /*   react-input-range */
+  .input-range__slider {
+    appearance: none;
+    background: #ffffff;
+    border: 2px solid #3f51b5;
+    border-radius: 100%;
+    cursor: pointer;
+    display: block;
+    height: 1.1rem;
+    margin-left: -0.5rem;
+    margin-top: -0.65rem;
+    outline: none;
+    position: absolute;
+    top: 50%;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    width: 1.1rem;
+    :active {
+      transform: scale(1.3);
+    }
+    :focus {
+      box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2);
+    }
+  }
+  .input-range--disabled .input-range__slider {
+    background: #cccccc;
+    border: 1px solid #cccccc;
+    box-shadow: none;
+    transform: none; }
+
+.input-range__slider-container {
+  transition: left 0.3s ease-out; }
+
+.input-range__label {
+  color: #aaaaaa;
+  font-family: "Helvetica Neue", san-serif;
+  font-size: 0.8rem;
+  transform: translateZ(0);
+  white-space: nowrap; }
+
+.input-range__label--min,
+.input-range__label--max {
+  bottom: -1.4rem;
+  position: absolute; }
+
+.input-range__label--min {
+  left: 0; }
+
+.input-range__label--max {
+  right: 0; }
+
+.input-range__label--value {
+  position: absolute;
+  top: -1.8rem; }
+
+.input-range__label-container {
+  left: -50%;
+  position: relative; }
+  .input-range__label--max .input-range__label-container {
+    left: 50%; }
+
+.input-range__track {
+  background: #eeeeee;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  display: block;
+  height: 0.3rem;
+  position: relative;
+  transition: left 0.3s ease-out, width 0.3s ease-out; }
+  .input-range--disabled .input-range__track {
+    background: #eeeeee; }
+
+.input-range__track--background {
+  left: 0;
+  margin-top: -0.15rem;
+  position: absolute;
+  right: 0;
+  top: 50%; }
+
+.input-range__track--active {
+  background: #3f51b5; }
+
+.input-range {
+  height: 1rem;
+  position: relative;
+  width: 100%;
+  direction: ltr;
+}
   
 `;
 

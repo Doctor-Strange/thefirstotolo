@@ -249,7 +249,7 @@ export default withNamespaces('common')(
       ],
       brand: null,
       brandsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
-      brandEnglish: [{ text: 'کمی صبر کنید...', value: null }],
+      brandsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       model: null,
       shouldModelLoad: false,
       modelsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
@@ -857,7 +857,7 @@ export default withNamespaces('common')(
                         loading={this.state.brandsFarsi[0].value == null}
                         options={
                           i18n.language === 'en'
-                            ? this.state.brandEnglish
+                            ? this.state.brandsEnglish
                             : this.state.brandsFarsi
                         }
                         error={Boolean(errors.carBrand && touched.carBrand)}
