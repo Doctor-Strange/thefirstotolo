@@ -6,14 +6,14 @@ import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
 import { FilterAndSortBar, SearchBar, ResultsCards } from '../src/components/Search';
-import Router from 'next/router';
+import Router, { withRouter } from 'next/router';
 import jsCookie from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 
-export default withNamespaces('common')(
-  class extends React.Component<{ t: any, router: any }> {
+export default withRouter(withNamespaces('common')(
+  class extends React.Component<{ t: any, router: any, href: any }> {
     static async getInitialProps() {
       return {
         namespacesRequired: ['common']
@@ -137,6 +137,40 @@ export default withNamespaces('common')(
 
 
     componentWillMount() {
+      if (this.props.router.query) {
+        const { start, end, min_price, max_price, deliver, brand, model } = this.props.router.query;
+        // console.log(this.props.router.query);
+        let startDate = moment(start, 'jYYYY/jMM/jDD');
+        let endDate = moment(end, 'jYYYY/jMM/jDD');
+        // console.log({ inp: start, startDate: startDate.format('jYYYY/jMM/jDD [is] YYYY/MM/DD') });
+        // console.log({ inp: end, endDate: endDate.format('jYYYY/jMM/jDD [is] YYYY/MM/DD') });
+        if (start) {
+          this.setState({ startDate });
+        }
+        if (end) {
+          this.setState({ endDate });
+        }
+        if (min_price && max_price) {
+          this.setState({
+            price: { min: min_price, max: max_price }
+          });
+        }
+        if (deliver) {
+          this.setState({
+            deliverAtRentersPlace: true
+          });
+        }
+        if (brand) {
+          this.setState({
+            brand: Number(brand)
+          });
+        }
+        if (model) {
+          this.setState({
+            model: Number(model)
+          });
+        }
+      }
       this.setState({
         token: jsCookie.get('token')
       });
@@ -271,7 +305,7 @@ export default withNamespaces('common')(
 
 
     render() {
-      const { t, router } = this.props;
+      const { t, router, href } = this.props;
       const {
         showFilters,
         citiesFarsi,
@@ -290,8 +324,6 @@ export default withNamespaces('common')(
         loadingResults,
         results,
         price } = this.state;
-      console.log("router is ");
-      console.log(router);
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -326,4 +358,4 @@ export default withNamespaces('common')(
       );
     }
   }
-);
+));

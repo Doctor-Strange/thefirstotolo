@@ -346,6 +346,7 @@ export class FilterAndSortBar extends React.Component<{
                     // onClose={(e, data) => {
 
                     // }}
+                    // defaultValue={brand[0].value}
                     value={brand}
                   />
                   <Form.Dropdown
@@ -375,6 +376,7 @@ export class FilterAndSortBar extends React.Component<{
                     //     setFieldTouched(data.name);
                     //   }
                     // }}
+                    // defaultValue={model[0].value}
                     value={model}
                   />
                 </div>
