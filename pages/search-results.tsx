@@ -6,13 +6,14 @@ import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
 import { FilterAndSortBar, SearchBar, ResultsCards } from '../src/components/Search';
+import Router from 'next/router';
 import jsCookie from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 
 export default withNamespaces('common')(
-  class extends React.Component<{ t: any }> {
+  class extends React.Component<{ t: any, router: any }> {
     static async getInitialProps() {
       return {
         namespacesRequired: ['common']
@@ -193,31 +194,47 @@ export default withNamespaces('common')(
     renderResults(page = 0) {
       // send search resluts request
       let queryString = '';
-      if (this.state.deliverAtRentersPlace) {
-        queryString = queryString + `&deliver_at_renters_place=1`;
-      }
-      if (this.state.brand) {
-        queryString = queryString + `&brand_id=${this.state.brand}`;
-      }
-      if (this.state.model) {
-        queryString = queryString + `&car_id=${this.state.model}`;
-      }
+      let shownURL = '';
       if (this.state.city) {
-        queryString = queryString + `&location_id=${this.state.city}`;
+        queryString = queryString + `location_id=${this.state.city}&`;
+        shownURL = shownURL + `city=${this.state.city}&`;
       }
       if (this.state.startDate && this.state.endDate) {
-        queryString = queryString + `&start_date=${
+        queryString = queryString + `start_date=${
           moment(this.state.startDate).format('jYYYY/jMM/jDD')
           }&end_date=${
           moment(this.state.endDate).format('jYYYY/jMM/jDD')
-          }`;
+          }&`;
+        shownURL = shownURL + `start=${
+          moment(this.state.startDate).format('jYYYY/jMM/jDD')
+          }&end=${
+          moment(this.state.endDate).format('jYYYY/jMM/jDD')
+          }&`;
+      }
+      if (this.state.brand) {
+        queryString = queryString + `brand_id=${this.state.brand}&`;
+        shownURL = shownURL + `brand=${this.state.brand}&`;
+      }
+      if (this.state.model) {
+        queryString = queryString + `car_id=${this.state.model}&`;
+        shownURL = shownURL + `model=${this.state.model}&`;
+      }
+      if (this.state.deliverAtRentersPlace) {
+        queryString = queryString + `deliver_at_renters_place=1&`;
+        shownURL = shownURL + `deliver=1&`;
       }
       if (this.state.price) {
-        queryString = queryString + `&min_price=${this.state.price.min}&max_price=${this.state.price.max}`;
+        queryString = queryString + `min_price=${this.state.price.min}&max_price=${this.state.price.max}&`;
+        shownURL = shownURL + `min_price=${this.state.price.min}&max_price=${this.state.price.max}&`;
       }
+
       axios
         .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9` + queryString)
         .then(response => {
+          // update URL
+          const href = `/search-results?${shownURL}start=${page}&limit=9`;
+          const as = href;
+          Router.push(href, as, { shallow: true });
           if (response.data.success) {
             console.log(response.data.items[0]);
             const results = response.data.items.map((value, index) => ({
@@ -254,7 +271,7 @@ export default withNamespaces('common')(
 
 
     render() {
-      const { t } = this.props;
+      const { t, router } = this.props;
       const {
         showFilters,
         citiesFarsi,
@@ -273,6 +290,8 @@ export default withNamespaces('common')(
         loadingResults,
         results,
         price } = this.state;
+      console.log("router is ");
+      console.log(router);
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
