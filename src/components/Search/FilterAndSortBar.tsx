@@ -364,7 +364,7 @@ export class FilterAndSortBar extends React.Component<{
                       i18n.language === 'en'
                         ? modelsEnglish
                         : modelsFarsi
-                    }
+                    }   
                     // error={Boolean(errors.carModel && touched.carModel)}
                     onChange={(e, data) => {
                       if (data && data.name) {

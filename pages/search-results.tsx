@@ -1,14 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Section } from '../src/components/row/Sections';
 import IndexForm from '../src/components/Forms/IndexForm';
 import Layout from '../src/components/Layout';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
-import { FilterAndSortBar, SearchBar } from '../src/components/Search';
-import { CarCard } from '../src/components/Cards';
-import { BulletList } from "react-content-loader";
+import { FilterAndSortBar, SearchBar, ResultsCards } from '../src/components/Search';
 import jsCookie from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment-jalaali';
@@ -31,7 +28,7 @@ export default withNamespaces('common')(
       citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       startDate: moment(),
       endDate: moment(),
-      focusedInput: 'startDate',
+      focusedInput: null,
       brand: null,
       brandsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
       brandsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
@@ -179,10 +176,29 @@ export default withNamespaces('common')(
         .post('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9`)
         .then(response => {
           if (response.data.success) {
+            console.log(response.data.items[0]);
             const results = response.data.items.map((value, index) => ({
-              key: value.id,
-              //  text: `${value.name.fa} - ${value.name.en}`,
-              //  value: value.id
+              key: value.index,
+              id: value.id,
+              avg_price_per_day: value.avg_price_per_day,
+              body_style: value.body_style,
+              cancellation_policy: value.cancellation_policy,
+              capacity: value.capacity,
+              car: value.car,
+              color: value.color,
+              deliver_at_renters_place: value.deliver_at_renters_place,
+              description: value.description,
+              extra_km_price: value.extra_km_price,
+              location: value.location,
+              max_km_per_day: value.max_km_per_day,
+              media_set: value.media_set,
+              mileage_range: value.mileage_range,
+              min_days_to_rent: value.min_days_to_rent,
+              no_of_days: value.no_of_days,
+              owner: value.owner,
+              total_price: value.total_price,
+              transmission_type: value.transmission_type,
+              year: value.year,
             }));
             this.setState({ results, loadingResults: false });
           }
@@ -240,33 +256,7 @@ export default withNamespaces('common')(
             deliverAtRentersPlace={deliverAtRentersPlace}
             toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
           />
-          <Section justifyCenter={true}>
-            {(loadingResults === true || results.length <= 0) ?
-              (
-                <>
-                  <BulletList style={{ height: '160px', width: '318px' }} />
-                  <BulletList style={{ height: '160px', width: '318px' }} />
-                  <BulletList style={{ height: '160px', width: '318px' }} />
-                </>
-              ) : (
-                results.map((value, index) =>
-                  <CarCard
-                    key={index}
-                    title={value.title}
-                    img={value, image}
-            description={value.description}
-            text2={value.text2}
-            score={"8.4"}
-            />
-          )
-        )
-      }
-
-
-          </Section>
-          <p className="text-center">
-            <a href="#0" className="btn_1 rounded add_top_30">Load more</a>
-          </p>
+          <ResultsCards t={t} results={results} loadingResults={loadingResults} />
         </Layout>
       );
     }

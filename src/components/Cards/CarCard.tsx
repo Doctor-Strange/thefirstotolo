@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const Card = styled.div`
   min-width: 300px;
@@ -69,8 +70,8 @@ const Card = styled.div`
   }
   a.wish_bt {
     position: absolute;
-    right: 15px;
-    top: 15px;
+    left: 15px;
+    bottom: 15px;
     z-index: 1;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.6);
@@ -105,7 +106,8 @@ const Card = styled.div`
     }
   }
   ul {
-    padding: 20px 15px 17px 20px;
+    padding: 20px 15px 0px 20px;
+    padding-bottom: 0px;
     border-top: 1px solid #ededed;
     li {
       display: inline-block;
@@ -138,8 +140,25 @@ const Card = styled.div`
           display: inline-block;
         }
         }
-      }
     }
+  }
+
+  .loc_open {
+    color: #32a067;
+    border: 1px solid #32a067;
+  }
+  .loc_open, .loc_closed {
+    position: relative;
+    top: -2px;
+    font-size: 11px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    line-height: 1;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
   }
 `;
 
@@ -147,47 +166,53 @@ export const CarCard: React.FunctionComponent<{
   title: string;
   img: string;
   description: string;
-  text2: string;
+  year: string;
   score: any;
-}> = ({ children, title, img, description, text2,score }) => (
-  <Card className="strip grid">
+  price: any;
+  deliver_at_renters_place: boolean;
+}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place }) => (
+  <Card className="strip grid carcard">
     <figure>
       <a href="#0" className="wish_bt" >
-      test
+        میانگین {convertNumbers2Persian(numberWithCommas(price))} تومان در روز
       </a>
       <a href="/detail-restaurant">
         <img src={img} className="img-fluid" alt="" />
         <div className="read_more">
-          <span>Read more</span>
+          <span>مشاهده و رزرو</span>
         </div>
       </a>
-      {/* <small>Restaurant</small> */}
+      <small>Restaurant</small>
     </figure>
     <div className="wrapper">
       <h3>
-        <a href="#">{title}</a>
+        <a href="#">{title} <small>{year}</small></a>
       </h3>
-      <small>{text2}</small>
-      <p>{description}</p>
+      {/* <small>{text2}</small> */}
+      {/* <p>{description}</p> */}
       <a className="address" href="#">
         Get directions
       </a>
     </div>
     <ul>
-      {/* <li>
-        <span className="loc_open">Now Open</span>
-      </li>
-      <li>
+      {deliver_at_renters_place ?
+        (
+          <li>
+            <span className="loc_open">تحویل در محل</span>
+          </li>
+        ) :  (<li></li>)
+      }
+      {/*<li>
         <span className="loc_closed">Now Closed</span>
       </li> */}
-      <li>
+      {/* <li>
         <div className="score">
           <span>
             Superb<em>350 Reviews</em>
           </span>
           <strong>{score}</strong>
         </div>
-      </li>
+      </li> */}
     </ul>
   </Card>
 );

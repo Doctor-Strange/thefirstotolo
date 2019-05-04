@@ -1,3 +1,4 @@
 import { SearchBar } from './SearchBar';
 import { FilterAndSortBar } from './FilterAndSortBar';
-export { SearchBar, FilterAndSortBar };
+import { ResultsCards } from './ResultsCards';
+export { SearchBar, FilterAndSortBar, ResultsCards };

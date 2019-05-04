@@ -733,6 +733,10 @@ const GlobalStyle = createGlobalStyle`
       margin-bottom:24px !important;
   }
   .rtl {
+    .carcard {
+      text-align:right;
+      direction:rtl;
+    }
     .message {
       text-align: right;
     }
