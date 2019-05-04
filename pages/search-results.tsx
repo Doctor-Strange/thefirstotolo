@@ -28,6 +28,10 @@ export default withNamespaces('common')(
       citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       startDate: moment(),
       endDate: moment(),
+      price: {
+        max: 1000000,
+        min: 0
+      },
       focusedInput: null,
       brand: null,
       brandsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
@@ -50,6 +54,7 @@ export default withNamespaces('common')(
       this.setfocusedInput = this.setfocusedInput.bind(this);
       this.setBrandAndGetModels = this.setBrandAndGetModels.bind(this);
       this.setModel = this.setModel.bind(this);
+      this.setPrice = this.setPrice.bind(this);
     }
 
     toggleShowFilters(val) {
@@ -57,15 +62,21 @@ export default withNamespaces('common')(
     }
 
     toggleDeliverAtRentersPlace(val) {
-      this.setState({ deliverAtRentersPlace: val });
+      this.setState({ deliverAtRentersPlace: val, loadingResults: true }, () => {
+        this.renderResults();
+      });
     }
 
     setCity(cityID, CityName) {
-      this.setState({ city: cityID });
+      this.setState({ city: cityID, loadingResults: true }, () => {
+        this.renderResults();
+      });
     }
 
     setDate(startDate, endDate) {
-      this.setState({ startDate, endDate });
+      this.setState({ startDate, endDate, loadingResults: true }, () => {
+        this.renderResults();
+      });
     }
 
     setfocusedInput(focusedInput) {
@@ -73,7 +84,9 @@ export default withNamespaces('common')(
     }
 
     setBrandAndGetModels(brandID, brandName) {
-      this.setState({ brand: brandID, shouldModelLoad: true });
+      this.setState({ brand: brandID, shouldModelLoad: true, loadingResults: true }, () => {
+        this.renderResults();
+      });
       axios
         .post('https://otoli.net' + '/core/car/list?brand_id=' + brandID)
         .then(response => {
@@ -111,7 +124,14 @@ export default withNamespaces('common')(
     }
 
     setModel(modelID, modelName) {
-      this.setState({ model: modelID });
+      this.setState({ model: modelID, loadingResults: true }, () => {
+        this.renderResults();
+      });
+    }
+    setPrice(price) {
+      this.setState({ price, loadingResults: true }, () => {
+        this.renderResults();
+      });
     }
 
 
@@ -172,8 +192,31 @@ export default withNamespaces('common')(
 
     renderResults(page = 0) {
       // send search resluts request
+      let queryString = '';
+      if (this.state.deliverAtRentersPlace) {
+        queryString = queryString + `&deliver_at_renters_place=1`;
+      }
+      if (this.state.brand) {
+        queryString = queryString + `&brand_id=${this.state.brand}`;
+      }
+      if (this.state.model) {
+        queryString = queryString + `&car_id=${this.state.model}`;
+      }
+      if (this.state.city) {
+        queryString = queryString + `&location_id=${this.state.city}`;
+      }
+      if (this.state.startDate && this.state.endDate) {
+        queryString = queryString + `&start_date=${
+          moment(this.state.startDate).format('jYYYY/jMM/jDD')
+          }&end_date=${
+          moment(this.state.endDate).format('jYYYY/jMM/jDD')
+          }`;
+      }
+      if (this.state.price) {
+        queryString = queryString + `&min_price=${this.state.price.min}&max_price=${this.state.price.max}`;
+      }
       axios
-        .post('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9`)
+        .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9` + queryString)
         .then(response => {
           if (response.data.success) {
             console.log(response.data.items[0]);
@@ -228,7 +271,8 @@ export default withNamespaces('common')(
         modelsEnglish,
         deliverAtRentersPlace,
         loadingResults,
-        results } = this.state;
+        results,
+        price } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -251,8 +295,10 @@ export default withNamespaces('common')(
             model={model}
             brands={{ brandsEnglish, brandsFarsi }}
             models={{ modelsEnglish, modelsFarsi }}
+            price={price}
             setBrandAndGetModels={this.setBrandAndGetModels}
             setModel={this.setModel}
+            setPrice={this.setPrice}
             deliverAtRentersPlace={deliverAtRentersPlace}
             toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
           />

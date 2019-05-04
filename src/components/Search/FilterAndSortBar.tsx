@@ -173,18 +173,16 @@ export class FilterAndSortBar extends React.Component<{
   toggleDeliverAtRentersPlace: any;
   setBrandAndGetModels: any;
   setModel: any;
+  setPrice: any;
   brand: any;
   model: any;
   brands: any;
   models: any;
+  price: any;
   deliverAtRentersPlace: any;
 }> {
   state = {
     error: '',
-    price: {
-      max: 1000000,
-      min: 0
-    },
   };
 
   constructor(props) {
@@ -193,8 +191,8 @@ export class FilterAndSortBar extends React.Component<{
 
 
   render() {
-    const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace } = this.props;
-    const { setBrandAndGetModels, setModel, toggleShowFilters, toggleDeliverAtRentersPlace } = this.props;
+    const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace, price } = this.props;
+    const { setBrandAndGetModels, setModel, toggleShowFilters, toggleDeliverAtRentersPlace, setPrice } = this.props;
     const { brandsEnglish, brandsFarsi } = brands;
     const { modelsEnglish, modelsFarsi } = models;
     return (
@@ -364,7 +362,7 @@ export class FilterAndSortBar extends React.Component<{
                       i18n.language === 'en'
                         ? modelsEnglish
                         : modelsFarsi
-                    }   
+                    }
                     // error={Boolean(errors.carModel && touched.carModel)}
                     onChange={(e, data) => {
                       if (data && data.name) {
@@ -392,8 +390,8 @@ export class FilterAndSortBar extends React.Component<{
                       formatLabel={value => `${convertNumbers2Persian(
                         numberWithCommas(value)
                       )} تومان`}
-                      value={this.state.price}
-                      onChange={price => this.setState({ price })}
+                      value={price}
+                      onChange={price => setPrice(price)}
                     // onChangeComplete={value => console.log(value)}
                     />
 
@@ -406,7 +404,7 @@ export class FilterAndSortBar extends React.Component<{
                             type="checkbox"
                             checked={deliverAtRentersPlace}
                           />
-                          <span className="checkmark"/>
+                          <span className="checkmark" />
                         </label>
                       </li>
                     </ul>

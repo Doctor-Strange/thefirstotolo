@@ -54,15 +54,23 @@ export class ResultsCards extends React.Component<{
 
     render() {
         const { t, results, loadingResults } = this.props;
+        let noResult = false;
+        if (results.length <= 0) {
+            noResult = true;
+        }
         return (
             <>
                 <Section justifyCenter={true}>
                     {(loadingResults === true || results.length <= 0) ?
                         (
                             <>
-                                <BulletList style={{ height: '160px', width: '318px' }} />
-                                <BulletList style={{ height: '160px', width: '318px' }} />
-                                <BulletList style={{ height: '160px', width: '318px' }} />
+                                {noResult ? <p>نتیجه‌ای یافت نشد</p> : (
+                                    <>
+                                    <BulletList style={{ height: '160px', width: '318px' }} />
+                                    <BulletList style={{ height: '160px', width: '318px' }} />
+                                    <BulletList style={{ height: '160px', width: '318px' }} />
+                                    </>
+                                )}
                             </>
                         ) : (
                             results.map((value, index) =>
