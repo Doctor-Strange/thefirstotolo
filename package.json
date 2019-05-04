@@ -40,6 +40,7 @@
     "next-offline": "^3.3.5",
     "nprogress": "^0.2.0",
     "react": "^0.14||^15.5.4||^16.1.1",
+    "react-content-loader": "^4.2.1",
     "react-countdown-now": "^2.1.0",
     "react-dates": "^20.1.0",
     "react-dom": "^0.14||^15.5.4||^16.1.1",

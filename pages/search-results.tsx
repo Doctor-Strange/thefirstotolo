@@ -8,6 +8,7 @@ import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
 import { FilterAndSortBar, SearchBar } from '../src/components/Search';
 import { CarCard } from '../src/components/Cards';
+import { BulletList } from "react-content-loader";
 import jsCookie from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment-jalaali';
@@ -38,7 +39,9 @@ export default withNamespaces('common')(
       shouldModelLoad: false,
       modelsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
       modelsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
-      deliverAtRentersPlace: false
+      deliverAtRentersPlace: false,
+      loadingResults: true,
+      results: []
     };
 
     constructor(props) {
@@ -144,8 +147,9 @@ export default withNamespaces('common')(
           console.error(error);
           this.setState({ error, success: false });
         });
+      this.renderResults();
 
-      //get car brands and genrate a dropdown input in form
+      // get car brands and genrate a dropdown input in form
       axios
         .post('https://otoli.net' + '/core/brand/list?limit=500')
         .then(response => {
@@ -161,6 +165,26 @@ export default withNamespaces('common')(
               value: value.id
             }));
             this.setState({ brandsEnglish, brandsFarsi });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          this.setState({ error: error, success: false });
+        });
+    }
+
+    renderResults(page = 0) {
+      // send search resluts request
+      axios
+        .post('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9`)
+        .then(response => {
+          if (response.data.success) {
+            const results = response.data.items.map((value, index) => ({
+              key: value.id,
+              //  text: `${value.name.fa} - ${value.name.en}`,
+              //  value: value.id
+            }));
+            this.setState({ results, loadingResults: false });
           }
         })
         .catch(error => {
@@ -186,7 +210,9 @@ export default withNamespaces('common')(
         brandsFarsi,
         modelsFarsi,
         modelsEnglish,
-        deliverAtRentersPlace } = this.state;
+        deliverAtRentersPlace,
+        loadingResults,
+        results } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -215,36 +241,28 @@ export default withNamespaces('common')(
             toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
           />
           <Section justifyCenter={true}>
-            <CarCard
-              title="The Sample Title"
-              img="http://localhost:3000/img/location_1.jpg"
-              description="God himself did made this car."
-              text2="tet"
-              score="8.4" />
-            <CarCard
-              title="The Sample Title"
-              img="http://localhost:3000/img/location_1.jpg"
-              description="God himself did made this car."
-              text2="tet"
-              score="8.4" />
-            <CarCard
-              title="The Sample Title"
-              img="http://localhost:3000/img/location_1.jpg"
-              description="God himself did made this car."
-              text2="tet"
-              score="8.4" />
-            <CarCard
-              title="The Sample Title"
-              img="http://localhost:3000/img/location_1.jpg"
-              description="God himself did made this car."
-              text2="tet"
-              score="8.4" />
-            <CarCard
-              title="The Sample Title"
-              img="http://localhost:3000/img/location_1.jpg"
-              description="God himself did made this car."
-              text2="tet"
-              score="8.4" />
+            {(loadingResults === true || results.length <= 0) ?
+              (
+                <>
+                  <BulletList style={{ height: '160px', width: '318px' }} />
+                  <BulletList style={{ height: '160px', width: '318px' }} />
+                  <BulletList style={{ height: '160px', width: '318px' }} />
+                </>
+              ) : (
+                results.map((value, index) =>
+                  <CarCard
+                    key={index}
+                    title={value.title}
+                    img={value, image}
+            description={value.description}
+            text2={value.text2}
+            score={"8.4"}
+            />
+          )
+        )
+      }
+
+
           </Section>
           <p className="text-center">
             <a href="#0" className="btn_1 rounded add_top_30">Load more</a>

@@ -6851,6 +6851,11 @@ react-addons-shallow-compare@^15.6.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
+react-content-loader@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-4.2.1.tgz#0d355134ed7d0987966abd0f784bc59e76976e91"
+  integrity sha512-XA5irUvZpQAEavfUBo7kc4tdvAbWwVKJolz/+2Pkj/XU7pn78AweAUtn+AxEajN0Srg/mraJ8XMKlUsXOFiknw==
+
 react-countdown-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-countdown-now/-/react-countdown-now-2.1.0.tgz#6daca892221276ca055fba1bacc2c58c5b63b79c"
