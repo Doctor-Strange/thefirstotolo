@@ -172,6 +172,7 @@ export class FilterAndSortBar extends React.Component<{
   toggleToCarBodyType: any;
   toggleShowFilters: any;
   toggleDeliverAtRentersPlace: any;
+  togglePriceSort: any;
   setBrandAndGetModels: any;
   setModel: any;
   setPrice: any;
@@ -180,6 +181,7 @@ export class FilterAndSortBar extends React.Component<{
   brands: any;
   models: any;
   price: any;
+  priceSort: any;
   deliverAtRentersPlace: any;
   carBodyType: any;
 }> {
@@ -193,8 +195,8 @@ export class FilterAndSortBar extends React.Component<{
 
 
   render() {
-    const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace, price } = this.props;
-    const { setBrandAndGetModels, setModel, toggleShowFilters,
+    const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace, price, priceSort } = this.props;
+    const { setBrandAndGetModels, setModel, toggleShowFilters, togglePriceSort,
       toggleDeliverAtRentersPlace, setPrice, toggleToCarBodyType, carBodyType } = this.props;
     const { brandsEnglish, brandsFarsi } = brands;
     const { modelsEnglish, modelsFarsi } = models;
@@ -210,16 +212,17 @@ export class FilterAndSortBar extends React.Component<{
                     id="all"
                     name="listing_filter"
                     value="all"
-                    checked
+                    checked={priceSort == "price"}
                   />
-                  <label>قیمت کم به زیاد</label>
+                  <label onClick={(e) => { togglePriceSort("price") }}>قیمت کم به زیاد</label>
                   <input
                     type="radio"
                     id="latest"
                     name="listing_filter"
                     value="latest"
+                    checked={priceSort == "-price"}
                   />
-                  <label>قیمت زیاد به کم</label>
+                  <label onClick={(e) => { togglePriceSort("-price") }} >قیمت زیاد به کم</label>
                 </div>
               </li>
               <li>

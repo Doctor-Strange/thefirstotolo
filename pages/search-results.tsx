@@ -33,6 +33,7 @@ export default withRouter(withNamespaces('common')(
         max: 1000000,
         min: 0
       },
+      priceSort: "price",
       focusedInput: null,
       brand: null,
       brandsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
@@ -58,14 +59,20 @@ export default withRouter(withNamespaces('common')(
       this.setModel = this.setModel.bind(this);
       this.setPrice = this.setPrice.bind(this);
       this.toggleToCarBodyType = this.toggleToCarBodyType.bind(this);
+      this.togglePriceSort = this.togglePriceSort.bind(this);
     }
 
-    toggleShowFilters(val) {
-      this.setState({ showFilters: val });
+    toggleShowFilters(showFilters) {
+      this.setState({ showFilters });
     }
 
     toggleDeliverAtRentersPlace(val) {
       this.setState({ deliverAtRentersPlace: val, loadingResults: true }, () => {
+        this.renderResults();
+      });
+    }
+    togglePriceSort(priceSort) {
+      this.setState({ priceSort }, () => {
         this.renderResults();
       });
     }
@@ -291,12 +298,16 @@ export default withRouter(withNamespaces('common')(
         queryString = queryString + `body_style_id=${this.state.carBodyType.join()}&`;
         shownURL = shownURL + `bodytype=${this.state.carBodyType.join()}&`;
       }
+      if (this.state.priceSort) {
+        queryString = queryString + `o=${this.state.priceSort}&`;
+        shownURL = shownURL + `order=${this.state.priceSort}&`;
+      }
 
       axios
         .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9` + queryString)
         .then(response => {
           // update URL
-          const href = `/search-results?${shownURL}start=${page}&limit=9`;
+          const href = `/search-results?${shownURL}start=${page}`;
           const as = href;
           Router.push(href, as, { shallow: true });
           if (response.data.success) {
@@ -354,7 +365,8 @@ export default withRouter(withNamespaces('common')(
         loadingResults,
         results,
         price,
-        carBodyType } = this.state;
+        carBodyType,
+        priceSort } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -371,6 +383,8 @@ export default withRouter(withNamespaces('common')(
           />
           <FilterAndSortBar
             toggleToCarBodyType={this.toggleToCarBodyType}
+            priceSort={priceSort}
+            togglePriceSort={this.togglePriceSort}
             carBodyType={carBodyType}
             t={t}
             showFilters={showFilters}
