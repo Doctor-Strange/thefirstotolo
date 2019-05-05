@@ -8,7 +8,8 @@ export const CarCardPlaceholder = () => (
     rtl
     primaryColor="#d2d2d2"
     secondaryColor="#ecebeb"
-    style={{width: '300px', height: '300px', margin: '0px 10px 30px 10px'}}
+    style={{width: '300px', height: '300px', margin: '10px auto'}}
+    className="carcard"
   >
     <rect x="10" y="10" rx="3" ry="3" width="263" height="179" /> 
     <rect x="20" y="230" rx="3" ry="3" width="70" height="10" /> 

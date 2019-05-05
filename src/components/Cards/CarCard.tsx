@@ -5,6 +5,8 @@ import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from
 
 const Card = styled.div`
   min-width: 300px;
+  width: 340px;
+  max-width: 100%;
   margin: 10px 10px;
   background-color: #fff;
   display: block;
@@ -12,6 +14,7 @@ const Card = styled.div`
   margin-bottom: 30px;
   border-radius: 3px;
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+  margin: 10px auto;
   .img-fluid {
     max-width: 100%;
     height: auto;
@@ -106,8 +109,9 @@ const Card = styled.div`
     }
   }
   ul {
-    padding: 20px 15px 0px 20px;
+    padding: 10px 0px 0px 0px;
     padding-bottom: 0px;
+    margin-bottom: 10px;
     border-top: 1px solid #ededed;
     li {
       display: inline-block;
@@ -149,15 +153,11 @@ const Card = styled.div`
   }
   .loc_open, .loc_closed {
     position: relative;
-    top: -2px;
     font-size: 11px;
     font-size: 0.6875rem;
     font-weight: 600;
     padding: 2px 8px;
     line-height: 1;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
     border-radius: 3px;
   }
 `;
@@ -183,7 +183,7 @@ export const CarCard: React.FunctionComponent<{
           <span>مشاهده و رزرو</span>
         </div>
       </a>
-      <small>Restaurant</small>
+      {/* <small>Restaurant</small> */}
     </figure>
     <div className="wrapper">
       <h3>
@@ -191,9 +191,9 @@ export const CarCard: React.FunctionComponent<{
       </h3>
       {/* <small>{text2}</small> */}
       {/* <p>{description}</p> */}
-      <a className="address" href={`/car?id=${id}`}>
+      {/* <a className="address" href={`/car?id=${id}`}>
         Get directions
-      </a>
+      </a> */}
     </div>
     <ul>
       {deliver_at_renters_place ?

@@ -57,7 +57,7 @@ export class ResultsCards extends React.Component<{
         const { t, results, loadingResults, noResult } = this.props;
         return (
             <>
-                <Section justifyCenter={true}>
+                <Section justifyCenter={false} justifyContent={'flex-end'}>
                     {(loadingResults === true) ?
                         (
                             <>
