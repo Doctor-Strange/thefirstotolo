@@ -92,9 +92,9 @@ export class ResultsCards extends React.Component<{
                     }
                     {(noResult === true) ?
                         (
-                            <spam>
+                            <span>
                                 نتیجه‌ای برای جست‌وجوی شما یافت نشد
-                           </spam>
+                           </span>
                         ) : <></>
                     }
 

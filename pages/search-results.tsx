@@ -73,7 +73,7 @@ export default withRouter(withNamespaces('common')(
       });
     }
     togglePriceSort(priceSort) {
-      this.setState({ priceSort }, () => {
+      this.setState({ priceSort, loadingResults: true }, () => {
         this.renderResults();
       });
     }
