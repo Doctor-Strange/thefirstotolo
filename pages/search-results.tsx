@@ -44,6 +44,7 @@ export default withRouter(withNamespaces('common')(
       modelsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       deliverAtRentersPlace: false,
       loadingResults: true,
+      noResult: false,
       results: [{}],
       carBodyType: []
     };
@@ -335,7 +336,12 @@ export default withRouter(withNamespaces('common')(
               transmission_type: value.transmission_type,
               year: value.year,
             }));
-            this.setState({ results, loadingResults: false });
+            if (results === undefined || results.length == 0) {
+              this.setState({ results: [], loadingResults: false, noResult: true });
+            }
+            else {
+              this.setState({ results, loadingResults: false, noResult: false  });
+            }
           }
         })
         .catch(error => {
@@ -366,7 +372,8 @@ export default withRouter(withNamespaces('common')(
         results,
         price,
         carBodyType,
-        priceSort } = this.state;
+        priceSort,
+        noResult } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -400,7 +407,7 @@ export default withRouter(withNamespaces('common')(
             deliverAtRentersPlace={deliverAtRentersPlace}
             toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
           />
-          <ResultsCards t={t} results={results} loadingResults={loadingResults} />
+          <ResultsCards t={t} results={results} loadingResults={loadingResults} noResult={noResult} />
         </Layout>
       );
     }

@@ -43,6 +43,7 @@ export class ResultsCards extends React.Component<{
     t?: any;
     results?: any;
     loadingResults: boolean;
+    noResult: boolean;
 }> {
     state = {
         error: '',
@@ -53,7 +54,7 @@ export class ResultsCards extends React.Component<{
     }
 
     render() {
-        const { t, results, loadingResults } = this.props;
+        const { t, results, loadingResults, noResult } = this.props;
         return (
             <>
                 <Section justifyCenter={true}>
@@ -89,7 +90,13 @@ export class ResultsCards extends React.Component<{
                             )
                         )
                     }
-
+                    {(noResult === true) ?
+                        (
+                            <spam>
+                                نتیجه‌ای برای جست‌وجوی شما یافت نشد
+                           </spam>
+                        ) : <></>
+                    }
 
                 </Section>
                 {/* <p className="text-center">
