@@ -10,7 +10,7 @@ import LoginModal from '../Modals/LoginModal';
 
 const HeaderSticky = styled.div`
   header {
-    position: fixed;
+    position: relative;
     left: 0;
     top: 0;
     width: 100%;
@@ -20,6 +20,7 @@ const HeaderSticky = styled.div`
   }
   @media (max-width: 767px) {
     padding: 15px 15px 5px 15px;
+    padding: 0px 15px 0px 15px;
   }
   /* .logo_sticky {
     display: none;
@@ -289,7 +290,7 @@ class Header extends React.Component<{
     return (
       <>
         <HeaderSticky>
-          <header className="header_in is_sticky menu_fixed justInDesktop">
+          <header className="justInDesktop">
             <div className="container">
               <div className="row">
                 <div className="col-lg-3 col-12 hidden_mobile">

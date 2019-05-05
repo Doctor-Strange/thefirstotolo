@@ -64,9 +64,17 @@ const SearchResult = styled.div`
     border: none;
   }
   @media (max-width: 991px) {
-    .custom-search-input-2.inner {
+    .hide_on_mobile {
         display: none;
     }
+  }
+  @media (min-width: 991px) {
+    .hide_on_desktop {
+        display: none;
+    }
+  }
+  .hide_on_desktop {
+    text-align: center;
   }
 `;
 
@@ -105,7 +113,7 @@ export class SearchBar extends React.Component<{
     return (
       <SearchResult id="results">
         <div className="container">
-          <Flex justifyContent="space-around" className="row">
+          <Flex justifyContent="space-around" className="row hide_on_mobile">
             <Box width={3 / 12} px={2}>
               <h4>
                 <strong>{count}</strong> نتیجه برای جست‌وجو
@@ -191,6 +199,11 @@ export class SearchBar extends React.Component<{
               </Form>
             </Box>
           </Flex>
+          <div className="hide_on_desktop">
+            <h4>
+              <strong>{count}</strong> نتیجه برای جست‌وجو
+            </h4>
+          </div>
         </div>
       </SearchResult>
     );

@@ -47,7 +47,7 @@ const FilterAndSort = styled.div`
                 float: left;
             }
             &:nth-child(2) {
-                float: left;
+                float: right;
                 margin-right: 0;
             }
             &:nth-child(3) {
@@ -138,10 +138,13 @@ const FilterAndSort = styled.div`
     }
 `;
 
-let FiltersDiv = styled.div`
+const FiltersDiv = styled.div`
   background-color: #fff;
   border-bottom: 1px solid #ededed;
   overflow: hidden;
+  .rangeclass{
+    padding: 5px 30px;
+  }
   h6 {
       margin-bottom: 15px;
       font-size: 16px;
@@ -232,7 +235,7 @@ export class FilterAndSortBar extends React.Component<{
                   aria-expanded="false"
                   aria-controls="filters"
                   onClick={() => { toggleShowFilters(!showFilters) }}
-                >{showFilters ? "گزینه‌های کمتر" : "گزینه‌های بیشتر"}</a
+                ><Icon name='options' /> {showFilters ? "گزینه‌های کمتر" : "گزینه‌های بیشتر"}</a
                 >
               </li>
               <li>
@@ -401,20 +404,21 @@ export class FilterAndSortBar extends React.Component<{
                 {/* <div className="col-md-1">
                 </div> */}
                 <div className="col-md-4">
-                  <div className="add_bottom_30">
+                  <div className="margin_30">
                     <h6>قیمت</h6>
-                    <InputRange
-                      maxValue={1000000}
-                      minValue={0}
-                      step={10000}
-                      formatLabel={value => `${convertNumbers2Persian(
-                        numberWithCommas(value)
-                      )} تومان`}
-                      value={price}
-                      onChange={price => setPrice(price)}
-                    // onChangeComplete={value => console.log(value)}
-                    />
-
+                    <div className="rangeclass">
+                      <InputRange
+                        maxValue={1000000}
+                        minValue={0}
+                        step={10000}
+                        formatLabel={value => `${convertNumbers2Persian(
+                          numberWithCommas(value)
+                        )} تومان`}
+                        value={price}
+                        onChange={price => setPrice(price)}
+                      // onChangeComplete={value => console.log(value)}
+                      />
+                    </div>
                     <br /><br />
                     <ul>
                       <li>
