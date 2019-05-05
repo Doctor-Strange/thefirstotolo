@@ -43,7 +43,7 @@ export default withRouter(withNamespaces('common')(
       modelsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       deliverAtRentersPlace: false,
       loadingResults: true,
-      results: []
+      results: [{}]
     };
 
     constructor(props) {
@@ -138,7 +138,7 @@ export default withRouter(withNamespaces('common')(
 
     componentWillMount() {
       if (this.props.router.query) {
-        const { start, end, min_price, max_price, deliver, brand, model } = this.props.router.query;
+        const { start, end, min_price, max_price, deliver, brand, model, city } = this.props.router.query;
         // console.log(this.props.router.query);
         let startDate = moment(start, 'jYYYY/jMM/jDD');
         let endDate = moment(end, 'jYYYY/jMM/jDD');
@@ -168,6 +168,11 @@ export default withRouter(withNamespaces('common')(
         if (model) {
           this.setState({
             model: Number(model)
+          });
+        }
+        if (city) {
+          this.setState({
+            city: Number(city)
           });
         }
       }

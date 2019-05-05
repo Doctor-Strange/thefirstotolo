@@ -163,6 +163,7 @@ const Card = styled.div`
 `;
 
 export const CarCard: React.FunctionComponent<{
+  id: any;
   title: string;
   img: string;
   description: string;
@@ -170,13 +171,13 @@ export const CarCard: React.FunctionComponent<{
   score: any;
   price: any;
   deliver_at_renters_place: boolean;
-}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place }) => (
+}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place, id }) => (
   <Card className="strip grid carcard">
     <figure>
       <a href="#0" className="wish_bt" >
         میانگین {convertNumbers2Persian(numberWithCommas(price))} تومان در روز
       </a>
-      <a href="/detail-restaurant">
+      <a href={`/car?id=${id}`}>
         <img src={img} className="img-fluid" alt="" />
         <div className="read_more">
           <span>مشاهده و رزرو</span>
@@ -186,11 +187,11 @@ export const CarCard: React.FunctionComponent<{
     </figure>
     <div className="wrapper">
       <h3>
-        <a href="#">{title} <small>{year}</small></a>
+        <a href={`/car?id=${id}`}>{title} <small>{year}</small></a>
       </h3>
       {/* <small>{text2}</small> */}
       {/* <p>{description}</p> */}
-      <a className="address" href="#">
+      <a className="address" href={`/car?id=${id}`}>
         Get directions
       </a>
     </div>
@@ -200,7 +201,7 @@ export const CarCard: React.FunctionComponent<{
           <li>
             <span className="loc_open">تحویل در محل</span>
           </li>
-        ) :  (<li></li>)
+        ) : (<li></li>)
       }
       {/*<li>
         <span className="loc_closed">Now Closed</span>

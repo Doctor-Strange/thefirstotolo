@@ -1,3 +1,4 @@
-import { BoxedListfrom } from './BoxedList';
+import { BoxedList } from './BoxedList';
 import { CarCard } from './CarCard';
-export { BoxedList, CarCard };
+import { CarCardPlaceholder } from './CarCardPlaceholder';
+export { BoxedList, CarCard, CarCardPlaceholder };

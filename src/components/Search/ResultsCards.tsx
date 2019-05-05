@@ -15,7 +15,7 @@ import {
     TextArea,
     Transition
 } from 'semantic-ui-react';
-import { CarCard } from '../Cards';
+import { CarCard, CarCardPlaceholder } from '../Cards';
 import { BulletList } from "react-content-loader";
 import { i18n, withNamespaces } from '../../i18n';
 import {
@@ -54,28 +54,25 @@ export class ResultsCards extends React.Component<{
 
     render() {
         const { t, results, loadingResults } = this.props;
-        let noResult = false;
-        if (results.length <= 0) {
-            noResult = true;
-        }
         return (
             <>
                 <Section justifyCenter={true}>
-                    {(loadingResults === true || results.length <= 0) ?
+                    {(loadingResults === true) ?
                         (
                             <>
-                                {noResult ? <p>نتیجه‌ای یافت نشد</p> : (
-                                    <>
-                                    <BulletList style={{ height: '160px', width: '318px' }} />
-                                    <BulletList style={{ height: '160px', width: '318px' }} />
-                                    <BulletList style={{ height: '160px', width: '318px' }} />
-                                    </>
-                                )}
+                                <CarCardPlaceholder />
+                                <CarCardPlaceholder />
+                                <CarCardPlaceholder />
+                                <br />
+                                <CarCardPlaceholder />
+                                <CarCardPlaceholder />
+                                <CarCardPlaceholder />
                             </>
                         ) : (
                             results.map((value, index) =>
                                 <CarCard
                                     key={index}
+                                    id={value.id}
                                     title={value.car.brand.name.fa + value.car.name.fa}
                                     year={value.year.name.fa}
                                     img={
@@ -95,9 +92,9 @@ export class ResultsCards extends React.Component<{
 
 
                 </Section>
-                <p className="text-center">
+                {/* <p className="text-center">
                     <a href="#0" className="btn_1 rounded add_top_30">Load more</a>
-                </p>
+                </p> */}
             </>
         )
     }

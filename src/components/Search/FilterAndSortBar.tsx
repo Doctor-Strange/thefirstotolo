@@ -209,21 +209,14 @@ export class FilterAndSortBar extends React.Component<{
                     value="all"
                     checked
                   />
-                  <label>All</label>
-                  <input
-                    type="radio"
-                    id="popular"
-                    name="listing_filter"
-                    value="popular"
-                  />
-                  <label>Popular</label>
+                  <label>قیمت کم به زیاد</label>
                   <input
                     type="radio"
                     id="latest"
                     name="listing_filter"
                     value="latest"
                   />
-                  <label>Latest</label>
+                  <label>قیمت زیاد به کم</label>
                 </div>
               </li>
               <li>
@@ -233,7 +226,7 @@ export class FilterAndSortBar extends React.Component<{
                   aria-expanded="false"
                   aria-controls="filters"
                   onClick={() => { toggleShowFilters(!showFilters) }}
-                >{showFilters ? "Less filters" : "More filters"}</a
+                >{showFilters ? "گزینه‌های کمتر" : "گزینه‌های بیشتر"}</a
                 >
               </li>
               <li>
