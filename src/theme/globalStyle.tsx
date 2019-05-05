@@ -142,6 +142,21 @@ const GlobalStyle = createGlobalStyle`
       max-width: 1140px;
     }
   }
+  .container_on_desktop{
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    @media (min-width: 992px){
+      max-width: 960px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+     @media (min-width: 1200px){
+      max-width: 1140px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
 
   @media (min-width: 992px){
     .justInMobile{
@@ -681,7 +696,16 @@ const GlobalStyle = createGlobalStyle`
     }
 }
 
-
+@media (max-width: 991px) {
+  .hide_on_mobile {
+      display: none !important;
+  }
+}
+@media (min-width: 991px) {
+  .hide_on_desktop {
+      display: none !important;
+  }
+}
 
 .react-phone-number-input__country-select{
     display: inline-block;
@@ -705,7 +729,10 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100vh;
 }
 
-.ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
+.ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local],
+.ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number],
+.ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel],
+.ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
   font-family: Vazir !important;
 }
 
@@ -1405,7 +1432,54 @@ div#filters{
   width: 100%;
   direction: ltr;
 }
-  
+
+#filters_col {
+  background-color: #fff;
+  padding: 20px 20px 15px 20px;
+  margin-bottom: 25px;
+  border: 1px solid #ededed;
+  label {
+    color: #333;
+    font-weight: normal;
+  }
+}
+a#filters_col_bt {
+  display: block;
+  color: #333;
+  position: relative;
+  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  direction: rtl;
+  text-align: start;
+}
+.filter_type {
+  h6 {
+    border-top: 1px solid #ededed;
+    margin: 15px 0;
+    padding: 15px 0 0 0;
+    font-size: 13px !important;
+    font-size: 0.8125rem;
+    direction: rtl;
+    text-align:right;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+    li {
+      margin-bottom: 5px;
+      :last-child {
+        margin-bottom: 0;
+      }
+      small {
+        float: left;
+        position: relative;
+        top: 4px;
+      }
+    }
+  }
+}
 `;
 
 const lightTheme = {

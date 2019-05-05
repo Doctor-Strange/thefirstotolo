@@ -6,15 +6,16 @@ export const Section: React.FunctionComponent<{
   justifyContent?: string;
   bgColor?: string;
   margin?: Margin;
-}> = ({ children, justifyCenter,justifyContent, bgColor, margin }) => (
-  <div style={{ backgroundColor: bgColor }}>
-    <div className={'container ' + (margin || 'margin_60')}>
+  className?: any;
+}> = ({ children, justifyCenter, justifyContent, bgColor, margin, className }) => (
+  <div style={{ backgroundColor: bgColor }} className={className}>
+    <div className={'container ' + (margin || '')}>
       <div
         className={'row ' + (justifyCenter && 'justify-content-center')}
-        style={{justifyContent}}
-    >
+        style={{ justifyContent }}
+      >
         {children}
+      </div>
     </div>
-  </div>
   </div >
 );

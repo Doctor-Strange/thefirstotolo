@@ -57,7 +57,7 @@ export class ResultsCards extends React.Component<{
         const { t, results, loadingResults, noResult } = this.props;
         return (
             <>
-                <Section justifyCenter={false} justifyContent={'flex-end'}>
+                <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35">
                     {(loadingResults === true) ?
                         (
                             <>
@@ -74,7 +74,7 @@ export class ResultsCards extends React.Component<{
                                 <CarCard
                                     key={index}
                                     id={value.id}
-                                    title={value.car.brand.name.fa + value.car.name.fa}
+                                    title={value.car.brand.name.fa + " " + value.car.name.fa}
                                     year={value.year.name.fa}
                                     img={
                                         (value.media_set[0]

@@ -24,6 +24,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import { Box, Flex } from '@rebass/grid';
 import moment from 'moment-jalaali';
 moment.loadPersian();
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const SearchResult = styled.div`
   padding: 20px 0;
@@ -46,6 +47,7 @@ const SearchResult = styled.div`
     font-size: 16px;
     font-size: 1rem;
     direction: rtl;
+    line-height: 24px;
     @media (max-width: 991px) {
       margin: 5px 0 0 0;
     }
@@ -63,16 +65,6 @@ const SearchResult = styled.div`
   .DateRangePickerInput__withBorder {
     border: none;
   }
-  @media (max-width: 991px) {
-    .hide_on_mobile {
-        display: none;
-    }
-  }
-  @media (min-width: 991px) {
-    .hide_on_desktop {
-        display: none;
-    }
-  }
   .hide_on_desktop {
     text-align: center;
   }
@@ -89,6 +81,7 @@ export class SearchBar extends React.Component<{
   t: any;
   cities?: any;
   city: any;
+  cityName: any;
   setCity: any;
   setDate: any;
   startDate: any;
@@ -107,16 +100,31 @@ export class SearchBar extends React.Component<{
   }
 
   render() {
-    const { t, count, cities, startDate, endDate, focusedInput, city } = this.props;
+    const { t, count, cities, startDate, endDate, focusedInput, city, cityName } = this.props;
     const { setCity, setDate, setfocusedInput } = this.props;
     const { citiesFarsi, citiesEnglish } = cities;
+    let start = "";
+    let end = "";
+    let loadingCity = false;
+    let text = "نتیجه برای جست‌وجو در ";
+    if (startDate && endDate) {
+      start = moment(startDate).format('jD jMMMM jYY');
+      end = moment(endDate).format('jD jMMMM jYY');
+    }
+    if (!cityName) {
+      loadingCity = true;
+      text = `نتیجه برای جست‌وجو در `;
+    } else {
+      text = `نتیجه برای جست‌وجو در ${cityName}`;
+    }
+    const textDate = ` از تاریخ ${convertNumbers2Persian(start)} تا ${convertNumbers2Persian(end)}`;
     return (
       <SearchResult id="results">
         <div className="container">
           <Flex justifyContent="space-around" className="row hide_on_mobile">
             <Box width={3 / 12} px={2}>
               <h4>
-                <strong>{count}</strong> نتیجه برای جست‌وجو
+                <strong>{convertNumbers2Persian(count)}</strong> نتیجه برای جست‌وجو
               </h4>
             </Box>
             <Box width={9 / 12} px={2}>
@@ -143,7 +151,9 @@ export class SearchBar extends React.Component<{
                       // error={Boolean(errors.carCity && touched.carCity)}
                       onChange={(e, data) => {
                         if (data && data.name) {
-                          setCity(data.value);
+                          setCity(data.value, (
+                            i18n.language === 'en' ? citiesEnglish : citiesFarsi
+                          )[data.value].text);
                           // setFieldValue(data.name, data.value);
                         }
                       }}
@@ -201,11 +211,12 @@ export class SearchBar extends React.Component<{
           </Flex>
           <div className="hide_on_desktop">
             <h4>
-              <strong>{count}</strong> نتیجه برای جست‌وجو
+              <strong>{convertNumbers2Persian(count)}</strong> {text}
+              {loadingCity ? <Icon loading name='spinner' /> : ""} <br /> {textDate ? textDate : ""}
             </h4>
           </div>
         </div>
-      </SearchResult>
+      </SearchResult >
     );
   }
 }

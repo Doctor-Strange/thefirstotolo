@@ -33,6 +33,7 @@ import { Box, Flex } from '@rebass/grid';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const FilterAndSort = styled.div`
+    width: 100vw;
     padding: 10px 0 5px 0;
     background: #fff;
     border-bottom: 1px solid #ededed;
@@ -157,6 +158,7 @@ const FiltersDiv = styled.div`
     position: relative;
     top: 4px;
   }
+  
   /* &:not(.show) {
     display: none;
   } */
@@ -204,48 +206,49 @@ export class FilterAndSortBar extends React.Component<{
     const { brandsEnglish, brandsFarsi } = brands;
     const { modelsEnglish, modelsFarsi } = models;
     return (
-      <Form>
-        <FilterAndSort className="filters_listing sticky_horizontal">
-          <div className="container">
-            <ul className="clearfix">
-              <li>
-                <div className="switch-field">
-                  <input
-                    type="radio"
-                    id="all"
-                    name="listing_filter"
-                    value="all"
-                    checked={priceSort == "price"}
-                  />
-                  <label onClick={(e) => { togglePriceSort("price") }}>قیمت کم به زیاد</label>
-                  <input
-                    type="radio"
-                    id="latest"
-                    name="listing_filter"
-                    value="latest"
-                    checked={priceSort == "-price"}
-                  />
-                  <label onClick={(e) => { togglePriceSort("-price") }} >قیمت زیاد به کم</label>
-                </div>
-              </li>
-              <li>
-                <a
-                  className="btn_filt"
-                  data-toggle="collapse"
-                  aria-expanded="false"
-                  aria-controls="filters"
-                  onClick={() => { toggleShowFilters(!showFilters) }}
-                ><Icon name='options' /> {showFilters ? "گزینه‌های کمتر" : "گزینه‌های بیشتر"}</a
-                >
-              </li>
-              <li>
-                <div className="layout_view">
-                  <a href="#0" class="active"><i class="icon-th"></i></a>
-                  <a href="/listing-2"><i class="icon-th-list"></i></a>
-                  <a href="/list-map"><i class="icon-map"></i></a>
-                </div>
-              </li>
-              {/* <li>
+      <>
+        <Form>
+          <FilterAndSort className="filters_listing sticky_horizontal hide_on_desktop">
+            <div className="container">
+              <ul className="clearfix">
+                <li>
+                  <div className="switch-field">
+                    <input
+                      type="radio"
+                      id="all"
+                      name="listing_filter"
+                      value="all"
+                      checked={priceSort == "price"}
+                    />
+                    <label onClick={(e) => { togglePriceSort("price") }}>قیمت کم به زیاد</label>
+                    <input
+                      type="radio"
+                      id="latest"
+                      name="listing_filter"
+                      value="latest"
+                      checked={priceSort == "-price"}
+                    />
+                    <label onClick={(e) => { togglePriceSort("-price") }} >قیمت زیاد به کم</label>
+                  </div>
+                </li>
+                <li>
+                  <a
+                    className="btn_filt"
+                    data-toggle="collapse"
+                    aria-expanded="false"
+                    aria-controls="filters"
+                    onClick={() => { toggleShowFilters(!showFilters) }}
+                  ><Icon name='options' /> {showFilters ? "گزینه‌های کمتر" : "گزینه‌های بیشتر"}</a
+                  >
+                </li>
+                <li>
+                  <div className="layout_view">
+                    <a href="#0" className="active"><i className="icon-th"></i></a>
+                    <a href="/listing-2"><i className="icon-th-list"></i></a>
+                    <a href="/list-map"><i className="icon-map"></i></a>
+                  </div>
+                </li>
+                {/* <li>
                     <a
                         className="btn_map"
                         data-toggle="collapse"
@@ -257,14 +260,201 @@ export class FilterAndSortBar extends React.Component<{
                         >View on map</a
                     >
                     </li> */}
-            </ul>
-          </div>
-        </FilterAndSort>
-        <Transition visible={showFilters} duration={300}>
-          <FiltersDiv className="collapse" id="filters">
-            <div className="container margin_30_5">
-              <div className="row">
-                <div className="col-md-2">
+              </ul>
+            </div>
+          </FilterAndSort>
+          <Transition visible={showFilters} duration={300}>
+            <FiltersDiv className="collapse" id="filters">
+              <div className="container margin_30_5">
+                <div className="row">
+                  <div className="col-md-2">
+                    <h6>نوع شاسی</h6>
+                    <ul>
+                      <li>
+                        <label
+
+                          className="container_check" > سواری <small>67</small>
+                          <input onClick={(e) => { toggleToCarBodyType(1) }} type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="container_check"
+                        > مینی ون <small>89</small>
+                          <input onClick={(e) => { toggleToCarBodyType(7) }} type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="container_check"
+                        >  هاچ‌بک <small>45</small>
+                          <input onClick={(e) => { toggleToCarBodyType(9) }} type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="container_check"
+                        >شاسی‌بلند<small>78</small>
+                          <input onClick={(e) => { toggleToCarBodyType(2) }}
+                            type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="container_check"
+                        >کراس‌اور<small>78</small>
+                          <input onClick={(e) => { toggleToCarBodyType(8) }}
+                            type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+
+                    </ul>
+                  </div>
+                  <div className="col-md-2" style={{ marginTop: '30px' }}>
+                    <ul>
+                      <li>
+                        <label className="container_check"
+
+                        >کروک<small>78</small>
+                          <input onClick={(e) => { toggleToCarBodyType(3) }} type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="container_check"
+                        >کوپه<small>78</small>
+                          <input onClick={(e) => { toggleToCarBodyType(4) }} type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="container_check"
+                        >ون <small>78</small>
+                          <input onClick={(e) => { toggleToCarBodyType(5) }} type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="container_check"
+                        >وانت<small>78</small>
+                          <input onClick={(e) => { toggleToCarBodyType(6) }} type="checkbox" />
+                          <span className="checkmark"></span>
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col-md-3">
+
+                    <Form.Dropdown
+                      name="carBrand"
+                      id="carBrand"
+                      label={t('carProperty.brand')}
+                      placeholder={t('carProperty.brand')}
+                      noResultsMessage={t('forms.error_no_result_found')}
+                      search
+                      selection
+                      loading={brandsFarsi[0].value == null}
+                      options={
+                        i18n.language === 'en'
+                          ? brandsEnglish
+                          : brandsFarsi
+                      }
+                      // error={Boolean(errors.carBrand && touched.carBrand)}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setBrandAndGetModels(data.value, "");
+                          // setFieldValue(data.name, data.value);
+                        }
+                      }}
+                      // onClose={(e, data) => {
+
+                      // }}
+                      // defaultValue={brand[0].value}
+                      value={brand}
+                    />
+                    <Form.Dropdown
+                      name="carModel"
+                      id="carModel"
+                      search
+                      placeholder={t('carProperty.model')}
+                      noResultsMessage={t('forms.error_no_result_found')}
+                      // label={t('carProperty.model')}
+                      selection
+                      // loading={this.state.shouldModelLoad}
+                      // disabled={this.state.modelsFarsi[0].value == null}
+                      options={
+                        i18n.language === 'en'
+                          ? modelsEnglish
+                          : modelsFarsi
+                      }
+                      // error={Boolean(errors.carModel && touched.carModel)}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setModel(data.value, "");
+                          // setFieldValue(data.name, data.value);
+                        }
+                      }}
+                      // onClose={(e, data) => {
+                      //   if (data && data.name) {
+                      //     setFieldTouched(data.name);
+                      //   }
+                      // }}
+                      // defaultValue={model[0].value}
+                      value={model}
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <div className="margin_30">
+                      <h6>قیمت</h6>
+                      <div className="rangeclass">
+                        <InputRange
+                          maxValue={1000000}
+                          minValue={0}
+                          step={10000}
+                          formatLabel={value => `${convertNumbers2Persian(
+                            numberWithCommas(value)
+                          )} تومان`}
+                          value={price}
+                          onChange={price => setPrice(price)}
+                        // onChangeComplete={value => console.log(value)}
+                        />
+                      </div>
+                      <br /><br />
+                      <ul>
+                        <li>
+                          <label className="container_check">تحویل در محل<small>12</small>
+                            <input
+                              onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
+                              type="checkbox"
+                              checked={deliverAtRentersPlace}
+                            />
+                            <span className="checkmark" />
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </FiltersDiv>
+          </Transition>
+        </Form>
+
+        <aside className="col-lg-3 hide_on_mobile margin_60_35 " id="sidebar">
+          <Form>
+            <div id="filters_col">
+              <a
+                data-toggle="collapse"
+                href="#collapseFilters"
+                aria-expanded="false"
+                aria-controls="collapseFilters"
+                id="filters_col_bt"
+              >گزینه‌ها
+          </a>
+              <div className="collapse show" id="collapseFilters">
+                <div className="filter_type">
                   <h6>نوع شاسی</h6>
                   <ul>
                     <li>
@@ -278,7 +468,7 @@ export class FilterAndSortBar extends React.Component<{
                     <li>
                       <label className="container_check"
                       > مینی ون <small>89</small>
-                        <input onClick={(e) => { toggleToCarBodyType(7) }} type="checkbox" />
+                        <input onClick={(e) => { toggleToCarBodyType(7) }} type="checkbox"/>
                         <span className="checkmark"></span>
                       </label>
                     </li>
@@ -305,11 +495,6 @@ export class FilterAndSortBar extends React.Component<{
                         <span className="checkmark"></span>
                       </label>
                     </li>
-
-                  </ul>
-                </div>
-                <div className="col-md-2" style={{ marginTop: '30px' }}>
-                  <ul>
                     <li>
                       <label className="container_check"
 
@@ -341,12 +526,12 @@ export class FilterAndSortBar extends React.Component<{
                     </li>
                   </ul>
                 </div>
-                <div className="col-md-3">
-
+                <div className="filter_type">
+                  <h6>برند</h6>
                   <Form.Dropdown
                     name="carBrand"
                     id="carBrand"
-                    label={t('carProperty.brand')}
+                    // label={t('carProperty.brand')}
                     placeholder={t('carProperty.brand')}
                     noResultsMessage={t('forms.error_no_result_found')}
                     search
@@ -401,45 +586,41 @@ export class FilterAndSortBar extends React.Component<{
                     value={model}
                   />
                 </div>
-                {/* <div className="col-md-1">
-                </div> */}
-                <div className="col-md-4">
-                  <div className="margin_30">
-                    <h6>قیمت</h6>
-                    <div className="rangeclass">
-                      <InputRange
-                        maxValue={1000000}
-                        minValue={0}
-                        step={10000}
-                        formatLabel={value => `${convertNumbers2Persian(
-                          numberWithCommas(value)
-                        )} تومان`}
-                        value={price}
-                        onChange={price => setPrice(price)}
-                      // onChangeComplete={value => console.log(value)}
-                      />
-                    </div>
-                    <br /><br />
-                    <ul>
-                      <li>
-                        <label className="container_check">تحویل در محل<small>12</small>
-                          <input
-                            onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
-                            type="checkbox"
-                            checked={deliverAtRentersPlace}
-                          />
-                          <span className="checkmark" />
-                        </label>
-                      </li>
-                    </ul>
+                <div className="filter_type">
+                  <h6>قیمت</h6>
+                  <div className="rangeclass">
+                    <InputRange
+                      maxValue={1000000}
+                      minValue={0}
+                      step={10000}
+                      formatLabel={value => `${convertNumbers2Persian(
+                        numberWithCommas(value)
+                      )} تومان`}
+                      value={price}
+                      onChange={price => setPrice(price)}
+                    // onChangeComplete={value => console.log(value)}
+                    />
                   </div>
-
+                  <br /><br />
+                  <ul>
+                    <li>
+                      <label className="container_check">تحویل در محل<small>12</small>
+                        <input
+                          onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
+                          type="checkbox"
+                          checked={deliverAtRentersPlace}
+                        />
+                        <span className="checkmark" />
+                      </label>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
-          </FiltersDiv>
-        </Transition>
-      </Form>
+          </Form>
+        </aside>
+      </>
+
     )
   }
 }

@@ -24,6 +24,7 @@ export default withRouter(withNamespaces('common')(
       token: '',
       error: '',
       city: null,
+      cityname: null,
       showFilters: false,
       citiesFarsi: [{ text: 'کمی صبر کنید...', value: null }],
       citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
@@ -98,7 +99,7 @@ export default withRouter(withNamespaces('common')(
     }
 
     setCity(cityID, CityName) {
-      this.setState({ city: cityID, loadingResults: true }, () => {
+      this.setState({ city: cityID, CityName, loadingResults: true }, () => {
         this.renderResults();
       });
     }
@@ -227,6 +228,15 @@ export default withRouter(withNamespaces('common')(
               value: value.id
             }));
             this.setState({ citiesFarsi, citiesEnglish });
+            if (this.state.city) {
+              console.log(this.state.citiesFarsi[this.state.city].text);
+              this.state.citiesFarsi.map((value, index) => {
+                if (value.value == this.state.city) {
+                  this.setState({ cityName: this.state.citiesFarsi[index].text });
+                }
+              });
+
+            }
           }
         })
         .catch(error => {
@@ -340,7 +350,7 @@ export default withRouter(withNamespaces('common')(
               this.setState({ results: [], loadingResults: false, noResult: true });
             }
             else {
-              this.setState({ results, loadingResults: false, noResult: false  });
+              this.setState({ results, loadingResults: false, noResult: false });
             }
           }
         })
@@ -358,6 +368,7 @@ export default withRouter(withNamespaces('common')(
         citiesFarsi,
         citiesEnglish,
         city,
+        cityName,
         startDate,
         endDate,
         focusedInput,
@@ -387,27 +398,30 @@ export default withRouter(withNamespaces('common')(
             setCity={this.setCity}
             cities={{ citiesFarsi, citiesEnglish }}
             city={city}
+            cityName={cityName}
           />
-          <FilterAndSortBar
-            toggleToCarBodyType={this.toggleToCarBodyType}
-            priceSort={priceSort}
-            togglePriceSort={this.togglePriceSort}
-            carBodyType={carBodyType}
-            t={t}
-            showFilters={showFilters}
-            toggleShowFilters={this.toggleShowFilters}
-            brand={brand}
-            model={model}
-            brands={{ brandsEnglish, brandsFarsi }}
-            models={{ modelsEnglish, modelsFarsi }}
-            price={price}
-            setBrandAndGetModels={this.setBrandAndGetModels}
-            setModel={this.setModel}
-            setPrice={this.setPrice}
-            deliverAtRentersPlace={deliverAtRentersPlace}
-            toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
-          />
-          <ResultsCards t={t} results={results} loadingResults={loadingResults} noResult={noResult} />
+          <div className="row container_on_desktop" style={{ margin: 'auto auto', flexDirection: 'row-reverse' }}>
+            <FilterAndSortBar
+              toggleToCarBodyType={this.toggleToCarBodyType}
+              priceSort={priceSort}
+              togglePriceSort={this.togglePriceSort}
+              carBodyType={carBodyType}
+              t={t}
+              showFilters={showFilters}
+              toggleShowFilters={this.toggleShowFilters}
+              brand={brand}
+              model={model}
+              brands={{ brandsEnglish, brandsFarsi }}
+              models={{ modelsEnglish, modelsFarsi }}
+              price={price}
+              setBrandAndGetModels={this.setBrandAndGetModels}
+              setModel={this.setModel}
+              setPrice={this.setPrice}
+              deliverAtRentersPlace={deliverAtRentersPlace}
+              toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
+            />
+            <ResultsCards t={t} results={results} loadingResults={loadingResults} noResult={noResult} />
+          </div>
         </Layout>
       );
     }
