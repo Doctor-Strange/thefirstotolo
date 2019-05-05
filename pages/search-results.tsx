@@ -43,7 +43,8 @@ export default withRouter(withNamespaces('common')(
       modelsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       deliverAtRentersPlace: false,
       loadingResults: true,
-      results: [{}]
+      results: [{}],
+      carBodyType: []
     };
 
     constructor(props) {
@@ -56,6 +57,7 @@ export default withRouter(withNamespaces('common')(
       this.setBrandAndGetModels = this.setBrandAndGetModels.bind(this);
       this.setModel = this.setModel.bind(this);
       this.setPrice = this.setPrice.bind(this);
+      this.toggleToCarBodyType = this.toggleToCarBodyType.bind(this);
     }
 
     toggleShowFilters(val) {
@@ -64,6 +66,25 @@ export default withRouter(withNamespaces('common')(
 
     toggleDeliverAtRentersPlace(val) {
       this.setState({ deliverAtRentersPlace: val, loadingResults: true }, () => {
+        this.renderResults();
+      });
+    }
+
+    toggleToCarBodyType(id) {
+      console.log("runned");
+      let carBodyType = this.state.carBodyType;
+      const index = carBodyType.indexOf(id);
+      // console.log({ index, a: "1" });
+      if (index > -1) {
+        carBodyType.splice(index, 1);
+        console.log(id + "removed");
+      }
+      else {
+        carBodyType.push(id);
+        console.log(id + "pushed");
+      }
+
+      this.setState({ carBodyType, loadingResults: true }, () => {
         this.renderResults();
       });
     }
@@ -266,6 +287,10 @@ export default withRouter(withNamespaces('common')(
         queryString = queryString + `min_price=${this.state.price.min}&max_price=${this.state.price.max}&`;
         shownURL = shownURL + `min_price=${this.state.price.min}&max_price=${this.state.price.max}&`;
       }
+      if (this.state.carBodyType) {
+        queryString = queryString + `body_style_id=${this.state.carBodyType.join()}&`;
+        shownURL = shownURL + `bodytype=${this.state.carBodyType.join()}&`;
+      }
 
       axios
         .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9` + queryString)
@@ -328,7 +353,8 @@ export default withRouter(withNamespaces('common')(
         deliverAtRentersPlace,
         loadingResults,
         results,
-        price } = this.state;
+        price,
+        carBodyType } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -344,6 +370,8 @@ export default withRouter(withNamespaces('common')(
             city={city}
           />
           <FilterAndSortBar
+            toggleToCarBodyType={this.toggleToCarBodyType}
+            carBodyType={carBodyType}
             t={t}
             showFilters={showFilters}
             toggleShowFilters={this.toggleShowFilters}
