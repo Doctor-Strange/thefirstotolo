@@ -185,6 +185,8 @@ export class FilterAndSortBar extends React.Component<{
   model: any;
   brands: any;
   models: any;
+  brandLoading: any;
+  modelLoading: any;
   price: any;
   priceSort: any;
   deliverAtRentersPlace: any;
@@ -200,7 +202,8 @@ export class FilterAndSortBar extends React.Component<{
 
 
   render() {
-    const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace, price, priceSort } = this.props;
+    const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace, price, priceSort,
+      brandLoading, modelLoading } = this.props;
     const { setBrandAndGetModels, setModel, toggleShowFilters, togglePriceSort,
       toggleDeliverAtRentersPlace, setPrice, toggleToCarBodyType, carBodyType } = this.props;
     const { brandsEnglish, brandsFarsi } = brands;
@@ -354,7 +357,8 @@ export class FilterAndSortBar extends React.Component<{
                       noResultsMessage={t('forms.error_no_result_found')}
                       search
                       selection
-                      loading={brandsFarsi[0].value == null}
+                      clearable
+                      loading={brandLoading}
                       options={
                         i18n.language === 'en'
                           ? brandsEnglish
@@ -381,8 +385,9 @@ export class FilterAndSortBar extends React.Component<{
                       noResultsMessage={t('forms.error_no_result_found')}
                       // label={t('carProperty.model')}
                       selection
-                      // loading={this.state.shouldModelLoad}
-                      // disabled={this.state.modelsFarsi[0].value == null}
+                      clearable
+                      loading={modelLoading}
+                      disabled={brand == null || brand == ""}
                       options={
                         i18n.language === 'en'
                           ? modelsEnglish
@@ -468,7 +473,7 @@ export class FilterAndSortBar extends React.Component<{
                     <li>
                       <label className="container_check"
                       > مینی ون <small>89</small>
-                        <input onClick={(e) => { toggleToCarBodyType(7) }} type="checkbox"/>
+                        <input onClick={(e) => { toggleToCarBodyType(7) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
@@ -536,7 +541,8 @@ export class FilterAndSortBar extends React.Component<{
                     noResultsMessage={t('forms.error_no_result_found')}
                     search
                     selection
-                    loading={brandsFarsi[0].value == null}
+                    clearable
+                    loading={brandLoading}
                     options={
                       i18n.language === 'en'
                         ? brandsEnglish
@@ -563,8 +569,9 @@ export class FilterAndSortBar extends React.Component<{
                     noResultsMessage={t('forms.error_no_result_found')}
                     // label={t('carProperty.model')}
                     selection
-                    // loading={this.state.shouldModelLoad}
-                    // disabled={this.state.modelsFarsi[0].value == null}
+                    clearable
+                    loading={brand != null && modelLoading}
+                    disabled={!brand}
                     options={
                       i18n.language === 'en'
                         ? modelsEnglish

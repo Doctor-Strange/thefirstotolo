@@ -40,9 +40,10 @@ export default withRouter(withNamespaces('common')(
       brandsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
       brandsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       model: null,
-      shouldModelLoad: false,
       modelsFarsi: [{ text: 'کمی صبر کنید...', value: null }],
       modelsEnglish: [{ text: 'کمی صبر کنید...', value: null }],
+      brandLoading: true,
+      modelLoading: true,
       deliverAtRentersPlace: false,
       loadingResults: true,
       noResult: false,
@@ -115,7 +116,7 @@ export default withRouter(withNamespaces('common')(
     }
 
     setBrandAndGetModels(brandID, brandName) {
-      this.setState({ brand: brandID, shouldModelLoad: true, loadingResults: true }, () => {
+      this.setState({ brand: brandID,modelLoading: true, loadingResults: true }, () => {
         this.renderResults();
       });
       axios
@@ -135,12 +136,13 @@ export default withRouter(withNamespaces('common')(
               text: value.name.en,
               value: value.id
             }));
-            this.setState({ modelsFarsi, modelsEnglish });
+            this.setState({ modelsFarsi, modelsEnglish, model: null, modelLoading: false });
           } else {
             this.setState({
               model: null,
-              modelsEnglish: [{ text: 'Loading', value: null }],
-              modelsFarsi: [{ text: 'Loading', value: null }]
+              modelLoading: false,
+              modelsEnglish: [{ text: 'All Models', value: 0 }],
+              modelsFarsi: [{ text: 'تمام مدل‌ها', value: 0 }]
             });
           }
         })
@@ -149,9 +151,6 @@ export default withRouter(withNamespaces('common')(
           console.error(error);
           this.setState({ error: error, success: false });
         })
-        .then(() => {
-          this.setState({ shouldModelLoad: false });
-        });
     }
 
     setModel(modelID, modelName) {
@@ -260,7 +259,7 @@ export default withRouter(withNamespaces('common')(
               text: value.name.en,
               value: value.id
             }));
-            this.setState({ brandsEnglish, brandsFarsi });
+            this.setState({ brandsEnglish, brandsFarsi, brandLoading: false });
           }
         })
         .catch(error => {
@@ -270,6 +269,7 @@ export default withRouter(withNamespaces('common')(
     }
 
     renderResults(page = 0) {
+
       // send search resluts request
       let queryString = '';
       let shownURL = '';
@@ -378,6 +378,8 @@ export default withRouter(withNamespaces('common')(
         brandsFarsi,
         modelsFarsi,
         modelsEnglish,
+        brandLoading,
+        modelLoading,
         deliverAtRentersPlace,
         loadingResults,
         results,
@@ -413,6 +415,8 @@ export default withRouter(withNamespaces('common')(
               model={model}
               brands={{ brandsEnglish, brandsFarsi }}
               models={{ modelsEnglish, modelsFarsi }}
+              brandLoading={brandLoading}
+              modelLoading={modelLoading}
               price={price}
               setBrandAndGetModels={this.setBrandAndGetModels}
               setModel={this.setModel}
