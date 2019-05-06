@@ -45,7 +45,9 @@ export default withRouter(withNamespaces('common')(
       loadingResults: true,
       noResult: false,
       results: [{}],
-      carBodyType: []
+      carBodyType: [],
+      latest_result_key: null,
+      page: 0
     };
 
     constructor(props) {
@@ -60,6 +62,7 @@ export default withRouter(withNamespaces('common')(
       this.setPrice = this.setPrice.bind(this);
       this.toggleToCarBodyType = this.toggleToCarBodyType.bind(this);
       this.togglePriceSort = this.togglePriceSort.bind(this);
+      this.nextPage = this.nextPage.bind(this);
     }
 
     toggleShowFilters(showFilters) {
@@ -71,9 +74,17 @@ export default withRouter(withNamespaces('common')(
         this.renderResults();
       });
     }
+
     togglePriceSort(priceSort) {
       this.setState({ priceSort, loadingResults: true }, () => {
         this.renderResults();
+      });
+    }
+
+    nextPage() {
+      console.log("nextpage is ",this.state.page + 1);
+      this.setState({ loadingResults: true }, () => {
+        this.renderResults(this.state.page + 1);
       });
     }
 
@@ -275,7 +286,6 @@ export default withRouter(withNamespaces('common')(
     }
 
     renderResults(page = 0) {
-
       // send search resluts request
       let queryString = '';
       let shownURL = '';
@@ -320,50 +330,103 @@ export default withRouter(withNamespaces('common')(
         shownURL = shownURL + `order=${this.state.priceSort}&`;
       }
 
-      axios
-        .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9` + queryString)
-        .then(response => {
-          // update URL
-          const href = `/search-results?${shownURL}start=${page}`;
-          const as = href;
-          Router.push(href, as, { shallow: true });
-          if (response.data.success) {
-            console.log(response.data.items[0]);
-            const results = response.data.items.map((value, index) => ({
-              key: value.index,
-              id: value.id,
-              avg_price_per_day: value.avg_price_per_day,
-              body_style: value.body_style,
-              cancellation_policy: value.cancellation_policy,
-              capacity: value.capacity,
-              car: value.car,
-              color: value.color,
-              deliver_at_renters_place: value.deliver_at_renters_place,
-              description: value.description,
-              extra_km_price: value.extra_km_price,
-              location: value.location,
-              max_km_per_day: value.max_km_per_day,
-              media_set: value.media_set,
-              mileage_range: value.mileage_range,
-              min_days_to_rent: value.min_days_to_rent,
-              no_of_days: value.no_of_days,
-              owner: value.owner,
-              total_price: value.total_price,
-              transmission_type: value.transmission_type,
-              year: value.year,
-            }));
-            if (results === undefined || results.length == 0) {
-              this.setState({ results: [], loadingResults: false, noResult: true });
+      if (page == 0) {
+        axios
+          .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9` + queryString)
+          .then(response => {
+            // update URL
+            const href = `/search-results?${shownURL}start=${page}`;
+            const as = href;
+            Router.push(href, as, { shallow: true });
+            if (response.data.success) {
+              console.log(response.data.result_key);
+              const results = response.data.items.map((value, index) => ({
+                key: value.index,
+                id: value.id,
+                avg_price_per_day: value.avg_price_per_day,
+                body_style: value.body_style,
+                cancellation_policy: value.cancellation_policy,
+                capacity: value.capacity,
+                car: value.car,
+                color: value.color,
+                deliver_at_renters_place: value.deliver_at_renters_place,
+                description: value.description,
+                extra_km_price: value.extra_km_price,
+                location: value.location,
+                max_km_per_day: value.max_km_per_day,
+                media_set: value.media_set,
+                mileage_range: value.mileage_range,
+                min_days_to_rent: value.min_days_to_rent,
+                no_of_days: value.no_of_days,
+                owner: value.owner,
+                total_price: value.total_price,
+                transmission_type: value.transmission_type,
+                year: value.year,
+              }));
+              if (results === undefined || results.length == 0) {
+                this.setState({ results: [], loadingResults: false, noResult: true });
+              }
+              else {
+                this.setState({
+                  results, loadingResults: false, noResult: false,
+                  latest_result_key: response.data.result_key
+                });
+              }
             }
-            else {
-              this.setState({ results, loadingResults: false, noResult: false });
+          })
+          .catch(error => {
+            console.error(error);
+            this.setState({ error: error, success: false });
+          });
+      } else if (this.state.latest_result_key) {
+        console.log("here we go again...!");
+        axios
+          .get('https://otoli.net'
+            + `/core/rental-car/search-for-rent/list?start=${page * 9}&limit=9&result_key=`
+            + this.state.latest_result_key)
+          .then(response => {
+            // update URL
+            const href = `/search-results?${shownURL}start=${page}`;
+            const as = href;
+            Router.push(href, as, { shallow: true });
+            if (response.data.success) {
+              console.log(response.data.result_key);
+              const results = response.data.items.map((value, index) => ({
+                key: value.index,
+                id: value.id,
+                avg_price_per_day: value.avg_price_per_day,
+                body_style: value.body_style,
+                cancellation_policy: value.cancellation_policy,
+                capacity: value.capacity,
+                car: value.car,
+                color: value.color,
+                deliver_at_renters_place: value.deliver_at_renters_place,
+                description: value.description,
+                extra_km_price: value.extra_km_price,
+                location: value.location,
+                max_km_per_day: value.max_km_per_day,
+                media_set: value.media_set,
+                mileage_range: value.mileage_range,
+                min_days_to_rent: value.min_days_to_rent,
+                no_of_days: value.no_of_days,
+                owner: value.owner,
+                total_price: value.total_price,
+                transmission_type: value.transmission_type,
+                year: value.year,
+              }));
+              if (results === undefined || results.length == 0) {
+                this.setState({ results: [], loadingResults: false, noResult: true });
+              }
+              else {
+                this.setState({ results, loadingResults: false, noResult: false });
+              }
             }
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          this.setState({ error: error, success: false });
-        });
+          })
+          .catch(error => {
+            console.error(error);
+            this.setState({ error: error, success: false });
+          });
+      }
     }
 
 
@@ -392,7 +455,8 @@ export default withRouter(withNamespaces('common')(
         price,
         carBodyType,
         priceSort,
-        noResult } = this.state;
+        noResult,
+        latest_result_key } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -430,7 +494,14 @@ export default withRouter(withNamespaces('common')(
               deliverAtRentersPlace={deliverAtRentersPlace}
               toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
             />
-            <ResultsCards t={t} results={results} loadingResults={loadingResults} noResult={noResult} />
+            <ResultsCards
+              t={t}
+              nextPage={this.nextPage}
+              results={results}
+              loadingResults={loadingResults}
+              noResult={noResult}
+              showMore={(latest_result_key != null)}
+            />
           </div>
         </Layout>
       );

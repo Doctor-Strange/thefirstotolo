@@ -43,7 +43,9 @@ export class ResultsCards extends React.Component<{
     t?: any;
     results?: any;
     loadingResults: boolean;
+    showMore: boolean;
     noResult: boolean;
+    nextPage: any;
 }> {
     state = {
         error: '',
@@ -54,7 +56,7 @@ export class ResultsCards extends React.Component<{
     }
 
     render() {
-        const { t, results, loadingResults, noResult } = this.props;
+        const { t, results, loadingResults, noResult, showMore, nextPage } = this.props;
         return (
             <>
                 <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35 carcards_section">
@@ -97,11 +99,11 @@ export class ResultsCards extends React.Component<{
                            </span>
                         ) : <></>
                     }
-
+                    {(showMore === true) ? (
+                        <p className="text-center" style={{ width: '100%', marginTop: '20px'}}>
+                            <a href="#0" className="btn_1 rounded add_top_30" onClick={() => { nextPage() }}>بیشتر بارگذاری کن</a>
+                        </p>) : (<> </>)}
                 </Section>
-                {/* <p className="text-center">
-                    <a href="#0" className="btn_1 rounded add_top_30">Load more</a>
-                </p> */}
             </>
         )
     }
