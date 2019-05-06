@@ -1494,6 +1494,14 @@ a#filters_col_bt {
     }
   }
 }
+
+label.dv-star-rating-star {
+    float: left !important;
+}
+.dv-star-rating {
+    top: -10px;
+    right: -7px;
+}
 `;
 
 const lightTheme = {

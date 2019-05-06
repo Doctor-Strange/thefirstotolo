@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
+import StarRatingComponent from 'react-star-rating-component';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 
 const Card = styled.div`
@@ -227,7 +228,15 @@ export const CarCard: React.FunctionComponent<{
     <div className="wrapper row">
       <div className="col-8">
         <h3>
-          <a href={`/car?id=${id}`}>{title}<br /><small>{year}</small></a>
+          <a href={`/car?id=${id}`}>
+            {title}<br />
+            <small>{year}</small><br />
+            <StarRatingComponent 
+              name="rate1" 
+              starCount={5}
+              value={3}
+            />
+          </a>
         </h3>
       </div>
       <div className="col-4 price">
