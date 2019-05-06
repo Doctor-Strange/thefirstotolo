@@ -278,7 +278,7 @@ export class FilterAndSortBar extends React.Component<{
                     <div className="rangeclass">
                       <Nouislider
                         range={{ min: 0, max: 2000000 }}
-                        start={[0, 2000000]}
+                        start={price}
                         margin={100000}
                         connect
                         direction={'rtl'}
@@ -475,17 +475,23 @@ export class FilterAndSortBar extends React.Component<{
                 <div className="filter_type">
                   <h6>قیمت</h6>
                   <div className="rangeclass">
-                    {/* <InputRange
-                      maxValue={1000000}
-                      minValue={0}
-                      step={10000}
-                      formatLabel={value => `${convertNumbers2Persian(
-                        numberWithCommas(value)
-                      )} تومان`}
-                      value={price}
-                      onChange={price => setPrice(price)}
-                    // onChangeComplete={value => console.log(value)}
-                    /> */}
+                    <Nouislider
+                      range={{ min: 0, max: 2000000 }}
+                      start={price}
+                      margin={100000}
+                      connect
+                      direction={'rtl'}
+                      onSlide={this.onSlide}
+                      step={100000}
+                    />
+                    <div className="row">
+                      <div className="col-6">
+                        از {getShortVersion(price[0]).number} {getShortVersion(price[0]).unit} تومان
+                        </div>
+                      <div className="col-6">
+                        تا {getShortVersion(price[1]).number} {getShortVersion(price[1]).unit} تومان
+                        </div>
+                    </div>
                   </div>
                   <br /><br />
                   <ul>
