@@ -116,44 +116,53 @@ export default withRouter(withNamespaces('common')(
     }
 
     setBrandAndGetModels(brandID, brandName) {
-      this.setState({ brand: brandID,modelLoading: true, loadingResults: true }, () => {
-        this.renderResults();
-      });
-      axios
-        .post('https://otoli.net' + '/core/car/list?brand_id=' + brandID)
-        .then(response => {
-          if (
-            response.data.success &&
-            Object.keys(response.data.items).length >= 1
-          ) {
-            const modelsFarsi = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: `${value.name.fa} - ${value.name.en}`,
-              value: value.id
-            }));
-            const modelsEnglish = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: value.name.en,
-              value: value.id
-            }));
-            this.setState({ modelsFarsi, modelsEnglish, model: null, modelLoading: false });
-          } else {
-            this.setState({
-              model: null,
-              modelLoading: false,
-              modelsEnglish: [{ text: 'All Models', value: 0 }],
-              modelsFarsi: [{ text: 'تمام مدل‌ها', value: 0 }]
-            });
-          }
-        })
-        .catch(error => {
-          // tslint:disable-next-line:no-console
-          console.error(error);
-          this.setState({ error: error, success: false });
-        })
+      if (brandID === "") {
+        this.setState({ brand: null, model: null, modelLoading: false, loadingResults: true }, () => {
+          this.renderResults();
+        });
+      } else {
+        this.setState({ brand: brandID, modelLoading: true, loadingResults: true }, () => {
+          this.renderResults();
+        });
+        axios
+          .post('https://otoli.net' + '/core/car/list?brand_id=' + brandID)
+          .then(response => {
+            if (
+              response.data.success &&
+              Object.keys(response.data.items).length >= 1
+            ) {
+              const modelsFarsi = response.data.items.map((value, index) => ({
+                key: value.id,
+                text: `${value.name.fa} - ${value.name.en}`,
+                value: value.id
+              }));
+              const modelsEnglish = response.data.items.map((value, index) => ({
+                key: value.id,
+                text: value.name.en,
+                value: value.id
+              }));
+              this.setState({ modelsFarsi, modelsEnglish, model: null, modelLoading: false });
+            } else {
+              this.setState({
+                model: null,
+                modelLoading: false,
+                modelsEnglish: [{ text: 'All Models', value: 0 }],
+                modelsFarsi: [{ text: 'تمام مدل‌ها', value: 0 }]
+              });
+            }
+          })
+          .catch(error => {
+            // tslint:disable-next-line:no-console
+            console.error(error);
+            this.setState({ error: error, success: false });
+          })
+      }
     }
 
     setModel(modelID, modelName) {
+      if (modelID === "") {
+        modelID = null;
+      }
       this.setState({ model: modelID, loadingResults: true }, () => {
         this.renderResults();
       });
