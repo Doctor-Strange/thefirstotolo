@@ -113,23 +113,47 @@ export class SearchBar extends React.Component<{
     }
     if (!cityName) {
       loadingCity = true;
-      text = `نتیجه برای جست‌وجو در `;
-    } else {
-      text = `نتیجه برای جست‌وجو در ${cityName}`;
     }
     const textDate = ` از تاریخ ${convertNumbers2Persian(start)} تا ${convertNumbers2Persian(end)}`;
     return (
       <SearchResult id="results">
         <div className="container">
           <Flex justifyContent="space-around" className="row hide_on_mobile">
-            <Box width={3 / 12} px={2}>
-              <h4>
-                <strong>{convertNumbers2Persian(count)}</strong> نتیجه برای جست‌وجو
+            <Box width={12 / 12} px={2}>
+              <h4 style={{ fontSize: '19px', textAlign: 'center' }}>
+                <strong> {convertNumbers2Persian(count)} </strong>
+                {text}
+                <Dropdown
+                  inline
+                  name="carCity"
+                  id="carCity"
+                  options={
+                    i18n.language === 'en'
+                      ? citiesEnglish
+                      : citiesFarsi
+                  }
+                  loading={citiesFarsi[0].value == null}
+                  value={city}
+                  onChange={(e, data) => {
+                    console.log(data);
+                    if (data && data.name) {
+                      citiesFarsi.map((value, index) => {
+                        if (value.value == data.value) {
+                          setCity(data.value, value.text);
+                        }
+                      });
+                      
+                      // setFieldValue(data.name, data.value);
+                    }
+                  }}
+                />
+                {/* {loadingCity ? <Icon loading name='spinner' /> : ""} */}
+                {textDate ? textDate : ""}
               </h4>
             </Box>
-            <Box width={9 / 12} px={2}>
+            {/* <Box width={9 / 12} px={2}>
               <Form>
-                {/* <a href="#0" className="side_panel btn_search_mobile" /> */}
+                {/* <a href="#0" className="side_panel btn_search_mobile" /> * /}
                 <Flex
                   justifyContent="space-around"
                   flexDirection="row"
@@ -207,12 +231,12 @@ export class SearchBar extends React.Component<{
                   </Box>
                 </Flex>
               </Form>
-            </Box>
+            </Box> */}
           </Flex>
           <div className="hide_on_desktop">
             <h4>
               <strong>{convertNumbers2Persian(count)}</strong> {text}
-              {loadingCity ? <Icon loading name='spinner' /> : ""} <br /> {textDate ? textDate : ""}
+              {loadingCity ? <Icon loading name='spinner' /> : cityName} <br /> {textDate ? textDate : ""}
             </h4>
           </div>
         </div>
