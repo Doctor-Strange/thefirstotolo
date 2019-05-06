@@ -31,7 +31,7 @@ function getShortVersion(num) {
   let unit;
   if (num <= 999) {
     number = num;
-    unit = 'مفت';
+    unit = '';
   } else if (num >= 1000 && num <= 999999) {
     number = num / 1000.0;
     unit = 'هزار';

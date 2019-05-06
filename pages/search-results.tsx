@@ -30,10 +30,7 @@ export default withRouter(withNamespaces('common')(
       citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
       startDate: moment(),
       endDate: moment(),
-      price: {
-        max: 1000000,
-        min: 0
-      },
+      price: [0, 2000000],
       priceSort: "price",
       focusedInput: null,
       brand: null,
@@ -190,7 +187,7 @@ export default withRouter(withNamespaces('common')(
         }
         if (min_price && max_price) {
           this.setState({
-            price: { min: min_price, max: max_price }
+            price: [min_price, max_price]
           });
         }
         if (deliver) {
@@ -311,8 +308,8 @@ export default withRouter(withNamespaces('common')(
         shownURL = shownURL + `deliver=1&`;
       }
       if (this.state.price) {
-        queryString = queryString + `min_price=${this.state.price.min}&max_price=${this.state.price.max}&`;
-        shownURL = shownURL + `min_price=${this.state.price.min}&max_price=${this.state.price.max}&`;
+        queryString = queryString + `min_price=${this.state.price[0]}&max_price=${this.state.price[1]}&`;
+        shownURL = shownURL + `min_price=${this.state.price[0]}&max_price=${this.state.price[1]}&`;
       }
       if (this.state.carBodyType) {
         queryString = queryString + `body_style_id=${this.state.carBodyType.join()}&`;

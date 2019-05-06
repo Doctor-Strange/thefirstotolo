@@ -14,7 +14,7 @@ import {
   TextArea,
   Transition
 } from 'semantic-ui-react';
-import InputRange from 'react-input-range';
+import Nouislider from "nouislider-react";
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 import jsCookie from 'js-cookie';
@@ -30,7 +30,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 import { Box, Flex } from '@rebass/grid';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 
 const FilterAndSort = styled.div`
     width: 100vw;
@@ -200,6 +200,9 @@ export class FilterAndSortBar extends React.Component<{
     super(props);
   }
 
+  onSlide = (render, handle, value, un, percent) => {
+    this.props.setPrice(value);
+  };
 
   render() {
     const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace, price, priceSort,
@@ -273,17 +276,23 @@ export class FilterAndSortBar extends React.Component<{
                   <div className="col-12">
                     <h6>قیمت</h6>
                     <div className="rangeclass">
-                      <InputRange
-                        maxValue={1000000}
-                        minValue={0}
-                        step={10000}
-                        formatLabel={value => `${convertNumbers2Persian(
-                          numberWithCommas(value)
-                        )} تومان`}
-                        value={price}
-                        onChange={price => setPrice(price)}
-                      // onChangeComplete={value => console.log(value)}
+                      <Nouislider
+                        range={{ min: 0, max: 2000000 }}
+                        start={[0, 2000000]}
+                        margin={100000}
+                        connect
+                        direction={'rtl'}
+                        onSlide={this.onSlide}
+                        step={100000}
                       />
+                      <div className="row">
+                        <div className="col-6">
+                          از {getShortVersion(price[0]).number} {getShortVersion(price[0]).unit} تومان
+                        </div>
+                        <div className="col-6">
+                          تا {getShortVersion(price[1]).number} {getShortVersion(price[1]).unit} تومان
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -466,7 +475,7 @@ export class FilterAndSortBar extends React.Component<{
                 <div className="filter_type">
                   <h6>قیمت</h6>
                   <div className="rangeclass">
-                    <InputRange
+                    {/* <InputRange
                       maxValue={1000000}
                       minValue={0}
                       step={10000}
@@ -476,7 +485,7 @@ export class FilterAndSortBar extends React.Component<{
                       value={price}
                       onChange={price => setPrice(price)}
                     // onChangeComplete={value => console.log(value)}
-                    />
+                    /> */}
                   </div>
                   <br /><br />
                   <ul>
