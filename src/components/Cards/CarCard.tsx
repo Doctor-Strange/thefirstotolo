@@ -1,9 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 
 const Card = styled.div`
+  max-height: 300px;
   min-width: 300px;
   width: 340px;
   max-width: 100%;
@@ -13,8 +14,12 @@ const Card = styled.div`
   position: relative;
   margin-bottom: 30px;
   border-radius: 3px;
-  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px -1px 11px 3px #0000000f;
   margin: 10px auto;
+  @media (max-width: 768px){
+    width: 97vw;
+    max-width: 400px;
+  }
   .img-fluid {
     max-width: 100%;
     height: auto;
@@ -85,7 +90,7 @@ const Card = styled.div`
     border-radius: 3px;
   }
   .wrapper {
-    padding: 20px 25px 15px 25px;
+    padding: 20px 25px 30px 25px;
     h3 {
       font-size: 20px;
       font-size: 1.25rem;
@@ -109,13 +114,14 @@ const Card = styled.div`
     }
   }
   ul {
-    padding: 10px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
     padding-bottom: 0px;
-    margin-bottom: 10px;
-    border-top: 1px solid #ededed;
+    margin-bottom: 15px;
+    position: absolute;
+    bottom: -5px;
     li {
       display: inline-block;
-      margin-right: 15px;
+      margin-right: 10px;
       .score {
         margin-top: -10px;
         span {
@@ -160,6 +166,39 @@ const Card = styled.div`
     line-height: 1;
     border-radius: 3px;
   }
+  .price{
+    left: 20px;
+    box-shadow: 5px -4px 6px 0px #0000000a;
+    text-align: center;
+    top: 185px;
+    border-radius: 5px;
+    background: white;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    padding: 5px;
+    .number{
+      font-size: 30px;
+      height: 34px;
+      line-height: 43px;
+      display: block;
+      width: 65px;
+      margin: 0 auto;
+      font-weight: 500;
+    }
+    .unit{
+      padding: 0px;
+      display: block;
+      .strong{
+        font-size: 14px;
+        display: block;
+        font-weight: 400;
+      }
+    }
+  }
+  .col-8{
+    top: -8px;
+  }
 `;
 
 export const CarCard: React.FunctionComponent<{
@@ -174,9 +213,9 @@ export const CarCard: React.FunctionComponent<{
 }> = ({ children, title, img, description, year, score, price, deliver_at_renters_place, id }) => (
   <Card className="strip grid carcard">
     <figure>
-      <a href="#0" className="wish_bt" >
-        میانگین {convertNumbers2Persian(numberWithCommas(price))} تومان در روز
-      </a>
+      {/* <a href="#0" className="wish_bt" >
+        
+      </a> */}
       <a href={`/car?id=${id}`}>
         <img src={img} className="img-fluid" alt="" />
         <div className="read_more">
@@ -185,35 +224,41 @@ export const CarCard: React.FunctionComponent<{
       </a>
       {/* <small>Restaurant</small> */}
     </figure>
-    <div className="wrapper">
-      <h3>
-        <a href={`/car?id=${id}`}>{title} <small>{year}</small></a>
-      </h3>
+    <div className="wrapper row">
+      <div className="col-8">
+        <h3>
+          <a href={`/car?id=${id}`}>{title}<br /><small>{year}</small></a>
+        </h3>
+      </div>
+      <div className="col-4 price">
+        <span className="number">{convertNumbers2Persian(getShortVersion(540000/*price*/).number)} </span>
+        <span className="unit"><span className="strong">{getShortVersion(540000/*price*/).unit} تومان</span><span>در روز</span></span>
+      </div>
       {/* <small>{text2}</small> */}
       {/* <p>{description}</p> */}
       {/* <a className="address" href={`/car?id=${id}`}>
         Get directions
       </a> */}
+      <ul>
+        {deliver_at_renters_place ?
+          (
+            <li>
+              <span className="loc_open">تحویل در محل</span>
+            </li>
+          ) : (<li></li>)
+        }
+        {/*<li>
+          <span className="loc_closed">Now Closed</span>
+        </li> */}
+        {/* <li>
+          <div className="score">
+            <span>
+              Superb<em>350 Reviews</em>
+            </span>
+            <strong>{score}</strong>
+          </div>
+        </li> */}
+      </ul>
     </div>
-    <ul>
-      {deliver_at_renters_place ?
-        (
-          <li>
-            <span className="loc_open">تحویل در محل</span>
-          </li>
-        ) : (<li></li>)
-      }
-      {/*<li>
-        <span className="loc_closed">Now Closed</span>
-      </li> */}
-      {/* <li>
-        <div className="score">
-          <span>
-            Superb<em>350 Reviews</em>
-          </span>
-          <strong>{score}</strong>
-        </div>
-      </li> */}
-    </ul>
   </Card>
 );

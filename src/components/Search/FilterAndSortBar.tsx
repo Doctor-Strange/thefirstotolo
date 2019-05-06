@@ -152,12 +152,12 @@ const FiltersDiv = styled.div`
       font-size: 1rem;
       text-align: right
   }
-  ul li small {
+  /* ul li small {
     font-weight: 600;
     float: left;
     position: relative;
     top: 4px;
-  }
+  } */
   
   /* &:not(.show) {
     display: none;
@@ -268,10 +268,45 @@ export class FilterAndSortBar extends React.Component<{
           </FilterAndSort>
           <Transition visible={showFilters} duration={300}>
             <FiltersDiv className="collapse" id="filters">
-              <div className="container margin_30_5">
+              <div className="container margin_30">
                 <div className="row">
-                  <div className="col-md-2">
-                    <h6>نوع شاسی</h6>
+                  <div className="col-12">
+                    <h6>قیمت</h6>
+                    <div className="rangeclass">
+                      <InputRange
+                        maxValue={1000000}
+                        minValue={0}
+                        step={10000}
+                        formatLabel={value => `${convertNumbers2Persian(
+                          numberWithCommas(value)
+                        )} تومان`}
+                        value={price}
+                        onChange={price => setPrice(price)}
+                      // onChangeComplete={value => console.log(value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row margin_30_5">
+                  <div className="col-12">
+                    <h6>تحویل در محل</h6>
+                    <ul>
+                      <li>
+                        <label className="container_check"> تحویل در محل <small>12</small>
+                          <input
+                            onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
+                            type="checkbox"
+                            checked={deliverAtRentersPlace}
+                          />
+                          <span className="checkmark" />
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="row">
+                  <h6 style={{ width: '100%', paddingRight: '15px', paddingLeft: '15px', paddingBottom: '0px', margin: '0 0 .48571429rem 0' }}>نوع شاسی</h6>
+                  <div className="col-6">
                     <ul>
                       <li>
                         <label
@@ -297,7 +332,7 @@ export class FilterAndSortBar extends React.Component<{
                       </li>
                       <li>
                         <label className="container_check"
-                        >شاسی‌بلند<small>78</small>
+                        > شاسی‌بلند <small>78</small>
                           <input onClick={(e) => { toggleToCarBodyType(2) }}
                             type="checkbox" />
                           <span className="checkmark"></span>
@@ -305,7 +340,7 @@ export class FilterAndSortBar extends React.Component<{
                       </li>
                       <li>
                         <label className="container_check"
-                        >کراس‌اور<small>78</small>
+                        > کراس‌اور <small>78</small>
                           <input onClick={(e) => { toggleToCarBodyType(8) }}
                             type="checkbox" />
                           <span className="checkmark"></span>
@@ -314,41 +349,42 @@ export class FilterAndSortBar extends React.Component<{
 
                     </ul>
                   </div>
-                  <div className="col-md-2" style={{ marginTop: '30px' }}>
+                  <div className="col-6" >
                     <ul>
                       <li>
                         <label className="container_check"
 
-                        >کروک<small>78</small>
+                        > کروک <small>78</small>
                           <input onClick={(e) => { toggleToCarBodyType(3) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        >کوپه<small>78</small>
+                        > کوپه <small>78</small>
                           <input onClick={(e) => { toggleToCarBodyType(4) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        >ون <small>78</small>
+                        > ون <small>78</small>
                           <input onClick={(e) => { toggleToCarBodyType(5) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        >وانت<small>78</small>
+                        > وانت <small>78</small>
                           <input onClick={(e) => { toggleToCarBodyType(6) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                     </ul>
                   </div>
-                  <div className="col-md-3">
-
+                </div>
+                <div className="row">
+                  <div className="col-12">
                     <Form.Dropdown
                       name="carBrand"
                       id="carBrand"
@@ -386,7 +422,7 @@ export class FilterAndSortBar extends React.Component<{
                       // label={t('carProperty.model')}
                       selection
                       clearable
-                      loading={modelLoading}
+                      loading={modelLoading && !(brand == null || brand == "")}
                       disabled={brand == null || brand == ""}
                       options={
                         i18n.language === 'en'
@@ -409,38 +445,6 @@ export class FilterAndSortBar extends React.Component<{
                       value={model}
                     />
                   </div>
-                  <div className="col-md-4">
-                    <div className="margin_30">
-                      <h6>قیمت</h6>
-                      <div className="rangeclass">
-                        <InputRange
-                          maxValue={1000000}
-                          minValue={0}
-                          step={10000}
-                          formatLabel={value => `${convertNumbers2Persian(
-                            numberWithCommas(value)
-                          )} تومان`}
-                          value={price}
-                          onChange={price => setPrice(price)}
-                        // onChangeComplete={value => console.log(value)}
-                        />
-                      </div>
-                      <br /><br />
-                      <ul>
-                        <li>
-                          <label className="container_check">تحویل در محل<small>12</small>
-                            <input
-                              onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
-                              type="checkbox"
-                              checked={deliverAtRentersPlace}
-                            />
-                            <span className="checkmark" />
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-
-                  </div>
                 </div>
               </div>
             </FiltersDiv>
@@ -459,6 +463,35 @@ export class FilterAndSortBar extends React.Component<{
               >گزینه‌ها
           </a>
               <div className="collapse show" id="collapseFilters">
+                <div className="filter_type">
+                  <h6>قیمت</h6>
+                  <div className="rangeclass">
+                    <InputRange
+                      maxValue={1000000}
+                      minValue={0}
+                      step={10000}
+                      formatLabel={value => `${convertNumbers2Persian(
+                        numberWithCommas(value)
+                      )} تومان`}
+                      value={price}
+                      onChange={price => setPrice(price)}
+                    // onChangeComplete={value => console.log(value)}
+                    />
+                  </div>
+                  <br /><br />
+                  <ul>
+                    <li>
+                      <label className="container_check">تحویل در محل<small>12</small>
+                        <input
+                          onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
+                          type="checkbox"
+                          checked={deliverAtRentersPlace}
+                        />
+                        <span className="checkmark" />
+                      </label>
+                    </li>
+                  </ul>
+                </div>
                 <div className="filter_type">
                   <h6>نوع شاسی</h6>
                   <ul>
@@ -570,7 +603,7 @@ export class FilterAndSortBar extends React.Component<{
                     // label={t('carProperty.model')}
                     selection
                     clearable
-                    loading={brand != null && modelLoading}
+                    loading={modelLoading && !(brand == null || brand == "")}
                     disabled={!brand}
                     options={
                       i18n.language === 'en'
@@ -592,35 +625,6 @@ export class FilterAndSortBar extends React.Component<{
                     // defaultValue={model[0].value}
                     value={model}
                   />
-                </div>
-                <div className="filter_type">
-                  <h6>قیمت</h6>
-                  <div className="rangeclass">
-                    <InputRange
-                      maxValue={1000000}
-                      minValue={0}
-                      step={10000}
-                      formatLabel={value => `${convertNumbers2Persian(
-                        numberWithCommas(value)
-                      )} تومان`}
-                      value={price}
-                      onChange={price => setPrice(price)}
-                    // onChangeComplete={value => console.log(value)}
-                    />
-                  </div>
-                  <br /><br />
-                  <ul>
-                    <li>
-                      <label className="container_check">تحویل در محل<small>12</small>
-                        <input
-                          onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
-                          type="checkbox"
-                          checked={deliverAtRentersPlace}
-                        />
-                        <span className="checkmark" />
-                      </label>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>

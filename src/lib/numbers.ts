@@ -15,6 +15,7 @@ function convertNumbers2Persian(num) {
     return num;
   }
 }
+
 function convertNumbers2English(string) {
   return string
     .replace(/[\u0660-\u0669]/g, c => {
@@ -25,4 +26,25 @@ function convertNumbers2English(string) {
     });
 }
 
-export { numberWithCommas, convertNumbers2Persian, convertNumbers2English };
+function getShortVersion(num) {
+  let number;
+  let unit;
+  if (num <= 999) {
+    number = num;
+    unit = 'مفت';
+  } else if (num >= 1000 && num <= 999999) {
+    number = num / 1000.0;
+    unit = 'هزار';
+  } else if (num >= 1000000 && num <= 999999999) {
+    number = num / 1000000.0;
+    unit = 'ملیون';
+  }
+  return { number, unit };
+}
+
+export {
+  numberWithCommas,
+  convertNumbers2Persian,
+  convertNumbers2English,
+  getShortVersion
+};

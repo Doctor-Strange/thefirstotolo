@@ -57,7 +57,7 @@ export class ResultsCards extends React.Component<{
         const { t, results, loadingResults, noResult } = this.props;
         return (
             <>
-                <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35">
+                <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35 carcards_section">
                     {(loadingResults === true) ?
                         (
                             <>

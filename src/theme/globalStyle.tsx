@@ -168,6 +168,7 @@ const GlobalStyle = createGlobalStyle`
       display:none;
     }
   }
+  
 
   .row {
     display: flex;
@@ -193,8 +194,18 @@ const GlobalStyle = createGlobalStyle`
     }
      @media (min-width: 1200px){
       .carcard{
-        width: 350px;
+        width: 380px;
       }
+    }
+  }
+  @media (max-width: 768px){
+    .carcards_section{
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+    }
+    .carcard {
+      width: 97vw !important;
+      max-width: 400px !important;
     }
   }
 
@@ -1434,6 +1445,9 @@ div#filters{
 }
 
 #filters_col {
+  margin-top: 10px;
+  box-shadow: 1px -1px 11px 3px #0000000f;
+  width: 260px;
   background-color: #fff;
   padding: 20px 20px 15px 20px;
   margin-bottom: 25px;
