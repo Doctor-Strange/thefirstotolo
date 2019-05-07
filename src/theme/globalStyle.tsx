@@ -705,6 +705,16 @@ const GlobalStyle = createGlobalStyle`
       padding-top: 16px;
       padding-bottom: 16px;
     }
+    .wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column !important;
+      .indexFullOnMobile{
+        width:100%;
+        margin: 0 auto;
+        margin-bottom:10px;
+      }
+    }
 }
 
 @media (max-width: 991px) {
@@ -1304,12 +1314,12 @@ input[type="email"] {
     }
   }
   ul.counter {
-    margin: 30px 0 0 0;
+    margin: 10px 0 0 0;
     padding: 0;
     text-align: center;
-    @media (max-width: 767px) {
+    /* @media (max-width: 767px) {
         display: none;
-    }
+    } */
     li {
       padding: 0  10px;
       display: inline-block;

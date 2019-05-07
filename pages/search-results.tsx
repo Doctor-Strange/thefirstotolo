@@ -23,7 +23,7 @@ export default withRouter(withNamespaces('common')(
     state = {
       token: '',
       error: '',
-      city: null,
+      city: 1,
       cityname: null,
       showFilters: false,
       citiesFarsi: [{ text: 'کمی صبر کنید...', value: null }],
@@ -82,7 +82,7 @@ export default withRouter(withNamespaces('common')(
     }
 
     nextPage() {
-      console.log("nextpage is ",this.state.page + 1);
+      console.log("nextpage is ", this.state.page + 1);
       this.setState({ loadingResults: true }, () => {
         this.renderResults(this.state.page + 1);
       });

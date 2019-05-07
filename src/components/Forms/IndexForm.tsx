@@ -47,7 +47,7 @@ function numberWithCommas(x) {
 function convertNumbers2Persian(num) {
   if (num !== null) {
     const id = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return num.toString().replace(/[0-9]/g, function(w) {
+    return num.toString().replace(/[0-9]/g, function (w) {
       return id[+w];
     });
   } else {
@@ -56,10 +56,10 @@ function convertNumbers2Persian(num) {
 }
 function convertNumbers2English(string) {
   return string
-    .replace(/[\u0660-\u0669]/g, function(c) {
+    .replace(/[\u0660-\u0669]/g, function (c) {
       return c.charCodeAt(0) - 0x0660;
     })
-    .replace(/[\u06f0-\u06f9]/g, function(c) {
+    .replace(/[\u06f0-\u06f9]/g, function (c) {
       return c.charCodeAt(0) - 0x06f0;
     });
 }
@@ -159,8 +159,32 @@ export default withNamespaces('common')(
             actions: FormikActions<IIndexFormValues>
           ) => {
             actions.setSubmitting(true);
-            this.setState({ error: '' });
-            console.log(values);
+            let queryString = '';
+            let shownURL = '';
+            if (values.carCity) {
+              queryString = queryString + `location_id=${values.carCity}&`;
+              shownURL = shownURL + `city=${values.carCity}&`;
+            }
+            if (this.state.startDate && this.state.endDate) {
+              queryString = queryString + `start_date=${
+                moment(this.state.startDate).format('jYYYY/jMM/jDD')
+                }&end_date=${
+                moment(this.state.endDate).format('jYYYY/jMM/jDD')
+                }&`;
+              shownURL = shownURL + `start=${
+                moment(this.state.startDate).format('jYYYY/jMM/jDD')
+                }&end=${
+                moment(this.state.endDate).format('jYYYY/jMM/jDD')
+                }&`;
+            }
+            const href = `/search-results?${shownURL}`;
+            const as = href;
+            Router.push(href, as, { shallow: true })
+              .then(response => {
+                this.setState({ error: '' });
+                actions.setSubmitting(false);
+              });
+
           }}
           validationSchema={Yup.object().shape({})}
         >
@@ -189,7 +213,7 @@ export default withNamespaces('common')(
                       margin: '0 auto'
                     }}
                   >
-                    <Box width={4 / 12}>
+                    <Box className="indexFullOnMobile" width={[4 / 12, 1, 1]}>
                       <Form.Dropdown
                         name="carCity"
                         id="carCity"
@@ -217,7 +241,7 @@ export default withNamespaces('common')(
                         value={values.carCity}
                       />
                     </Box>
-                    <Box width={6 / 12}>
+                    <Box className="indexFullOnMobile" width={[6 / 12, 1, 1]} style={{ minWidth: '300px' }}>
                       <DateRangePicker
                         isRTL
                         startDate={this.state.startDate}
@@ -242,7 +266,7 @@ export default withNamespaces('common')(
                         renderDayContents={day => moment(day).format('jD')}
                       />
                     </Box>
-                    <Box width={2 / 12}>
+                    <Box className="indexFullOnMobile" width={[2 / 12, 1, 1]}>
                       <Form.Field
                         style={{ textAlign: 'center', fontSize: '0.8em' }}
                       >
