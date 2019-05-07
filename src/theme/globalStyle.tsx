@@ -1455,7 +1455,7 @@ div#filters{
 }
 
 .noUi-horizontal {
-  height: 8px;
+  height: 8px !important;
   border: 1px solid #00000024;
   background: none !important;
 }
@@ -1464,8 +1464,8 @@ div#filters{
   top: -8px !important;
   width: 25px !important;
   height: 25px !important;
-  border-radius: 50%;
-  box-shadow: none;
+  border-radius: 50% !important;
+  box-shadow: none !important;
 }
 .noUi-handle:before, .noUi-handle:after {
     content: none !important;
@@ -1576,6 +1576,7 @@ label.dv-star-rating-star {
   -webkit-transform-style: preserve-3d;
   transform-origin: 0 0;
   transform-style: flat;
+  background: #00ACC1 !important;
 }
 /* Offset direction
  */
@@ -1750,11 +1751,9 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   width: 100%;
 }
 .noUi-value-horizontal {
-  -webkit-transform: translate(-50%, 50%);
   transform: translate(-50%, 50%);
 }
 .noUi-rtl .noUi-value-horizontal {
-  -webkit-transform: translate(50%, 50%);
   transform: translate(50%, 50%);
 }
 .noUi-marker-horizontal.noUi-marker {
@@ -1778,12 +1777,10 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   left: 100%;
 }
 .noUi-value-vertical {
-  -webkit-transform: translate(0, -50%);
   transform: translate(0, -50%);
   padding-left: 25px;
 }
 .noUi-rtl .noUi-value-vertical {
-  -webkit-transform: translate(0, 50%);
   transform: translate(0, 50%);
 }
 .noUi-marker-vertical.noUi-marker {
@@ -1809,13 +1806,11 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   white-space: nowrap;
 }
 .noUi-horizontal .noUi-tooltip {
-  -webkit-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
   left: 50%;
   bottom: 120%;
 }
 .noUi-vertical .noUi-tooltip {
-  -webkit-transform: translate(0, -50%);
   transform: translate(0, -50%);
   top: 50%;
   right: 120%;
