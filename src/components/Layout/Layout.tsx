@@ -87,7 +87,7 @@ class Layout extends React.Component<{
               </Head>
               <Header
                 openMenu={this.handleShowClick}
-                headerBtn={t('h1')}
+                headerBtn={t('add_car')}
                 changeLang={this.changeLang_i18n}
               />
               {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}

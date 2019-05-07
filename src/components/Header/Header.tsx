@@ -4,6 +4,7 @@ import { Icon } from 'semantic-ui-react';
 import jsCookie from 'js-cookie';
 import { Nav } from '../Nav';
 import { Logo } from '../Logo';
+import Router from 'next/router';
 import { i18n, withNamespaces } from '../../i18n';
 import ReactModal from 'react-modal';
 import LoginModal from '../Modals/LoginModal';
@@ -299,7 +300,7 @@ class Header extends React.Component<{
                 <div className="col-lg-9 col-12">
                   <ul id="top_menu">
                     <li>
-                      <a href="/account" className="btn_add">
+                      <a onClick={() => { Router.push("/add-car", "/add-car", { shallow: true }); }} className="btn_add">
                         {this.props.headerBtn}
                       </a>
                     </li>
@@ -342,7 +343,7 @@ class Header extends React.Component<{
             <Icon name="bars" onClick={this.props.openMenu} />
             <ul id="top_menu">
               <li>
-                <a href="/account" className="btn_add">
+                <a onClick={() => { Router.push("/add-car", "/add-car", { shallow: true }); }} className="btn_add">
                   {this.props.headerBtn}
                 </a>
               </li>
