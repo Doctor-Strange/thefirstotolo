@@ -337,7 +337,7 @@ export default withRouter(withNamespaces('common')(
             // update URL
             const href = `/search-results?${shownURL}start=${page}`;
             const as = href;
-            Router.push(href, as, { shallow: true });
+            Router.replace(href, as, { shallow: true });
             if (response.data.success) {
               console.log(response.data.result_key);
               const results = response.data.items.map((value, index) => ({
