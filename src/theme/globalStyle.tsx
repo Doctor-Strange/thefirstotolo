@@ -1444,6 +1444,23 @@ div#filters{
   direction: ltr;
 }
 
+.noUi-horizontal {
+  height: 8px;
+  border: 1px solid #00000024;
+  background: none !important;
+}
+
+.noUi-handle {
+  top: -8px !important;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50%;
+  box-shadow: none;
+}
+.noUi-handle:before, .noUi-handle:after {
+    content: none !important;
+}
+
 #filters_col {
   margin-top: 10px;
   box-shadow: 1px -1px 11px 3px #0000000f;

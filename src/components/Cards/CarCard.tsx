@@ -2,7 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import StarRatingComponent from 'react-star-rating-component';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
+import { PriceCard } from './index'
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const Card = styled.div`
   max-height: 300px;
@@ -167,38 +168,13 @@ const Card = styled.div`
     line-height: 1;
     border-radius: 3px;
   }
-  .price{
-    left: 20px;
-    box-shadow: 5px -4px 6px 0px #0000000a;
-    text-align: center;
-    top: 185px;
-    border-radius: 5px;
-    background: white;
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    padding: 5px;
-    .number{
-      font-size: 30px;
-      height: 34px;
-      line-height: 43px;
-      display: block;
-      width: 65px;
-      margin: 0 auto;
-      font-weight: 500;
-    }
-    .unit{
-      padding: 0px;
-      display: block;
-      .strong{
-        font-size: 14px;
-        display: block;
-        font-weight: 400;
-      }
-    }
-  }
   .col-8{
     top: -8px;
+  }
+  .leftbox{
+    position: absolute;
+    left: -8px;
+    bottom: 48px;
   }
 `;
 
@@ -231,17 +207,18 @@ export const CarCard: React.FunctionComponent<{
           <a href={`/car?id=${id}`}>
             {title}<br />
             <small>{year}</small><br />
-            <StarRatingComponent 
-              name="rate1" 
+            <StarRatingComponent
+              name="rate1"
               starCount={5}
               value={3}
             />
           </a>
         </h3>
       </div>
-      <div className="col-4 price">
-        <span className="number">{convertNumbers2Persian(getShortVersion(540000/*price*/).number)} </span>
-        <span className="unit"><span className="strong">{getShortVersion(540000/*price*/).unit} تومان</span><span>در روز</span></span>
+      <div className="col-4 leftbox">
+        <PriceCard number={540000}>
+          در روز  
+        </PriceCard>
       </div>
       {/* <small>{text2}</small> */}
       {/* <p>{description}</p> */}

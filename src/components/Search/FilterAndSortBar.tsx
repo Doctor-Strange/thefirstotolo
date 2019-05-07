@@ -31,6 +31,7 @@ import moment from 'moment-jalaali';
 moment.loadPersian();
 import { Box, Flex } from '@rebass/grid';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
+import { PriceCard } from '../Cards'
 
 const FilterAndSort = styled.div`
     width: 100vw;
@@ -211,6 +212,8 @@ export class FilterAndSortBar extends React.Component<{
       toggleDeliverAtRentersPlace, setPrice, toggleToCarBodyType, carBodyType } = this.props;
     const { brandsEnglish, brandsFarsi } = brands;
     const { modelsEnglish, modelsFarsi } = models;
+    const az = <span style={{}}>از</span>;
+    const ta = <span style={{}}>تا</span>;
     return (
       <>
         <Form>
@@ -276,6 +279,18 @@ export class FilterAndSortBar extends React.Component<{
                   <div className="col-12">
                     <h6>قیمت</h6>
                     <div className="rangeclass">
+                    <div className="row" style={{ padding: '20px', paddingTop: '0px'}}>
+                        <div className="col-6">
+                          <PriceCard number={price[0]} preNumber={az} fontSize={25}>
+                            در روز
+                          </PriceCard>
+                        </div>
+                        <div className="col-6">
+                          <PriceCard number={price[1]} preNumber={ta} fontSize={25}>
+                            در روز
+                          </PriceCard>
+                        </div>
+                      </div>
                       <Nouislider
                         range={{ min: 0, max: 2000000 }}
                         start={price}
@@ -285,14 +300,6 @@ export class FilterAndSortBar extends React.Component<{
                         onSlide={this.onSlide}
                         step={100000}
                       />
-                      <div className="row">
-                        <div className="col-6">
-                          از {getShortVersion(price[0]).number} {getShortVersion(price[0]).unit} تومان
-                        </div>
-                        <div className="col-6">
-                          تا {getShortVersion(price[1]).number} {getShortVersion(price[1]).unit} تومان
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -470,11 +477,23 @@ export class FilterAndSortBar extends React.Component<{
                 aria-controls="collapseFilters"
                 id="filters_col_bt"
               >گزینه‌ها
-          </a>
+              </a>
               <div className="collapse show" id="collapseFilters">
                 <div className="filter_type">
                   <h6>قیمت</h6>
                   <div className="rangeclass">
+                    <div className="row" style={{ padding: '20px', paddingTop: '0px'}}>
+                      <div className="col-6">
+                        <PriceCard number={price[0]} preNumber={az} fontSize={25}>
+                          در روز
+                        </PriceCard>
+                      </div>
+                      <div className="col-6">
+                        <PriceCard number={price[1]} preNumber={ta} fontSize={25}>
+                          در روز
+                        </PriceCard>
+                      </div>
+                    </div>
                     <Nouislider
                       range={{ min: 0, max: 2000000 }}
                       start={price}
@@ -484,14 +503,6 @@ export class FilterAndSortBar extends React.Component<{
                       onSlide={this.onSlide}
                       step={100000}
                     />
-                    <div className="row">
-                      <div className="col-6">
-                        از {getShortVersion(price[0]).number} {getShortVersion(price[0]).unit} تومان
-                        </div>
-                      <div className="col-6">
-                        تا {getShortVersion(price[1]).number} {getShortVersion(price[1]).unit} تومان
-                        </div>
-                    </div>
                   </div>
                   <br /><br />
                   <ul>
