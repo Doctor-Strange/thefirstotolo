@@ -13,6 +13,7 @@ import { changeLang } from '../../redux/system';
 import { Header, SubHeader } from '../Header';
 import Footer from '../Footer';
 import Head from 'next/head';
+import Link from 'next/link';
 import { i18n, withNamespaces } from '../../i18n';
 
 class Layout extends React.Component<{
@@ -64,16 +65,28 @@ class Layout extends React.Component<{
             width="thin"
           >
             <Menu.Item as="a">
-              <Icon name="home" />
-              Home
+              <Link href="/">
+                <span>
+                  <Icon name="home" />
+                  خانه
+                </span>
+              </Link>
             </Menu.Item>
             <Menu.Item as="a">
-              <Icon name="gamepad" />
-              Games
+              <Link href="/add-car">
+                <span>
+                  <Icon name="add circle" />
+                  افزودن خودرو
+                </span>
+              </Link>
             </Menu.Item>
             <Menu.Item as="a">
-              <Icon name="camera" />
-              Channels
+              <Link href="/requests">
+                <span>
+                  <Icon name="map signs" />
+                  درخواست‌های اجاره
+                </span>
+              </Link>
             </Menu.Item>
           </Sidebar>
 
@@ -101,7 +114,7 @@ class Layout extends React.Component<{
   }
 }
 
-const mapStateToProps = ({}) => ({});
+const mapStateToProps = ({ }) => ({});
 
 export default connect(
   mapStateToProps,
