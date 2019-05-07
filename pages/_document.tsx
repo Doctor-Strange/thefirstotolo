@@ -35,7 +35,7 @@ export default class extends Document {
         <Head>
           <meta
             name="viewport"
-            content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+            content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
           />
           {/* Import CSS for nprogress */}
           <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
