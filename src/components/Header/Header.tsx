@@ -258,6 +258,11 @@ class Header extends React.Component<{
     lastName: ''
   };
 
+  constructor(props) {
+    super(props);
+    this.updateInfo = this.updateInfo.bind(this);
+  }
+
   onClick = () => {
     this.loginmodal.handleOpenModal(); // do stuff
   };
@@ -279,6 +284,10 @@ class Header extends React.Component<{
   };
 
   componentDidMount() {
+    this.updateInfo();
+  }
+
+  updateInfo() {
     this.setState({
       firstName: jsCookie.get('first_name'),
       lastName: jsCookie.get('last_name'),
@@ -369,7 +378,7 @@ class Header extends React.Component<{
           </header>
         </HeaderSticky>
 
-        <LoginModal onRef={this.doRef} />
+        <LoginModal onRef={this.doRef} updateInfo={this.updateInfo}/>
       </>
     );
   }

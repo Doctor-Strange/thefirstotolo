@@ -33,7 +33,7 @@ interface LoginModalCodeValues {
 
 export default withNamespaces('common')(
   class extends React.Component<
-    { onRef: any; t: any },
+    { onRef: any; t: any, updateInfo: any },
     {
       showIndex: number;
       prevIndex: number;
@@ -117,7 +117,7 @@ export default withNamespaces('common')(
     };
 
     render() {
-      const { t } = this.props;
+      const { t,updateInfo} = this.props;
       const theme = i18n.language == 'fa' ? rtlTheme : ltrTheme;
       return (
         <ThemeProvider
@@ -271,7 +271,7 @@ export default withNamespaces('common')(
                               cell: this.state.phone,
                               token: response.data.token,
                               go_to_pathname,
-                              go_to_queries: Object.keys(go_to_queries).map(function(k) {
+                              go_to_queries: Object.keys(go_to_queries).map(function (k) {
                                 return encodeURIComponent(k) + '=' + encodeURIComponent(go_to_queries[k])
                               }).join('&')
                             }
@@ -308,6 +308,7 @@ export default withNamespaces('common')(
                                 response.data.data.last_name
                               );
                               this.handleCloseModal();
+                              updateInfo();
                             });
                         } else {
                           // tslint:disable-next-line:no-console
