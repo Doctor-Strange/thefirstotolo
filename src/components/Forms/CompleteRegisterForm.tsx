@@ -72,6 +72,7 @@ export default withNamespaces('common')(
     strings: object;
     success: boolean;
     name: string;
+    query?: any;
   }> {
     static async getInitialProps() {
       return {
@@ -118,7 +119,7 @@ export default withNamespaces('common')(
         $birthdate
       } = this.props.strings;
       const { phone, token, error, completeRegister } = this.state;
-      const { t } = this.props;
+      const { t, query } = this.props;
       return (
         <Error404 token={completeRegister}>
           <Formik
@@ -178,13 +179,15 @@ export default withNamespaces('common')(
                     jsCookie.set('first_name', firstName);
                     jsCookie.set('last_name', lastName);
                     localStorage.removeItem('complete_register');
-                    Router.push({
-                      pathname: '/me',
-                      query: {
-                        cell: this.state.phone,
-                        token: response.data.token
-                      }
-                    });
+                    let path_to_go = '/me';
+                    console.log(query);
+                    if (query.go_to_pathname) {
+                      // fixme
+                      path_to_go = decodeURIComponent(query.go_to_pathname) + decodeURIComponent("?") + decodeURIComponent(query.go_to_queries);
+                    }
+                    Router.push(path_to_go, {
+                        pathname: path_to_go
+                      }, { shallow: true });
                   }
                 })
                 .catch(error => {
@@ -206,13 +209,13 @@ export default withNamespaces('common')(
             validationSchema={Yup.object().shape({
               firstName: Yup.string().required(
                 t('forms.error_filed_required1') +
-                  $firstname +
-                  t('forms.error_filed_required2')
+                $firstname +
+                t('forms.error_filed_required2')
               ),
               lastName: Yup.string().required(
                 t('forms.error_filed_required1') +
-                  $lastname +
-                  t('forms.error_filed_required2')
+                $lastname +
+                t('forms.error_filed_required2')
               ),
               nationalid: Yup.string()
                 .ensure() // convert undefined values to an empety string
@@ -243,37 +246,37 @@ export default withNamespaces('common')(
               day: Yup.number()
                 .typeError(
                   t('forms.error_filed_required1') +
-                    $day +
-                    t('forms.error_filed_required2')
+                  $day +
+                  t('forms.error_filed_required2')
                 )
                 .required(
                   t('forms.error_filed_required1') +
-                    $day +
-                    t('forms.error_filed_required2')
+                  $day +
+                  t('forms.error_filed_required2')
                 )
                 .min(1, t('forms.error_day_not_valid'))
                 .max(31, t('forms.error_day_not_valid')),
               month: Yup.number()
                 .typeError(
                   t('forms.error_filed_required1') +
-                    $month +
-                    t('forms.error_filed_required2')
+                  $month +
+                  t('forms.error_filed_required2')
                 )
                 .required(
                   t('forms.error_filed_required1') +
-                    $month +
-                    t('forms.error_filed_required2')
+                  $month +
+                  t('forms.error_filed_required2')
                 ),
               year: Yup.number()
                 .typeError(
                   t('forms.error_filed_required1') +
-                    $year +
-                    t('forms.error_filed_required2')
+                  $year +
+                  t('forms.error_filed_required2')
                 )
                 .required(
                   t('forms.error_filed_required1') +
-                    $year +
-                    t('forms.error_filed_required2')
+                  $year +
+                  t('forms.error_filed_required2')
                 )
                 .min(1300, t('forms.error_year_not_valid'))
                 .max(1398, t('forms.error_year_not_valid'))
@@ -290,129 +293,129 @@ export default withNamespaces('common')(
               errors,
               touched
             }) => (
-              <BoxAccount className="box_account">
-                <Form onSubmit={handleSubmit}>
-                  <h3 className="new_client">{$new_client}</h3>
-                  {/* <small className="float-right pt-2">* {$required_fields}</small> */}
-                  <Segment>
-                    <Form.Group widths="2">
-                      <Form.Input
-                        label={$firstname}
-                        name="firstName"
-                        error={Boolean(errors.firstName && touched.firstName)}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.firstName}
-                      />
+                <BoxAccount className="box_account">
+                  <Form onSubmit={handleSubmit}>
+                    <h3 className="new_client">{$new_client}</h3>
+                    {/* <small className="float-right pt-2">* {$required_fields}</small> */}
+                    <Segment>
+                      <Form.Group widths="2">
+                        <Form.Input
+                          label={$firstname}
+                          name="firstName"
+                          error={Boolean(errors.firstName && touched.firstName)}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.firstName}
+                        />
+
+                        <Form.Input
+                          label={$lastname}
+                          name="lastName"
+                          error={Boolean(errors.lastName && touched.lastName)}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.lastName}
+                        />
+                      </Form.Group>
 
                       <Form.Input
-                        label={$lastname}
-                        name="lastName"
-                        error={Boolean(errors.lastName && touched.lastName)}
+                        label={$national_id}
+                        name="nationalid"
+                        error={Boolean(errors.nationalid && touched.nationalid)}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.lastName}
+                        value={values.nationalid}
                       />
-                    </Form.Group>
+                      {errors.nationalid && touched.nationalid && (
+                        <label className="sui-error-message sui-padd">
+                          {errors.nationalid}
+                        </label>
+                      )}
 
-                    <Form.Input
-                      label={$national_id}
-                      name="nationalid"
-                      error={Boolean(errors.nationalid && touched.nationalid)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.nationalid}
-                    />
-                    {errors.nationalid && touched.nationalid && (
-                      <label className="sui-error-message sui-padd">
-                        {errors.nationalid}
-                      </label>
-                    )}
-
-                    {/* <Form.Field>
+                      {/* <Form.Field>
                 <label>{$phone_number}</label>
                 <input name="phone" value={this.state.phone} disabled />
               </Form.Field> */}
 
-                    <Form.Group widths="3" className="paddingInMobile">
-                      <Form.Input
-                        name="day"
-                        label={$birthdate}
-                        type="number"
-                        placeholder={$day}
-                        // min="1"
-                        // max="31"
-                        error={Boolean(errors.day && touched.day)}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.day}
-                      />
+                      <Form.Group widths="3" className="paddingInMobile">
+                        <Form.Input
+                          name="day"
+                          label={$birthdate}
+                          type="number"
+                          placeholder={$day}
+                          // min="1"
+                          // max="31"
+                          error={Boolean(errors.day && touched.day)}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.day}
+                        />
 
-                      <Form.Dropdown
-                        // label={$month}
-                        name="month"
-                        id="month"
-                        placeholder={$month}
-                        clearable
-                        selection
-                        options={
-                          i18n.language === 'en' ? monthsEnglish : monthsFarsi
-                        }
-                        style={{ marginTop: '25px' }}
-                        error={Boolean(errors.month && touched.month)}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
+                        <Form.Dropdown
+                          // label={$month}
+                          name="month"
+                          id="month"
+                          placeholder={$month}
+                          clearable
+                          selection
+                          options={
+                            i18n.language === 'en' ? monthsEnglish : monthsFarsi
                           }
-                        }}
-                        value={values.month}
-                      />
+                          style={{ marginTop: '25px' }}
+                          error={Boolean(errors.month && touched.month)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          value={values.month}
+                        />
 
-                      <Form.Input
-                        name="year"
-                        type="number"
-                        // min="1300"
-                        // max="1397"
-                        placeholder={$year + $year_hint}
-                        style={{ marginTop: '25px' }}
-                        error={Boolean(errors.year && touched.year)}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.year}
-                      />
-                    </Form.Group>
-                    {/* {(errors.day || errors.month || errors.year) &&
+                        <Form.Input
+                          name="year"
+                          type="number"
+                          // min="1300"
+                          // max="1397"
+                          placeholder={$year + $year_hint}
+                          style={{ marginTop: '25px' }}
+                          error={Boolean(errors.year && touched.year)}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.year}
+                        />
+                      </Form.Group>
+                      {/* {(errors.day || errors.month || errors.year) &&
                     (touched.day || touched.month || touched.year) && (
                       <label className="sui-error-message">
                         {errors.day || errors.month || errors.year}
                       </label>
                     )} */}
 
-                    <Form.Input
-                      label={$email}
-                      name="emailAddress"
-                      type="email"
-                      error={Boolean(
-                        errors.emailAddress && touched.emailAddress
+                      <Form.Input
+                        label={$email}
+                        name="emailAddress"
+                        type="email"
+                        error={Boolean(
+                          errors.emailAddress && touched.emailAddress
+                        )}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.emailAddress}
+                      />
+                      {errors.emailAddress && touched.emailAddress && (
+                        <label className="sui-error-message sui-padd">
+                          {errors.emailAddress}
+                        </label>
                       )}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.emailAddress}
-                    />
-                    {errors.emailAddress && touched.emailAddress && (
-                      <label className="sui-error-message sui-padd">
-                        {errors.emailAddress}
-                      </label>
-                    )}
 
-                    {/* <Input
+                      {/* <Input
                 label={$password}
                 name="password"
                 inputProps={{
                   type: 'password'
                 }}
               /> */}
-                    {/* <div className="field">
+                      {/* <div className="field">
                     <Checkbox
                       label={$subscribe_checkbox}
                       name="subscribe"
@@ -422,41 +425,41 @@ export default withNamespaces('common')(
                       checked={values.subscribe}
                     />
                   </div> */}
-                    <Form.Field
-                      style={{ textAlign: 'center', fontSize: '0.8em' }}
-                    >
-                      <Button
-                        loading={isSubmitting}
-                        primary
-                        type="submit"
-                        className="btn_1 full-width"
+                      <Form.Field
+                        style={{ textAlign: 'center', fontSize: '0.8em' }}
                       >
-                        {$signup}
-                      </Button>
-                      <br />
-                      <span>{$agreement_sentence}</span>
-                    </Form.Field>
+                        <Button
+                          loading={isSubmitting}
+                          primary
+                          type="submit"
+                          className="btn_1 full-width"
+                        >
+                          {$signup}
+                        </Button>
+                        <br />
+                        <span>{$agreement_sentence}</span>
+                      </Form.Field>
 
-                    {error && (
-                      <Label attached="bottom" color="red">
-                        {t('forms.error')}
-                      </Label>
-                    )}
-                    {Object.keys(errors).length >= 1 && submitCount >= 1 && (
-                      <Label attached="bottom" color="red">
-                        {Object.values(errors)[0]}
-                      </Label>
-                    )}
+                      {error && (
+                        <Label attached="bottom" color="red">
+                          {t('forms.error')}
+                        </Label>
+                      )}
+                      {Object.keys(errors).length >= 1 && submitCount >= 1 && (
+                        <Label attached="bottom" color="red">
+                          {Object.values(errors)[0]}
+                        </Label>
+                      )}
 
-                    {this.state.success && this.state.name && (
-                      <Label attached="bottom" color="green">
-                        {this.state.name} خوش آمدی!
+                      {this.state.success && this.state.name && (
+                        <Label attached="bottom" color="green">
+                          {this.state.name} خوش آمدی!
                       </Label>
-                    )}
-                  </Segment>
-                </Form>
-              </BoxAccount>
-            )}
+                      )}
+                    </Segment>
+                  </Form>
+                </BoxAccount>
+              )}
           </Formik>
         </Error404>
       );

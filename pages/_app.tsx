@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
+// import jsCookie from 'js-cookie';
 import { getStore } from '../src/store';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 import { appWithTranslation } from '../src/i18n';
@@ -12,8 +13,21 @@ Router.events.on('routeChangeStart', url => {
   console.log(`Loading: ${url}`);
   NProgress.start();
 });
-Router.events.on('routeChangeComplete', () => NProgress.done());
-Router.events.on('routeChangeError', () => NProgress.done());
+
+Router.events.on('hashChangeStart', url => {
+  console.log(`hashChangeStart: ${url}`);
+});
+
+Router.events.on('routeChangeComplete', () => {
+  console.log(`Complete loading`);
+  NProgress.done()
+});
+
+Router.events.on('routeChangeError', (err, url) => {
+  console.log(`Error loading: ${url}`);
+  console.error(err);
+  NProgress.done()
+});
 
 class OtoliApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -27,6 +41,29 @@ class OtoliApp extends App {
     }
 
     return { pageProps, ...out };
+  }
+
+  componentDidMount() {
+    // const token = jsCookie.get('token');
+    // const url = {
+    //   pathname: '/',
+    //   query: {
+    //     require_signup: true,
+    //     go_to: Router.route
+    //   }
+    // };
+    // console.log(Router.route);
+    // if (!token && (Router.route == '/add-car'
+    //   || Router.route == '/complete-register'
+    //   || Router.route == '/set-car-timing')) {
+    //   Router.push(url, url)
+    //     .then(res => {
+    //       console.log(res);
+    //     }).catch(error => {
+    //       // tslint:disable-next-line:no-console
+    //       console.error(error);
+    //     });
+    // }
   }
 
   render() {

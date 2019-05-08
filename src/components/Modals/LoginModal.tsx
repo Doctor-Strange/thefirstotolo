@@ -43,7 +43,7 @@ export default withNamespaces('common')(
       codeError?: string;
       height: number;
     }
-  > {
+    > {
     [x: string]: any;
 
     static async getInitialProps() {
@@ -145,9 +145,9 @@ export default withNamespaces('common')(
                   ) => {
                     let validPhoneFormated;
                     const phone = convertToEnglishNum(values.phone.toString());
-                    if (/^[0][9][1-2][0-9]{8,8}$/.test(phone)) {
+                    if (/^[0][9][1-3][0-9]{8,8}$/.test(phone)) {
                       validPhoneFormated = phone;
-                    } else if (/^[9][1-2][0-9]{8,8}$/.test(phone)) {
+                    } else if (/^[9][1-3][0-9]{8,8}$/.test(phone)) {
                       validPhoneFormated = '0' + phone;
                     } else {
                       validPhoneFormated = phone;
@@ -167,8 +167,8 @@ export default withNamespaces('common')(
                       })
                       .catch(error => {
                         // tslint:disable-next-line:no-console
+                        console.error("Error in LoginModal Happend:");
                         console.error(error.response.data);
-                        alert(error.response.data.message);
                       })
                       .then(() => {
                         actions.setSubmitting(false);
@@ -177,7 +177,7 @@ export default withNamespaces('common')(
                   validationSchema={Yup.object().shape({
                     phone: Yup.string()
                       .matches(
-                        /(^[0][9][1-2][0-9]{8,8}$|^[9][1-2][0-9]{8,8}$|^[\u06F0][\u06F9][\u06F1-\u06F2][\u06F0-\u06F9]{8,8}$|^[\u06F9][\u06F1-\u06F2][\u06F0-\u06F9]{8,8}$)/,
+                        /(^[0][9][1-3][0-9]{8,8}$|^[9][1-3][0-9]{8,8}$|^[\u06F0][\u06F9][\u06F1-\u06F2][\u06F0-\u06F9]{8,8}$|^[\u06F9][\u06F1-\u06F2][\u06F0-\u06F9]{8,8}$)/,
                         t('forms.error_phone_not_valid')
                       )
                       .required(t('forms.error_phone_required'))
@@ -192,35 +192,35 @@ export default withNamespaces('common')(
                     errors,
                     touched
                   }) => (
-                    <LoginForm
-                      onSubmit={handleSubmit}
-                      className="sign-in-wrapper"
-                    >
-                      <label>{t('phone_number')}</label>
-                      <Input
-                        name="phone"
-                        inputProps={{
-                          type: 'tel',
-                          tabIndex: this.state.showIndex === 0 ? 0 : -1,
-                          className: 'add_top_8',
-                          placeholder: t('please_enter_phone_number')
-                        }}
-                      />
+                      <LoginForm
+                        onSubmit={handleSubmit}
+                        className="sign-in-wrapper"
+                      >
+                        <label>{t('phone_number')}</label>
+                        <Input
+                          name="phone"
+                          inputProps={{
+                            type: 'tel',
+                            tabIndex: this.state.showIndex === 0 ? 0 : -1,
+                            className: 'add_top_8',
+                            placeholder: t('please_enter_phone_number')
+                          }}
+                        />
 
-                      <div className="text-center">
-                        <Button.Submit
-                          loading={isSubmitting}
-                          primary
-                          type="submit"
-                          className="btn_1 full-width"
-                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                        >
-                          {t('login')}
-                        </Button.Submit>
-                        {/* <br />
+                        <div className="text-center">
+                          <Button.Submit
+                            loading={isSubmitting}
+                            primary
+                            type="submit"
+                            className="btn_1 full-width"
+                            tabIndex={this.state.showIndex === 0 ? 0 : -1}
+                          >
+                            {t('login')}
+                          </Button.Submit>
+                          {/* <br />
                         <small>ما از شماره‌ی شما سوءاستفاده نمی‌کنیم </small> */}
-                      </div>
-                      {/* <div className="divider">
+                        </div>
+                        {/* <div className="divider">
                         <span>{t('or')}</span>
                       </div>
                       <Button
@@ -231,8 +231,8 @@ export default withNamespaces('common')(
                         labelPosition="left"
                         tabIndex={this.state.showIndex === 0 ? 0 : -1}
                       /> */}
-                    </LoginForm>
-                  )}
+                      </LoginForm>
+                    )}
                 </Form>
               </Panel>
               <Panel>
@@ -248,8 +248,8 @@ export default withNamespaces('common')(
                         code: convertToEnglishNum(values.code)
                       })
                       .then(response => {
-                        console.error('Sent');
-                        console.error(response.data);
+                        console.log('Sent');
+                        console.log(response.data);
                         if (response.data.token && !response.data.has_name) {
                           // tslint:disable-next-line:no-console
                           console.error(response.data);
@@ -262,13 +262,23 @@ export default withNamespaces('common')(
                           jsCookie.set('phone', this.state.phone);
                           jsCookie.set('complete_register', 'true');
                           // TODO: add token to redux;
+                          this.handleCloseModal();
+                          let go_to_pathname = Router.pathname;
+                          let go_to_queries = Router.query;
+                          console.log(go_to_queries);
                           Router.push({
-                            pathname: '/complete-register',
-                            query: {
+                            pathname: '/complete-register', query: {
                               cell: this.state.phone,
-                              token: response.data.token
+                              token: response.data.token,
+                              go_to_pathname,
+                              go_to_queries: Object.keys(go_to_queries).map(function(k) {
+                                return encodeURIComponent(k) + '=' + encodeURIComponent(go_to_queries[k])
+                              }).join('&')
                             }
-                          });
+                          }, {
+                              pathname: '/complete-register'
+                            }
+                            , { shallow: true });
                         } else if (
                           response.data.token &&
                           response.data.has_name
@@ -307,6 +317,7 @@ export default withNamespaces('common')(
                       })
                       .catch(error => {
                         // tslint:disable-next-line:no-console
+                        console.error("Error in LoginModal Happend:");
                         console.error(error.response.data);
                         this.setState({
                           codeError: error.response.data.message
@@ -330,60 +341,60 @@ export default withNamespaces('common')(
                     errors,
                     touched
                   }) => (
-                    <LoginForm className="sign-in-wrapper">
-                      <div className="form-group">
-                        <label>
-                          {t('a_code_has_been_sent_to')} {this.state.phone}
-                          {t('a_code_has_been_sent_to2')}.{' '}
-                          <a
-                            className="small"
-                            onClick={this.prevPanel}
-                            style={{ cursor: 'pointer' }}
-                            tabIndex={this.state.showIndex === 1 ? 0 : -1}
-                          >
-                            {t('not_you')}
-                          </a>
-                        </label>
-                        {/* <div className="notShowErrors"> */}
-                        <Input
-                          name="code"
-                          inputProps={{
-                            type: 'number',
-                            tabIndex: this.state.showIndex === 1 ? 0 : -1,
-                            className: 'add_top_8',
-                            placeholder: t('enter_code_in_field')
-                          }}
-                        />
-                      </div>
-                      <span className="sui-error-message">
-                        {this.state.codeError || null}
-                      </span>
-                      {/* </div> */}
-                      <div className="clearfix add_bottom_15 flow-root">
-                        <a
-                          tabIndex={this.state.showIndex === 1 ? 0 : -1}
-                          className="small"
-                          href="javascript:void(0);"
-                        >
-                          <Countdown
-                            date={this.state.timeToSendSMSAgain}
-                            renderer={this.renderTimeTOSend}
+                      <LoginForm className="sign-in-wrapper">
+                        <div className="form-group">
+                          <label>
+                            {t('a_code_has_been_sent_to')} {this.state.phone}
+                            {t('a_code_has_been_sent_to2')}.{' '}
+                            <a
+                              className="small"
+                              onClick={this.prevPanel}
+                              style={{ cursor: 'pointer' }}
+                              tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                            >
+                              {t('not_you')}
+                            </a>
+                          </label>
+                          {/* <div className="notShowErrors"> */}
+                          <Input
+                            name="code"
+                            inputProps={{
+                              type: 'number',
+                              tabIndex: this.state.showIndex === 1 ? 0 : -1,
+                              className: 'add_top_8',
+                              placeholder: t('enter_code_in_field')
+                            }}
                           />
-                        </a>
-                      </div>
-                      <div className="text-center">
-                        <Button.Submit
-                          loading={isSubmitting}
-                          primary
-                          type="submit"
-                          className="btn_1 full-width"
-                          tabIndex={this.state.showIndex === 0 ? 0 : -1}
-                        >
-                          {t('enter')}
-                        </Button.Submit>
-                      </div>
-                    </LoginForm>
-                  )}
+                        </div>
+                        <span className="sui-error-message">
+                          {this.state.codeError || null}
+                        </span>
+                        {/* </div> */}
+                        <div className="clearfix add_bottom_15 flow-root">
+                          <a
+                            tabIndex={this.state.showIndex === 1 ? 0 : -1}
+                            className="small"
+                            href="javascript:void(0);"
+                          >
+                            <Countdown
+                              date={this.state.timeToSendSMSAgain}
+                              renderer={this.renderTimeTOSend}
+                            />
+                          </a>
+                        </div>
+                        <div className="text-center">
+                          <Button.Submit
+                            loading={isSubmitting}
+                            primary
+                            type="submit"
+                            className="btn_1 full-width"
+                            tabIndex={this.state.showIndex === 0 ? 0 : -1}
+                          >
+                            {t('enter')}
+                          </Button.Submit>
+                        </div>
+                      </LoginForm>
+                    )}
                 </Form>
               </Panel>
             </PanelsWrapper>

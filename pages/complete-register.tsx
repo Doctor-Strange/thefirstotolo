@@ -4,10 +4,11 @@ import { Section } from '../src/components/row/Sections';
 import Layout from '../src/components/Layout';
 import CompleteRegisterForm from '../src/components/Forms/CompleteRegisterForm';
 import { Box, Flex } from '@rebass/grid';
+import Router, { withRouter } from 'next/router';
 import { i18n, withNamespaces } from '../src/i18n';
 
-export default withNamespaces('common')(
-  class extends React.Component<{ t: any }> {
+export default withRouter(withNamespaces('common')(
+  class extends React.Component<{ t: any, router: any }> {
     static async getInitialProps() {
       return {
         namespacesRequired: ['common']
@@ -15,7 +16,7 @@ export default withNamespaces('common')(
     }
 
     render() {
-      const { t } = this.props;
+      const { t, router } = this.props;
       return (
         <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
           <Section justifyCenter={true}>
@@ -40,6 +41,7 @@ export default withNamespaces('common')(
                     $agreement_sentence: t('agreement_sentence'),
                     $birthdate: t('birthdate')
                   }}
+                  query={router.query}
                 />
               </Box>
             </Flex>
@@ -48,4 +50,4 @@ export default withNamespaces('common')(
       );
     }
   }
-);
+));
