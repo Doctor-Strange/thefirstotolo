@@ -1357,7 +1357,7 @@ export default withNamespaces('common')(
                         type="submit"
                         className="btn_1 full-width"
                       >
-                        {t('signup')}
+                        {t('signin')}
                       </Button>
                       {isSubmitting && (
                         <Progress

@@ -186,7 +186,8 @@ export default withNamespaces('common')(
                     }
                     Router.push(path_to_go, {
                       pathname: path_to_go
-                    }, { shallow: true });
+                    }, { shallow: true })
+                      .then(() => window.scrollTo(0, 0));
                   }
                 })
                 .catch(error => {

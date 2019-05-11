@@ -324,15 +324,15 @@ class Header extends React.Component<{
                           href="#"
                           id="sign-in"
                           className="login"
-                          title={t('signup')}
+                          title={t('signin')}
                           onClick={this.onClick}
                         >
-                          {t('signup')}
+                          {t('signin')}
                         </a>
                       )}
                       {this.state.token && (
                         <span>
-                          {t('hello')} {this.state.firstName}
+                          {this.state.firstName} {this.state.lastName}
                           {/* {', '}
                           <a
                             href="#"
@@ -367,15 +367,15 @@ class Header extends React.Component<{
                     href="#"
                     id="sign-in"
                     className="login"
-                    title={t('signup')}
+                    title={t('signin')}
                     onClick={this.onClick}
                   >
-                    {t('signup')}
+                    {t('signin')}
                   </a>
                 )}
                 {this.state.token && (
                   <span>
-                    {t('hello')} {this.state.firstName}
+                    {this.state.firstName}  {this.state.lastName}
                   </span>
                 )}
               </li>

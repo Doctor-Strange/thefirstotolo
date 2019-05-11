@@ -489,24 +489,24 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
               <li>
                 <div className="styled-select" id="lang-selector">
                   <button onClick={changeLangFunc}>CHANGE LANG</button>
-                  <select>
+                  {/* <select>
                     <option value="English" selected>
                       English
                     </option>
                     <option value="French">French</option>
                     <option value="Spanish">Spanish</option>
                     <option value="Russian">Russian</option>
-                  </select>
+                  </select> */}
                 </div>
               </li>
               <li>
                 <div className="styled-select" id="currency-selector">
-                  <select>
+                  {/* <select>
                     <option value="US Dollars" selected>
                       US Dollars
                     </option>
                     <option value="Euro">Euro</option>
-                  </select>
+                  </select> */}
                 </div>
               </li>
               <li>

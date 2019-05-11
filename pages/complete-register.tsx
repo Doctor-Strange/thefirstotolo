@@ -36,7 +36,7 @@ export default withRouter(withNamespaces('common')(
                     $email: t('email') + ' (' + t('optional') + ')',
                     $password: t('password'),
                     $subscribe_checkbox: t('subscribe_checkbox'),
-                    $signup: t('signup'),
+                    $signin: t('signin'),
                     $new_client: t('new_client'),
                     $agreement_sentence: t('agreement_sentence'),
                     $birthdate: t('birthdate')
