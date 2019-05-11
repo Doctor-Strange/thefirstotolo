@@ -186,8 +186,8 @@ export default withNamespaces('common')(
                       path_to_go = decodeURIComponent(query.go_to_pathname) + decodeURIComponent("?") + decodeURIComponent(query.go_to_queries);
                     }
                     Router.push(path_to_go, {
-                        pathname: path_to_go
-                      }, { shallow: true });
+                      pathname: path_to_go
+                    }, { shallow: true });
                   }
                 })
                 .catch(error => {
@@ -211,12 +211,14 @@ export default withNamespaces('common')(
                 t('forms.error_filed_required1') +
                 $firstname +
                 t('forms.error_filed_required2')
-              ),
+              ).min(2, t('forms.error_name_must_be_2_char_long'))
+                .max(30, t('forms.error_name_must_be_30_char_long')),
               lastName: Yup.string().required(
                 t('forms.error_filed_required1') +
                 $lastname +
                 t('forms.error_filed_required2')
-              ),
+              ).min(2, t('forms.error_lastname_must_be_2_char_long'))
+                .max(30, t('forms.error_lastname_must_be_30_char_long')),
               nationalid: Yup.string()
                 .ensure() // convert undefined values to an empety string
                 .trim()
@@ -292,7 +294,9 @@ export default withNamespaces('common')(
               values,
               errors,
               touched
-            }) => (
+            }) => {
+              let nameErrors = (errors.firstName && touched.firstName) || (errors.lastName && touched.lastName);
+              return (
                 <BoxAccount className="box_account">
                   <Form onSubmit={handleSubmit}>
                     <h3 className="new_client">{$new_client}</h3>
@@ -317,6 +321,11 @@ export default withNamespaces('common')(
                           value={values.lastName}
                         />
                       </Form.Group>
+                      {nameErrors && (
+                        <label className="sui-error-message sui-padd">
+                          {errors.firstName || errors.lastName}
+                        </label>
+                      )}
 
                       <Form.Input
                         label={$national_id}
@@ -459,9 +468,10 @@ export default withNamespaces('common')(
                     </Segment>
                   </Form>
                 </BoxAccount>
-              )}
+              )
+            }}
           </Formik>
-        </Error404>
+        </Error404 >
       );
     }
   }
