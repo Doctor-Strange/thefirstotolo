@@ -1833,7 +1833,7 @@ input[type="url"],
 input[type="week"],
 select:focus,
 textarea {
-  font-size: 16px !important;
+  /* font-size: 16px !important; */
 }
 `;
 

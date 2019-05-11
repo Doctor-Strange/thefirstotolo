@@ -1040,22 +1040,26 @@ export default withNamespaces('common')(
                       />
                     }
                     {isMobile &&
-                      <select
-                        name="carBodyStyle"
-                        value={values.carBodyStyle}
-                        onChange={(e) => {
-                          console.log(e);
-                          // if (data && data.name) {
-                          //   setFieldValue(data.name, data.value);
-                          // }
-                        }}
-                        // onBlur={handleBlur}
-                        style={{ display: 'block' }}
-                      >
-                        {this.state.bodyStyleFarsi.map((item, index) => (
-                          <option value={item.value} label={item.text} />
-                        ))}
-                      </select>
+                      <div className="field">
+                        <label>{t('carProperty.cassis')}</label>
+                        <select
+                          name="carBodyStyle"
+                          className="ui search selection dropdown"
+                          value={values.carBodyStyle}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            if (e.target && e.target.name) {
+                              setFieldValue(e.target.name, Number(e.target.value));
+                            }
+                          }}
+                          // onBlur={handleBlur}
+                          style={{ display: 'block' }}
+                        >
+                          {this.state.bodyStyleFarsi.map((item, index) => (
+                            <option value={item.value} label={item.text} />
+                          ))}
+                        </select>
+                      </div>
                     }
 
                     <Form.Input
