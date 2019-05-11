@@ -405,988 +405,989 @@ export default withNamespaces('common')(
         )}`;
       };
 
-      return (
-        <Error404 token={!this.state.error && this.state.token}>
-          <Formik
-            initialValues={{
-              daysToGetReminded: 1,
-              minDaysToRent: 3,
-              deliverAtRentersPlace: false,
-              distanceLimit: null,
-              extraKm: null,
-              radioGroup: false,
-              cancellationPolicy: ''
-            }}
-            onSubmit={(
-              values: ISetCarTimingFormValues,
-              actions: FormikActions<ISetCarTimingFormValues>
-            ) => {
-              actions.setSubmitting(true);
-              this.setState({ error: '' });
-              console.log(values);
-              let {
-                availableInAllPrice,
-                cancellationPolicy,
-                daysToGetReminded,
-                deliverAtRentersPlace,
-                distanceLimit,
-                extraKm,
-                minDaysToRent,
-                radioGroup
-              } = values;
-              if (!deliverAtRentersPlace) deliverAtRentersPlace = 0;
-              const header = {
-                headers: {
-                  Authorization: 'Bearer ' + this.state.token
-                }
-              };
-              const id = this.props.rentalCarID;
-              axios
-                .post(
-                  'https://otoli.net' +
-                    '/core/rental-car/set-deliver-at-renters-place',
-                  {
-                    id,
-                    value: deliverAtRentersPlace
-                  },
-                  header
-                )
-                .then(response => {
-                  if (response.data.success) {
-                    console.log(1);
-                    this.setState({ submittingSteps: 1 });
-                    axios
-                      .post(
-                        'https://otoli.net' +
-                          '/core/rental-car/set-max-km-per-day',
-                        {
-                          id,
-                          value: distanceLimit
-                        },
-                        header
-                      )
-                      .then(response => {
-                        if (response.data.success) {
-                          console.log(2);
-                          this.setState({ submittingSteps: 2 });
-                          axios
-                            .post(
-                              'https://otoli.net' +
-                                '/core/rental-car/set-extra-km-price',
-                              {
-                                id,
-                                value: extraKm
-                              },
-                              header
-                            )
-                            .then(response => {
-                              if (response.data.success) {
-                                console.log(3);
-                                this.setState({ submittingSteps: 3 });
-                                axios
-                                  .post(
-                                    'https://otoli.net' +
-                                      '/core/rental-car/set-cancellation-policy',
-                                    {
-                                      id,
-                                      value: cancellationPolicy
-                                    },
-                                    header
-                                  )
-                                  .then(response => {
-                                    if (response.data.success) {
-                                      console.log(4);
-                                      this.setState({ submittingSteps: 4 });
-                                      axios
-                                        .post(
-                                          'https://otoli.net' +
-                                            '/core/rental-car/set-days-to-get-reminded',
-                                          {
-                                            id,
-                                            value: daysToGetReminded
-                                          },
-                                          header
-                                        )
-                                        .then(response => {
-                                          if (response.data.success) {
-                                            console.log(5);
-                                            this.setState({
-                                              submittingSteps: 5
-                                            });
-                                            axios
-                                              .post(
-                                                'https://otoli.net' +
-                                                  '/core/rental-car/set-min-days-to-rent',
-                                                {
-                                                  id,
-                                                  value: minDaysToRent
-                                                },
-                                                header
-                                              )
-                                              .then(response => {
-                                                if (response.data.success) {
-                                                  console.log(6);
-                                                  this.setState({
-                                                    submittingSteps: 6
-                                                  });
-                                                  if (radioGroup == false) {
-                                                    axios
-                                                      .post(
-                                                        'https://otoli.net' +
-                                                          '/core/rental-car/availability/new',
-                                                        {
-                                                          rental_car_id: id,
-                                                          is_all_time: 1,
-                                                          price: clearNumber(
-                                                            availableInAllPrice
-                                                          ),
-                                                          status_id: 'available'
-                                                        },
-                                                        header
-                                                      )
-                                                      .then(response => {
-                                                        if (
-                                                          response.data.success
-                                                        ) {
-                                                          this.setState({
-                                                            submittingSteps: 7
-                                                          });
-                                                          setTimeout(() => {
-                                                            actions.setSubmitting(
-                                                              false
-                                                            );
-                                                            Router.push({
-                                                              pathname: '/done',
-                                                              query: {
-                                                                car_id:
-                                                                  response.data
-                                                                    .data.id
-                                                              }
-                                                            });
-                                                          }, 1000);
-                                                        }
-                                                      });
-                                                  } else {
-                                                    this.state.carTimings.map(
-                                                      (val, index) => {
-                                                        axios
-                                                          .post(
-                                                            'https://otoli.net' +
-                                                              '/core/rental-car/availability/new',
-                                                            {
-                                                              rental_car_id: id,
-                                                              start_date: val.startDate.format(
-                                                                'jYYYY/jMM/jDD'
-                                                              ),
-                                                              end_date: val.endDate.format(
-                                                                'jYYYY/jMM/jDD'
-                                                              ),
-                                                              price: clearNumber(
-                                                                val.price
-                                                              ),
-                                                              status_id:
-                                                                'available'
-                                                            },
-                                                            header
-                                                          )
-                                                          .then(response => {
-                                                            if (
-                                                              response.data
-                                                                .success
-                                                            ) {
-                                                              console.log(
+      if(this.state.token) return (
+        <Formik
+          initialValues={{
+            daysToGetReminded: 1,
+            minDaysToRent: 3,
+            deliverAtRentersPlace: false,
+            distanceLimit: null,
+            extraKm: null,
+            radioGroup: false,
+            cancellationPolicy: ''
+          }}
+          onSubmit={(
+            values: ISetCarTimingFormValues,
+            actions: FormikActions<ISetCarTimingFormValues>
+          ) => {
+            actions.setSubmitting(true);
+            this.setState({ error: '' });
+            console.log(values);
+            let {
+              availableInAllPrice,
+              cancellationPolicy,
+              daysToGetReminded,
+              deliverAtRentersPlace,
+              distanceLimit,
+              extraKm,
+              minDaysToRent,
+              radioGroup
+            } = values;
+            if (!deliverAtRentersPlace) deliverAtRentersPlace = 0;
+            const header = {
+              headers: {
+                Authorization: 'Bearer ' + this.state.token
+              }
+            };
+            const id = this.props.rentalCarID;
+            axios
+              .post(
+                'https://otoli.net' +
+                  '/core/rental-car/set-deliver-at-renters-place',
+                {
+                  id,
+                  value: deliverAtRentersPlace
+                },
+                header
+              )
+              .then(response => {
+                if (response.data.success) {
+                  console.log(1);
+                  this.setState({ submittingSteps: 1 });
+                  axios
+                    .post(
+                      'https://otoli.net' +
+                        '/core/rental-car/set-max-km-per-day',
+                      {
+                        id,
+                        value: distanceLimit
+                      },
+                      header
+                    )
+                    .then(response => {
+                      if (response.data.success) {
+                        console.log(2);
+                        this.setState({ submittingSteps: 2 });
+                        axios
+                          .post(
+                            'https://otoli.net' +
+                              '/core/rental-car/set-extra-km-price',
+                            {
+                              id,
+                              value: extraKm
+                            },
+                            header
+                          )
+                          .then(response => {
+                            if (response.data.success) {
+                              console.log(3);
+                              this.setState({ submittingSteps: 3 });
+                              axios
+                                .post(
+                                  'https://otoli.net' +
+                                    '/core/rental-car/set-cancellation-policy',
+                                  {
+                                    id,
+                                    value: cancellationPolicy
+                                  },
+                                  header
+                                )
+                                .then(response => {
+                                  if (response.data.success) {
+                                    console.log(4);
+                                    this.setState({ submittingSteps: 4 });
+                                    axios
+                                      .post(
+                                        'https://otoli.net' +
+                                          '/core/rental-car/set-days-to-get-reminded',
+                                        {
+                                          id,
+                                          value: daysToGetReminded
+                                        },
+                                        header
+                                      )
+                                      .then(response => {
+                                        if (response.data.success) {
+                                          console.log(5);
+                                          this.setState({
+                                            submittingSteps: 5
+                                          });
+                                          axios
+                                            .post(
+                                              'https://otoli.net' +
+                                                '/core/rental-car/set-min-days-to-rent',
+                                              {
+                                                id,
+                                                value: minDaysToRent
+                                              },
+                                              header
+                                            )
+                                            .then(response => {
+                                              if (response.data.success) {
+                                                console.log(6);
+                                                this.setState({
+                                                  submittingSteps: 6
+                                                });
+                                                if (radioGroup == false) {
+                                                  axios
+                                                    .post(
+                                                      'https://otoli.net' +
+                                                        '/core/rental-car/availability/new',
+                                                      {
+                                                        rental_car_id: id,
+                                                        is_all_time: 1,
+                                                        price: clearNumber(
+                                                          availableInAllPrice
+                                                        ),
+                                                        status_id: 'available'
+                                                      },
+                                                      header
+                                                    )
+                                                    .then(response => {
+                                                      if (
+                                                        response.data.success
+                                                      ) {
+                                                        this.setState({
+                                                          submittingSteps: 7
+                                                        });
+                                                        setTimeout(() => {
+                                                          actions.setSubmitting(
+                                                            false
+                                                          );
+                                                          Router.push({
+                                                            pathname: '/done',
+                                                            query: {
+                                                              car_id:
                                                                 response.data
                                                                   .data.id
-                                                              );
                                                             }
                                                           });
+                                                        }, 1000);
                                                       }
-                                                    );
-                                                    this.setState({
-                                                      submittingSteps: 7
                                                     });
-                                                    setTimeout(() => {
-                                                      actions.setSubmitting(
-                                                        false
-                                                      );
-                                                      Router.push({
-                                                        pathname: '/done',
-                                                        query: {
-                                                          car_id:
-                                                            response.data.data
-                                                              .id
-                                                        }
-                                                      });
-                                                    }, 1000);
-                                                  }
+                                                } else {
+                                                  this.state.carTimings.map(
+                                                    (val, index) => {
+                                                      axios
+                                                        .post(
+                                                          'https://otoli.net' +
+                                                            '/core/rental-car/availability/new',
+                                                          {
+                                                            rental_car_id: id,
+                                                            start_date: val.startDate.format(
+                                                              'jYYYY/jMM/jDD'
+                                                            ),
+                                                            end_date: val.endDate.format(
+                                                              'jYYYY/jMM/jDD'
+                                                            ),
+                                                            price: clearNumber(
+                                                              val.price
+                                                            ),
+                                                            status_id:
+                                                              'available'
+                                                          },
+                                                          header
+                                                        )
+                                                        .then(response => {
+                                                          if (
+                                                            response.data
+                                                              .success
+                                                          ) {
+                                                            console.log(
+                                                              response.data
+                                                                .data.id
+                                                            );
+                                                          }
+                                                        });
+                                                    }
+                                                  );
+                                                  this.setState({
+                                                    submittingSteps: 7
+                                                  });
+                                                  setTimeout(() => {
+                                                    actions.setSubmitting(
+                                                      false
+                                                    );
+                                                    Router.push({
+                                                      pathname: '/done',
+                                                      query: {
+                                                        car_id:
+                                                          response.data.data
+                                                            .id
+                                                      }
+                                                    });
+                                                  }, 1000);
                                                 }
-                                              });
-                                          }
-                                        });
-                                    }
-                                  });
-                              }
-                            });
-                        }
-                      });
-                  }
-                })
-                .catch(error => {
-                  console.error(error);
-                  this.setState({ error: true, success: false });
-                });
-            }}
-            validationSchema={Yup.object().shape({
-              daysToGetReminded: Yup.number()
-                .required(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
-                .typeError(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
-                .min(1, MinErrorGenrator(t('carTiming.daysToGetReminded'), 1))
-                .max(
-                  31,
-                  MaxErrorGenrator(t('carTiming.daysToGetReminded'), 31)
-                ),
-              minDaysToRent: Yup.number()
-                .required(fieldErrorGenrator(t('carTiming.minDaysToRent')))
-                .typeError(fieldErrorGenrator(t('carTiming.minDaysToRent')))
-                .min(1, MinErrorGenrator(t('carTiming.minDaysToRent'), 1))
-                .max(31, MaxErrorGenrator(t('carTiming.minDaysToRent'), 31)),
-              distanceLimit: Yup.number()
-                .required(fieldErrorGenrator(t('carTiming.distanceLimit')))
-                .typeError(fieldErrorGenrator(t('carTiming.distanceLimit')))
-                .min(50, MinErrorGenrator(t('carTiming.distanceLimit'), 50)),
-              extraKm: Yup.number()
-                .required(fieldErrorGenrator(t('carTiming.extraKmCost')))
-                .typeError(fieldErrorGenrator(t('carTiming.extraKmCost')))
-                .max(
-                  10000000,
-                  MaxErrorGenrator(t('carTiming.extraKmCost'), 10000000)
-                ),
-              cancellationPolicy: Yup.string()
-                .required(fieldErrorGenrator(t('carTiming.cancellationPolicy')))
-                .typeError(
-                  fieldErrorGenrator(t('carTiming.cancellationPolicy'))
-                )
-            })}
-          >
-            {({
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              isSubmitting,
-              setFieldValue,
-              setFieldTouched,
-              submitCount,
-              values,
-              errors,
-              touched
-            }) => {
-              let radioPad;
-              if (values.radioGroup == false) {
-                radioPad = '16px';
-              } else {
-                radioPad = '0px';
-              }
-              return (
-                <BoxAccount className="box_account">
-                  <Form onSubmit={handleSubmit}>
-                    <h3 className="new_client">{t('add_car')}</h3>
-                    {/* <small className="float-right pt-2">* {$required_fields}</small> */}
-                    <Segment>
-                      {/* <Divider horizontal>
-                      <Header as="h4">
-                        <Icon name="car" />
-                        پیشنمایش خودرو
-                      </Header>
-                    </Divider> */}
-                      <Item.Group>
-                        <Item>
-                          <Item.Image
-                            src={(carMedia_set[0] || { url: '' }).url}
-                          />
-                          <Item.Content>
-                            <Item.Header as="a">
-                              {`${carBrand} - ${carName}`}.
-                            </Item.Header>
-                            <Item.Meta>{carDescription}</Item.Meta>
-                            <Item.Description>
-                              <div className="pelak" style={{}}>
-                                <span id="carLicensePlates1">
-                                  {convertNumbers2Persian(plate1)}
-                                </span>
-                                <span id="carLicensePlates2">{plate2}</span>
-                                <span id="carLicensePlates3">
-                                  {convertNumbers2Persian(plate3)}
-                                </span>
-                                <span id="carLicensePlates4">
-                                  {convertNumbers2Persian(plate4)}
-                                </span>
-                              </div>
-                            </Item.Description>
-                            <Item.Extra>{carLocation}</Item.Extra>
-                          </Item.Content>
-                        </Item>
-                        {/* carPelak, carColor, carYear, carMin_days_to_rent,
-                            carDeliver_at_renters_place, , ,
-                             */}
-                      </Item.Group>
-                      {/* ===================================================================== */}
-                      <Divider horizontal>
-                        <Header as="h4">
-                          <Icon name="edit" />
-                          شرایط اجاره
-                        </Header>
-                      </Divider>
-                      {/* ===================================================================== */}
-                      <Form.Field style={{ margin: 0 }}>
-                        <label>{t('carTiming.daysToGetReminded')}</label>
-                      </Form.Field>
-                      <Input
-                        name="daysToGetReminded"
-                        className="numstep daysToGetReminded"
-                        error={Boolean(
-                          errors.daysToGetReminded && touched.daysToGetReminded
-                        )}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, clearNumber(data.value));
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={convertNumbers2Persian(values.daysToGetReminded)}
-                      >
-                        <Label
-                          basic
-                          onClick={(e, data) => {
-                            if (values.daysToGetReminded < 31) {
-                              let val = Number(values.daysToGetReminded);
-                              setFieldValue('daysToGetReminded', ++val);
-                            }
-                          }}
-                        >
-                          <Icon name="plus" />
-                        </Label>
-                        <input inputMode="numeric" />
-                        <Label
-                          basic
-                          onClick={(e, data) => {
-                            if (values.daysToGetReminded > 1) {
-                              let val = Number(values.daysToGetReminded);
-                              setFieldValue('daysToGetReminded', --val);
-                            }
-                          }}
-                        >
-                          <Icon name="minus" />
-                        </Label>
-                        <span>روز قبل</span>
-                      </Input>
-                      {/* ===================================================================== */}
-                      <Form.Field style={{ margin: 0 }}>
-                        <label>{t('carTiming.minDaysToRent')}</label>
-                      </Form.Field>
-                      <Input
-                        name="minDaysToRent"
-                        className="numstep minDaysToRent"
-                        inputMode="numeric"
-                        error={Boolean(
-                          errors.minDaysToRent && touched.minDaysToRent
-                        )}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, clearNumber(data.value));
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={convertNumbers2Persian(values.minDaysToRent)}
-                      >
-                        <Label
-                          basic
-                          onClick={(e, data) => {
-                            if (clearNumber(values.minDaysToRent) < 31) {
-                              let val = Number(
-                                clearNumber(values.minDaysToRent)
-                              );
-                              setFieldValue(
-                                'minDaysToRent',
-                                clearNumber(++val)
-                              );
-                            }
-                          }}
-                        >
-                          <Icon name="plus" />
-                        </Label>
-                        <input inputMode="numeric" />
-                        <Label
-                          basic
-                          onClick={(e, data) => {
-                            if (clearNumber(values.minDaysToRent) > 1) {
-                              let val = Number(
-                                clearNumber(values.minDaysToRent)
-                              );
-                              setFieldValue(
-                                'minDaysToRent',
-                                clearNumber(--val)
-                              );
-                            }
-                          }}
-                        >
-                          <Icon name="minus" />
-                        </Label>
-                        <span>روز</span>
-                      </Input>
-                      {/* ===================================================================== */}
-                      <Form.Field style={{ margin: 0 }}>
-                        <label>{t('carTiming.distanceLimit')}</label>
-                      </Form.Field>
-                      <Form.Input
-                        // icon="search"
-                        // iconPosition="left"
-                        name="distanceLimit"
-                        className="distanceLimit"
-                        error={Boolean(
-                          errors.distanceLimit && touched.distanceLimit
-                        )}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, clearNumber(data.value));
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={
-                          values.distanceLimit
-                            ? convertNumbers2Persian(
-                                numberWithCommas(values.distanceLimit)
-                              )
-                            : values.distanceLimit
-                        }
-                      >
-                        <input inputMode="numeric" />
-                      </Form.Input>
-                      <span
-                        style={{
-                          float: 'right',
-                          lineHeight: '48px',
-                          marginRight: '8px'
-                        }}
-                      >
-                        کیلومتر در روز
-                      </span>
-                      {/* ===================================================================== */}
-                      <Form.Field style={{ margin: 0 }}>
-                        <label>{t('carTiming.extraKmCost')}</label>
-                      </Form.Field>
-                      <Form.Input
-                        // icon="search"
-                        // iconPosition="left"
-                        name="extraKm"
-                        className="extraKm"
-                        inputMode="numeric"
-                        //   type="number"
-                        error={Boolean(errors.extraKm && touched.extraKm)}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, clearNumber(data.value));
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={
-                          values.extraKm
-                            ? convertNumbers2Persian(
-                                numberWithCommas(values.extraKm)
-                              )
-                            : values.extraKm
-                        }
-                      >
-                        <input inputMode="numeric" />
-                      </Form.Input>
-                      <span
-                        style={{
-                          float: 'right',
-                          lineHeight: '48px',
-                          marginRight: '8px'
-                        }}
-                      >
-                        تومان
-                      </span>
-                      {/* ===================================================================== */}
-                      <Form.Field>
-                        <Checkbox
-                          label={t('carTiming.deliver_at_renters_place')}
-                          name="deliverAtRentersPlace"
-                          id="deliverAtRentersPlace"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          checked={values.deliverAtRentersPlace}
-                        />
-                      </Form.Field>
-                      <br />
-                      {/* ===================================================================== */}
-                      {/* ===================================================================== */}
-                      <Divider horizontal>
-                        <Header as="h4">
-                          <Icon name="calendar alternate outline" />
-                          {t('carTiming.rentDateAndPrice')}
-                        </Header>
-                      </Divider>
-                      {/* ===================================================================== */}
-                      <Form.Field>
-                        <Radio
-                          label={t(
-                            'carTiming.availableInAllDatesWithSamePrice'
-                          )}
-                          name="radioGroup"
-                          value={false}
-                          checked={values.radioGroup === false}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
-                            }
-                          }}
-                          onClick={(e, data) => {
-                            if (data && data.name) {
-                              setFieldTouched(data.name);
-                            }
-                          }}
-                        />
-                      </Form.Field>
-                      {values.radioGroup == false && (
-                        <div>
-                          {/* <Form.Field style={{ margin: 0 }}>
-                          <label>{t('carTiming.extraKmCost')}</label>
-                        </Form.Field> */}
-                          <Input
-                            // icon="search"
-                            // iconPosition="left"
-                            name="availableInAllPrice"
-                            className="extraKm"
-                            error={Boolean(
-                              errors.availableInAllPrice &&
-                                touched.availableInAllPrice
-                            )}
-                            onChange={(e, data) => {
-                              if (data && data.name) {
-                                setFieldValue(
-                                  data.name,
-                                  clearNumber(data.value)
-                                );
-                                setFieldTouched(data.name);
-                              }
-                            }}
-                            value={
-                              values.availableInAllPrice
-                                ? convertNumbers2Persian(
-                                    numberWithCommas(values.availableInAllPrice)
-                                  )
-                                : values.availableInAllPrice
-                            }
-                          >
-                            <input inputMode="numeric" />
-                          </Input>
-                          <span
-                            style={{
-                              float: 'right',
-                              lineHeight: '48px',
-                              marginRight: '8px'
-                            }}
-                          >
-                            {t('carTiming.toman')}
-                          </span>
-                        </div>
-                      )}
-
-                      <Form.Field style={{ paddingTop: radioPad }}>
-                        <Radio
-                          label={t(
-                            'carTiming.availableInDifferentDateRangesWithDifferentPrice'
-                          )}
-                          name="radioGroup"
-                          value={true}
-                          checked={values.radioGroup === true}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
-                            }
-                          }}
-                          onClick={(e, data) => {
-                            if (data && data.name) {
-                              setFieldTouched(data.name);
-                            }
-                          }}
-                        />
-                      </Form.Field>
-                      {values.radioGroup == true && (
-                        <div style={{ maxWidth: '370px' }}>
-                          <Segment.Group style={{ marginBottom: '12px' }}>
-                            {this.state.carTimings.map((val, index) => {
-                              if (this.state.openEditFor == index) {
-                                if (
-                                  this.state.startDate === null ||
-                                  this.state.endDate === null ||
-                                  this.state.price === null
-                                ) {
-                                  this.setState({
-                                    startDate: val.startDate,
-                                    endDate: val.endDate,
-                                    price: val.price
-                                  });
-                                }
-                                return (
-                                  <Segment
-                                    key={index}
-                                    style={{ textAlign: 'right' }}
-                                  >
-                                    <Form.Group>
-                                      <Form.Field
-                                        style={{ margin: 0, maxWidth: '47%' }}
-                                      >
-                                        <label>{t('carTiming.from')}</label>
-                                      </Form.Field>
-                                      <Form.Field
-                                        style={{ margin: 0, maxWidth: '47%' }}
-                                      >
-                                        <label>{t('carTiming.to')}</label>
-                                      </Form.Field>
-                                    </Form.Group>
-                                    <DateRangePicker
-                                      isRTL
-                                      startDate={this.state.startDate}
-                                      startDateId="unique_start_date_id"
-                                      endDate={this.state.endDate}
-                                      endDateId="unique_end_date_id"
-                                      onDatesChange={({ startDate, endDate }) =>
-                                        this.setState({ startDate, endDate })
-                                      }
-                                      focusedInput={this.state.focusedInput}
-                                      onFocusChange={focusedInput =>
-                                        this.setState({ focusedInput })
-                                      }
-                                      startDatePlaceholderText="تاریخ شروع"
-                                      endDatePlaceholderText="تاریخ پایان"
-                                      // minimumNights={1}
-                                      monthFormat={'jMMMM jYYYY'}
-                                      numberOfMonths={1}
-                                      renderMonthText={month =>
-                                        moment(month).format('jMMMM jYYYY')
-                                      }
-                                      renderDayContents={day =>
-                                        moment(day).format('jD')
-                                      }
-                                    />
-                                    <Form.Input
-                                      style={{ width: '47%' }}
-                                      placeholder="قیمت"
-                                      label={t('carTiming.price')}
-                                      onChange={(e, data) => {
-                                        if (data) {
-                                          this.setState({
-                                            price: clearNumber(data.value)
-                                          });
+                                              }
+                                            });
                                         }
-                                      }}
-                                      value={
-                                        this.state.price
-                                          ? convertNumbers2Persian(
-                                              numberWithCommas(this.state.price)
-                                            )
-                                          : this.state.price
+                                      });
+                                  }
+                                });
+                            }
+                          });
+                      }
+                    });
+                }
+              })
+              .catch(error => {
+                console.error(error);
+                this.setState({ error: true, success: false });
+              });
+          }}
+          validationSchema={Yup.object().shape({
+            daysToGetReminded: Yup.number()
+              .required(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
+              .typeError(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
+              .min(1, MinErrorGenrator(t('carTiming.daysToGetReminded'), 1))
+              .max(
+                31,
+                MaxErrorGenrator(t('carTiming.daysToGetReminded'), 31)
+              ),
+            minDaysToRent: Yup.number()
+              .required(fieldErrorGenrator(t('carTiming.minDaysToRent')))
+              .typeError(fieldErrorGenrator(t('carTiming.minDaysToRent')))
+              .min(1, MinErrorGenrator(t('carTiming.minDaysToRent'), 1))
+              .max(31, MaxErrorGenrator(t('carTiming.minDaysToRent'), 31)),
+            distanceLimit: Yup.number()
+              .required(fieldErrorGenrator(t('carTiming.distanceLimit')))
+              .typeError(fieldErrorGenrator(t('carTiming.distanceLimit')))
+              .min(50, MinErrorGenrator(t('carTiming.distanceLimit'), 50)),
+            extraKm: Yup.number()
+              .required(fieldErrorGenrator(t('carTiming.extraKmCost')))
+              .typeError(fieldErrorGenrator(t('carTiming.extraKmCost')))
+              .max(
+                10000000,
+                MaxErrorGenrator(t('carTiming.extraKmCost'), 10000000)
+              ),
+            cancellationPolicy: Yup.string()
+              .required(fieldErrorGenrator(t('carTiming.cancellationPolicy')))
+              .typeError(
+                fieldErrorGenrator(t('carTiming.cancellationPolicy'))
+              )
+          })}
+        >
+          {({
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            isSubmitting,
+            setFieldValue,
+            setFieldTouched,
+            submitCount,
+            values,
+            errors,
+            touched
+          }) => {
+            let radioPad;
+            if (values.radioGroup == false) {
+              radioPad = '16px';
+            } else {
+              radioPad = '0px';
+            }
+            return (
+              <BoxAccount className="box_account">
+                <Form onSubmit={handleSubmit}>
+                  <h3 className="new_client">{t('add_car')}</h3>
+                  {/* <small className="float-right pt-2">* {$required_fields}</small> */}
+                  <Segment>
+                    {/* <Divider horizontal>
+                    <Header as="h4">
+                      <Icon name="car" />
+                      پیشنمایش خودرو
+                    </Header>
+                  </Divider> */}
+                    <Item.Group>
+                      <Item>
+                        <Item.Image
+                          src={(carMedia_set[0] || { url: '' }).url}
+                        />
+                        <Item.Content>
+                          <Item.Header as="a">
+                            {`${carBrand} - ${carName}`}.
+                          </Item.Header>
+                          <Item.Meta>{carDescription}</Item.Meta>
+                          <Item.Description>
+                            <div className="pelak" style={{}}>
+                              <span id="carLicensePlates1">
+                                {convertNumbers2Persian(plate1)}
+                              </span>
+                              <span id="carLicensePlates2">{plate2}</span>
+                              <span id="carLicensePlates3">
+                                {convertNumbers2Persian(plate3)}
+                              </span>
+                              <span id="carLicensePlates4">
+                                {convertNumbers2Persian(plate4)}
+                              </span>
+                            </div>
+                          </Item.Description>
+                          <Item.Extra>{carLocation}</Item.Extra>
+                        </Item.Content>
+                      </Item>
+                      {/* carPelak, carColor, carYear, carMin_days_to_rent,
+                          carDeliver_at_renters_place, , ,
+                            */}
+                    </Item.Group>
+                    {/* ===================================================================== */}
+                    <Divider horizontal>
+                      <Header as="h4">
+                        <Icon name="edit" />
+                        شرایط اجاره
+                      </Header>
+                    </Divider>
+                    {/* ===================================================================== */}
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>{t('carTiming.daysToGetReminded')}</label>
+                    </Form.Field>
+                    <Input
+                      name="daysToGetReminded"
+                      className="numstep daysToGetReminded"
+                      error={Boolean(
+                        errors.daysToGetReminded && touched.daysToGetReminded
+                      )}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, clearNumber(data.value));
+                          setFieldTouched(data.name);
+                        }
+                      }}
+                      value={convertNumbers2Persian(values.daysToGetReminded)}
+                    >
+                      <Label
+                        basic
+                        onClick={(e, data) => {
+                          if (values.daysToGetReminded < 31) {
+                            let val = Number(values.daysToGetReminded);
+                            setFieldValue('daysToGetReminded', ++val);
+                          }
+                        }}
+                      >
+                        <Icon name="plus" />
+                      </Label>
+                      <input inputMode="numeric" />
+                      <Label
+                        basic
+                        onClick={(e, data) => {
+                          if (values.daysToGetReminded > 1) {
+                            let val = Number(values.daysToGetReminded);
+                            setFieldValue('daysToGetReminded', --val);
+                          }
+                        }}
+                      >
+                        <Icon name="minus" />
+                      </Label>
+                      <span>روز قبل</span>
+                    </Input>
+                    {/* ===================================================================== */}
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>{t('carTiming.minDaysToRent')}</label>
+                    </Form.Field>
+                    <Input
+                      name="minDaysToRent"
+                      className="numstep minDaysToRent"
+                      inputMode="numeric"
+                      error={Boolean(
+                        errors.minDaysToRent && touched.minDaysToRent
+                      )}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, clearNumber(data.value));
+                          setFieldTouched(data.name);
+                        }
+                      }}
+                      value={convertNumbers2Persian(values.minDaysToRent)}
+                    >
+                      <Label
+                        basic
+                        onClick={(e, data) => {
+                          if (clearNumber(values.minDaysToRent) < 31) {
+                            let val = Number(
+                              clearNumber(values.minDaysToRent)
+                            );
+                            setFieldValue(
+                              'minDaysToRent',
+                              clearNumber(++val)
+                            );
+                          }
+                        }}
+                      >
+                        <Icon name="plus" />
+                      </Label>
+                      <input inputMode="numeric" />
+                      <Label
+                        basic
+                        onClick={(e, data) => {
+                          if (clearNumber(values.minDaysToRent) > 1) {
+                            let val = Number(
+                              clearNumber(values.minDaysToRent)
+                            );
+                            setFieldValue(
+                              'minDaysToRent',
+                              clearNumber(--val)
+                            );
+                          }
+                        }}
+                      >
+                        <Icon name="minus" />
+                      </Label>
+                      <span>روز</span>
+                    </Input>
+                    {/* ===================================================================== */}
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>{t('carTiming.distanceLimit')}</label>
+                    </Form.Field>
+                    <Form.Input
+                      // icon="search"
+                      // iconPosition="left"
+                      name="distanceLimit"
+                      className="distanceLimit"
+                      error={Boolean(
+                        errors.distanceLimit && touched.distanceLimit
+                      )}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, clearNumber(data.value));
+                          setFieldTouched(data.name);
+                        }
+                      }}
+                      value={
+                        values.distanceLimit
+                          ? convertNumbers2Persian(
+                              numberWithCommas(values.distanceLimit)
+                            )
+                          : values.distanceLimit
+                      }
+                    >
+                      <input inputMode="numeric" />
+                    </Form.Input>
+                    <span
+                      style={{
+                        float: 'right',
+                        lineHeight: '48px',
+                        marginRight: '8px'
+                      }}
+                    >
+                      کیلومتر در روز
+                    </span>
+                    {/* ===================================================================== */}
+                    <Form.Field style={{ margin: 0 }}>
+                      <label>{t('carTiming.extraKmCost')}</label>
+                    </Form.Field>
+                    <Form.Input
+                      // icon="search"
+                      // iconPosition="left"
+                      name="extraKm"
+                      className="extraKm"
+                      inputMode="numeric"
+                      //   type="number"
+                      error={Boolean(errors.extraKm && touched.extraKm)}
+                      onChange={(e, data) => {
+                        if (data && data.name) {
+                          setFieldValue(data.name, clearNumber(data.value));
+                          setFieldTouched(data.name);
+                        }
+                      }}
+                      value={
+                        values.extraKm
+                          ? convertNumbers2Persian(
+                              numberWithCommas(values.extraKm)
+                            )
+                          : values.extraKm
+                      }
+                    >
+                      <input inputMode="numeric" />
+                    </Form.Input>
+                    <span
+                      style={{
+                        float: 'right',
+                        lineHeight: '48px',
+                        marginRight: '8px'
+                      }}
+                    >
+                      تومان
+                    </span>
+                    {/* ===================================================================== */}
+                    <Form.Field>
+                      <Checkbox
+                        label={t('carTiming.deliver_at_renters_place')}
+                        name="deliverAtRentersPlace"
+                        id="deliverAtRentersPlace"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        checked={values.deliverAtRentersPlace}
+                      />
+                    </Form.Field>
+                    <br />
+                    {/* ===================================================================== */}
+                    {/* ===================================================================== */}
+                    <Divider horizontal>
+                      <Header as="h4">
+                        <Icon name="calendar alternate outline" />
+                        {t('carTiming.rentDateAndPrice')}
+                      </Header>
+                    </Divider>
+                    {/* ===================================================================== */}
+                    <Form.Field>
+                      <Radio
+                        label={t(
+                          'carTiming.availableInAllDatesWithSamePrice'
+                        )}
+                        name="radioGroup"
+                        value={false}
+                        checked={values.radioGroup === false}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        onClick={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                      />
+                    </Form.Field>
+                    {values.radioGroup == false && (
+                      <div>
+                        {/* <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carTiming.extraKmCost')}</label>
+                      </Form.Field> */}
+                        <Input
+                          // icon="search"
+                          // iconPosition="left"
+                          name="availableInAllPrice"
+                          className="extraKm"
+                          error={Boolean(
+                            errors.availableInAllPrice &&
+                              touched.availableInAllPrice
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(
+                                data.name,
+                                clearNumber(data.value)
+                              );
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={
+                            values.availableInAllPrice
+                              ? convertNumbers2Persian(
+                                  numberWithCommas(values.availableInAllPrice)
+                                )
+                              : values.availableInAllPrice
+                          }
+                        >
+                          <input inputMode="numeric" />
+                        </Input>
+                        <span
+                          style={{
+                            float: 'right',
+                            lineHeight: '48px',
+                            marginRight: '8px'
+                          }}
+                        >
+                          {t('carTiming.toman')}
+                        </span>
+                      </div>
+                    )}
+
+                    <Form.Field style={{ paddingTop: radioPad }}>
+                      <Radio
+                        label={t(
+                          'carTiming.availableInDifferentDateRangesWithDifferentPrice'
+                        )}
+                        name="radioGroup"
+                        value={true}
+                        checked={values.radioGroup === true}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                          }
+                        }}
+                        onClick={(e, data) => {
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                      />
+                    </Form.Field>
+                    {values.radioGroup == true && (
+                      <div style={{ maxWidth: '370px' }}>
+                        <Segment.Group style={{ marginBottom: '12px' }}>
+                          {this.state.carTimings.map((val, index) => {
+                            if (this.state.openEditFor == index) {
+                              if (
+                                this.state.startDate === null ||
+                                this.state.endDate === null ||
+                                this.state.price === null
+                              ) {
+                                this.setState({
+                                  startDate: val.startDate,
+                                  endDate: val.endDate,
+                                  price: val.price
+                                });
+                              }
+                              return (
+                                <Segment
+                                  key={index}
+                                  style={{ textAlign: 'right' }}
+                                >
+                                  <Form.Group>
+                                    <Form.Field
+                                      style={{ margin: 0, maxWidth: '47%' }}
+                                    >
+                                      <label>{t('carTiming.from')}</label>
+                                    </Form.Field>
+                                    <Form.Field
+                                      style={{ margin: 0, maxWidth: '47%' }}
+                                    >
+                                      <label>{t('carTiming.to')}</label>
+                                    </Form.Field>
+                                  </Form.Group>
+                                  <DateRangePicker
+                                    isRTL
+                                    startDate={this.state.startDate}
+                                    startDateId="unique_start_date_id"
+                                    endDate={this.state.endDate}
+                                    endDateId="unique_end_date_id"
+                                    onDatesChange={({ startDate, endDate }) =>
+                                      this.setState({ startDate, endDate })
+                                    }
+                                    focusedInput={this.state.focusedInput}
+                                    onFocusChange={focusedInput =>
+                                      this.setState({ focusedInput })
+                                    }
+                                    startDatePlaceholderText="تاریخ شروع"
+                                    endDatePlaceholderText="تاریخ پایان"
+                                    // minimumNights={1}
+                                    monthFormat={'jMMMM jYYYY'}
+                                    numberOfMonths={1}
+                                    renderMonthText={month =>
+                                      moment(month).format('jMMMM jYYYY')
+                                    }
+                                    renderDayContents={day =>
+                                      moment(day).format('jD')
+                                    }
+                                  />
+                                  <Form.Input
+                                    style={{ width: '47%' }}
+                                    placeholder="قیمت"
+                                    label={t('carTiming.price')}
+                                    onChange={(e, data) => {
+                                      if (data) {
+                                        this.setState({
+                                          price: clearNumber(data.value)
+                                        });
                                       }
-                                    >
-                                      <input inputMode="numeric" />
-                                    </Form.Input>
-                                    <Button.Group
-                                      size="tiny"
-                                      style={{
-                                        flexDirection: 'row-reverse',
-                                        position: 'relative',
-                                        bottom: '-5px',
-                                        left: '-70px'
-                                      }}
-                                    >
-                                      <Button
-                                        positive
-                                        type="button"
-                                        onClick={e => {
-                                          console.log(e);
-                                          let data = this.state.carTimings;
-                                          if (
-                                            this.state.startDate &&
-                                            this.state.endDate &&
-                                            this.state.price
-                                          ) {
-                                            data.splice(index, 1, {
-                                              startDate: this.state.startDate,
-                                              endDate: this.state.endDate,
-                                              price: this.state.price
-                                            });
-                                            this.setState({
-                                              carTimings: data,
-                                              startDate: moment(),
-                                              endDate: moment(),
-                                              price: '',
-                                              showNewEntery: false,
-                                              openEditFor: null
-                                            });
-                                          }
-                                        }}
-                                      >
-                                        ثبت
-                                      </Button>
-                                      <Button
-                                        type="button"
-                                        onClick={e => {
+                                    }}
+                                    value={
+                                      this.state.price
+                                        ? convertNumbers2Persian(
+                                            numberWithCommas(this.state.price)
+                                          )
+                                        : this.state.price
+                                    }
+                                  >
+                                    <input inputMode="numeric" />
+                                  </Form.Input>
+                                  <Button.Group
+                                    size="tiny"
+                                    style={{
+                                      flexDirection: 'row-reverse',
+                                      position: 'relative',
+                                      bottom: '-5px',
+                                      left: '-70px'
+                                    }}
+                                  >
+                                    <Button
+                                      positive
+                                      type="button"
+                                      onClick={e => {
+                                        console.log(e);
+                                        let data = this.state.carTimings;
+                                        if (
+                                          this.state.startDate &&
+                                          this.state.endDate &&
+                                          this.state.price
+                                        ) {
+                                          data.splice(index, 1, {
+                                            startDate: this.state.startDate,
+                                            endDate: this.state.endDate,
+                                            price: this.state.price
+                                          });
                                           this.setState({
+                                            carTimings: data,
                                             startDate: moment(),
                                             endDate: moment(),
                                             price: '',
                                             showNewEntery: false,
                                             openEditFor: null
                                           });
-                                        }}
-                                      >
-                                        لغو
-                                      </Button>
-                                    </Button.Group>
-                                  </Segment>
-                                );
-                              } else {
-                                return (
-                                  <Segment
-                                    key={index}
-                                    style={{ textAlign: 'right' }}
-                                  >
-                                    <span>
-                                      <label>از</label>{' '}
-                                      {val.startDate.format('jDD jMMMM jYY')}{' '}
-                                      <label>تا</label>{' '}
-                                      {val.endDate.format('jDD jMMMM jYY')}{' '}
-                                      <br />
-                                      <label>با قیمت</label>{' '}
-                                      {convertNumbers2Persian(
-                                        numberWithCommas(val.price)
-                                      )}{' '}
-                                      تومان
-                                    </span>
-                                    <Icon
-                                      name="close"
-                                      onClick={e => {
-                                        let data = this.state.carTimings;
-                                        data.splice(index, 1);
-                                        this.setState({
-                                          carTimings: data
-                                        });
+                                        }
                                       }}
-                                    />
-                                    <Icon
-                                      name="edit outline"
+                                    >
+                                      ثبت
+                                    </Button>
+                                    <Button
+                                      type="button"
                                       onClick={e => {
                                         this.setState({
-                                          showNewEntery: false,
-                                          openEditFor: index,
-                                          startDate: null,
-                                          endDate: null,
-                                          price: null
-                                        });
-                                      }}
-                                    />
-                                  </Segment>
-                                );
-                              }
-                            })}
-
-                            {/* ======================  new form ========================= */}
-                            {this.state.showNewEntery && (
-                              <Segment className="timingEntery">
-                                <Form.Group>
-                                  <Form.Field
-                                    style={{ margin: 0, maxWidth: '47%' }}
-                                  >
-                                    <label>{t('carTiming.from')}</label>
-                                  </Form.Field>
-                                  <Form.Field
-                                    style={{ margin: 0, maxWidth: '47%' }}
-                                  >
-                                    <label>{t('carTiming.to')}</label>
-                                  </Form.Field>
-                                </Form.Group>
-                                <DateRangePicker
-                                  isRTL
-                                  startDate={this.state.startDate}
-                                  startDateId="your_unique_start_date_id"
-                                  endDate={this.state.endDate}
-                                  endDateId="your_unique_end_date_id"
-                                  onDatesChange={({ startDate, endDate }) =>
-                                    this.setState({ startDate, endDate })
-                                  }
-                                  focusedInput={this.state.focusedInput}
-                                  onFocusChange={focusedInput =>
-                                    this.setState({ focusedInput })
-                                  }
-                                  startDatePlaceholderText="تاریخ شروع"
-                                  endDatePlaceholderText="تاریخ پایان"
-                                  // minimumNights={1}
-                                  monthFormat={'jMMMM jYYYY'}
-                                  numberOfMonths={1}
-                                  renderMonthText={month =>
-                                    moment(month).format('jMMMM jYYYY')
-                                  }
-                                  renderDayContents={day =>
-                                    moment(day).format('jD')
-                                  }
-                                />
-                                <Form.Input
-                                  style={{ width: '47%' }}
-                                  name="price"
-                                  placeholder="قیمت"
-                                  label={t('carTiming.price')}
-                                  onChange={(e, data) => {
-                                    if (data && data.name) {
-                                      this.setState({
-                                        price: clearNumber(data.value)
-                                      });
-                                    }
-                                  }}
-                                  value={
-                                    this.state.price
-                                      ? convertNumbers2Persian(
-                                          numberWithCommas(this.state.price)
-                                        )
-                                      : this.state.price
-                                  }
-                                >
-                                  <input inputMode="numeric" />
-                                </Form.Input>
-                                <Button.Group
-                                  size="tiny"
-                                  style={{
-                                    flexDirection: 'row-reverse',
-                                    position: 'relative',
-                                    bottom: '-30px',
-                                    left: '-15px'
-                                  }}
-                                >
-                                  <Button
-                                    positive
-                                    type="button"
-                                    onClick={e => {
-                                      console.log(e);
-                                      let data = this.state.carTimings;
-                                      if (
-                                        this.state.startDate &&
-                                        this.state.endDate &&
-                                        this.state.price
-                                      ) {
-                                        data.push({
-                                          startDate: this.state.startDate,
-                                          endDate: this.state.endDate,
-                                          price: this.state.price
-                                        });
-                                        this.setState({
-                                          carTimings: data,
                                           startDate: moment(),
                                           endDate: moment(),
                                           price: '',
-                                          showNewEntery: false
+                                          showNewEntery: false,
+                                          openEditFor: null
                                         });
-                                      }
-                                    }}
-                                  >
-                                    ثبت
-                                  </Button>
-                                  <Button
-                                    type="button"
+                                      }}
+                                    >
+                                      لغو
+                                    </Button>
+                                  </Button.Group>
+                                </Segment>
+                              );
+                            } else {
+                              return (
+                                <Segment
+                                  key={index}
+                                  style={{ textAlign: 'right' }}
+                                >
+                                  <span>
+                                    <label>از</label>{' '}
+                                    {val.startDate.format('jDD jMMMM jYY')}{' '}
+                                    <label>تا</label>{' '}
+                                    {val.endDate.format('jDD jMMMM jYY')}{' '}
+                                    <br />
+                                    <label>با قیمت</label>{' '}
+                                    {convertNumbers2Persian(
+                                      numberWithCommas(val.price)
+                                    )}{' '}
+                                    تومان
+                                  </span>
+                                  <Icon
+                                    name="close"
                                     onClick={e => {
+                                      let data = this.state.carTimings;
+                                      data.splice(index, 1);
                                       this.setState({
-                                        showNewEntery: false
+                                        carTimings: data
                                       });
                                     }}
-                                  >
-                                    حذف
-                                  </Button>
-                                </Button.Group>
-                              </Segment>
-                            )}
-                          </Segment.Group>
-                          <Button
-                            icon
-                            labelPosition="left"
-                            type="button"
-                            style={{ marginBottom: '12px' }}
-                            onClick={e => {
-                              this.setState({
-                                showNewEntery: true,
-                                openEditFor: null,
-                                startDate: moment(),
-                                endDate: moment(),
-                                price: ''
-                              });
-                            }}
-                          >
-                            <Icon name="plus" />
-                            افزودن
-                          </Button>
-                        </div>
-                      )}
-                      {/* ===================================================================== */}
-                      <Form.Group>
-                        <Form.Field
-                          control={TextArea}
-                          label={t('carTiming.cancellationPolicy')}
-                          id="cancellationPolicy"
-                          name="cancellationPolicy"
-                          placeholder={t('carTiming.cancellationPolicy')}
-                          style={{ minHeight: 150 }}
-                          error={Boolean(
-                            errors.cancellationPolicy &&
-                              touched.cancellationPolicy
-                          )}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
-                              setFieldTouched(data.name);
+                                  />
+                                  <Icon
+                                    name="edit outline"
+                                    onClick={e => {
+                                      this.setState({
+                                        showNewEntery: false,
+                                        openEditFor: index,
+                                        startDate: null,
+                                        endDate: null,
+                                        price: null
+                                      });
+                                    }}
+                                  />
+                                </Segment>
+                              );
                             }
-                          }}
-                          onBlur={handleBlur}
-                          value={values.cancellationPolicy}
-                        />
-                      </Form.Group>
-                      {/* ===================================================================== */}
-                      <Form.Field
-                        style={{ textAlign: 'center', fontSize: '0.8em' }}
-                      >
+                          })}
+
+                          {/* ======================  new form ========================= */}
+                          {this.state.showNewEntery && (
+                            <Segment className="timingEntery">
+                              <Form.Group>
+                                <Form.Field
+                                  style={{ margin: 0, maxWidth: '47%' }}
+                                >
+                                  <label>{t('carTiming.from')}</label>
+                                </Form.Field>
+                                <Form.Field
+                                  style={{ margin: 0, maxWidth: '47%' }}
+                                >
+                                  <label>{t('carTiming.to')}</label>
+                                </Form.Field>
+                              </Form.Group>
+                              <DateRangePicker
+                                isRTL
+                                startDate={this.state.startDate}
+                                startDateId="your_unique_start_date_id"
+                                endDate={this.state.endDate}
+                                endDateId="your_unique_end_date_id"
+                                onDatesChange={({ startDate, endDate }) =>
+                                  this.setState({ startDate, endDate })
+                                }
+                                focusedInput={this.state.focusedInput}
+                                onFocusChange={focusedInput =>
+                                  this.setState({ focusedInput })
+                                }
+                                startDatePlaceholderText="تاریخ شروع"
+                                endDatePlaceholderText="تاریخ پایان"
+                                // minimumNights={1}
+                                monthFormat={'jMMMM jYYYY'}
+                                numberOfMonths={1}
+                                renderMonthText={month =>
+                                  moment(month).format('jMMMM jYYYY')
+                                }
+                                renderDayContents={day =>
+                                  moment(day).format('jD')
+                                }
+                              />
+                              <Form.Input
+                                style={{ width: '47%' }}
+                                name="price"
+                                placeholder="قیمت"
+                                label={t('carTiming.price')}
+                                onChange={(e, data) => {
+                                  if (data && data.name) {
+                                    this.setState({
+                                      price: clearNumber(data.value)
+                                    });
+                                  }
+                                }}
+                                value={
+                                  this.state.price
+                                    ? convertNumbers2Persian(
+                                        numberWithCommas(this.state.price)
+                                      )
+                                    : this.state.price
+                                }
+                              >
+                                <input inputMode="numeric" />
+                              </Form.Input>
+                              <Button.Group
+                                size="tiny"
+                                style={{
+                                  flexDirection: 'row-reverse',
+                                  position: 'relative',
+                                  bottom: '-30px',
+                                  left: '-15px'
+                                }}
+                              >
+                                <Button
+                                  positive
+                                  type="button"
+                                  onClick={e => {
+                                    console.log(e);
+                                    let data = this.state.carTimings;
+                                    if (
+                                      this.state.startDate &&
+                                      this.state.endDate &&
+                                      this.state.price
+                                    ) {
+                                      data.push({
+                                        startDate: this.state.startDate,
+                                        endDate: this.state.endDate,
+                                        price: this.state.price
+                                      });
+                                      this.setState({
+                                        carTimings: data,
+                                        startDate: moment(),
+                                        endDate: moment(),
+                                        price: '',
+                                        showNewEntery: false
+                                      });
+                                    }
+                                  }}
+                                >
+                                  ثبت
+                                </Button>
+                                <Button
+                                  type="button"
+                                  onClick={e => {
+                                    this.setState({
+                                      showNewEntery: false
+                                    });
+                                  }}
+                                >
+                                  حذف
+                                </Button>
+                              </Button.Group>
+                            </Segment>
+                          )}
+                        </Segment.Group>
                         <Button
-                          loading={isSubmitting}
-                          primary
-                          type="submit"
-                          className="btn_1 full-width"
+                          icon
+                          labelPosition="left"
+                          type="button"
+                          style={{ marginBottom: '12px' }}
+                          onClick={e => {
+                            this.setState({
+                              showNewEntery: true,
+                              openEditFor: null,
+                              startDate: moment(),
+                              endDate: moment(),
+                              price: ''
+                            });
+                          }}
                         >
-                          {t('signup')}
+                          <Icon name="plus" />
+                          افزودن
                         </Button>
-                        {isSubmitting && (
-                          <Progress
-                            value={this.state.submittingSteps}
-                            total="7"
-                            indicating={isSubmitting}
-                            success={this.state.submittingSteps == 7}
-                          />
+                      </div>
+                    )}
+                    {/* ===================================================================== */}
+                    <Form.Group>
+                      <Form.Field
+                        control={TextArea}
+                        label={t('carTiming.cancellationPolicy')}
+                        id="cancellationPolicy"
+                        name="cancellationPolicy"
+                        placeholder={t('carTiming.cancellationPolicy')}
+                        style={{ minHeight: 150 }}
+                        error={Boolean(
+                          errors.cancellationPolicy &&
+                            touched.cancellationPolicy
                         )}
-                      </Form.Field>
-                      {error && (
-                        <Label attached="bottom" color="red">
-                          {t('forms.error')}
-                        </Label>
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        onBlur={handleBlur}
+                        value={values.cancellationPolicy}
+                      />
+                    </Form.Group>
+                    {/* ===================================================================== */}
+                    <Form.Field
+                      style={{ textAlign: 'center', fontSize: '0.8em' }}
+                    >
+                      <Button
+                        loading={isSubmitting}
+                        primary
+                        type="submit"
+                        className="btn_1 full-width"
+                      >
+                        {t('signup')}
+                      </Button>
+                      {isSubmitting && (
+                        <Progress
+                          value={this.state.submittingSteps}
+                          total="7"
+                          indicating={isSubmitting}
+                          success={this.state.submittingSteps == 7}
+                        />
                       )}
-                      {Object.keys(errors).length >= 1 && submitCount >= 1 && (
-                        <Label attached="bottom" color="red">
-                          {Object.values(errors)[0]}
-                        </Label>
-                      )}
-                    </Segment>
-                  </Form>
-                </BoxAccount>
-              );
-            }}
-          </Formik>
-        </Error404>
-      );
+                    </Form.Field>
+                    {error && (
+                      <Label attached="bottom" color="red">
+                        {t('forms.error')}
+                      </Label>
+                    )}
+                    {Object.keys(errors).length >= 1 && submitCount >= 1 && (
+                      <Label attached="bottom" color="red">
+                        {Object.values(errors)[0]}
+                      </Label>
+                    )}
+                  </Segment>
+                </Form>
+              </BoxAccount>
+            );
+          }}
+        </Formik>
+      )
+      else return (
+        <Error404 token={this.state.token} openModal={this.props.openModal} />
+      )
     }
   }
 );

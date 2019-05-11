@@ -7,21 +7,34 @@ import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
 
 export default withNamespaces('common')(
-  class extends React.Component<{ t: any }> {
+  class extends React.Component<{ t: any; openModal?: any; }> {
     static async getInitialProps() {
       return {
         namespacesRequired: ['common']
       };
     }
+    state = {
+      openModal: () => (null)
+    }
+
+    doRef = ref => {
+      if (ref) {
+        this.header = ref;
+        this.setState({ openModal: this.header.onClick })
+      }
+    };
 
     render() {
       const { t } = this.props;
       return (
-        <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
+        <Layout haveSubHeader={true} pageTitle={'list Your Car'} onRef={this.doRef}>
           <Section justifyCenter={true}>
             <Flex justifyContent="space-around" style={{ width: '600px' }}>
               <Box width={1 / 1} px={2}>
-                <AddCarForm t={t} />
+                <AddCarForm
+                  t={t}
+                  openModal={this.state.openModal}
+                />
               </Box>
             </Flex>
           </Section>

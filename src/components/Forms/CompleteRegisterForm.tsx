@@ -120,8 +120,7 @@ export default withNamespaces('common')(
       } = this.props.strings;
       const { phone, token, error, completeRegister } = this.state;
       const { t, query } = this.props;
-      return (
-        <Error404 token={completeRegister}>
+      if(this.state.token) return (
           <Formik
             initialValues={{
               firstName: '',
@@ -471,8 +470,10 @@ export default withNamespaces('common')(
               )
             }}
           </Formik>
-        </Error404 >
       );
+      else return (
+        <Error404 token={this.state.token} openModal={this.props.openModal} />
+      )
     }
   }
 );

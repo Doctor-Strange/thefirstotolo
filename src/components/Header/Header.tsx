@@ -244,6 +244,7 @@ class Header extends React.Component<{
   firstName?: string;
   lastName?: string;
   token?: string;
+  onRef?: any;
 }> {
   [x: string]: any;
   static async getInitialProps() {
@@ -285,6 +286,10 @@ class Header extends React.Component<{
 
   componentDidMount() {
     this.updateInfo();
+    this.props.onRef(this);
+  }
+  componentWillUnmount() {
+    this.props.onRef(undefined);
   }
 
   updateInfo() {
@@ -378,7 +383,7 @@ class Header extends React.Component<{
           </header>
         </HeaderSticky>
 
-        <LoginModal onRef={this.doRef} updateInfo={this.updateInfo}/>
+        <LoginModal onRef={this.doRef} updateInfo={this.updateInfo} />
       </>
     );
   }

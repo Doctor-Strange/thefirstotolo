@@ -220,6 +220,7 @@ export default withNamespaces('common')(
     t: any;
     success: boolean;
     name: string;
+    openModal?: any;
   }> {
     state = {
       token: '',
@@ -419,8 +420,8 @@ export default withNamespaces('common')(
       axios
         .post(
           'https://otoli.net' +
-            '/core/location/list?limit=100&parent_id=' +
-            cityID
+          '/core/location/list?limit=100&parent_id=' +
+          cityID
         )
         .then(response => {
           if (
@@ -515,7 +516,7 @@ export default withNamespaces('common')(
             else cblist[index].checked = true;
             console.log(
               `"id" is ${cblist[index].label} and "checkboxes[${index}]" is ${
-                cblist[index].checked
+              cblist[index].checked
               }`
             );
             IDs.push(id);
@@ -533,7 +534,7 @@ export default withNamespaces('common')(
     }
 
     getCarInfo(modelID) {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         axios
           .post('https://otoli.net' + '/core/car/get?id=' + modelID)
           .then(response => {
@@ -597,8 +598,7 @@ export default withNamespaces('common')(
           t('forms.error_filed_required2')
         );
       };
-      return (
-        <Error404 token={this.state.token}>
+      if(this.state.token) return (
           <Formik
             initialValues={{
               carCity: null,
@@ -679,7 +679,7 @@ export default withNamespaces('common')(
                     Router.push({
                       pathname: '/set-car-timing',
                       query: {
-                        car_id: response.data.data.id
+                        id: response.data.data.id
                       }
                     });
                   }
@@ -769,64 +769,300 @@ export default withNamespaces('common')(
               errors,
               touched
             }) => (
-              <BoxAccount className="box_account">
-                <Form onSubmit={handleSubmit}>
-                  <h3 className="new_client">{t('add_car')}</h3>
-                  {/* <small className="float-right pt-2">* {$required_fields}</small> */}
-                  <Segment>
-                    {/* <Form.Field style={{ margin: 0 }}>
+                <BoxAccount className="box_account">
+                  <Form onSubmit={handleSubmit}>
+                    <h3 className="new_client">{t('add_car')}</h3>
+                    {/* <small className="float-right pt-2">* {$required_fields}</small> */}
+                    <Segment>
+                      {/* <Form.Field style={{ margin: 0 }}>
                       <label>{t('carProperty.whereIsIt')}</label>
                     </Form.Field> */}
-                    <Form.Group>
+                      <Form.Group>
+                        <Form.Dropdown
+                          name="carCity"
+                          id="carCity"
+                          label={t('carProperty.whereIsIt')}
+                          placeholder={t('carProperty.city')}
+                          noResultsMessage={t('forms.error_no_result_found')}
+                          selection
+                          loading={this.state.citiesFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.citiesEnglish
+                              : this.state.citiesFarsi
+                          }
+                          error={Boolean(errors.carCity && touched.carCity)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              setFieldValue('carDistrict', undefined);
+                              this.setCityDistrict(data.value);
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            console.log(e);
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carCity}
+                        />
+                        {this.state.shouldCityDistrictShow ? (
+                          <Form.Dropdown
+                            name="carDistrict"
+                            id="carDistrict"
+                            search
+                            label={t('carProperty.district')}
+                            placeholder={t('carProperty.district')}
+                            noResultsMessage={t('forms.error_no_result_found')}
+                            selection
+                            loading={this.state.shouldCityDistrictLoad}
+                            disabled={
+                              this.state.cityDistrictFarsi[0].value == null
+                            }
+                            options={
+                              i18n.language === 'en'
+                                ? this.state.cityDistrictEnglish
+                                : this.state.cityDistrictFarsi
+                            }
+                            error={Boolean(
+                              errors.carDistrict && touched.carDistrict
+                            )}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, data.value);
+                              }
+                            }}
+                            onClose={(e, data) => {
+                              if (data && data.name) {
+                                setFieldTouched(data.name);
+                              }
+                            }}
+                            value={values.carDistrict}
+                          />
+                        ) : (
+                            <p />
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="carModelRow">
+                        <Form.Dropdown
+                          name="carBrand"
+                          id="carBrand"
+                          label={t('carProperty.brand')}
+                          placeholder={t('carProperty.brand')}
+                          noResultsMessage={t('forms.error_no_result_found')}
+                          search
+                          selection
+                          loading={this.state.brandsFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.brandsEnglish
+                              : this.state.brandsFarsi
+                          }
+                          error={Boolean(errors.carBrand && touched.carBrand)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              this.setModels(data.value);
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carBrand}
+                        />
+                        <Form.Dropdown
+                          name="carModel"
+                          id="carModel"
+                          search
+                          placeholder={t('carProperty.model')}
+                          noResultsMessage={t('forms.error_no_result_found')}
+                          label={t('carProperty.model')}
+                          selection
+                          loading={this.state.shouldModelLoad}
+                          disabled={this.state.modelsFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.modelsEnglish
+                              : this.state.modelsFarsi
+                          }
+                          error={Boolean(errors.carModel && touched.carModel)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              this.getCarInfo(data.value)
+                                .then(carInfo => {
+                                  //set car options
+                                  setFieldValue(
+                                    'carGearboxType',
+                                    carInfo.transmission_type
+                                  );
+                                  setFieldValue(
+                                    'carBodyStyle',
+                                    carInfo.body_style
+                                  );
+                                  setFieldValue('carCapacity', carInfo.capacity);
+
+                                  // clear checkboxes
+                                  let checkboxes = this.state.checkboxes;
+                                  let newcheckboxes = [];
+                                  checkboxes.map((value, index) => {
+                                    newcheckboxes.push({
+                                      id: value.id,
+                                      label: value.label,
+                                      checked: false,
+                                      parsedID: null
+                                    });
+                                  });
+                                  this.setState({ checkboxes: newcheckboxes });
+                                  //set car facilities checkboxes
+                                  carInfo.facilities.map((value, index) => {
+                                    this.setFasalities(value, true);
+                                  });
+                                })
+                                .catch(function (error) {
+                                  console.log(error.message);
+                                });
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carModel}
+                        />
+                        <Form.Dropdown
+                          name="carYear"
+                          id="carYear"
+                          search
+                          placeholder={t('carProperty.year')}
+                          noResultsMessage={t('forms.error_no_result_found')}
+                          label={t('carProperty.year')}
+                          selection
+                          loading={this.state.yearsFarsi[0].value == null}
+                          disabled={this.state.yearsFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.yearsEnglish
+                              : this.state.yearsFarsi
+                          }
+                          error={Boolean(errors.carYear && touched.carYear)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carYear}
+                        />
+                      </Form.Group>
+
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carProperty.gearBoxType')}</label>
+                      </Form.Field>
+                      <Form.Group inline className="gearBoxRow">
+                        <Form.Radio
+                          label={t('carProperty.gearBoxManual')}
+                          value={2}
+                          name="carGearboxType"
+                          checked={values.carGearboxType === 2}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          onClick={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                        />
+                        <Form.Radio
+                          label={t('carProperty.gearBoxAuto')}
+                          value={1}
+                          name="carGearboxType"
+                          checked={values.carGearboxType === 1}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          onClick={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                        />
+                      </Form.Group>
+
                       <Form.Dropdown
-                        name="carCity"
-                        id="carCity"
-                        label={t('carProperty.whereIsIt')}
-                        placeholder={t('carProperty.city')}
+                        name="carBodyStyle"
+                        id="carBodyStyle"
+                        placeholder={t('carProperty.cassis')}
                         noResultsMessage={t('forms.error_no_result_found')}
+                        search
                         selection
-                        loading={this.state.citiesFarsi[0].value == null}
+                        loading={this.state.bodyStyleFarsi[0].value == null}
                         options={
                           i18n.language === 'en'
-                            ? this.state.citiesEnglish
-                            : this.state.citiesFarsi
+                            ? this.state.bodyStyleEnglish
+                            : this.state.bodyStyleFarsi
                         }
-                        error={Boolean(errors.carCity && touched.carCity)}
+                        error={Boolean(
+                          errors.carBodyStyle && touched.carBodyStyle
+                        )}
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
-                            setFieldValue('carDistrict', undefined);
-                            this.setCityDistrict(data.value);
                           }
                         }}
                         onClose={(e, data) => {
-                          console.log(e);
                           if (data && data.name) {
                             setFieldTouched(data.name);
                           }
                         }}
-                        value={values.carCity}
+                        value={values.carBodyStyle}
                       />
-                      {this.state.shouldCityDistrictShow ? (
-                        <Form.Dropdown
-                          name="carDistrict"
-                          id="carDistrict"
-                          search
-                          label={t('carProperty.district')}
-                          placeholder={t('carProperty.district')}
-                          noResultsMessage={t('forms.error_no_result_found')}
-                          selection
-                          loading={this.state.shouldCityDistrictLoad}
-                          disabled={
-                            this.state.cityDistrictFarsi[0].value == null
+
+                      <Form.Input
+                        label={t('carProperty.capacity')}
+                        name="carCapacity"
+                        inputmode="numeric"
+                        type="number"
+                        pattern="[0-9]*"
+                        error={Boolean(errors.carCapacity && touched.carCapacity)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            setFieldTouched(data.name);
                           }
+                        }}
+                        value={values.carCapacity}
+                      />
+
+                      <Form.Group>
+                        <Form.Dropdown
+                          name="carKmDriven"
+                          id="carKmDriven"
+                          label={t('carProperty.kmDriven')}
+                          placeholder={t('carProperty.kmDriven')}
+                          // className="ltr"
+                          selection
                           options={
                             i18n.language === 'en'
-                              ? this.state.cityDistrictEnglish
-                              : this.state.cityDistrictFarsi
+                              ? kmDrivenEnglish
+                              : kmDrivenFarsi
                           }
                           error={Boolean(
-                            errors.carDistrict && touched.carDistrict
+                            errors.carKmDriven && touched.carKmDriven
                           )}
                           onChange={(e, data) => {
                             if (data && data.name) {
@@ -838,567 +1074,333 @@ export default withNamespaces('common')(
                               setFieldTouched(data.name);
                             }
                           }}
-                          value={values.carDistrict}
+                          value={values.carKmDriven}
                         />
-                      ) : (
-                        <p />
-                      )}
-                    </Form.Group>
+                      </Form.Group>
 
-                    <Form.Group className="carModelRow">
-                      <Form.Dropdown
-                        name="carBrand"
-                        id="carBrand"
-                        label={t('carProperty.brand')}
-                        placeholder={t('carProperty.brand')}
-                        noResultsMessage={t('forms.error_no_result_found')}
-                        search
-                        selection
-                        loading={this.state.brandsFarsi[0].value == null}
-                        options={
-                          i18n.language === 'en'
-                            ? this.state.brandsEnglish
-                            : this.state.brandsFarsi
-                        }
-                        error={Boolean(errors.carBrand && touched.carBrand)}
+                      <Form.Input
+                        label={t('carProperty.VIN')}
+                        name="carVIN"
+                        error={Boolean(errors.carVIN && touched.carVIN)}
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
-                            this.setModels(data.value);
-                          }
-                        }}
-                        onClose={(e, data) => {
-                          if (data && data.name) {
                             setFieldTouched(data.name);
                           }
                         }}
-                        value={values.carBrand}
+                        value={values.carVIN}
+                        style={{ direction: 'ltr' }}
                       />
-                      <Form.Dropdown
-                        name="carModel"
-                        id="carModel"
-                        search
-                        placeholder={t('carProperty.model')}
-                        noResultsMessage={t('forms.error_no_result_found')}
-                        label={t('carProperty.model')}
-                        selection
-                        loading={this.state.shouldModelLoad}
-                        disabled={this.state.modelsFarsi[0].value == null}
-                        options={
-                          i18n.language === 'en'
-                            ? this.state.modelsEnglish
-                            : this.state.modelsFarsi
-                        }
-                        error={Boolean(errors.carModel && touched.carModel)}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                            this.getCarInfo(data.value)
-                              .then(carInfo => {
-                                //set car options
-                                setFieldValue(
-                                  'carGearboxType',
-                                  carInfo.transmission_type
-                                );
-                                setFieldValue(
-                                  'carBodyStyle',
-                                  carInfo.body_style
-                                );
-                                setFieldValue('carCapacity', carInfo.capacity);
 
-                                // clear checkboxes
-                                let checkboxes = this.state.checkboxes;
-                                let newcheckboxes = [];
-                                checkboxes.map((value, index) => {
-                                  newcheckboxes.push({
-                                    id: value.id,
-                                    label: value.label,
-                                    checked: false,
-                                    parsedID: null
-                                  });
-                                });
-                                this.setState({ checkboxes: newcheckboxes });
-                                //set car facilities checkboxes
-                                carInfo.facilities.map((value, index) => {
-                                  this.setFasalities(value, true);
-                                });
-                              })
-                              .catch(function(error) {
-                                console.log(error.message);
-                              });
-                          }
-                        }}
-                        onClose={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={values.carModel}
-                      />
-                      <Form.Dropdown
-                        name="carYear"
-                        id="carYear"
-                        search
-                        placeholder={t('carProperty.year')}
-                        noResultsMessage={t('forms.error_no_result_found')}
-                        label={t('carProperty.year')}
-                        selection
-                        loading={this.state.yearsFarsi[0].value == null}
-                        disabled={this.state.yearsFarsi[0].value == null}
-                        options={
-                          i18n.language === 'en'
-                            ? this.state.yearsEnglish
-                            : this.state.yearsFarsi
-                        }
-                        error={Boolean(errors.carYear && touched.carYear)}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClose={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={values.carYear}
-                      />
-                    </Form.Group>
-
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carProperty.gearBoxType')}</label>
-                    </Form.Field>
-                    <Form.Group inline className="gearBoxRow">
-                      <Form.Radio
-                        label={t('carProperty.gearBoxManual')}
-                        value={2}
-                        name="carGearboxType"
-                        checked={values.carGearboxType === 2}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClick={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                      />
-                      <Form.Radio
-                        label={t('carProperty.gearBoxAuto')}
-                        value={1}
-                        name="carGearboxType"
-                        checked={values.carGearboxType === 1}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClick={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                      />
-                    </Form.Group>
-
-                    <Form.Dropdown
-                      name="carBodyStyle"
-                      id="carBodyStyle"
-                      placeholder={t('carProperty.cassis')}
-                      noResultsMessage={t('forms.error_no_result_found')}
-                      search
-                      selection
-                      loading={this.state.bodyStyleFarsi[0].value == null}
-                      options={
-                        i18n.language === 'en'
-                          ? this.state.bodyStyleEnglish
-                          : this.state.bodyStyleFarsi
-                      }
-                      error={Boolean(
-                        errors.carBodyStyle && touched.carBodyStyle
-                      )}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, data.value);
-                        }
-                      }}
-                      onClose={(e, data) => {
-                        if (data && data.name) {
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.carBodyStyle}
-                    />
-
-                    <Form.Input
-                      label={t('carProperty.capacity')}
-                      name="carCapacity"
-                      inputmode="numeric"
-                      type="number"
-                      pattern="[0-9]*"
-                      error={Boolean(errors.carCapacity && touched.carCapacity)}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, data.value);
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.carCapacity}
-                    />
-
-                    <Form.Group>
-                      <Form.Dropdown
-                        name="carKmDriven"
-                        id="carKmDriven"
-                        label={t('carProperty.kmDriven')}
-                        placeholder={t('carProperty.kmDriven')}
-                        // className="ltr"
-                        selection
-                        options={
-                          i18n.language === 'en'
-                            ? kmDrivenEnglish
-                            : kmDrivenFarsi
-                        }
-                        error={Boolean(
-                          errors.carKmDriven && touched.carKmDriven
-                        )}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClose={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={values.carKmDriven}
-                      />
-                    </Form.Group>
-
-                    <Form.Input
-                      label={t('carProperty.VIN')}
-                      name="carVIN"
-                      error={Boolean(errors.carVIN && touched.carVIN)}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, data.value);
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.carVIN}
-                      style={{ direction: 'ltr' }}
-                    />
-
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carProperty.licensePlates')}</label>
-                    </Form.Field>
-                    <Form.Group>
-                      <div className="pelak" style={{}}>
-                        <Form.Input
-                          name="carLicensePlates1"
-                          id="carLicensePlates1"
-                          inputmode="numeric"
-                          type="number"
-                          pattern="[0-9]*"
-                          min="10"
-                          max="99"
-                          error={Boolean(
-                            errors.carLicensePlates1 &&
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carProperty.licensePlates')}</label>
+                      </Form.Field>
+                      <Form.Group>
+                        <div className="pelak" style={{}}>
+                          <Form.Input
+                            name="carLicensePlates1"
+                            id="carLicensePlates1"
+                            inputmode="numeric"
+                            type="number"
+                            pattern="[0-9]*"
+                            min="10"
+                            max="99"
+                            error={Boolean(
+                              errors.carLicensePlates1 &&
                               touched.carLicensePlates1
-                          )}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
-                              setFieldTouched(data.name);
-                            }
-                          }}
-                          value={values.carLicensePlates1}
-                        />
-                        <Form.Input
-                          name="carLicensePlates2"
-                          id="carLicensePlates2"
-                          control="select"
-                          error={Boolean(
-                            errors.carLicensePlates2 &&
+                            )}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, data.value);
+                                setFieldTouched(data.name);
+                              }
+                            }}
+                            value={values.carLicensePlates1}
+                          />
+                          <Form.Input
+                            name="carLicensePlates2"
+                            id="carLicensePlates2"
+                            control="select"
+                            error={Boolean(
+                              errors.carLicensePlates2 &&
                               touched.carLicensePlates2
-                          )}
-                          onChange={handleChange}
-                          value={values.carLicensePlates2}
-                        >
-                          <option value="" selected disabled hidden>
-                            ...
-                          </option>
-                          <option value="الف">الف</option>
-                          <option value="ب">ب</option>
-                          <option value="ج">ج</option>
-                          <option value="د">د</option>
-                          <option value="ژ">ژ</option>
-                          <option value="س">س</option>
-                          <option value="ٌص">ص</option>
-                          <option value="ط">ط</option>
-                          <option value="ق">ق</option>
-                          <option value="ل">ل</option>
-                          <option value="م">م</option>
-                          <option value="ن">ن</option>
-                          <option value="و">و</option>
-                          <option value="ه">هـ</option>
-                          <option value="ی">ی</option>
-                          <option value="گ">گ</option>
-                          <option value="ت">ت</option>
-                        </Form.Input>
-                        <Form.Input
-                          name="carLicensePlates3"
-                          id="carLicensePlates3"
-                          inputmode="numeric"
-                          type="number"
-                          pattern="[0-9]*"
-                          min="100"
-                          max="999"
-                          error={Boolean(
-                            errors.carLicensePlates3 &&
-                              touched.carLicensePlates3
-                          )}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
-                              setFieldTouched(data.name);
-                            }
-                          }}
-                          value={values.carLicensePlates3}
-                        />
-                        <Form.Input
-                          name="carLicensePlates4"
-                          id="carLicensePlates4"
-                          inputmode="numeric"
-                          type="number"
-                          pattern="[0-9]*"
-                          min="10"
-                          max="99"
-                          error={Boolean(
-                            errors.carLicensePlates4 &&
-                              touched.carLicensePlates4
-                          )}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
-                              setFieldTouched(data.name);
-                            }
-                          }}
-                          value={values.carLicensePlates4}
-                        />
-                      </div>
-                    </Form.Group>
-
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carProperty.option')}</label>
-                    </Form.Field>
-                    <Form.Group
-                      style={{ flexWrap: 'wrap' }}
-                      className="car_checkboxes"
-                    >
-                      {checkboxes.map((checkbox, index) => (
-                        <Form.Field
-                          control={Checkbox}
-                          checked={checkbox.checked}
-                          onChange={this.setFasalities.bind(
-                            this,
-                            checkbox.id,
-                            false
-                          )}
-                          label={checkbox.label}
-                        />
-                      ))}
-                    </Form.Group>
-
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>{t('carProperty.uploadImage')}</label>
-                      <Dropzone
-                        accept="image/jpeg, image/png"
-                        onDrop={acceptedFiles => {
-                          acceptedFiles.forEach(file => {
-                            let form = new FormData();
-                            form.append('media', file);
-                            axios
-                              .post(
-                                'https://otoli.net' +
-                                  '/core/rental-car/media/new',
-                                form,
-                                {
-                                  headers: {
-                                    Authorization: 'Bearer ' + this.state.token,
-                                    'Content-Type':
-                                      'application/x-www-form-urlencoded'
-                                  }
-                                }
-                              )
-                              .then(response => {
-                                if (response.data.success) {
-                                  const { picturesID } = this.state;
-                                  picturesID.push(response.data.data.id);
-                                  this.setState({
-                                    picturesID
-                                  });
-                                }
-                              })
-                              .catch(error => {
-                                console.error(error);
-                                this.setState({
-                                  error: error,
-                                  success: false
-                                });
-                              });
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onabort = () =>
-                              console.log('file reading was aborted');
-                            reader.onerror = () =>
-                              console.log('file reading has failed');
-                            reader.onload = () => {
-                              console.log('file reading was susceed');
-                              const { picturesPreview } = this.state;
-                              picturesPreview.push(reader.result);
-                              this.setState({
-                                picturesPreview
-                              });
-                            };
-                          });
-                        }}
-                      >
-                        {({ getRootProps, getInputProps }) => (
-                          <DropZoneDiv
-                            className="container"
-                            style={{ padding: 0 }}
+                            )}
+                            onChange={handleChange}
+                            value={values.carLicensePlates2}
                           >
-                            <div {...getRootProps({ className: 'dropzone' })}>
-                              <input {...getInputProps()} />
-                              <span>{t('carProperty.uploadImageNote')}</span>
-                            </div>
-                            <aside>
-                              <div className="flexParentCards">
-                                {this.state.picturesPreview.map(
-                                  (image, index) => (
-                                    <div className="flexItem">
-                                      <Label
-                                        onClick={() =>
-                                          this.removePicture(index)
-                                        }
-                                        index={index}
-                                      >
-                                        <Icon name="delete" />
-                                      </Label>
-                                      <Card raised image={image} />
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            </aside>
-                          </DropZoneDiv>
-                        )}
-                      </Dropzone>
-                    </Form.Field>
+                            <option value="" selected disabled hidden>
+                              ...
+                          </option>
+                            <option value="الف">الف</option>
+                            <option value="ب">ب</option>
+                            <option value="ج">ج</option>
+                            <option value="د">د</option>
+                            <option value="ژ">ژ</option>
+                            <option value="س">س</option>
+                            <option value="ٌص">ص</option>
+                            <option value="ط">ط</option>
+                            <option value="ق">ق</option>
+                            <option value="ل">ل</option>
+                            <option value="م">م</option>
+                            <option value="ن">ن</option>
+                            <option value="و">و</option>
+                            <option value="ه">هـ</option>
+                            <option value="ی">ی</option>
+                            <option value="گ">گ</option>
+                            <option value="ت">ت</option>
+                          </Form.Input>
+                          <Form.Input
+                            name="carLicensePlates3"
+                            id="carLicensePlates3"
+                            inputmode="numeric"
+                            type="number"
+                            pattern="[0-9]*"
+                            min="100"
+                            max="999"
+                            error={Boolean(
+                              errors.carLicensePlates3 &&
+                              touched.carLicensePlates3
+                            )}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, data.value);
+                                setFieldTouched(data.name);
+                              }
+                            }}
+                            value={values.carLicensePlates3}
+                          />
+                          <Form.Input
+                            name="carLicensePlates4"
+                            id="carLicensePlates4"
+                            inputmode="numeric"
+                            type="number"
+                            pattern="[0-9]*"
+                            min="10"
+                            max="99"
+                            error={Boolean(
+                              errors.carLicensePlates4 &&
+                              touched.carLicensePlates4
+                            )}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, data.value);
+                                setFieldTouched(data.name);
+                              }
+                            }}
+                            value={values.carLicensePlates4}
+                          />
+                        </div>
+                      </Form.Group>
 
-                    <Form.Group>
-                      <Form.Field
-                        control={TextArea}
-                        label={t('carProperty.description')}
-                        id="carDescription"
-                        name="carDescription"
-                        placeholder={t('carProperty.descriptionPlaceholder')}
-                        style={{ minHeight: 150 }}
-                        error={Boolean(
-                          errors.carDescription && touched.carDescription
-                        )}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        onBlur={handleBlur}
-                        value={values.carDescription}
-                      />
-                    </Form.Group>
-
-                    <Form.Field style={{ margin: 0 }}>
-                      <label>رنگ خودرو</label>
-                    </Form.Field>
-                    <Form.Field style={{ marginBottom: '24px' }}>
-                      <Dropdown
-                        text={t('carProperty.color')}
-                        icon={/*this.state.colorIcon || */ `paint brush`}
-                        id="carColor"
-                        name="carColor"
-                        floating
-                        labeled
-                        button
-                        className={`icon colorpicker color${(
-                          this.state.colorCode || 'cc'
-                        ).substr(1)}`}
-                        error={Boolean(errors.carColor && touched.carColor)}
-                        onBlur={handleBlur}
-                        value={values.carColor}
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carProperty.option')}</label>
+                      </Form.Field>
+                      <Form.Group
+                        style={{ flexWrap: 'wrap' }}
+                        className="car_checkboxes"
                       >
-                        <Dropdown.Menu>
-                          {/* <Dropdown.Header
+                        {checkboxes.map((checkbox, index) => (
+                          <Form.Field
+                            control={Checkbox}
+                            checked={checkbox.checked}
+                            onChange={this.setFasalities.bind(
+                              this,
+                              checkbox.id,
+                              false
+                            )}
+                            label={checkbox.label}
+                          />
+                        ))}
+                      </Form.Group>
+
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>{t('carProperty.uploadImage')}</label>
+                        <Dropzone
+                          accept="image/jpeg, image/png"
+                          onDrop={acceptedFiles => {
+                            acceptedFiles.forEach(file => {
+                              let form = new FormData();
+                              form.append('media', file);
+                              axios
+                                .post(
+                                  'https://otoli.net' +
+                                  '/core/rental-car/media/new',
+                                  form,
+                                  {
+                                    headers: {
+                                      Authorization: 'Bearer ' + this.state.token,
+                                      'Content-Type':
+                                        'application/x-www-form-urlencoded'
+                                    }
+                                  }
+                                )
+                                .then(response => {
+                                  if (response.data.success) {
+                                    const { picturesID } = this.state;
+                                    picturesID.push(response.data.data.id);
+                                    this.setState({
+                                      picturesID
+                                    });
+                                  }
+                                })
+                                .catch(error => {
+                                  console.error(error);
+                                  this.setState({
+                                    error: error,
+                                    success: false
+                                  });
+                                });
+                              const reader = new FileReader();
+                              reader.readAsDataURL(file);
+                              reader.onabort = () =>
+                                console.log('file reading was aborted');
+                              reader.onerror = () =>
+                                console.log('file reading has failed');
+                              reader.onload = () => {
+                                console.log('file reading was susceed');
+                                const { picturesPreview } = this.state;
+                                picturesPreview.push(reader.result);
+                                this.setState({
+                                  picturesPreview
+                                });
+                              };
+                            });
+                          }}
+                        >
+                          {({ getRootProps, getInputProps }) => (
+                            <DropZoneDiv
+                              className="container"
+                              style={{ padding: 0 }}
+                            >
+                              <div {...getRootProps({ className: 'dropzone' })}>
+                                <input {...getInputProps()} />
+                                <span>{t('carProperty.uploadImageNote')}</span>
+                              </div>
+                              <aside>
+                                <div className="flexParentCards">
+                                  {this.state.picturesPreview.map(
+                                    (image, index) => (
+                                      <div className="flexItem">
+                                        <Label
+                                          onClick={() =>
+                                            this.removePicture(index)
+                                          }
+                                          index={index}
+                                        >
+                                          <Icon name="delete" />
+                                        </Label>
+                                        <Card raised image={image} />
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              </aside>
+                            </DropZoneDiv>
+                          )}
+                        </Dropzone>
+                      </Form.Field>
+
+                      <Form.Group>
+                        <Form.Field
+                          control={TextArea}
+                          label={t('carProperty.description')}
+                          id="carDescription"
+                          name="carDescription"
+                          placeholder={t('carProperty.descriptionPlaceholder')}
+                          style={{ minHeight: 150 }}
+                          error={Boolean(
+                            errors.carDescription && touched.carDescription
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          onBlur={handleBlur}
+                          value={values.carDescription}
+                        />
+                      </Form.Group>
+
+                      <Form.Field style={{ margin: 0 }}>
+                        <label>رنگ خودرو</label>
+                      </Form.Field>
+                      <Form.Field style={{ marginBottom: '24px' }}>
+                        <Dropdown
+                          text={t('carProperty.color')}
+                          icon={/*this.state.colorIcon || */ `paint brush`}
+                          id="carColor"
+                          name="carColor"
+                          floating
+                          labeled
+                          button
+                          className={`icon colorpicker color${(
+                            this.state.colorCode || 'cc'
+                          ).substr(1)}`}
+                          error={Boolean(errors.carColor && touched.carColor)}
+                          onBlur={handleBlur}
+                          value={values.carColor}
+                        >
+                          <Dropdown.Menu>
+                            {/* <Dropdown.Header
                                 icon="tags"
                                 content="Tag Label"
                               /> */}
-                          <Dropdown.Menu scrolling>
-                            {this.state.colors.map(option => (
-                              <Dropdown.Item
-                                onClick={(e, data) => {
-                                  if (data && data.value) {
-                                    setFieldValue('carColor', data.value);
-                                    this.setState({
-                                      color: data.value,
-                                      colorCode: data.color,
-                                      colorIcon: 'car',
-                                      colorId: option.key
-                                    });
-                                  }
-                                }}
-                                key={option.value}
-                                {...option}
-                              />
-                            ))}
+                            <Dropdown.Menu scrolling>
+                              {this.state.colors.map(option => (
+                                <Dropdown.Item
+                                  onClick={(e, data) => {
+                                    if (data && data.value) {
+                                      setFieldValue('carColor', data.value);
+                                      this.setState({
+                                        color: data.value,
+                                        colorCode: data.color,
+                                        colorIcon: 'car',
+                                        colorId: option.key
+                                      });
+                                    }
+                                  }}
+                                  key={option.value}
+                                  {...option}
+                                />
+                              ))}
+                            </Dropdown.Menu>
                           </Dropdown.Menu>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </Form.Field>
+                        </Dropdown>
+                      </Form.Field>
 
-                    <Form.Field
-                      style={{ textAlign: 'center', fontSize: '0.8em' }}
-                    >
-                      <Button
-                        loading={isSubmitting}
-                        primary
-                        type="submit"
-                        className="btn_1 full-width"
+                      <Form.Field
+                        style={{ textAlign: 'center', fontSize: '0.8em' }}
                       >
-                        {t('signup')}
-                      </Button>
-                    </Form.Field>
+                        <Button
+                          loading={isSubmitting}
+                          primary
+                          type="submit"
+                          className="btn_1 full-width"
+                        >
+                          {t('signup')}
+                        </Button>
+                      </Form.Field>
 
-                    {error && (
-                      <Label attached="bottom" color="red">
-                        {t('forms.error')}
-                      </Label>
-                    )}
-                    {Object.keys(errors).length >= 1 && submitCount >= 1 && (
-                      <Label attached="bottom" color="red">
-                        {Object.values(errors)[0]}
-                      </Label>
-                    )}
-                  </Segment>
-                </Form>
-              </BoxAccount>
-            )}
+                      {error && (
+                        <Label attached="bottom" color="red">
+                          {t('forms.error')}
+                        </Label>
+                      )}
+                      {Object.keys(errors).length >= 1 && submitCount >= 1 && (
+                        <Label attached="bottom" color="red">
+                          {Object.values(errors)[0]}
+                        </Label>
+                      )}
+                    </Segment>
+                  </Form>
+                </BoxAccount>
+              )}
           </Formik>
-        </Error404>
       );
+      else return (
+        <Error404 token={this.state.token} openModal={this.props.openModal} />
+      )
     }
   }
 );

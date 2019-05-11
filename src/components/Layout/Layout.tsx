@@ -42,6 +42,21 @@ class Layout extends React.Component<{
     this.props.changeLang(i18n.language === 'en' ? 'fa' : 'en');
   };
 
+  componentDidMount() {
+    if (this.props.onRef) this.props.onRef(this);
+  }
+  componentWillUnmount() {
+    if (this.props.onRef) this.props.onRef(undefined);
+  }
+
+  doRef = ref => {
+    if (ref) this.header = ref.loginmodal;
+  };
+
+  onClick = () => {
+    this.header.handleOpenModal(); // do stuff 2
+  };
+
   render() {
     const theme = i18n.language == 'en' ? ltrTheme : rtlTheme;
     console.log(i18n.language);
@@ -65,15 +80,15 @@ class Layout extends React.Component<{
             width="thin"
           >
             <Menu.Item as="a">
-              <Link href="/">
+              <Link href="/" shallow>
                 <span>
                   <Icon name="home" />
                   خانه
                 </span>
               </Link>
             </Menu.Item>
-            <Menu.Item as="a">
-              <Link href="/add-car">
+            <Menu.Item as="a"> {/* onClick={() => this.onClick()} */}
+              <Link href="/add-car" shallow>
                 <span>
                   <Icon name="add circle" />
                   افزودن خودرو
@@ -81,7 +96,7 @@ class Layout extends React.Component<{
               </Link>
             </Menu.Item>
             <Menu.Item as="a">
-              <Link href="/requests">
+              <Link href="/requests" shallow>
                 <span>
                   <Icon name="map signs" />
                   درخواست‌های اجاره
@@ -99,6 +114,7 @@ class Layout extends React.Component<{
                 />
               </Head>
               <Header
+                onRef={this.doRef}
                 openMenu={this.handleShowClick}
                 headerBtn={t('add_car')}
                 changeLang={this.changeLang_i18n}
