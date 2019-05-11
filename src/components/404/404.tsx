@@ -13,12 +13,7 @@ const Error404: React.FunctionComponent<{ token: any; openModal?: any;}> = ({
     }
     return (
       <>
-        <Message
-          style={{ marginBottom: '5px' }}
-          icon="plug"
-          header="صفحه یافت نشد!"
-          content="لطفا برای مشاهده این صفحه وارد شوید"
-        />
+       <h4>لطفا برای مشاهده این صفحه وارد شوید"</h4>
         <Button
           style={{ marginBottom: '20px' }}
           onClick={openModal}
