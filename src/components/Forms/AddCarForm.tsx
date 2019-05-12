@@ -784,35 +784,63 @@ export default withNamespaces('common')(
                       <label>{t('carProperty.whereIsIt')}</label>
                     </Form.Field> */}
                     <Form.Group>
-                      <Form.Dropdown
-                        name="carCity"
-                        id="carCity"
-                        label={t('carProperty.whereIsIt')}
-                        placeholder={t('carProperty.city')}
-                        noResultsMessage={t('forms.error_no_result_found')}
-                        selection
-                        loading={this.state.citiesFarsi[0].value == null}
-                        options={
-                          i18n.language === 'en'
-                            ? this.state.citiesEnglish
-                            : this.state.citiesFarsi
-                        }
-                        error={Boolean(errors.carCity && touched.carCity)}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                            setFieldValue('carDistrict', undefined);
-                            this.setCityDistrict(data.value);
+                      {isBrowser &&
+                        <Form.Dropdown
+                          name="carCity"
+                          id="carCity"
+                          label={t('carProperty.whereIsIt')}
+                          placeholder={t('carProperty.city')}
+                          noResultsMessage={t('forms.error_no_result_found')}
+                          selection
+                          loading={this.state.citiesFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.citiesEnglish
+                              : this.state.citiesFarsi
                           }
-                        }}
-                        onClose={(e, data) => {
-                          console.log(e);
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={values.carCity}
-                      />
+                          error={Boolean(errors.carCity && touched.carCity)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                              setFieldValue('carDistrict', undefined);
+                              this.setCityDistrict(data.value);
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            console.log(e);
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carCity}
+                        />
+                      }
+                      {isMobile &&
+                        <div className="field">
+                          <label>{t('carProperty.whereIsIt')}</label>
+                          <select
+                            name="carCity"
+                            className={Boolean(errors.carCity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                            value={values.carCity}
+                            onChange={(e) => {
+                              console.log(e.target.value);
+                              if (e.target && e.target.name) {
+                                setFieldValue(e.target.name, Number(e.target.value));
+                                setFieldValue('carDistrict', undefined);
+                                this.setCityDistrict(Number(e.target.value));
+                              }
+                            }}
+                            // onBlur={handleBlur}
+                            style={{ display: 'block' }}
+                          >
+                            <option value={null} label={""} hidden />
+                            {this.state.citiesFarsi.map((item, index) => (
+                              <option value={item.value} label={item.text} />
+                            ))}
+                          </select>
+                        </div>
+                      }
+
                       {this.state.shouldCityDistrictShow ? (
                         <Form.Dropdown
                           name="carDistrict"
@@ -941,34 +969,59 @@ export default withNamespaces('common')(
                         }}
                         value={values.carModel}
                       />
-                      <Form.Dropdown
-                        name="carYear"
-                        id="carYear"
-                        search
-                        placeholder={t('carProperty.year')}
-                        noResultsMessage={t('forms.error_no_result_found')}
-                        label={t('carProperty.year')}
-                        selection
-                        loading={this.state.yearsFarsi[0].value == null}
-                        disabled={this.state.yearsFarsi[0].value == null}
-                        options={
-                          i18n.language === 'en'
-                            ? this.state.yearsEnglish
-                            : this.state.yearsFarsi
-                        }
-                        error={Boolean(errors.carYear && touched.carYear)}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
+                      {isBrowser &&
+                        <Form.Dropdown
+                          name="carYear"
+                          id="carYear"
+                          search
+                          placeholder={t('carProperty.year')}
+                          noResultsMessage={t('forms.error_no_result_found')}
+                          label={t('carProperty.year')}
+                          selection
+                          loading={this.state.yearsFarsi[0].value == null}
+                          disabled={this.state.yearsFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? this.state.yearsEnglish
+                              : this.state.yearsFarsi
                           }
-                        }}
-                        onClose={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={values.carYear}
-                      />
+                          error={Boolean(errors.carYear && touched.carYear)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carYear}
+                        />
+                      }
+                      {isMobile &&
+                        <div className="field">
+                          <label>{t('carProperty.year')}</label>
+                          <select
+                            name="carYear"
+                            className={Boolean(errors.carYear) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                            value={values.carYear}
+                            onChange={(e) => {
+                              console.log(e.target.value);
+                              if (e.target && e.target.name) {
+                                setFieldValue(e.target.name, Number(e.target.value));
+                              }
+                            }}
+                            // onBlur={handleBlur}
+                            style={{ display: 'block' }}
+                          >
+                            <option value={null} label={""} hidden />
+                            {this.state.yearsFarsi.map((item, index) => (
+                              <option value={item.value} label={item.text} />
+                            ))}
+                          </select>
+                        </div>
+                      }
                     </Form.Group>
 
                     <Form.Field style={{ margin: 0 }}>
@@ -1044,7 +1097,7 @@ export default withNamespaces('common')(
                         <label>{t('carProperty.cassis')}</label>
                         <select
                           name="carBodyStyle"
-                          className="ui search selection dropdown"
+                          className={Boolean(errors.carBodyStyle) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                           value={values.carBodyStyle}
                           onChange={(e) => {
                             console.log(e.target.value);
@@ -1055,6 +1108,7 @@ export default withNamespaces('common')(
                           // onBlur={handleBlur}
                           style={{ display: 'block' }}
                         >
+                          <option value={null} label={""} hidden />
                           {this.state.bodyStyleFarsi.map((item, index) => (
                             <option value={item.value} label={item.text} />
                           ))}
@@ -1062,50 +1116,113 @@ export default withNamespaces('common')(
                       </div>
                     }
 
-                    <Form.Input
-                      label={t('carProperty.capacity')}
-                      name="carCapacity"
-                      inputmode="numeric"
-                      type="number"
-                      pattern="[0-9]*"
-                      error={Boolean(errors.carCapacity && touched.carCapacity)}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, data.value);
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.carCapacity}
-                    />
-
-                    <Form.Group>
-                      <Form.Dropdown
-                        name="carKmDriven"
-                        id="carKmDriven"
-                        label={t('carProperty.kmDriven')}
-                        placeholder={t('carProperty.kmDriven')}
-                        // className="ltr"
-                        selection
-                        options={
-                          i18n.language === 'en'
-                            ? kmDrivenEnglish
-                            : kmDrivenFarsi
-                        }
-                        error={Boolean(
-                          errors.carKmDriven && touched.carKmDriven
-                        )}
+                    {isBrowser &&
+                      <Form.Input
+                        label={t('carProperty.capacity')}
+                        name="carCapacity"
+                        inputmode="numeric"
+                        type="number"
+                        pattern="[0-9]*"
+                        error={Boolean(errors.carCapacity && touched.carCapacity)}
                         onChange={(e, data) => {
                           if (data && data.name) {
                             setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClose={(e, data) => {
-                          if (data && data.name) {
                             setFieldTouched(data.name);
                           }
                         }}
-                        value={values.carKmDriven}
+                        value={values.carCapacity}
                       />
+                    }
+                    {isMobile &&
+                      <div className="field">
+                        <label>{t('carProperty.capacity')}</label>
+                        <select
+                          name="carCapacity"
+                          className={Boolean(errors.carCapacity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                          value={values.carCapacity}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            if (e.target && e.target.name) {
+                              setFieldValue(e.target.name, Number(e.target.value));
+                            }
+                          }}
+                          // onBlur={handleBlur}
+                          style={{ display: 'block' }}
+                        >
+                          <option value={null} label={""} hidden />
+                          <option value={1} label={"1"} />
+                          <option value={2} label={"2"} />
+                          <option value={3} label={"3"} />
+                          <option value={4} label={"4"} />
+                          <option value={5} label={"5"} />
+                          <option value={6} label={"6"} />
+                          <option value={7} label={"7"} />
+                          <option value={8} label={"8"} />
+                          <option value={9} label={"9"} />
+                          <option value={10} label={"10"} />
+                          <option value={11} label={"11"} />
+                          <option value={12} label={"12"} />
+                          <option value={13} label={"13"} />
+                          <option value={14} label={"14"} />
+                          <option value={15} label={"15"} />
+                          <option value={16} label={"16"} />
+                        </select>
+                      </div>
+                    }
+
+                    <Form.Group>
+                      {isBrowser &&
+                        <Form.Dropdown
+                          name="carKmDriven"
+                          id="carKmDriven"
+                          label={t('carProperty.kmDriven')}
+                          placeholder={t('carProperty.kmDriven')}
+                          // className="ltr"
+                          selection
+                          options={
+                            i18n.language === 'en'
+                              ? kmDrivenEnglish
+                              : kmDrivenFarsi
+                          }
+                          error={Boolean(
+                            errors.carKmDriven && touched.carKmDriven
+                          )}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carKmDriven}
+                        />
+                      }
+                      {isMobile &&
+                        <div className="field">
+                          <label>{t('carProperty.kmDriven')}</label>
+                          <select
+                            name="kmDriven"
+                            className={Boolean(errors.kmDriven) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                            value={values.kmDriven}
+                            onChange={(e) => {
+                              console.log(e.target.value);
+                              if (e.target && e.target.name) {
+                                setFieldValue(e.target.name, Number(e.target.value));
+                              }
+                            }}
+                            // onBlur={handleBlur}
+                            style={{ display: 'block' }}
+                          >
+                            <option value={null} label={""} hidden />
+                            {kmDrivenFarsi.map((item, index) => (
+                              <option value={item.value} label={item.text} />
+                            ))}
+                          </select>
+                        </div>
+                      }
                     </Form.Group>
 
                     <Form.Input
