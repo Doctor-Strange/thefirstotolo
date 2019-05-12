@@ -134,7 +134,7 @@ const BoxAccount = styled.div`
       width: 70px !important;
       height: 47px;
       padding: 8px;
-      top: -36px;
+      top: -52px;
       font-size: 18px;
       text-align: center;
       direction: rtl;
@@ -145,7 +145,7 @@ const BoxAccount = styled.div`
       left: 166px;
       width: 55px !important;
       padding: 8px;
-      top: -122px;
+      top: -137px;
       font-size: 18px;
     }
     #carLicensePlates4 {
@@ -155,7 +155,7 @@ const BoxAccount = styled.div`
       width: 55px !important;
       height: 39px;
       padding: 8px;
-      top: -157px;
+      top: -190px;
       font-size: 18px;
     }
   }
@@ -170,7 +170,7 @@ const BoxAccount = styled.div`
   .car_checkboxes {
     .field {
       width: fit-content !important;
-      min-width: 168px !important;
+      min-width: 150px !important;
     }
   }
   @media (min-width: 767px) {
@@ -628,6 +628,11 @@ export default withNamespaces('common')(
             values: IAddCarFormValues,
             actions: FormikActions<IAddCarFormValues>
           ) => {
+            if (this.state.picturesID.length <= 0) {
+              alert("لطفاً حداقل یک تصویر بارگذاری کنید.");
+              this.setState({ error: 'لطفاً حداقل یک تصویر بارگذاری کنید.' });
+              return false;
+            }
             actions.setSubmitting(true);
             this.setState({ error: '' });
             console.log(values);
@@ -1204,9 +1209,9 @@ export default withNamespaces('common')(
                         <div className="field">
                           <label>{t('carProperty.kmDriven')}</label>
                           <select
-                            name="kmDriven"
-                            className={Boolean(errors.kmDriven) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
-                            value={values.kmDriven}
+                            name="carKmDriven"
+                            className={Boolean(errors.carKmDriven) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                            value={values.carKmDriven}
                             onChange={(e) => {
                               console.log(e.target.value);
                               if (e.target && e.target.name) {
@@ -1280,6 +1285,7 @@ export default withNamespaces('common')(
                           </option>
                           <option value="الف">الف</option>
                           <option value="ب">ب</option>
+                          <option value="ت">ت</option>
                           <option value="ج">ج</option>
                           <option value="د">د</option>
                           <option value="ژ">ژ</option>
@@ -1287,14 +1293,13 @@ export default withNamespaces('common')(
                           <option value="ٌص">ص</option>
                           <option value="ط">ط</option>
                           <option value="ق">ق</option>
+                          <option value="گ">گ</option>
                           <option value="ل">ل</option>
                           <option value="م">م</option>
                           <option value="ن">ن</option>
                           <option value="و">و</option>
                           <option value="ه">هـ</option>
                           <option value="ی">ی</option>
-                          <option value="گ">گ</option>
-                          <option value="ت">ت</option>
                         </Form.Input>
                         <Form.Input
                           name="carLicensePlates3"
@@ -1531,7 +1536,7 @@ export default withNamespaces('common')(
 
                     {error && (
                       <Label attached="bottom" color="red">
-                        {t('forms.error')}
+                        {error || t('forms.error')}
                       </Label>
                     )}
                     {Object.keys(errors).length >= 1 && submitCount >= 1 && (
