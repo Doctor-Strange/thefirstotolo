@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import IndexForm from '../src/components/Forms/IndexForm';
 import Layout from '../src/components/Layout';
+import debounce from 'lodash.debounce';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
@@ -47,7 +48,8 @@ export default withRouter(withNamespaces('common')(
       results: [{}],
       carBodyType: [],
       latest_result_key: null,
-      page: 0
+      page: 0,
+      total_count: 0
     };
 
     constructor(props) {
@@ -63,6 +65,8 @@ export default withRouter(withNamespaces('common')(
       this.toggleToCarBodyType = this.toggleToCarBodyType.bind(this);
       this.togglePriceSort = this.togglePriceSort.bind(this);
       this.nextPage = this.nextPage.bind(this);
+      // this.renderResultsDebounced = debounce(this.renderResults.bind(this), 1000);
+      this.renderResults = debounce(this.renderResults.bind(this), 1000);
     }
 
     toggleShowFilters(showFilters) {
@@ -285,6 +289,10 @@ export default withRouter(withNamespaces('common')(
         });
     }
 
+    // renderResultsDebounced(page = 0) {
+    //   debounce(this.renderResults(page), 500)
+    // };
+
     renderResults(page = 0) {
       // send search resluts request
       let queryString = '';
@@ -332,7 +340,7 @@ export default withRouter(withNamespaces('common')(
 
       if (page == 0) {
         axios
-          .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9` + queryString)
+          .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9&` + queryString)
           .then(response => {
             // update URL
             const href = `/search-results?${shownURL}start=${page}`;
@@ -369,7 +377,8 @@ export default withRouter(withNamespaces('common')(
               else {
                 this.setState({
                   results, loadingResults: false, noResult: false,
-                  latest_result_key: response.data.result_key
+                  latest_result_key: response.data.result_key,
+                  total_count: response.data.total_count
                 });
               }
             }
@@ -390,7 +399,7 @@ export default withRouter(withNamespaces('common')(
             const as = href;
             Router.push(href, as, { shallow: true });
             if (response.data.success) {
-              console.log(response.data.result_key);
+              console.log(response.data);
               const results = response.data.items.map((value, index) => ({
                 key: value.index,
                 id: value.id,
@@ -418,7 +427,9 @@ export default withRouter(withNamespaces('common')(
                 this.setState({ results: [], loadingResults: false, noResult: true });
               }
               else {
-                this.setState({ results, loadingResults: false, noResult: false });
+                this.setState({
+                  results, loadingResults: false, noResult: false, total_count: response.data.total_count
+                });
               }
             }
           })
@@ -456,11 +467,13 @@ export default withRouter(withNamespaces('common')(
         carBodyType,
         priceSort,
         noResult,
-        latest_result_key } = this.state;
+        latest_result_key,
+        total_count
+      } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
-            count={43}
+            count={total_count}
             t={t}
             setDate={this.setDate}
             startDate={startDate}

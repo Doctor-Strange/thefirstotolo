@@ -216,8 +216,8 @@ export const CarCard: React.FunctionComponent<{
         </h3>
       </div>
       <div className="col-4 leftbox">
-        <PriceCard number={540000}>
-          در روز  
+        <PriceCard number={price}>
+          در روز
         </PriceCard>
       </div>
       {/* <small>{text2}</small> */}
