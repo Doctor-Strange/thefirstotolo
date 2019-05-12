@@ -169,7 +169,10 @@ const BoxAccount = styled.div`
   }
   .car_checkboxes {
     .field {
-      width: fit-content !important;
+      width: 50% !important;
+      @media (min-width: 767px) {
+        width: 33% !important;
+      }
       min-width: 150px !important;
     }
   }
