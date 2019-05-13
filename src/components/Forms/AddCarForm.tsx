@@ -1133,7 +1133,7 @@ export default withNamespaces('common')(
 
                     {isBrowser &&
                       <Form.Input
-                        label={t('carProperty.capacity')}
+                        label={t('carProperty.capacity') + ' ' + t('carProperty.withDriver')}
                         name="carCapacity"
                         inputmode="numeric"
                         type="number"

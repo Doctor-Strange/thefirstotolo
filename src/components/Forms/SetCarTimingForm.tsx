@@ -89,28 +89,28 @@ const BoxAccount = styled.div`
     #carLicensePlates1 {
       position: relative;
       direction: ltr;
-      left: -125px;
+      left: -115px;
       top: 11px;
       font-size: 25px;
     }
     #carLicensePlates2 {
       position: relative;
       direction: ltr;
-      left: -80px;
+      left: -64px;
       top: 11px;
       font-size: 25px;
     }
     #carLicensePlates3 {
       position: relative;
       direction: ltr;
-      left: 10px;
+      left: 36px;
       top: 11px;
       font-size: 25px;
     }
     #carLicensePlates4 {
       position: relative;
       direction: ltr;
-      left: 25px;
+      left: 42px;
       top: 15px;
       font-size: 25px;
     }
@@ -127,6 +127,7 @@ const BoxAccount = styled.div`
       max-width: 150px;
       margin-right: 5px;
       margin-left: 5px;
+      margin-bottom: 18px;
       input {
         width: 70px !important;
         height: 32px !important;
@@ -151,7 +152,10 @@ const BoxAccount = styled.div`
         }
       }
       span {
-        position: absolute;
+        position: relative;
+        min-width: 100px;
+        padding-right: 5px;
+        /* position: absolute; */
         line-height: 32px;
         z-index: 1;
       }
@@ -209,6 +213,7 @@ interface ISetCarTimingFormValues {
   start_date: string;
   end_date: string;
   price: string;
+  radiGoroup: boolean;
   availableInAllPrice: string;
   cancellationPolicy: string;
 }
@@ -291,12 +296,12 @@ export default withNamespaces('common')(
 
     getRentalCarInfo(rentalCarID, token) {
       console.log('getRentalCarInfo');
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         axios
           .get(
             'https://otoli.net' +
-              '/core/rental-car/get?is_mine=1&id=' +
-              rentalCarID,
+            '/core/rental-car/get?is_mine=1&id=' +
+            rentalCarID,
             {
               headers: {
                 authorization: 'Bearer ' + token
@@ -405,12 +410,13 @@ export default withNamespaces('common')(
         )}`;
       };
 
-      if(this.state.token) return (
+      if (this.state.token) return (
         <Formik
           initialValues={{
-            daysToGetReminded: 1,
-            minDaysToRent: 3,
+            daysToGetReminded: "1",
+            minDaysToRent: "3",
             deliverAtRentersPlace: false,
+            availableInAllPrice: null,
             distanceLimit: null,
             extraKm: null,
             radioGroup: false,
@@ -433,7 +439,7 @@ export default withNamespaces('common')(
               minDaysToRent,
               radioGroup
             } = values;
-            if (!deliverAtRentersPlace) deliverAtRentersPlace = 0;
+            if (!deliverAtRentersPlace) deliverAtRentersPlace = false;
             const header = {
               headers: {
                 Authorization: 'Bearer ' + this.state.token
@@ -443,7 +449,7 @@ export default withNamespaces('common')(
             axios
               .post(
                 'https://otoli.net' +
-                  '/core/rental-car/set-deliver-at-renters-place',
+                '/core/rental-car/set-deliver-at-renters-place',
                 {
                   id,
                   value: deliverAtRentersPlace
@@ -457,7 +463,7 @@ export default withNamespaces('common')(
                   axios
                     .post(
                       'https://otoli.net' +
-                        '/core/rental-car/set-max-km-per-day',
+                      '/core/rental-car/set-max-km-per-day',
                       {
                         id,
                         value: distanceLimit
@@ -471,7 +477,7 @@ export default withNamespaces('common')(
                         axios
                           .post(
                             'https://otoli.net' +
-                              '/core/rental-car/set-extra-km-price',
+                            '/core/rental-car/set-extra-km-price',
                             {
                               id,
                               value: extraKm
@@ -485,7 +491,7 @@ export default withNamespaces('common')(
                               axios
                                 .post(
                                   'https://otoli.net' +
-                                    '/core/rental-car/set-cancellation-policy',
+                                  '/core/rental-car/set-cancellation-policy',
                                   {
                                     id,
                                     value: cancellationPolicy
@@ -499,7 +505,7 @@ export default withNamespaces('common')(
                                     axios
                                       .post(
                                         'https://otoli.net' +
-                                          '/core/rental-car/set-days-to-get-reminded',
+                                        '/core/rental-car/set-days-to-get-reminded',
                                         {
                                           id,
                                           value: daysToGetReminded
@@ -515,7 +521,7 @@ export default withNamespaces('common')(
                                           axios
                                             .post(
                                               'https://otoli.net' +
-                                                '/core/rental-car/set-min-days-to-rent',
+                                              '/core/rental-car/set-min-days-to-rent',
                                               {
                                                 id,
                                                 value: minDaysToRent
@@ -532,7 +538,7 @@ export default withNamespaces('common')(
                                                   axios
                                                     .post(
                                                       'https://otoli.net' +
-                                                        '/core/rental-car/availability/new',
+                                                      '/core/rental-car/availability/new',
                                                       {
                                                         rental_car_id: id,
                                                         is_all_time: 1,
@@ -571,7 +577,7 @@ export default withNamespaces('common')(
                                                       axios
                                                         .post(
                                                           'https://otoli.net' +
-                                                            '/core/rental-car/availability/new',
+                                                          '/core/rental-car/availability/new',
                                                           {
                                                             rental_car_id: id,
                                                             start_date: val.startDate.format(
@@ -664,7 +670,14 @@ export default withNamespaces('common')(
               .required(fieldErrorGenrator(t('carTiming.cancellationPolicy')))
               .typeError(
                 fieldErrorGenrator(t('carTiming.cancellationPolicy'))
-              )
+              ),
+            availableInAllPrice: Yup.number()
+              .when('radioGroup', {
+                is: false, // alternatively: (val) => val == true
+                then: Yup.number().required(fieldErrorGenrator(t('carTiming.price'))).typeError(fieldErrorGenrator(t('carTiming.price'))),
+                otherwise: Yup.number(),
+              })
+              .when('$other', (other, schema) => (other === 4 ? schema.max(6) : schema)),
           })}
         >
           {({
@@ -704,9 +717,9 @@ export default withNamespaces('common')(
                         />
                         <Item.Content>
                           <Item.Header as="a">
-                            {`${carBrand} - ${carName}`}.
+                            {`${carBrand} - ${carName}`}
                           </Item.Header>
-                          <Item.Meta>{carDescription}</Item.Meta>
+                          {/* <Item.Meta>{carDescription}</Item.Meta> */}
                           <Item.Description>
                             <div className="pelak" style={{}}>
                               <span id="carLicensePlates1">
@@ -721,7 +734,7 @@ export default withNamespaces('common')(
                               </span>
                             </div>
                           </Item.Description>
-                          <Item.Extra>{carLocation}</Item.Extra>
+                          {/* <Item.Extra>{carLocation}</Item.Extra> */}
                         </Item.Content>
                       </Item>
                       {/* carPelak, carColor, carYear, carMin_days_to_rent,
@@ -738,174 +751,176 @@ export default withNamespaces('common')(
                     {/* ===================================================================== */}
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carTiming.daysToGetReminded')}</label>
+                      <Input
+                        name="daysToGetReminded"
+                        className="numstep daysToGetReminded"
+                        error={Boolean(
+                          errors.daysToGetReminded && touched.daysToGetReminded
+                        )}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, clearNumber(data.value));
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={convertNumbers2Persian(values.daysToGetReminded)}
+                      >
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (values.daysToGetReminded < 31) {
+                              let val = Number(values.daysToGetReminded);
+                              setFieldValue('daysToGetReminded', ++val);
+                            }
+                          }}
+                        >
+                          <Icon name="plus" />
+                        </Label>
+                        <input inputMode="numeric" />
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (values.daysToGetReminded > 1) {
+                              let val = Number(values.daysToGetReminded);
+                              setFieldValue('daysToGetReminded', --val);
+                            }
+                          }}
+                        >
+                          <Icon name="minus" />
+                        </Label>
+                        <span>روز قبل</span>
+                      </Input>
                     </Form.Field>
-                    <Input
-                      name="daysToGetReminded"
-                      className="numstep daysToGetReminded"
-                      error={Boolean(
-                        errors.daysToGetReminded && touched.daysToGetReminded
-                      )}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, clearNumber(data.value));
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={convertNumbers2Persian(values.daysToGetReminded)}
-                    >
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (values.daysToGetReminded < 31) {
-                            let val = Number(values.daysToGetReminded);
-                            setFieldValue('daysToGetReminded', ++val);
-                          }
-                        }}
-                      >
-                        <Icon name="plus" />
-                      </Label>
-                      <input inputMode="numeric" />
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (values.daysToGetReminded > 1) {
-                            let val = Number(values.daysToGetReminded);
-                            setFieldValue('daysToGetReminded', --val);
-                          }
-                        }}
-                      >
-                        <Icon name="minus" />
-                      </Label>
-                      <span>روز قبل</span>
-                    </Input>
                     {/* ===================================================================== */}
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carTiming.minDaysToRent')}</label>
+                      <Input
+                        name="minDaysToRent"
+                        className="numstep minDaysToRent"
+                        inputMode="numeric"
+                        error={Boolean(
+                          errors.minDaysToRent && touched.minDaysToRent
+                        )}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, clearNumber(data.value));
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={convertNumbers2Persian(values.minDaysToRent)}
+                      >
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (clearNumber(values.minDaysToRent) < 31) {
+                              let val = Number(
+                                clearNumber(values.minDaysToRent)
+                              );
+                              setFieldValue(
+                                'minDaysToRent',
+                                clearNumber(++val)
+                              );
+                            }
+                          }}
+                        >
+                          <Icon name="plus" />
+                        </Label>
+                        <input inputMode="numeric" />
+                        <Label
+                          basic
+                          onClick={(e, data) => {
+                            if (clearNumber(values.minDaysToRent) > 1) {
+                              let val = Number(
+                                clearNumber(values.minDaysToRent)
+                              );
+                              setFieldValue(
+                                'minDaysToRent',
+                                clearNumber(--val)
+                              );
+                            }
+                          }}
+                        >
+                          <Icon name="minus" />
+                        </Label>
+                        <span>روز</span>
+                      </Input>
                     </Form.Field>
-                    <Input
-                      name="minDaysToRent"
-                      className="numstep minDaysToRent"
-                      inputMode="numeric"
-                      error={Boolean(
-                        errors.minDaysToRent && touched.minDaysToRent
-                      )}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, clearNumber(data.value));
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={convertNumbers2Persian(values.minDaysToRent)}
-                    >
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (clearNumber(values.minDaysToRent) < 31) {
-                            let val = Number(
-                              clearNumber(values.minDaysToRent)
-                            );
-                            setFieldValue(
-                              'minDaysToRent',
-                              clearNumber(++val)
-                            );
-                          }
-                        }}
-                      >
-                        <Icon name="plus" />
-                      </Label>
-                      <input inputMode="numeric" />
-                      <Label
-                        basic
-                        onClick={(e, data) => {
-                          if (clearNumber(values.minDaysToRent) > 1) {
-                            let val = Number(
-                              clearNumber(values.minDaysToRent)
-                            );
-                            setFieldValue(
-                              'minDaysToRent',
-                              clearNumber(--val)
-                            );
-                          }
-                        }}
-                      >
-                        <Icon name="minus" />
-                      </Label>
-                      <span>روز</span>
-                    </Input>
                     {/* ===================================================================== */}
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carTiming.distanceLimit')}</label>
-                    </Form.Field>
-                    <Form.Input
-                      // icon="search"
-                      // iconPosition="left"
-                      name="distanceLimit"
-                      className="distanceLimit"
-                      error={Boolean(
-                        errors.distanceLimit && touched.distanceLimit
-                      )}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, clearNumber(data.value));
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={
-                        values.distanceLimit
-                          ? convertNumbers2Persian(
+
+                      <Form.Input
+                        // icon="search"
+                        // iconPosition="left"
+                        name="distanceLimit"
+                        className="distanceLimit"
+                        error={Boolean(
+                          errors.distanceLimit && touched.distanceLimit
+                        )}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, clearNumber(data.value));
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={
+                          values.distanceLimit
+                            ? convertNumbers2Persian(
                               numberWithCommas(values.distanceLimit)
                             )
-                          : values.distanceLimit
-                      }
-                    >
-                      <input inputMode="numeric" />
-                    </Form.Input>
-                    <span
-                      style={{
-                        float: 'right',
-                        lineHeight: '48px',
-                        marginRight: '8px'
-                      }}
-                    >
-                      کیلومتر در روز
-                    </span>
+                            : values.distanceLimit
+                        }
+                      >
+                        <input inputMode="numeric" />
+                      </Form.Input>
+                      <span
+                        style={{
+                          float: 'right',
+                          lineHeight: '48px',
+                          marginRight: '8px'
+                        }}
+                      >
+                        کیلومتر در روز
+                      </span>
+                    </Form.Field>
                     {/* ===================================================================== */}
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carTiming.extraKmCost')}</label>
-                    </Form.Field>
-                    <Form.Input
-                      // icon="search"
-                      // iconPosition="left"
-                      name="extraKm"
-                      className="extraKm"
-                      inputMode="numeric"
-                      //   type="number"
-                      error={Boolean(errors.extraKm && touched.extraKm)}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, clearNumber(data.value));
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={
-                        values.extraKm
-                          ? convertNumbers2Persian(
+
+                      <Form.Input
+                        // icon="search"
+                        // iconPosition="left"
+                        name="extraKm"
+                        className="extraKm"
+                        inputMode="numeric"
+                        //   type="number"
+                        error={Boolean(errors.extraKm && touched.extraKm)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, clearNumber(data.value));
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={
+                          values.extraKm
+                            ? convertNumbers2Persian(
                               numberWithCommas(values.extraKm)
                             )
-                          : values.extraKm
-                      }
-                    >
-                      <input inputMode="numeric" />
-                    </Form.Input>
-                    <span
-                      style={{
-                        float: 'right',
-                        lineHeight: '48px',
-                        marginRight: '8px'
-                      }}
-                    >
-                      تومان
-                    </span>
+                            : values.extraKm
+                        }
+                      >
+                        <input inputMode="numeric" />
+                      </Form.Input>
+                      <span
+                        style={{
+                          float: 'right',
+                          lineHeight: '48px',
+                          marginRight: '8px'
+                        }}
+                      >
+                        تومان
+                      </span>
+                    </Form.Field>
                     {/* ===================================================================== */}
                     <Form.Field>
                       <Checkbox
@@ -959,7 +974,7 @@ export default withNamespaces('common')(
                           className="extraKm"
                           error={Boolean(
                             errors.availableInAllPrice &&
-                              touched.availableInAllPrice
+                            touched.availableInAllPrice
                           )}
                           onChange={(e, data) => {
                             if (data && data.name) {
@@ -973,8 +988,8 @@ export default withNamespaces('common')(
                           value={
                             values.availableInAllPrice
                               ? convertNumbers2Persian(
-                                  numberWithCommas(values.availableInAllPrice)
-                                )
+                                numberWithCommas(values.availableInAllPrice)
+                              )
                               : values.availableInAllPrice
                           }
                         >
@@ -1084,8 +1099,8 @@ export default withNamespaces('common')(
                                     value={
                                       this.state.price
                                         ? convertNumbers2Persian(
-                                            numberWithCommas(this.state.price)
-                                          )
+                                          numberWithCommas(this.state.price)
+                                        )
                                         : this.state.price
                                     }
                                   >
@@ -1246,12 +1261,21 @@ export default withNamespaces('common')(
                                 value={
                                   this.state.price
                                     ? convertNumbers2Persian(
-                                        numberWithCommas(this.state.price)
-                                      )
+                                      numberWithCommas(this.state.price)
+                                    )
                                     : this.state.price
                                 }
                               >
                                 <input inputMode="numeric" />
+                                <span
+                                  style={{
+                                    float: 'right',
+                                    lineHeight: '48px',
+                                    marginRight: '8px'
+                                  }}
+                                >
+                                  تومان
+                                </span>
                               </Form.Input>
                               <Button.Group
                                 size="tiny"
@@ -1335,7 +1359,7 @@ export default withNamespaces('common')(
                         style={{ minHeight: 150 }}
                         error={Boolean(
                           errors.cancellationPolicy &&
-                            touched.cancellationPolicy
+                          touched.cancellationPolicy
                         )}
                         onChange={(e, data) => {
                           if (data && data.name) {
