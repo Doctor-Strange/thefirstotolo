@@ -757,50 +757,57 @@ const GlobalStyle = createGlobalStyle`
   font-family: Vazir !important;
 }
 
-  .button {
-    margin: 0 0 0 0;
-  }
-  .input {
-    display: block;
+.button {
+  margin: 0 0 0 0;
+}
+.input {
+  display: block;
+  width: 100%;
+  input{
+    height: 48px;
     width: 100%;
-    input{
-      height: 48px;
-      width: 100%;
+  }
+}
+.segment {
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 25px;
+  position: relative;
+  .form-group {
+    margin-bottom: 10px;
+  }
+  hr {
+    margin: 0 0 10px 0;
+  }
+}
+form {
+  .dropdown {
+    &.icon {
+      top: 1.4em !important;
+    }
+    .text {
+      line-height: 24px;
     }
   }
-  .segment {
-    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    padding: 25px;
-    position: relative;
-    .form-group {
-      margin-bottom: 10px;
-    }
-    hr {
-      margin: 0 0 10px 0;
-    }
-  }
-  form {
-    .dropdown {
-      &.icon {
-        top: 1.4em !important;
-      }
-      .text {
-        line-height: 24px;
-      }
-    }
-  }
+}
 
+input[inputmode="numeric"],  div[inputMode='numeric'] input {
+    direction: ltr !important;
+    text-align: left;
+}
+.field {
+  margin-bottom:18px !important;
+}
   
   .fields:not(.inline) { 
     margin-bottom:0px !important;
     .field {
       width: 100%;
-      margin-bottom:24px !important;
+      margin-bottom:18px !important;
     }
   }
   .fields.inline, *[inputmode='numeric'] { 
-      margin-bottom:24px !important;
+      margin-bottom:18px !important;
   }
   .rtl {
     .carcard {

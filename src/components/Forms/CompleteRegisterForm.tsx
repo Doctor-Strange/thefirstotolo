@@ -14,6 +14,10 @@ import {
   Segment,
   TextArea
 } from 'semantic-ui-react';
+import {
+  isBrowser,
+  isMobile
+} from "react-device-detect";
 import jsCookie from 'js-cookie';
 import Error404 from '../404';
 import { i18n, withNamespaces } from '../../i18n';
@@ -23,6 +27,13 @@ import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
 import { Box, Flex } from '@rebass/grid';
 import { monthsEnglish, monthsFarsi } from '../../constants/options';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+function clearNumber(x) {
+  return Number(convertNumbers2English(x.toString())
+    .replace(/,/g, '')
+    .replace(/\./g, '')
+    .replace(/\D/g, ''));
+}
 
 const BoxAccount = styled.div`
   margin-bottom: 25px;
@@ -50,6 +61,9 @@ const BoxAccount = styled.div`
     &.wide {
       width: 100%;
     }
+  }
+  input[name="day"] {
+    margin-bottom: 0px !important;
   }
 `;
 
@@ -120,7 +134,8 @@ export default withNamespaces('common')(
       } = this.props.strings;
       const { phone, token, error, completeRegister } = this.state;
       const { t, query } = this.props;
-      if(this.state.token) return (
+      if (this.state.token) {
+        return (
           <Formik
             initialValues={{
               firstName: '',
@@ -157,7 +172,7 @@ export default withNamespaces('common')(
                   {
                     first_name: firstName,
                     last_name: lastName,
-                    national_id: nationalid,
+                    national_id: convertNumbers2English(nationalid),
                     birth_date: `${year}/${month}/${day}`,
                     email: emailAddress,
                     is_ok_to_get_emails: false
@@ -327,19 +342,31 @@ export default withNamespaces('common')(
                         </label>
                       )}
 
-                      <Form.Input
-                        label={$national_id}
-                        name="nationalid"
-                        error={Boolean(errors.nationalid && touched.nationalid)}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.nationalid}
-                      />
-                      {errors.nationalid && touched.nationalid && (
-                        <label className="sui-error-message sui-padd">
-                          {errors.nationalid}
-                        </label>
-                      )}
+                      <div className="field">
+                        <label>{$national_id}</label>
+                        <Input
+                          // type={isMobile ? "number" : "text"}
+                          name="nationalid"
+                          error={Boolean(errors.nationalid && touched.nationalid)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, convertNumbers2English(data.value));
+                            }
+                          }}
+                          onBlur={handleBlur}
+                          value={values.nationalid
+                            ? convertNumbers2Persian(values.nationalid)
+                            : values.nationalid
+                          }
+                        >
+                          <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/  />
+                        </Input>
+                        {errors.nationalid && touched.nationalid && (
+                          <span className="sui-error-message">
+                            {errors.nationalid}
+                          </span>
+                        )}
+                      </div>
 
                       {/* <Form.Field>
                 <label>{$phone_number}</label>
@@ -347,51 +374,127 @@ export default withNamespaces('common')(
               </Form.Field> */}
 
                       <Form.Group widths="3" className="paddingInMobile">
-                        <Form.Input
-                          name="day"
-                          label={$birthdate}
-                          type="number"
-                          placeholder={$day}
-                          // min="1"
-                          // max="31"
-                          error={Boolean(errors.day && touched.day)}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.day}
-                        />
 
-                        <Form.Dropdown
-                          // label={$month}
-                          name="month"
-                          id="month"
-                          placeholder={$month}
-                          clearable
-                          selection
-                          options={
-                            i18n.language === 'en' ? monthsEnglish : monthsFarsi
-                          }
-                          style={{ marginTop: '25px' }}
-                          error={Boolean(errors.month && touched.month)}
-                          onChange={(e, data) => {
-                            if (data && data.name) {
-                              setFieldValue(data.name, data.value);
+                        <div className="field">
+                          <label>{$birthdate}</label>
+                          <Input
+                            name="day"
+                            type="text"
+                            placeholder={$day}
+                            // min="1"
+                            // max="31"
+                            error={Boolean(errors.day && touched.day)}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, clearNumber(convertNumbers2English(data.value)));
+                              }
+                            }}
+                            onBlur={handleBlur}
+                            value={values.day
+                              ? convertNumbers2Persian(values.day)
+                              : values.day
                             }
-                          }}
-                          value={values.month}
-                        />
+                          >
+                            <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/  />
+                          </Input>
+                        </div>
 
-                        <Form.Input
-                          name="year"
-                          type="number"
-                          // min="1300"
-                          // max="1397"
-                          placeholder={$year + $year_hint}
-                          style={{ marginTop: '25px' }}
-                          error={Boolean(errors.year && touched.year)}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.year}
-                        />
+                        {isBrowser &&
+                          <Form.Dropdown
+                            // label={$month}
+                            name="month"
+                            id="month"
+                            placeholder={$month}
+                            clearable
+                            selection
+                            options={
+                              i18n.language === 'en' ? monthsEnglish : monthsFarsi
+                            }
+                            style={{ marginTop: '25px' }}
+                            error={Boolean(errors.month && touched.month)}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, data.value);
+                              }
+                            }}
+                            value={values.month}
+                          />
+                        }
+                        {isMobile &&
+                          <div className="field">
+                            <label>{$month}</label>
+                            <select
+                              name="month"
+                              className={
+                                Boolean(errors.month && touched.month) ?
+                                  "ui search selection dropdown error" :
+                                  "ui search selection dropdown noterror"
+                              }
+                              value={values.month}
+                              onChange={(e) => {
+                                console.log(e.target.value);
+                                if (e.target && e.target.name) {
+                                  setFieldValue(e.target.name, Number(e.target.value));
+                                }
+                              }}
+                              onBlur={handleBlur}
+                              style={{ display: 'block' }}
+                            >
+                              <option value={""} label={""} hidden />
+                              {monthsFarsi.map((item, index) => (
+                                <option key={index} value={item.value} label={item.text} />
+                              ))}
+                            </select>
+                          </div>
+                        }
+
+                        {isBrowser &&
+                          <Form.Input
+                            name="year"
+                            type="text"
+                            // min="1300"
+                            // max="1397"
+                            inputMode='numeric' /* novalidate pattern="[0-9]*/
+                            placeholder={$year + $year_hint}
+                            style={{ marginTop: '25px' }}
+                            error={Boolean(errors.year && touched.year)}
+                            onChange={(e, data) => {
+                              if (data && data.name) {
+                                setFieldValue(data.name, convertNumbers2English(data.value));
+                              }
+                            }}
+                            onBlur={handleBlur}
+                            value={values.year
+                              ? convertNumbers2Persian(values.year)
+                              : values.year
+                            }
+                          />
+                        }
+                        {isMobile &&
+                          <div className="field">
+                            <label>{$year}</label>
+                            <Input
+                              name="year"
+                              type="text"
+                              // min="1300"
+                              // max="1397"
+                              placeholder={$year + $year_hint}
+                              error={Boolean(errors.year && touched.year)}
+                              onChange={(e, data) => {
+                                if (data && data.name) {
+                                  setFieldValue(data.name, convertNumbers2English(data.value));
+                                }
+                              }}
+                              onBlur={handleBlur}
+                              value={values.year
+                                ? convertNumbers2Persian(values.year)
+                                : values.year
+                              }
+                            >
+                              <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/  />
+                            </Input>
+                          </div>
+                        }
                       </Form.Group>
                       {/* {(errors.day || errors.month || errors.year) &&
                     (touched.day || touched.month || touched.year) && (
@@ -471,10 +574,13 @@ export default withNamespaces('common')(
               )
             }}
           </Formik>
-      );
-      else return (
-        <Error404 token={this.state.token} openModal={this.props.openModal} />
-      )
+        );
+      }
+      else {
+        return (
+          <Error404 token={this.state.token} openModal={this.props.openModal} />
+        )
+      }
     }
   }
 );
