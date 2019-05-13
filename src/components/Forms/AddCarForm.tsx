@@ -35,6 +35,7 @@ import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
 import { useDropzone } from 'react-dropzone';
 import Dropzone from 'react-dropzone';
 import scrollToElement from 'scroll-to-element';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const DropZoneDiv = styled.section`
   display: flex;
@@ -288,6 +289,7 @@ export default withNamespaces('common')(
     }
 
     componentDidMount() {
+      scrollToElement('#form');
       //get cities and genrate a dropdown input in form
       axios
         .post('https://otoli.net' + '/core/location/list?limit=100')
@@ -633,12 +635,14 @@ export default withNamespaces('common')(
             values: IAddCarFormValues,
             actions: FormikActions<IAddCarFormValues>
           ) => {
+            actions.setSubmitting(true);
+            console.log(this.state.picturesID);
             if (this.state.picturesID.length <= 0) {
               alert("لطفاً حداقل یک تصویر بارگذاری کنید.");
               this.setState({ error: 'لطفاً حداقل یک تصویر بارگذاری کنید.' });
+              actions.setSubmitting(false);
               return false;
             }
-            actions.setSubmitting(true);
             this.setState({ error: '' });
             console.log(values);
             const {
@@ -785,7 +789,7 @@ export default withNamespaces('common')(
             errors,
             touched
           }) => (
-              <BoxAccount className="box_account">
+              <BoxAccount className="box_account" id="form">
                 <Form onSubmit={handleSubmit}>
                   <h3 className="new_client">{t('add_car')}</h3>
                   {/* <small className="float-right pt-2">* {$required_fields}</small> */}
@@ -911,13 +915,13 @@ export default withNamespaces('common')(
                             this.setModels(data.value);
                           }
                         }}
-                        onOpen={(e, data) => scrollToElement('#carBrand') }
+                        onOpen={(e, data) => scrollToElement('#carBrand')}
                         onClose={(e, data) => {
-                        if (data && data.name) {
-                          setFieldTouched(data.name);
-                        }
-                      }}
-                      value={values.carBrand}
+                          if (data && data.name) {
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={values.carBrand}
                       />
                       <Form.Dropdown
                         name="carModel"
@@ -1161,22 +1165,22 @@ export default withNamespaces('common')(
                           style={{ display: 'block' }}
                         >
                           <option value={""} label={""} hidden />
-                          <option value={1} label={"1"} />
-                          <option value={2} label={"2"} />
-                          <option value={3} label={"3"} />
-                          <option value={4} label={"4"} />
-                          <option value={5} label={"5"} />
-                          <option value={6} label={"6"} />
-                          <option value={7} label={"7"} />
-                          <option value={8} label={"8"} />
-                          <option value={9} label={"9"} />
-                          <option value={10} label={"10"} />
-                          <option value={11} label={"11"} />
-                          <option value={12} label={"12"} />
-                          <option value={13} label={"13"} />
-                          <option value={14} label={"14"} />
-                          <option value={15} label={"15"} />
-                          <option value={16} label={"16"} />
+                          <option value={1} label={"۱"} />
+                          <option value={2} label={"۲"} />
+                          <option value={3} label={"۳"} />
+                          <option value={4} label={"۴"} />
+                          <option value={5} label={"۵"} />
+                          <option value={6} label={"۶"} />
+                          <option value={7} label={"۷"} />
+                          <option value={8} label={"۸"} />
+                          <option value={9} label={"۹"} />
+                          <option value={10} label={"۱۰"} />
+                          <option value={11} label={"۱۱"} />
+                          <option value={12} label={"۱۲"} />
+                          <option value={13} label={"۱۳"} />
+                          <option value={14} label={"۱۴"} />
+                          <option value={15} label={"۱۵"} />
+                          <option value={16} label={"۱۶"} />
                         </select>
                       </div>
                     }
@@ -1242,11 +1246,14 @@ export default withNamespaces('common')(
                       error={Boolean(errors.carVIN && touched.carVIN)}
                       onChange={(e, data) => {
                         if (data && data.name) {
-                          setFieldValue(data.name, data.value);
+                          setFieldValue(data.name, convertNumbers2English(data.value));
                           setFieldTouched(data.name);
                         }
                       }}
-                      value={values.carVIN}
+                      value={values.carVIN
+                        ? convertNumbers2Persian(values.carVIN)
+                        : values.carVIN
+                      }
                       style={{ direction: 'ltr' }}
                     />
 
@@ -1269,7 +1276,7 @@ export default withNamespaces('common')(
                           )}
                           onChange={(e, data) => {
                             if (data && data.name) {
-                              setFieldValue(data.name, data.value);
+                              setFieldValue(data.name, convertNumbers2English(data.value));
                               setFieldTouched(data.name);
                             }
                           }}
@@ -1321,7 +1328,7 @@ export default withNamespaces('common')(
                           )}
                           onChange={(e, data) => {
                             if (data && data.name) {
-                              setFieldValue(data.name, data.value);
+                              setFieldValue(data.name, convertNumbers2English(data.value));
                               setFieldTouched(data.name);
                             }
                           }}
@@ -1341,7 +1348,7 @@ export default withNamespaces('common')(
                           )}
                           onChange={(e, data) => {
                             if (data && data.name) {
-                              setFieldValue(data.name, data.value);
+                              setFieldValue(data.name, convertNumbers2English(data.value));
                               setFieldTouched(data.name);
                             }
                           }}
