@@ -34,6 +34,7 @@ import { Box, Flex } from '@rebass/grid';
 import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
 import { useDropzone } from 'react-dropzone';
 import Dropzone from 'react-dropzone';
+import scrollToElement from 'scroll-to-element';
 
 const DropZoneDiv = styled.section`
   display: flex;
@@ -134,7 +135,7 @@ const BoxAccount = styled.div`
       width: 70px !important;
       height: 47px;
       padding: 8px;
-      top: -52px;
+      top: -40px;
       font-size: 18px;
       text-align: center;
       direction: rtl;
@@ -145,17 +146,17 @@ const BoxAccount = styled.div`
       left: 166px;
       width: 55px !important;
       padding: 8px;
-      top: -137px;
+      top: -119px;
       font-size: 18px;
     }
     #carLicensePlates4 {
       background: transparent;
       position: absolute;
-      left: 235px;
+      left: 237px;
       width: 55px !important;
       height: 39px;
       padding: 8px;
-      top: -190px;
+      top: -160px;
       font-size: 18px;
     }
   }
@@ -278,6 +279,7 @@ export default withNamespaces('common')(
     constructor(props) {
       super(props);
     }
+
 
     componentWillMount() {
       this.setState({
@@ -828,7 +830,7 @@ export default withNamespaces('common')(
                           <label>{t('carProperty.whereIsIt')}</label>
                           <select
                             name="carCity"
-                            className={Boolean(errors.carCity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                            className={Boolean(errors.carCity && touched.carCity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                             value={values.carCity}
                             onChange={(e) => {
                               console.log(e.target.value);
@@ -841,7 +843,7 @@ export default withNamespaces('common')(
                             // onBlur={handleBlur}
                             style={{ display: 'block' }}
                           >
-                            <option value={null} label={""} hidden />
+                            <option value={""} label={""} hidden />
                             {this.state.citiesFarsi.map((item, index) => (
                               <option value={item.value} label={item.text} />
                             ))}
@@ -887,7 +889,7 @@ export default withNamespaces('common')(
                         )}
                     </Form.Group>
 
-                    <Form.Group className="carModelRow">
+                    <Form.Group className="carModelRow" id="carBrand">
                       <Form.Dropdown
                         name="carBrand"
                         id="carBrand"
@@ -909,12 +911,13 @@ export default withNamespaces('common')(
                             this.setModels(data.value);
                           }
                         }}
+                        onOpen={(e, data) => scrollToElement('#carBrand') }
                         onClose={(e, data) => {
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={values.carBrand}
+                        if (data && data.name) {
+                          setFieldTouched(data.name);
+                        }
+                      }}
+                      value={values.carBrand}
                       />
                       <Form.Dropdown
                         name="carModel"
@@ -1012,7 +1015,7 @@ export default withNamespaces('common')(
                           <label>{t('carProperty.year')}</label>
                           <select
                             name="carYear"
-                            className={Boolean(errors.carYear) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                            className={Boolean(errors.carYear && touched.carYear) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                             value={values.carYear}
                             onChange={(e) => {
                               console.log(e.target.value);
@@ -1023,7 +1026,7 @@ export default withNamespaces('common')(
                             // onBlur={handleBlur}
                             style={{ display: 'block' }}
                           >
-                            <option value={null} label={""} hidden />
+                            <option value={""} label={""} hidden />
                             {this.state.yearsFarsi.map((item, index) => (
                               <option value={item.value} label={item.text} />
                             ))}
@@ -1105,7 +1108,7 @@ export default withNamespaces('common')(
                         <label>{t('carProperty.cassis')}</label>
                         <select
                           name="carBodyStyle"
-                          className={Boolean(errors.carBodyStyle) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                          className={Boolean(errors.carBodyStyle && touched.carBodyStyle) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                           value={values.carBodyStyle}
                           onChange={(e) => {
                             console.log(e.target.value);
@@ -1116,7 +1119,7 @@ export default withNamespaces('common')(
                           // onBlur={handleBlur}
                           style={{ display: 'block' }}
                         >
-                          <option value={null} label={""} hidden />
+                          <option value={""} label={""} hidden />
                           {this.state.bodyStyleFarsi.map((item, index) => (
                             <option value={item.value} label={item.text} />
                           ))}
@@ -1146,7 +1149,7 @@ export default withNamespaces('common')(
                         <label>{t('carProperty.capacity')}</label>
                         <select
                           name="carCapacity"
-                          className={Boolean(errors.carCapacity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                          className={Boolean(errors.carCapacity && touched.carCapacity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                           value={values.carCapacity}
                           onChange={(e) => {
                             console.log(e.target.value);
@@ -1157,7 +1160,7 @@ export default withNamespaces('common')(
                           // onBlur={handleBlur}
                           style={{ display: 'block' }}
                         >
-                          <option value={null} label={""} hidden />
+                          <option value={""} label={""} hidden />
                           <option value={1} label={"1"} />
                           <option value={2} label={"2"} />
                           <option value={3} label={"3"} />
@@ -1213,7 +1216,7 @@ export default withNamespaces('common')(
                           <label>{t('carProperty.kmDriven')}</label>
                           <select
                             name="carKmDriven"
-                            className={Boolean(errors.carKmDriven) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
+                            className={Boolean(errors.carKmDriven && touched.carKmDriven) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                             value={values.carKmDriven}
                             onChange={(e) => {
                               console.log(e.target.value);
@@ -1224,7 +1227,7 @@ export default withNamespaces('common')(
                             // onBlur={handleBlur}
                             style={{ display: 'block' }}
                           >
-                            <option value={null} label={""} hidden />
+                            <option value={""} label={""} hidden />
                             {kmDrivenFarsi.map((item, index) => (
                               <option value={item.value} label={item.text} />
                             ))}
@@ -1455,28 +1458,6 @@ export default withNamespaces('common')(
                       </Dropzone>
                     </Form.Field>
 
-                    <Form.Group>
-                      <Form.Field
-                        control={TextArea}
-                        label={t('carProperty.description')}
-                        id="carDescription"
-                        name="carDescription"
-                        placeholder={t('carProperty.descriptionPlaceholder')}
-                        style={{ minHeight: 150 }}
-                        error={Boolean(
-                          errors.carDescription && touched.carDescription
-                        )}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        onBlur={handleBlur}
-                        value={values.carDescription}
-                      />
-                    </Form.Group>
-
                     <Form.Field style={{ margin: 0 }}>
                       <label>رنگ خودرو</label>
                     </Form.Field>
@@ -1523,6 +1504,28 @@ export default withNamespaces('common')(
                         </Dropdown.Menu>
                       </Dropdown>
                     </Form.Field>
+
+                    <Form.Group>
+                      <Form.Field
+                        control={TextArea}
+                        label={t('carProperty.description')}
+                        id="carDescription"
+                        name="carDescription"
+                        placeholder={t('carProperty.descriptionPlaceholder')}
+                        style={{ minHeight: 150 }}
+                        error={Boolean(
+                          errors.carDescription && touched.carDescription
+                        )}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, data.value);
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        onBlur={handleBlur}
+                        value={values.carDescription}
+                      />
+                    </Form.Group>
 
                     <Form.Field
                       style={{ textAlign: 'center', fontSize: '0.8em' }}
