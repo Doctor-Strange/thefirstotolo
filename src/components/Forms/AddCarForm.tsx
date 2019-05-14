@@ -1,6 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
 import { useCallback } from 'react';
+import swal from '@sweetalert/with-react'
 import Router from 'next/router';
 import styled from 'styled-components';
 import {
@@ -15,7 +16,7 @@ import {
   Segment,
   Button,
   Checkbox,
-  Grid,
+  Input,
   Dropdown,
   Icon,
   Card,
@@ -30,6 +31,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
 import * as Pelak from '../../../static/pelak2.png';
+import * as VIN from '../../../static/vin.jpg';
 import { Box, Flex } from '@rebass/grid';
 import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
 import { useDropzone } from 'react-dropzone';
@@ -601,6 +603,20 @@ export default withNamespaces('common')(
       this.setState({ picturesID, picturesPreview });
     }
 
+    openVINHint() {
+      swal(
+        <div>
+          {/* <h1>Hello world!</h1> */}
+          <img src={VIN} alt="پیدا کردن کد شناسایی خودرو" />
+        </div>,
+      {
+        button: {
+          text: "بستن",
+          closeModal: true,
+        },
+      });
+    }
+
     render() {
       const { checkboxes, token, error } = this.state;
       const { t } = this.props;
@@ -638,7 +654,7 @@ export default withNamespaces('common')(
             actions.setSubmitting(true);
             console.log(this.state.picturesID);
             if (this.state.picturesID.length <= 0) {
-              alert("لطفاً حداقل یک تصویر بارگذاری کنید.");
+              // alert("لطفاً حداقل یک تصویر بارگذاری کنید.");
               this.setState({ error: 'لطفاً حداقل یک تصویر بارگذاری کنید.' });
               actions.setSubmitting(false);
               return false;
@@ -1082,6 +1098,7 @@ export default withNamespaces('common')(
                         name="carBodyStyle"
                         id="carBodyStyle"
                         placeholder={t('carProperty.cassis')}
+                        label={t('carProperty.cassis')}
                         noResultsMessage={t('forms.error_no_result_found')}
                         search
                         selection
@@ -1138,6 +1155,7 @@ export default withNamespaces('common')(
                         inputmode="numeric"
                         type="number"
                         pattern="[0-9]*"
+                        className="no_margin"
                         error={Boolean(errors.carCapacity && touched.carCapacity)}
                         onChange={(e, data) => {
                           if (data && data.name) {
@@ -1239,23 +1257,30 @@ export default withNamespaces('common')(
                         </div>
                       }
                     </Form.Group>
-
-                    <Form.Input
-                      label={t('carProperty.VIN')}
-                      name="carVIN"
-                      error={Boolean(errors.carVIN && touched.carVIN)}
-                      onChange={(e, data) => {
-                        if (data && data.name) {
-                          setFieldValue(data.name, convertNumbers2English(data.value));
-                          setFieldTouched(data.name);
+                    <div className="field">
+                      <label>
+                        {t('carProperty.VIN')}
+                      </label>
+                      <Input
+                        name="carVIN"
+                        error={Boolean(errors.carVIN && touched.carVIN)}
+                        onChange={(e, data) => {
+                          if (data && data.name) {
+                            setFieldValue(data.name, convertNumbers2English(data.value));
+                            setFieldTouched(data.name);
+                          }
+                        }}
+                        value={values.carVIN
+                          ? convertNumbers2Persian(values.carVIN)
+                          : values.carVIN
                         }
-                      }}
-                      value={values.carVIN
-                        ? convertNumbers2Persian(values.carVIN)
-                        : values.carVIN
-                      }
-                      style={{ direction: 'ltr' }}
-                    />
+                        style={{ direction: 'ltr' }}
+                      />
+                      <span onClick={this.openVINHint} style={{ fontSize: '12px', fontWeight: 400 }}>
+                        <Icon name="help circle" />{' '}
+                        VIN را از کجا پیدا کنیم؟
+                        </span>
+                    </div>
 
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carProperty.licensePlates')}</label>
@@ -1560,7 +1585,8 @@ export default withNamespaces('common')(
                   </Segment>
                 </Form>
               </BoxAccount>
-            )}
+            )
+          }
         </Formik>
       );
       else return (

@@ -798,7 +798,6 @@ input[inputmode="numeric"],  div[inputMode='numeric'] input {
 .field {
   margin-bottom:18px !important;
 }
-  
   .fields:not(.inline) { 
     margin-bottom:0px !important;
     .field {
@@ -809,6 +808,9 @@ input[inputmode="numeric"],  div[inputMode='numeric'] input {
   .fields.inline, *[inputmode='numeric'] { 
       margin-bottom:18px !important;
   }
+  &.no_margin{
+  margin-bottom:0px !important;
+}
   .rtl {
     .carcard {
       text-align:right;
@@ -1842,6 +1844,55 @@ select:focus,
 textarea {
   /* font-size: 16px !important; */
 }
+
+.DateInput_input{
+  text-align:center;
+}
+
+
+.swal-overlay--show-modal .swal-modal {
+    animation: none !important;
+}
+
+.swal-footer {
+    text-align: center;
+}
+
+.swal-button {
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 24px;
+    margin: 0;
+    cursor: pointer;
+    background-color: #00ACC1;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+    box-shadow: 0 0 0 0 rgba(34,36,38,.15) inset;
+    border-radius: .28571429rem;
+    font-family: Vazir;
+    :focus {
+      background-color: #0097A7;
+    }
+    :focus {
+      outline: none;
+      box-shadow: none;
+    }
+}
+
+.ui.horizontal.divider {
+  &:before, &:after{
+    display:none;
+  }
+}
+
+.marg8 {
+  margin-bottom: 8px !important;
+}
+
 `;
 
 const lightTheme = {

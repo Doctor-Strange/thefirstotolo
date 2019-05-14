@@ -64,7 +64,9 @@ const BoxAccount = styled.div`
     }
   }
   .DateInput {
-    max-width: 105px;
+    max-width: 128px;
+    margin-top: 5px;
+
   }
   h3 {
     font-size: 21px;
@@ -200,6 +202,20 @@ const BoxAccount = styled.div`
   }
   .ui.form input[type='text'] {
     direction: ltr;
+  }
+  button#pos_bott, button#pos_bott2, button.pos_bott {
+    box-shadow: none !important;
+    font-size: 14px !important;
+    padding: 14px !important;
+    background: none !important;
+  }
+
+  i.icon.edit, i.icon.calendar {
+    margin-right: 0px !important;
+    :before {
+      right: -5px;
+      position: relative;
+    }
   }
 `;
 
@@ -671,7 +687,7 @@ export default withNamespaces('common')(
               .typeError(
                 fieldErrorGenrator(t('carTiming.cancellationPolicy'))
               ),
-            availableInAllPrice: Yup.number()
+            availableInAllPrice: Yup.mixed()
               .when('radioGroup', {
                 is: false, // alternatively: (val) => val == true
                 then: Yup.number().required(fieldErrorGenrator(t('carTiming.price'))).typeError(fieldErrorGenrator(t('carTiming.price'))),
@@ -694,7 +710,7 @@ export default withNamespaces('common')(
           }) => {
             let radioPad;
             if (values.radioGroup == false) {
-              radioPad = '16px';
+              radioPad = '0px';
             } else {
               radioPad = '0px';
             }
@@ -942,7 +958,7 @@ export default withNamespaces('common')(
                       </Header>
                     </Divider>
                     {/* ===================================================================== */}
-                    <Form.Field>
+                    <Form.Field className="marg8">
                       <Radio
                         label={t(
                           'carTiming.availableInAllDatesWithSamePrice'
@@ -1116,8 +1132,26 @@ export default withNamespaces('common')(
                                     }}
                                   >
                                     <Button
-                                      positive
                                       type="button"
+                                      className="pos_bott"
+                                      onClick={e => {
+                                        this.setState({
+                                          startDate: moment(),
+                                          endDate: moment(),
+                                          price: '',
+                                          showNewEntery: false,
+                                          openEditFor: null
+                                        });
+                                      }}
+                                    >
+                                      لغو
+                                    </Button>
+                                    <Button
+                                      color='blue'
+                                      basic
+                                      type="button"
+                                      id="pos_bott2"
+                                      className="pos_bott"
                                       onClick={e => {
                                         console.log(e);
                                         let data = this.state.carTimings;
@@ -1144,20 +1178,6 @@ export default withNamespaces('common')(
                                     >
                                       ثبت
                                     </Button>
-                                    <Button
-                                      type="button"
-                                      onClick={e => {
-                                        this.setState({
-                                          startDate: moment(),
-                                          endDate: moment(),
-                                          price: '',
-                                          showNewEntery: false,
-                                          openEditFor: null
-                                        });
-                                      }}
-                                    >
-                                      لغو
-                                    </Button>
                                   </Button.Group>
                                 </Segment>
                               );
@@ -1169,9 +1189,9 @@ export default withNamespaces('common')(
                                 >
                                   <span>
                                     <label>از</label>{' '}
-                                    {val.startDate.format('jDD jMMMM jYY')}{' '}
+                                    {convertNumbers2Persian(val.startDate.format('jDD jMMMM jYY'))}{' '}
                                     <label>تا</label>{' '}
-                                    {val.endDate.format('jDD jMMMM jYY')}{' '}
+                                    {convertNumbers2Persian(val.endDate.format('jDD jMMMM jYY'))}{' '}
                                     <br />
                                     <label>با قیمت</label>{' '}
                                     {convertNumbers2Persian(
@@ -1282,13 +1302,28 @@ export default withNamespaces('common')(
                                 style={{
                                   flexDirection: 'row-reverse',
                                   position: 'relative',
-                                  bottom: '-30px',
+                                  bottom: '-20px',
                                   left: '-15px'
                                 }}
                               >
                                 <Button
-                                  positive
+                                  basic
                                   type="button"
+                                  className="pos_bott"
+                                  onClick={e => {
+                                    this.setState({
+                                      showNewEntery: false
+                                    });
+                                  }}
+                                >
+                                  حذف
+                                </Button>
+                                <Button
+                                  color='blue'
+                                  basic
+                                  type="button"
+                                  className="pos_bott"
+                                  id="pos_bott"
                                   onClick={e => {
                                     console.log(e);
                                     let data = this.state.carTimings;
@@ -1314,38 +1349,34 @@ export default withNamespaces('common')(
                                 >
                                   ثبت
                                 </Button>
-                                <Button
-                                  type="button"
-                                  onClick={e => {
-                                    this.setState({
-                                      showNewEntery: false
-                                    });
-                                  }}
-                                >
-                                  حذف
-                                </Button>
                               </Button.Group>
                             </Segment>
                           )}
                         </Segment.Group>
-                        <Button
-                          icon
-                          labelPosition="left"
-                          type="button"
-                          style={{ marginBottom: '12px' }}
-                          onClick={e => {
-                            this.setState({
-                              showNewEntery: true,
-                              openEditFor: null,
-                              startDate: moment(),
-                              endDate: moment(),
-                              price: ''
-                            });
-                          }}
-                        >
-                          <Icon name="plus" />
-                          افزودن
-                        </Button>
+                        <div style={{
+                          textAlign: 'right',
+                          marginBottom: '24px'
+                        }}>
+                          <Button
+                            icon
+                            labelPosition="right"
+                            type="button"
+                            basic
+                            color='blue'
+                            onClick={e => {
+                              this.setState({
+                                showNewEntery: true,
+                                openEditFor: null,
+                                startDate: moment(),
+                                endDate: moment(),
+                                price: ''
+                              });
+                            }}
+                          >
+                            افزودن
+                            <Icon name="plus" />
+                          </Button>
+                        </div>
                       </div>
                     )}
                     {/* ===================================================================== */}
