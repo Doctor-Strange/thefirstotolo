@@ -1414,14 +1414,14 @@ export default withNamespaces('common')(
                       >
                         {t('signin')}
                       </Button>
-                      {isSubmitting && (
+                      {/* {isSubmitting && (
                         <Progress
                           value={this.state.submittingSteps}
                           total="7"
                           indicating={isSubmitting}
                           success={this.state.submittingSteps == 7}
                         />
-                      )}
+                      )} */}
                     </Form.Field>
                     {error && (
                       <Label attached="bottom" color="red">
