@@ -294,7 +294,7 @@ export default withNamespaces('common')(
       scrollToElement('#form');
       //get cities and genrate a dropdown input in form
       axios
-        .post('https://otoli.net' + '/core/location/list?limit=100')
+        .post('https://otoli.net' + '/core/location/list?limit=800')
         .then(response => {
           if (response.data.success) {
             const citiesFarsi = response.data.items.map((value, index) => ({
