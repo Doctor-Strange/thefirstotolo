@@ -317,7 +317,7 @@ export default withNamespaces('common')(
 
       //get body styles and genrate a dropdown input in form
       axios
-        .post('https://otoli.net' + '/core/body-style/list?limit=100')
+        .post('https://otoli.net' + '/core/body-style/list?limit=800')
         .then(response => {
           if (response.data.success) {
             const bodyStyleFarsi = response.data.items.map((value, index) => ({
@@ -609,12 +609,12 @@ export default withNamespaces('common')(
           {/* <h1>Hello world!</h1> */}
           <img src={VIN} alt="پیدا کردن کد شناسایی خودرو" />
         </div>,
-      {
-        button: {
-          text: "بستن",
-          closeModal: true,
-        },
-      });
+        {
+          button: {
+            text: "بستن",
+            closeModal: true,
+          },
+        });
     }
 
     render() {
