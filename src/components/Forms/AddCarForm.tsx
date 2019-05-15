@@ -435,7 +435,7 @@ export default withNamespaces('common')(
       axios
         .post(
           'https://otoli.net' +
-          '/core/location/list?limit=100&parent_id=' +
+          '/core/location/list?limit=800&parent_id=' +
           cityID
         )
         .then(response => {
