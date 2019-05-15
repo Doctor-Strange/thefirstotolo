@@ -558,7 +558,7 @@ export default withNamespaces('common')(
                                                       {
                                                         rental_car_id: id,
                                                         is_all_time: 1,
-                                                        price: clearNumber(
+                                                        price_per_day: clearNumber(
                                                           availableInAllPrice
                                                         ),
                                                         status_id: 'available'
