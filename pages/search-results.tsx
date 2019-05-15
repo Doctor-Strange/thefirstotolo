@@ -137,7 +137,7 @@ export default withRouter(withNamespaces('common')(
           this.renderResults();
         });
         axios
-          .post('https://otoli.net' + '/core/car/list?brand_id=' + brandID)
+          .post('https://otoli.net' + '/core/car/list?limit=100&brand_id=' + brandID)
           .then(response => {
             if (
               response.data.success &&
