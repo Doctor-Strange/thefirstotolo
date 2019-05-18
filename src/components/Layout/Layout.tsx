@@ -68,7 +68,7 @@ class Layout extends React.Component<{
           direction: theme
         }}
       >
-        <Sidebar.Pushable>
+        {/* <Sidebar.Pushable>
           <Sidebar
             as={Menu}
             animation="push"
@@ -87,7 +87,7 @@ class Layout extends React.Component<{
                 </span>
               </Link>
             </Menu.Item>
-            <Menu.Item as="a"> {/* onClick={() => this.onClick()} */}
+            <Menu.Item as="a"> {/* onClick={() => this.onClick()} * /}
               <Link href="/add-car" shallow>
                 <span>
                   <Icon name="add circle" />
@@ -105,26 +105,26 @@ class Layout extends React.Component<{
             </Menu.Item>
           </Sidebar>
 
-          <Sidebar.Pusher dimmed={this.state.visible}>
-            <div id="layout" className={theme.direction}>
-              <Head>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1, shrink-to-fit=no"
-                />
-              </Head>
-              <Header
-                onRef={this.doRef}
-                openMenu={this.handleShowClick}
-                headerBtn={t('add_car')}
-                changeLang={this.changeLang_i18n}
-              />
-              {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
-              <main>{children}</main>
-              <Footer changeLangFunc={this.changeLang_i18n} />
-            </div>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
+          <Sidebar.Pusher dimmed={this.state.visible}> */}
+        <div id="layout" className={theme.direction}>
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+          </Head>
+          <Header
+            onRef={this.doRef}
+            openMenu={this.handleShowClick}
+            headerBtn={t('add_car')}
+            changeLang={this.changeLang_i18n}
+          />
+          {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
+          <main>{children}</main>
+          <Footer changeLangFunc={this.changeLang_i18n} />
+        </div>
+        {/* </Sidebar.Pusher>
+        </Sidebar.Pushable> */}
       </ThemeProvider>
     );
   }
