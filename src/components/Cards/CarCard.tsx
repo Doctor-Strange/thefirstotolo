@@ -187,13 +187,14 @@ export const CarCard: React.FunctionComponent<{
   score: any;
   price: any;
   deliver_at_renters_place: boolean;
-}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place, id }) => (
+  dateURL?: string;
+}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place, id,dateURL}) => (
   <Card className="strip grid carcard">
     <figure>
       {/* <a href="#0" className="wish_bt" >
         
       </a> */}
-      <a href={`/car?id=${id}`}>
+      <a href={`/car?id=${id}${dateURL}`}>
         <img src={img} className="img-fluid" alt="" />
         <div className="read_more">
           <span>مشاهده و رزرو</span>

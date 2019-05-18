@@ -46,6 +46,7 @@ export class ResultsCards extends React.Component<{
     showMore: boolean;
     noResult: boolean;
     nextPage: any;
+    dateURL?: string;
 }> {
     state = {
         error: '',
@@ -56,7 +57,7 @@ export class ResultsCards extends React.Component<{
     }
 
     render() {
-        const { t, results, loadingResults, noResult, showMore, nextPage } = this.props;
+        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL } = this.props;
         return (
             <>
                 <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35 carcards_section">
@@ -88,6 +89,7 @@ export class ResultsCards extends React.Component<{
                                     deliver_at_renters_place={value.deliver_at_renters_place}
                                     // text2={value.text2}
                                     score={"8.4"}
+                                    dateURL={dateURL}
                                 />
                             )
                         )
@@ -100,7 +102,7 @@ export class ResultsCards extends React.Component<{
                         ) : <></>
                     }
                     {(showMore === true) ? (
-                        <p className="text-center" style={{ width: '100%', marginTop: '20px'}}>
+                        <p className="text-center" style={{ width: '100%', marginTop: '20px' }}>
                             <a href="#0" className="btn_1 rounded add_top_30" onClick={() => { nextPage() }}>بیشتر بارگذاری کن</a>
                         </p>) : (<> </>)}
                 </Section>

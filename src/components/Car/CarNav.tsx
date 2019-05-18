@@ -14,7 +14,7 @@ export const CarNav: React.FunctionComponent<{
 }> = ({ startDate, endDate }) => (
     <Line className="secondary_nav sticky_horizontal_2 navbar">
         <div className="container">
-            <h4> از {startDate} تا {endDate} </h4>
+            <h4>{(startDate && endDate) ? ` از ${convertNumbers2Persian(startDate)} تا ${convertNumbers2Persian(endDate)} ` : "برای اجاره به صفحه نخست مراجعه کنید"}</h4>
         </div>
     </Line>
 );

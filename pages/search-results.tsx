@@ -514,6 +514,8 @@ export default withRouter(withNamespaces('common')(
               loadingResults={loadingResults}
               noResult={noResult}
               showMore={(latest_result_key != null)}
+              dateURL={
+                `&start=${moment(this.state.startDate).format('jYYYY/jMM/jDD')}&end=${moment(this.state.endDate).format('jYYYY/jMM/jDD')}`}
             />
           </div>
         </Layout>

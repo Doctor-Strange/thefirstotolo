@@ -9,6 +9,7 @@ import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard } from '../src/components/Cards'
 import { Details, ListDetails, CarNav } from '../src/components/Car'
 import { i18n, withNamespaces } from '../src/i18n';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment-jalaali';
@@ -19,7 +20,7 @@ const SearchResult = styled.div`
 `;
 
 export default withNamespaces('common')(
-    class extends React.Component<{ t: any, rentalCarID: number }> {
+    class extends React.Component<{ t: any, rentalCarID: number, start: any, end: any }> {
 
         static async getInitialProps(props) {
             if (typeof window === 'undefined') {
@@ -29,7 +30,9 @@ export default withNamespaces('common')(
             }
             return {
                 namespacesRequired: ['common'],
-                rentalCarID: props.query.id
+                rentalCarID: props.query.id,
+                start: props.query.start,
+                end: props.query.end,
             };
         }
 
@@ -98,14 +101,27 @@ export default withNamespaces('common')(
         }
 
         render() {
-            const { t } = this.props;
+            const { t, start, end } = this.props;
+            console.log([1, start]);
+            let start_date, end_date = null;
+            let startDate, endDate = null;
+            if (start && end) {
+                startDate = moment(start, 'jYYYY/jMM/jDD');
+                console.log([2, startDate]);
+                endDate = moment(end, 'jYYYY/jMM/jDD');
+            }
+            if (startDate && endDate) {
+                start_date = moment(startDate).format('jD jMMMM jYY');
+                console.log([3, start_date]);
+                end_date = moment(endDate).format('jD jMMMM jYY');
+            }
             const { error, media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location,
                 max_km_per_day, description, capacity, extra_km_price, car, loaded } = this.state;
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
-                        <CarNav startDate="دوشنبه ۱۴ اردیبهشت" endDate="پنجشنبه ۲۵ خرداد" />
+                        <CarNav startDate={start_date} endDate={end_date} />
                         <div className="hero_in hotels_detail">
                             <Carousel
                                 renderCenterLeftControls={({ previousSlide }) => (
@@ -131,7 +147,7 @@ export default withNamespaces('common')(
                                     </button>
                                 )}
                             >
-                                {(media_set.length >= 1)? media_set.map((value, index) => 
+                                {(media_set.length >= 1) ? media_set.map((value, index) =>
                                     <img key={index} src={value} />
                                 ) : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />}
                             </Carousel>
@@ -166,7 +182,7 @@ export default withNamespaces('common')(
                                     <hr />
                                     <Details title="محل خودرو">
                                         <p>{location.name.breadcrumb_fa}</p>
-                                        <p>{deliver_at_renters_place? "تحویل در محل شما" : ""}</p>
+                                        <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
                                     </Details>
                                     <Details title="محدودیت مسافت">
                                         <ul className="">
