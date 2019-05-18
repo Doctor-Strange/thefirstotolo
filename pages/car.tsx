@@ -4,9 +4,15 @@ import { Section } from '../src/components/row/Sections';
 import Layout from '../src/components/Layout';
 import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Segment, Button } from 'semantic-ui-react';
 import Carousel from 'nuka-carousel';
+import { PriceCard } from '../src/components/Cards'
 import { i18n, withNamespaces } from '../src/i18n';
+import styled from 'styled-components';
+
+const SearchResult = styled.div`
+
+`;
 
 export default withNamespaces('common')(
     class extends React.Component<{ t: any }> {
@@ -26,6 +32,16 @@ export default withNamespaces('common')(
             const { t } = this.props;
             return (
                 <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
+                    <nav className="secondary_nav sticky_horizontal_2 navbar">
+                        <div className="container">
+                            <h4> از دوشنبه ۱۴ اردیبهشت تا پنجشنبه ۲۵ خرداد </h4>
+                            {/* <ul className="clearfix">
+                                <li><a href="#description" className="active">از ۱۴ اردیبهشت ۹۸</a></li>
+                                <li><a href="#reviews">تا ۲۲ اردیبهشت ۹۸</a></li>
+                                <li><a href="#sidebar">یک ملیون و سی‌صد هزار تومان</a></li>
+                            </ul> */}
+                        </div>
+                    </nav>
                     <div className="hero_in hotels_detail">
                         <Carousel
                             renderCenterLeftControls={({ previousSlide }) => (
@@ -59,65 +75,71 @@ export default withNamespaces('common')(
                             <img src="https://d1zgdcrdir5wgt.cloudfront.net/media/vehicle/images/2saiuWM2RP2G_JtQk9C76g.1440x700.jpg" />
                         </Carousel>
                     </div>
-                    <nav className="secondary_nav sticky_horizontal_2">
-                        <div className="container">
-                            <ul className="clearfix">
-                                <li><a href="#description" className="active">Description</a></li>
-                                <li><a href="#reviews">Reviews</a></li>
-                                <li><a href="#sidebar">Booking</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                    <Section justifyCenter={true}>
-                        <div className="col-lg-8">
+
+                    <Section justifyCenter={true} style={{ marginTop: '24px' }}>
+                        <div className="col-lg-8" style={{
+                            position: 'relative',
+                            top: '-30px'
+                        }}>
+
                             <section id="description">
                                 ‍<div className="detail_title_1">
+                                    <PriceCard style={{
+                                        display: 'inline-grid',
+                                        left: '10px',
+                                        top: '-15px',
+                                        position: 'absolute'
+                                    }} number={800000}>در روز</PriceCard>
                                     <div className="cat_star">
                                         <i className="icon_star" /><i className="icon_star" /><i className="icon_star"></i
                                         ><i className="icon_star" />
                                     </div>
-                                    <h1>Hotel Mariott</h1>
-                                    <a
+                                    <h1 style={{ fontSize: '22px' }}>ایران‌خودرو پیکاپ دی‌مکس</h1>
+                                    <span>۲۰۰۹ - ۱۳۸۸</span> <br />
+                                    {/* <a
                                         className="address"
                                         href="https://www.goog504327!2d48.8568361"
-                                    >438 Rush Green Road, Romford</a
-                                    >
+                                    >۱۰ سفر  با امتیاز پنج ستاره</a
+                                    > */}
                                 </div>
-                                <p>
-                                    Per consequat adolescens ex, cu nibh commune <strong>temporibus vim</strong>,
-                                    ad sumo viris eloquentiam sed. Mea appareat omittantur eloquentiam ad, nam ei
-                                    quas oportere democritum. Prima causae admodum id est, ei timeam inimicus sed.
-                                    Sit an meis aliquam, cetero inermis vel ut. An sit illum euismod facilisis,
-                                    tamquam vulputate pertinacia eum at.
-                                </p>
-                                <p>
-                                    Cum et probo menandri. Officiis consulatu pro et, ne sea sale invidunt, sed ut
-                                sint <strong>blandit</strong> efficiendi. Atomorum explicari eu qui, est enim
-                                                                                                                                                                                                                    quaerendum te. Quo harum viris id. Per ne quando dolore evertitur, pro ad cibo
-                                                                                                                                                                                                                    commune.
-                                </p>
-                                <h5 className="add_bottom_15">Amenities</h5>
-                                <div className="row add_bottom_30">
-                                    <div className="col-lg-6">
-                                        <ul className="bullets">
-                                            <li>Dolorem mediocritatem</li>
-                                            <li>Mea appareat</li>
-                                            <li>Prima causae</li>
-                                            <li>Singulis indoctum</li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <ul className="bullets">
-                                            <li>Timeam inimicus</li>
-                                            <li>Oportere democritum</li>
-                                            <li>Cetero inermis</li>
-                                            <li>Pertinacia eum</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
                                 <hr />
-                                <h3>Prices</h3>
+                                <h5 className="add_bottom_15not">محل تحویل</h5>
+                                <p>تهران، اقدسیه</p>
+                                <hr />
+                                <h5 className="add_bottom_15not">محدودیت مسافت</h5>
+                                <ul className="">
+                                    <li>۵۰۰ کیلومتر</li>
+                                    <li>هزینه هر کیلومتر اضافه ۳۰ هزار تومان</li>
+                                </ul>
+                                <hr />
+                                <h5 className="add_bottom_15not">توضیحات</h5>
+                                <p>این ماشین خیلی خوبه، دست یه خانم دکتری بوده هر روز باهاش می‌رفته مطب و برمی‌گشته.
+                                    خلاصه رودست نداره. </p>
+                                <hr />
+                                <h5 className="add_bottom_15not">امکانات</h5>
+                                <div className="row add_bottom_30not">
+                                    <div className="col-6">
+                                        <ul className="bullets">
+                                            <li>کروز</li>
+                                            <li>پله‌برقی</li>
+                                            <li>شیشه‌شور برقی</li>
+                                            <li>پریز برق صندلی عقب</li>
+                                        </ul>
+                                    </div>
+                                    <div className="col-6">
+                                        <ul className="bullets">
+                                            <li>ماساژور صندلی</li>
+                                            <li>دنده ۲۳تایی</li>
+                                            <li>آب‌سرد کن</li>
+                                            <li>نون گرم </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr />
+                                <h5 className="add_bottom_15not">کارکرد</h5>
+                                <p> بین ۱۰۰٫۰۰۰ تا ۲۰۰٫۰۰۰ کیلومتر</p>
+                                <hr />
+                                {/* <h3>Prices</h3>
                                 <table className="table table-striped add_bottom_45">
                                     <tbody>
                                         <tr>
@@ -136,7 +158,7 @@ export default withNamespaces('common')(
                                 </table>
                                 <hr />
                                 <h3>Location</h3>
-                                <div id="map" className="map map_single add_bottom_45"></div>
+                                <div id="map" className="map map_single add_bottom_45"></div> */}
                             </section>
                         </div>
                         <aside className="col-lg-4" id="sidebar">
@@ -189,7 +211,7 @@ export default withNamespaces('common')(
                     </Section>
                     <Section id="reviews" justifyCenter={false}>
                         <h2>Reviews</h2>
-                        <div className="reviews-container add_bottom_30">
+                        {/* <div className="reviews-container add_bottom_30">
                             <div className="row">
                                 <div className="col-lg-3">
                                     <div id="review_summary">
@@ -312,7 +334,23 @@ export default withNamespaces('common')(
                             </div>
 
                         </div>
+                     */}
                     </Section>
+                    <Button
+                        style={{
+                            zIndex: '55',
+                            bottom: '0',
+                            position: 'fixed',
+                            borderRadius: '0',
+                            margin: '0',
+                            height: '56px'
+                        }}
+                        primary
+                        type="submit"
+                        className="btn_1 full-width"
+                    >
+                        درخواست اجاره
+                    </Button>
                 </Layout >
             );
         }
