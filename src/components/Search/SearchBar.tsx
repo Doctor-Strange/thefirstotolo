@@ -27,33 +27,12 @@ moment.loadPersian();
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const SearchResult = styled.div`
-  padding: 20px 0;
-  color: #fff;
-  background: #004dda;
-  position: relative;
-  z-index: 999 !important;
   @media (max-width: 767px) {
     padding: 12px 0;
   }
   &.is_stuck {
     z-index: 99;
     padding: 10px 0;
-  }
-  h4 {
-    color: #fff;
-    margin: 12px 0 0 0;
-    padding: 0;
-    line-height: 1;
-    font-size: 16px;
-    font-size: 1rem;
-    direction: rtl;
-    line-height: 24px;
-    @media (max-width: 991px) {
-      margin: 5px 0 0 0;
-    }
-    @media (max-width: 767px) {
-      margin: 3px 0 0 0;
-    }
   }
   &.map_view {
     padding: 10px 0;
@@ -116,7 +95,7 @@ export class SearchBar extends React.Component<{
     }
     const textDate = ` از تاریخ ${convertNumbers2Persian(start)} تا ${convertNumbers2Persian(end)}`;
     return (
-      <SearchResult id="results">
+      <SearchResult id="results" class="navbar">
         <div className="container">
           <Flex justifyContent="space-around" className="row hide_on_mobile">
             <Box width={12 / 12} px={2}>

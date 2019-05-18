@@ -70,8 +70,8 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
   body {
-    background: #f8f8f8;
-    font-size: 0.875rem;
+    background: #fafafa;
+    font-size: 1rem;
     line-height: 1.6;
     font-family: Vazir, Poppins, Helvetica, sans-serif;
     color: #555;
@@ -83,6 +83,12 @@ const GlobalStyle = createGlobalStyle`
   }
   .ui {
     font-family: Vazir, sans-serif !important;
+  }
+  hr{
+
+  }
+  h5{
+    color: #555 !important;
   }
   a {
     color: #004dda;
@@ -818,6 +824,7 @@ input[inputmode="numeric"],  div[inputMode='numeric'] input {
   margin-bottom:0px !important;
 }
   .rtl {
+    text-align:right;
     .carcard {
       text-align:right;
       direction:rtl;
@@ -1219,7 +1226,6 @@ input[type="email"] {
 }
 
 /** end of focus colors **/
-
   .ui{
     .primary{
       &.button{
@@ -2072,16 +2078,9 @@ textarea {
   right: 5px;
 }
 .carousel_detail .owl-nav [class*='owl-'] {
-  -webkit-border-radius: 3px !important;
-  -moz-border-radius: 3px !important;
-  -ms-border-radius: 3px !important;
   border-radius: 3px !important;
   padding: 4px 5px 2px 5px !important;
   background: #222 !important;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
 .carousel_detail .owl-nav [class*='owl-'] i {
@@ -2128,7 +2127,7 @@ section#description h4, section#reviews h4 {
   font-size: 1.125rem;
 }
 section#description hr, section#reviews hr {
-  border-color: #d2d8dd;
+  border-color: #d2d8dd5d;
 }
 
 section#reviews {
@@ -2140,9 +2139,6 @@ section#reviews {
   background-color: #32a067;
   color: #fff;
   padding: 20px 10px;
-  -webkit-border-radius: 3px 3px 3px 0;
-  -moz-border-radius: 3px 3px 3px 0;
-  -ms-border-radius: 3px 3px 3px 0;
   border-radius: 3px 3px 3px 0;
 }
 @media (max-width: 991px) {
@@ -2244,9 +2240,6 @@ section#reviews {
   background-color: #32a067;
   color: #fff;
   line-height: 1;
-  -webkit-border-radius: 5px 5px 5px 0;
-  -moz-border-radius: 5px 5px 5px 0;
-  -ms-border-radius: 5px 5px 5px 0;
   border-radius: 5px 5px 5px 0;
   padding: 10px;
   display: inline-block;
@@ -2404,18 +2397,6 @@ ul.bullets li {
   position: relative;
   padding-left: 23px;
 }
-ul.bullets li:before {
-  font-style: normal;
-  font-weight: normal;
-  font-family: 'ElegantIcons';
-  font-size: 14px;
-  font-size: 0.875rem;
-  content: "\e052";
-  color: #32a067;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
 
 .h5, h5 {
     font-size: 1.25rem;
@@ -2431,9 +2412,35 @@ ul.bullets li:before {
     td, th {
       padding: .75rem;
       vertical-align: top;
-      border-top: 1px solid #dee2e6;
+      /* border-top: 1px solid #dee2e6; */
   }
 }
+
+.navbar {
+  padding: 20px 0;
+  color: #fff;
+  background: #004dda;
+  position: relative;
+  z-index: 999 !important;
+  text-align:center;
+  h4 {
+    color: #fff;
+    margin: 12px 0 0 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 16px;
+    font-size: 1rem;
+    direction: rtl;
+    line-height: 24px;
+    @media (max-width: 991px) {
+      margin: 5px 0 0 0;
+    }
+    @media (max-width: 767px) {
+      margin: 3px 0 0 0;
+    }
+  }
+}
+
 `;
 
 const lightTheme = {
