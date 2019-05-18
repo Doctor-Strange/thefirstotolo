@@ -2171,6 +2171,9 @@ section#reviews {
   min-height: 100px;
 }
 @media (max-width: 767px) {
+  footer {
+    display: none;
+  }
   .reviews-container .review-box {
     padding-left: 0;
   }
