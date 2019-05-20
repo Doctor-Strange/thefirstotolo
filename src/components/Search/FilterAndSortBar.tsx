@@ -192,6 +192,7 @@ export class FilterAndSortBar extends React.Component<{
   priceSort: any;
   deliverAtRentersPlace: any;
   carBodyType: any;
+  stats?: any;
 }> {
   state = {
     error: '',
@@ -209,7 +210,7 @@ export class FilterAndSortBar extends React.Component<{
     const { t, showFilters, brands, brand, models, model, deliverAtRentersPlace, price, priceSort,
       brandLoading, modelLoading } = this.props;
     const { setBrandAndGetModels, setModel, toggleShowFilters, togglePriceSort,
-      toggleDeliverAtRentersPlace, setPrice, toggleToCarBodyType, carBodyType } = this.props;
+      toggleDeliverAtRentersPlace, setPrice, toggleToCarBodyType, carBodyType, stats } = this.props;
     const { brandsEnglish, brandsFarsi } = brands;
     const { modelsEnglish, modelsFarsi } = models;
     const az = <span style={{}}>از</span>;
@@ -279,7 +280,7 @@ export class FilterAndSortBar extends React.Component<{
                   <div className="col-12">
                     <h6>قیمت</h6>
                     <div className="rangeclass">
-                    <div className="row" style={{ padding: '20px', paddingTop: '0px'}}>
+                      <div className="row" style={{ padding: '20px', paddingTop: '0px' }}>
                         <div className="col-6">
                           <PriceCard number={price[0]} preNumber={az} fontSize={25}>
                             در روز
@@ -308,7 +309,7 @@ export class FilterAndSortBar extends React.Component<{
                     <h6>تحویل در محل</h6>
                     <ul>
                       <li>
-                        <label className="container_check"> تحویل در محل <small>12</small>
+                        <label className="container_check"> تحویل در محل <small>{stats.deliver_at_renters_place}</small>
                           <input
                             onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
                             type="checkbox"
@@ -327,28 +328,29 @@ export class FilterAndSortBar extends React.Component<{
                       <li>
                         <label
 
-                          className="container_check" > سواری <small>67</small>
+                          className="container_check" > سواری <small
+                          >{stats.body_style_set.find(x => x.id === 1).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(1) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        > مینی ون <small>89</small>
+                        > مینی ون <small>{stats.body_style_set.find(x => x.id === 7).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(7) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        >  هاچ‌بک <small>45</small>
+                        >  هاچ‌بک <small>{stats.body_style_set.find(x => x.id === 1).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(9) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        > شاسی‌بلند <small>78</small>
+                        > شاسی‌بلند <small>{stats.body_style_set.find(x => x.id === 2).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(2) }}
                             type="checkbox" />
                           <span className="checkmark"></span>
@@ -356,7 +358,7 @@ export class FilterAndSortBar extends React.Component<{
                       </li>
                       <li>
                         <label className="container_check"
-                        > کراس‌اور <small>78</small>
+                        > کراس‌اور <small>{stats.body_style_set.find(x => x.id === 8).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(8) }}
                             type="checkbox" />
                           <span className="checkmark"></span>
@@ -370,28 +372,28 @@ export class FilterAndSortBar extends React.Component<{
                       <li>
                         <label className="container_check"
 
-                        > کروک <small>78</small>
+                        > کروک <small>{stats.body_style_set.find(x => x.id === 3).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(3) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        > کوپه <small>78</small>
+                        > کوپه <small>{stats.body_style_set.find(x => x.id === 4).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(4) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        > ون <small>78</small>
+                        > ون <small>{stats.body_style_set.find(x => x.id === 5).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(5) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
                       </li>
                       <li>
                         <label className="container_check"
-                        > وانت <small>78</small>
+                        > وانت <small>{stats.body_style_set.find(x => x.id === 6).count}</small>
                           <input onClick={(e) => { toggleToCarBodyType(6) }} type="checkbox" />
                           <span className="checkmark"></span>
                         </label>
@@ -482,7 +484,7 @@ export class FilterAndSortBar extends React.Component<{
                 <div className="filter_type">
                   <h6>قیمت</h6>
                   <div className="rangeclass">
-                    <div className="row" style={{ padding: '20px', paddingTop: '0px'}}>
+                    <div className="row" style={{ padding: '20px', paddingTop: '0px' }}>
                       <div className="col-6">
                         <PriceCard number={price[0]} preNumber={az} fontSize={25}>
                           در روز
@@ -507,7 +509,7 @@ export class FilterAndSortBar extends React.Component<{
                   <br /><br />
                   <ul>
                     <li>
-                      <label className="container_check">تحویل در محل<small>12</small>
+                      <label className="container_check">تحویل در محل<small>{stats.deliver_at_renters_place}</small>
                         <input
                           onClick={() => { toggleDeliverAtRentersPlace(!deliverAtRentersPlace) }}
                           type="checkbox"
@@ -524,28 +526,29 @@ export class FilterAndSortBar extends React.Component<{
                     <li>
                       <label
 
-                        className="container_check" > سواری <small>67</small>
+                        className="container_check"
+                      > سواری <small>{stats.body_style_set.find(x => x.id === 1).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(1) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
                       <label className="container_check"
-                      > مینی ون <small>89</small>
+                      > مینی ون <small>{stats.body_style_set.find(x => x.id === 7).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(7) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
                       <label className="container_check"
-                      >  هاچ‌بک <small>45</small>
+                      >  هاچ‌بک <small>{stats.body_style_set.find(x => x.id === 9).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(9) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
                       <label className="container_check"
-                      >شاسی‌بلند<small>78</small>
+                      >شاسی‌بلند<small>{stats.body_style_set.find(x => x.id === 2).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(2) }}
                           type="checkbox" />
                         <span className="checkmark"></span>
@@ -553,7 +556,7 @@ export class FilterAndSortBar extends React.Component<{
                     </li>
                     <li>
                       <label className="container_check"
-                      >کراس‌اور<small>78</small>
+                      >کراس‌اور<small>{stats.body_style_set.find(x => x.id === 8).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(8) }}
                           type="checkbox" />
                         <span className="checkmark"></span>
@@ -562,28 +565,28 @@ export class FilterAndSortBar extends React.Component<{
                     <li>
                       <label className="container_check"
 
-                      >کروک<small>78</small>
+                      >کروک<small>{stats.body_style_set.find(x => x.id === 3).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(3) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
                       <label className="container_check"
-                      >کوپه<small>78</small>
+                      >کوپه<small>{stats.body_style_set.find(x => x.id === 4).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(4) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
                       <label className="container_check"
-                      >ون <small>78</small>
+                      >ون <small>{stats.body_style_set.find(x => x.id === 5).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(5) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>
                     </li>
                     <li>
                       <label className="container_check"
-                      >وانت<small>78</small>
+                      >وانت<small>{stats.body_style_set.find(x => x.id === 6).count}</small>
                         <input onClick={(e) => { toggleToCarBodyType(6) }} type="checkbox" />
                         <span className="checkmark"></span>
                       </label>

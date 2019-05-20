@@ -49,7 +49,48 @@ export default withRouter(withNamespaces('common')(
       carBodyType: [],
       latest_result_key: null,
       page: 0,
-      total_count: 0
+      total_count: 0,
+      stats: {
+        deliver_at_renters_place: 0,
+        body_style_set: [
+          {
+            id: 1,
+            count: 0
+          },
+          {
+            id: 2,
+            count: 0
+          },
+          {
+            id: 3,
+            count: 0
+          },
+          {
+            id: 4,
+            count: 0
+          },
+          {
+            id: 5,
+            count: 0
+          },
+          {
+            id: 6,
+            count: 0
+          },
+          {
+            id: 7,
+            count: 0
+          },
+          {
+            id: 8,
+            count: 0
+          },
+          {
+            id: 9,
+            count: 0
+          }
+        ]
+      }
     };
 
     constructor(props) {
@@ -338,7 +379,7 @@ export default withRouter(withNamespaces('common')(
         shownURL = shownURL + `order=${this.state.priceSort}&`;
       }
 
-      if (page == 0) {
+      if (page === 0) {
         axios
           .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9&` + queryString)
           .then(response => {
@@ -375,10 +416,19 @@ export default withRouter(withNamespaces('common')(
                 this.setState({ results: [], loadingResults: false, noResult: true });
               }
               else {
+                const stats = response.data.extra_info.stats;
+                const body_style_stats = stats.body_style_set.map((value, index) => ({
+                  id: value.id,
+                  count: value.count,
+                }));
                 this.setState({
                   results, loadingResults: false, noResult: false,
                   latest_result_key: response.data.result_key,
-                  total_count: response.data.total_count
+                  total_count: response.data.total_count,
+                  stats: {
+                    body_style_set: body_style_stats,
+                    deliver_at_renters_place: stats.deliver_at_renters_place
+                  }
                 });
               }
             }
@@ -468,7 +518,8 @@ export default withRouter(withNamespaces('common')(
         priceSort,
         noResult,
         latest_result_key,
-        total_count
+        total_count,
+        stats
       } = this.state;
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
@@ -506,6 +557,7 @@ export default withRouter(withNamespaces('common')(
               setPrice={this.setPrice}
               deliverAtRentersPlace={deliverAtRentersPlace}
               toggleDeliverAtRentersPlace={this.toggleDeliverAtRentersPlace}
+              stats={stats}
             />
             <ResultsCards
               t={t}
