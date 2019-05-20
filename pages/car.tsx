@@ -4,12 +4,13 @@ import { Section } from '../src/components/row/Sections';
 import Layout from '../src/components/Layout';
 import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
-import { Icon, Segment, Button } from 'semantic-ui-react';
+import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard } from '../src/components/Cards'
 import { Details, ListDetails, CarNav } from '../src/components/Car'
 import { i18n, withNamespaces } from '../src/i18n';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
     BrowserView,
     MobileView,
@@ -78,7 +79,7 @@ export default withNamespaces('common')(
             //setDate
             if (this.props.start && this.props.end) {
                 queryString = queryString + `&start_date=${this.props.start}&end_date=${this.props.end}`;
-              }
+            }
             //get car info
             axios
                 .post('https://otoli.net' + '/core/rental-car/search-for-rent/get?rental_car_id=' + this.props.rentalCarID + queryString)
@@ -130,18 +131,18 @@ export default withNamespaces('common')(
             }
             const { error, media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location,
-                max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day} = this.state;
+                max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day } = this.state;
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
                         {isMobile &&
                             <CarNav startDate={start_date} endDate={end_date} />
                         }
-                        <div style={{ backgroundColor: '#0000000a' }}>
-                            <div className="hero_in hotels_detail" style={{maxWidth: '1200px'}}>
+                        <div className="hero_mother">
+                            <div className="hero_in hotels_detail" style={{ maxWidth: '1111px' }}>
                                 <Carousel
                                     heightMode="current"
-                                    initialSlideWidth={isBrowser? "970px": undefined}
+                                    initialSlideWidth={isBrowser ? "970px" : undefined}
                                     renderCenterLeftControls={({ previousSlide }) => (
                                         <button
                                             onClick={previousSlide}
@@ -189,9 +190,9 @@ export default withNamespaces('common')(
                                                 در روز
                                             </PriceCard>
                                             <div className="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div>
-                                    </div>
-                                    <br/> <br/>
-                                        <CarNav startDate={start_date} endDate={end_date} simpleMode={true}/>
+                                        </div>
+                                        <br /> <br />
+                                        <CarNav startDate={start_date} endDate={end_date} simpleMode={true} />
                                         <UserCard
                                             id={owner.id}
                                             name={owner.name}
@@ -201,22 +202,59 @@ export default withNamespaces('common')(
 
 
                                         <Button
-                                        style={{ height: '48px'}}
-                                        size='large'
-                                        fluid
-                                        color='teal'>درخواست اجاره</Button>
+                                            style={{ height: '48px' }}
+                                            size='large'
+                                            fluid
+                                            color='teal'>درخواست اجاره</Button>
                                         <div
-                                            style={{ marginTop: '8px'}} 
+                                            style={{ marginTop: '8px' }}
                                             className="text-center"
                                         >
                                             <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
                                         </div>
                                     </div>
-                                <ul className="share-buttons">
-                                        <Button circular icon='twitter' />
-                                        <Button circular icon='mail' />
-                                        <Button circular icon='telegram' />
-                                        <Button circular icon='copy' />
+                                    <ul className="share-buttons">
+                                        <Popup
+                                            position='bottom right'
+                                            size='tiny'
+                                            content='توییت کنید'
+                                            inverted
+                                            trigger={
+                                                <Button circular icon='twitter' />
+                                            }
+                                        />
+                                        <Popup
+                                            position='bottom right'
+                                            size='tiny'
+                                            content='ارسال از طریق ایمیل'
+                                            inverted
+                                            trigger={
+                                                <Button circular icon='mail' />
+                                            }
+                                        />
+                                        <Popup
+                                            position='bottom right'
+                                            size='tiny'
+                                            content='ارسال به تلگرام'
+                                            inverted
+                                            trigger={
+                                                <Button circular icon='telegram' />
+                                            }
+                                        />
+                                        <Popup
+                                            position='bottom right'
+                                            size='tiny'
+                                            content='کپی پیوند خودرو'
+                                            inverted
+                                            trigger={
+                                                <CopyToClipboard
+                                                    text={window.location.href}
+                                                    onCopy={() => alert("کپی شد")}
+                                                >
+                                                    <Button circular icon='copy' />
+                                                </CopyToClipboard>
+                                            }
+                                        />
                                     </ul>
                                 </aside>
                             }

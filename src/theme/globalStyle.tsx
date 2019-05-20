@@ -1906,7 +1906,11 @@ textarea {
 }
 
 
-
+.hero_mother {
+  @media (max-width: 767px) {
+    height: 190px;
+  }
+}
 
 .hero_in {
   width: 100%;
@@ -1915,12 +1919,11 @@ textarea {
   overflow: hidden;
   max-width: 1170px;
   margin: 0 auto;
-}
-@media (max-width: 767px) {
-  .hero_in {
+  @media (max-width: 767px) {
     height: 350px;
   }
 }
+
 .hero_in.shop_detail {
   height: 550px;
 }
