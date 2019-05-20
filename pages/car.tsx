@@ -267,7 +267,7 @@ export default withNamespaces('common')(
                                     </ul>
                                 </aside>
                             }
-                            <div className="col-lg-8" style={{
+                            <div className="col-lg-8 car_det_wrapper" style={{
                                 position: 'relative',
                                 top: '-30px'
                             }}>
