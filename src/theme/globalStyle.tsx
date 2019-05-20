@@ -1237,6 +1237,10 @@ input[type="email"] {
 
 /** end of focus colors **/
   .ui{
+    .basic.button, .basic.buttons .button {
+      box-shadow: 0 0 0 1px #00ACC1 inset;
+      color: #00ACC1 !important;
+    }
     .primary{
       &.button{
         background-color: #00ACC1;
@@ -1250,6 +1254,7 @@ input[type="email"] {
       }
     }
   }
+  
 
 
 .hero_single {
