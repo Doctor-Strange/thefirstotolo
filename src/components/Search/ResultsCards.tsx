@@ -58,7 +58,7 @@ export class ResultsCards extends React.Component<{
     }
 
     render() {
-        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL,lodingMore } = this.props;
+        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL, lodingMore } = this.props;
         return (
             <>
                 <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35 carcards_section">
