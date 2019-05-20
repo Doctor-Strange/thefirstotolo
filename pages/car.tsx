@@ -46,6 +46,7 @@ export default withNamespaces('common')(
             token: '',
             error: '',
             media_set: [],
+            avg_price_per_day: null,
             year: {},
             mileage_range: {},
             owner: {},
@@ -73,18 +74,23 @@ export default withNamespaces('common')(
             setTimeout(() => {
                 window.dispatchEvent(new Event('resize'));
             }, 0);
+            let queryString = ""
+            //setDate
+            if (this.props.start && this.props.end) {
+                queryString = queryString + `&start_date=${this.props.start}&end_date=${this.props.end}`;
+              }
             //get car info
-            console.log(this.props.rentalCarID);
             axios
-                .post('https://otoli.net' + '/core/rental-car/get?id=' + this.props.rentalCarID)
+                .post('https://otoli.net' + '/core/rental-car/search-for-rent/get?rental_car_id=' + this.props.rentalCarID + queryString)
                 .then(response => {
-                    if (response.data.success) {
-                        const data = response.data.data;
+                    if (response.data.id) {
+                        const data = response.data;
                         let media_set = [];
                         data.media_set.map((value, index) => media_set.push(value.url));
                         this.setState({
                             year: data.year.name,
                             mileage_range: data.mileage_range,
+                            avg_price_per_day: data.avg_price_per_day,
                             owner: data.owner,
                             body_style: data.body_style.name,
                             color: data.color.name,
@@ -112,22 +118,19 @@ export default withNamespaces('common')(
 
         render() {
             const { t, start, end } = this.props;
-            console.log([1, start]);
             let start_date, end_date = null;
             let startDate, endDate = null;
             if (start && end) {
                 startDate = moment(start, 'jYYYY/jMM/jDD');
-                console.log([2, startDate]);
                 endDate = moment(end, 'jYYYY/jMM/jDD');
             }
             if (startDate && endDate) {
                 start_date = moment(startDate).format('jD jMMMM jYY');
-                console.log([3, start_date]);
                 end_date = moment(endDate).format('jD jMMMM jYY');
             }
             const { error, media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location,
-                max_km_per_day, description, capacity, extra_km_price, car, loaded } = this.state;
+                max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day} = this.state;
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
@@ -181,7 +184,7 @@ export default withNamespaces('common')(
                                                     top: '-40px',
                                                     position: 'absolute'
                                                 }}
-                                                number={800000}
+                                                number={avg_price_per_day}
                                             >
                                                 در روز
                                             </PriceCard>
@@ -230,7 +233,7 @@ export default withNamespaces('common')(
                                                 left: '10px',
                                                 top: '-15px',
                                                 position: 'absolute'
-                                            }} number={800000}>در روز</PriceCard>
+                                            }} number={avg_price_per_day}>در روز</PriceCard>
                                         }
                                         {/* <div className="cat_star">
                                             <i className="icon_star" /><i className="icon_star" /><i className="icon_star"></i
