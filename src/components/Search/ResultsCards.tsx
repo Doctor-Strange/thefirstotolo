@@ -104,14 +104,8 @@ export class ResultsCards extends React.Component<{
                     }
                     {showMore ? (
                         <p className="text-center" style={{ width: '100%', marginTop: '20px' }}>
-                            <span
-                                className="btn_1 rounded add_top_30"
-                            onClick={() => { nextPage() }}
-                            >
-                            بیشتر بارگذاری کن
-                            </span>
+                            <Button basic loading={lodingMore} onClick={() => { nextPage() }}>بیشتر بارگذاری کن</Button>
                         </p>) : (<> </>)}
-                    {lodingMore ? "در حال بارگذاری" : ""}
                 </Section>
             </>
         )
