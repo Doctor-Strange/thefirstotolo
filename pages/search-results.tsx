@@ -44,6 +44,7 @@ export default withRouter(withNamespaces('common')(
       modelLoading: true,
       deliverAtRentersPlace: false,
       loadingResults: true,
+      lodingMore: false,
       noResult: false,
       results: [{}],
       carBodyType: [],
@@ -128,7 +129,7 @@ export default withRouter(withNamespaces('common')(
 
     nextPage() {
       console.log("nextpage is ", this.state.page + 1);
-      this.setState({ loadingResults: true }, () => {
+      this.setState({ lodingMore: true }, () => {
         this.renderResults(this.state.page + 1);
       });
     }
@@ -381,7 +382,7 @@ export default withRouter(withNamespaces('common')(
 
       if (page === 0) {
         axios
-          .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=9&` + queryString)
+          .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=4&` + queryString)
           .then(response => {
             // update URL
             const href = `/search-results?${shownURL}start=${page}`;
@@ -413,7 +414,7 @@ export default withRouter(withNamespaces('common')(
                 year: value.year,
               }));
               if (results === undefined || results.length == 0) {
-                this.setState({ results: [], loadingResults: false, noResult: true });
+                this.setState({ results: [], loadingResults: false, noResult: true, lodingMore: false });
               }
               else {
                 const stats = response.data.extra_info.stats;
@@ -422,7 +423,7 @@ export default withRouter(withNamespaces('common')(
                   count: value.count,
                 }));
                 this.setState({
-                  results, loadingResults: false, noResult: false,
+                  results, loadingResults: false, noResult: false, lodingMore: false,
                   latest_result_key: response.data.result_key,
                   total_count: response.data.total_count,
                   stats: {
@@ -441,13 +442,13 @@ export default withRouter(withNamespaces('common')(
         console.log("here we go again...!");
         axios
           .get('https://otoli.net'
-            + `/core/rental-car/search-for-rent/list?start=${page * 9}&limit=9&result_key=`
+            + `/core/rental-car/search-for-rent/list?start=${page * 4}&limit=4&result_key=`
             + this.state.latest_result_key)
           .then(response => {
             // update URL
-            const href = `/search-results?${shownURL}start=${page}`;
-            const as = href;
-            Router.push(href, as, { shallow: true });
+            // const href = `/search-results?${shownURL}start=${page}`;
+            // const as = href;
+            // Router.push(href, as, { shallow: true });
             if (response.data.success) {
               console.log(response.data);
               const results = response.data.items.map((value, index) => ({
@@ -474,11 +475,12 @@ export default withRouter(withNamespaces('common')(
                 year: value.year,
               }));
               if (results === undefined || results.length == 0) {
-                this.setState({ results: [], loadingResults: false, noResult: true });
+                this.setState({ results: [], loadingResults: false, noResult: true, lodingMore: false });
               }
               else {
+                let temp = this.state.results;
                 this.setState({
-                  results, loadingResults: false, noResult: false, total_count: response.data.total_count
+                  results: temp.concat(results), loadingResults: false, noResult: false, page, lodingMore: false
                 });
               }
             }
@@ -519,8 +521,12 @@ export default withRouter(withNamespaces('common')(
         noResult,
         latest_result_key,
         total_count,
-        stats
+        stats,
+        page,
+        lodingMore
       } = this.state;
+      const showMore = ((page * 4) + 4 <= total_count);
+      console.log({ num: (page * 4) + 4, total_count, showMore });
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
@@ -562,10 +568,12 @@ export default withRouter(withNamespaces('common')(
             <ResultsCards
               t={t}
               nextPage={this.nextPage}
+              showNextPage={true}
               results={results}
               loadingResults={loadingResults}
+              lodingMore={lodingMore}
               noResult={noResult}
-              showMore={(latest_result_key != null)}
+              showMore={showMore}
               dateURL={
                 `&start=${moment(this.state.startDate).format('jYYYY/jMM/jDD')}&end=${moment(this.state.endDate).format('jYYYY/jMM/jDD')}`}
             />

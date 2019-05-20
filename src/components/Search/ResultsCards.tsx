@@ -44,6 +44,7 @@ export class ResultsCards extends React.Component<{
     results?: any;
     loadingResults: boolean;
     showMore: boolean;
+    lodingMore: boolean;
     noResult: boolean;
     nextPage: any;
     dateURL?: string;
@@ -57,7 +58,7 @@ export class ResultsCards extends React.Component<{
     }
 
     render() {
-        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL } = this.props;
+        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL,lodingMore } = this.props;
         return (
             <>
                 <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35 carcards_section">
@@ -94,17 +95,23 @@ export class ResultsCards extends React.Component<{
                             )
                         )
                     }
-                    {(noResult === true) ?
+                    {noResult ?
                         (
                             <span>
                                 نتیجه‌ای برای جست‌وجوی شما یافت نشد
                            </span>
                         ) : <></>
                     }
-                    {(showMore === true) ? (
+                    {showMore ? (
                         <p className="text-center" style={{ width: '100%', marginTop: '20px' }}>
-                            <a href="#0" className="btn_1 rounded add_top_30" onClick={() => { nextPage() }}>بیشتر بارگذاری کن</a>
+                            <span
+                                className="btn_1 rounded add_top_30"
+                            onClick={() => { nextPage() }}
+                            >
+                            بیشتر بارگذاری کن
+                            </span>
                         </p>) : (<> </>)}
+                    {lodingMore ? "در حال بارگذاری" : ""}
                 </Section>
             </>
         )
