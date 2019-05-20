@@ -1913,6 +1913,8 @@ textarea {
   height: 450px;
   position: relative;
   overflow: hidden;
+  max-width: 1170px;
+  margin: 0 auto;
 }
 @media (max-width: 767px) {
   .hero_in {
@@ -2219,7 +2221,7 @@ section#reviews {
   border-radius: 3px;
   margin-bottom: 30px;
 }
-.box_detail .price {
+/* .box_detail .price {
   line-height: 1;
   border-bottom: 1px solid #ededed;
   margin: 0 -25px 25px -25px;
@@ -2233,11 +2235,12 @@ section#reviews {
 .box_detail .price > span > small {
   font-size: 11px;
   font-size: 0.6875rem;
-  font-weight: 500;
+  font-weight: 500; */
 }
 .box_detail .price .score {
   float: right;
-  margin-top: -5px;
+  top: -10px;
+  position: relative;
 }
 .score strong {
   background-color: #32a067;
@@ -2278,45 +2281,17 @@ section#reviews {
 .box_detail ul li i {
   margin-right: 8px;
 }
-.box_detail figure {
-  position: relative;
-  background-color: #000;
+.box_detail {
+  .usercard {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    .hostDetailCard-responseTime{
+      font-size: 13px;
+    }
+  }
 }
-.box_detail figure img {
-  opacity: 0.8;
-}
-.box_detail figure span {
-  position: absolute;
-  display: block;
-  left: 0;
-  bottom: 10px;
-  text-align: center;
-  width: 100%;
-  color: #fff;
-  font-weight: 600;
-}
-.box_detail figure a i {
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: block;
-  width: 60px;
-  height: 60px;
-  color: #fff;
-  border-radius: 50%;
-  line-height: 60px;
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -30px 0 0 -30px;
-  font-size: 42px;
-  font-size: 2.625rem;
-  transition: all 0.3s ease-in-out;
-  z-index: 9;
-}
-.box_detail figure:hover i {
-  transform: scale(1.3);
-}
+
 
 ul.share-buttons {
   padding: 0;
@@ -2446,6 +2421,20 @@ ul.bullets li {
 
 .slider {
     height: 100% !important;
+}
+.strip.grid.usercard{
+  min-width: 300px;
+  width: 400px;
+  max-width: 100%;
+  margin: 10px 10px;
+  /* background-color: #fff; */
+  display: block;
+  position: relative;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  box-shadow: 1px -1px 11px 3px #00000005; 
+  margin: 10px auto;
+  direction: rtl;
 }
 
 `;

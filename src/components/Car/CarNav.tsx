@@ -11,10 +11,20 @@ const Line = styled.nav`
 export const CarNav: React.FunctionComponent<{
     startDate: string;
     endDate: string;
-}> = ({ startDate, endDate }) => (
-    <Line className="secondary_nav sticky_horizontal_2 navbar">
-        <div className="container">
-            <h4>{(startDate && endDate) ? ` از ${convertNumbers2Persian(startDate)} تا ${convertNumbers2Persian(endDate)} ` : "برای اجاره به صفحه نخست مراجعه کنید"}</h4>
-        </div>
-    </Line>
-);
+    simpleMode?: boolean;
+}> = ({ startDate, endDate, simpleMode = false }) => {
+    const main = <h4>
+            {(startDate && endDate)
+                ?` از ${convertNumbers2Persian(startDate)} تا ${convertNumbers2Persian(endDate)} `
+                :`برای اجاره به صفحه نخست مراجعه کنید`
+            }
+        </h4>;
+    return !simpleMode ? (
+        <Line className="secondary_nav sticky_horizontal_2 navbar">
+            <div className="container">
+                {main}
+            </div>
+        </Line>
+    )
+        : <div style={{textAlign: 'center'}}> {main} </div>;
+};

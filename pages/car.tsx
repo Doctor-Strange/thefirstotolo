@@ -134,39 +134,89 @@ export default withNamespaces('common')(
                         {isMobile &&
                             <CarNav startDate={start_date} endDate={end_date} />
                         }
-                        <div className="hero_in hotels_detail">
-                            <Carousel
-                                heightMode="current"
-                                renderCenterLeftControls={({ previousSlide }) => (
-                                    <button
-                                        onClick={previousSlide}
-                                        aria-label="next"
-                                        style={{
-                                            border: '0px', background: 'rgba(0, 0, 0, 0.4)', color: 'white', padding: '10px', opacity: '1', cursor: 'pointer'
-                                        }}
-                                    >
-                                        <Icon name="angle left" />
-                                    </button>
-                                )}
-                                renderCenterRightControls={({ nextSlide }) => (
-                                    <button
-                                        onClick={nextSlide}
-                                        aria-label="next"
-                                        style={{
-                                            border: '0px', background: 'rgba(0, 0, 0, 0.4)', color: 'white', padding: '10px', opacity: '1', cursor: 'pointer'
-                                        }}
-                                    >
-                                        <Icon name="angle right" />
-                                    </button>
-                                )}
-                            >
-                                {(media_set.length >= 1) ? media_set.map((value, index) =>
-                                    <img key={index} src={value} />
-                                ) : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />}
-                            </Carousel>
+                        <div style={{ backgroundColor: '#0000000a' }}>
+                            <div className="hero_in hotels_detail" style={{maxWidth: '1200px'}}>
+                                <Carousel
+                                    heightMode="current"
+                                    initialSlideWidth={isBrowser? "970px": undefined}
+                                    renderCenterLeftControls={({ previousSlide }) => (
+                                        <button
+                                            onClick={previousSlide}
+                                            aria-label="next"
+                                            style={{
+                                                border: '0px', background: 'rgba(0, 0, 0, 0.4)', color: 'white', padding: '10px', opacity: '1', cursor: 'pointer'
+                                            }}
+                                        >
+                                            <Icon name="angle left" />
+                                        </button>
+                                    )}
+                                    renderCenterRightControls={({ nextSlide }) => (
+                                        <button
+                                            onClick={nextSlide}
+                                            aria-label="next"
+                                            style={{
+                                                border: '0px', background: 'rgba(0, 0, 0, 0.4)', color: 'white', padding: '10px', opacity: '1', cursor: 'pointer'
+                                            }}
+                                        >
+                                            <Icon name="angle right" />
+                                        </button>
+                                    )}
+                                >
+                                    {(media_set.length >= 1) ? media_set.map((value, index) =>
+                                        <img key={index} src={value} />
+                                    ) : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />}
+                                </Carousel>
+                            </div>
                         </div>
 
                         <Section justifyCenter={true} style={{ marginTop: '24px' }}>
+                            {isBrowser &&
+                                <aside className="col-lg-4" id="sidebar">
+                                    <div className="box_detail booking">
+                                        <div className="price">
+                                            <PriceCard
+                                                style={{
+                                                    display: 'inline-grid',
+                                                    left: '50px',
+                                                    top: '-40px',
+                                                    position: 'absolute'
+                                                }}
+                                                number={800000}
+                                            >
+                                                در روز
+                                            </PriceCard>
+                                            <div className="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div>
+                                    </div>
+                                    <br/> <br/>
+                                        <CarNav startDate={start_date} endDate={end_date} simpleMode={true}/>
+                                        <UserCard
+                                            id={owner.id}
+                                            name={owner.name}
+                                            responceTime="میانگین زمان پاسخگویی: نامشخص"
+                                            image={owner.image_url}
+                                        />
+
+
+                                        <Button
+                                        style={{ height: '48px'}}
+                                        size='large'
+                                        fluid
+                                        color='teal'>درخواست اجاره</Button>
+                                        <div
+                                            style={{ marginTop: '8px'}} 
+                                            className="text-center"
+                                        >
+                                            <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
+                                        </div>
+                                    </div>
+                                <ul className="share-buttons">
+                                        <Button circular icon='twitter' />
+                                        <Button circular icon='mail' />
+                                        <Button circular icon='telegram' />
+                                        <Button circular icon='copy' />
+                                    </ul>
+                                </aside>
+                            }
                             <div className="col-lg-8" style={{
                                 position: 'relative',
                                 top: '-30px'
@@ -174,12 +224,14 @@ export default withNamespaces('common')(
 
                                 <section id="description">
                                     ‍<div className="detail_title_1">
-                                        <PriceCard style={{
-                                            display: 'inline-grid',
-                                            left: '10px',
-                                            top: '-15px',
-                                            position: 'absolute'
-                                        }} number={800000}>در روز</PriceCard>
+                                        {isMobile &&
+                                            <PriceCard style={{
+                                                display: 'inline-grid',
+                                                left: '10px',
+                                                top: '-15px',
+                                                position: 'absolute'
+                                            }} number={800000}>در روز</PriceCard>
+                                        }
                                         {/* <div className="cat_star">
                                             <i className="icon_star" /><i className="icon_star" /><i className="icon_star"></i
                                             ><i className="icon_star" />
@@ -240,12 +292,16 @@ export default withNamespaces('common')(
                                     <Details title="قوانین کنسلی">
                                         {cancellation_policy ? cancellation_policy : "ندارد"}
                                     </Details>
-                                    <UserCard
-                                        id={owner.id}
-                                        name={owner.name}
-                                        responceTime="میانگین زمان پاسخگویی: نامشخص"
-                                        image={owner.image_url}
-                                    />
+                                    {isMobile &&
+                                        <div className="strip grid usercard">
+                                            <UserCard
+                                                id={owner.id}
+                                                name={owner.name}
+                                                responceTime="میانگین زمان پاسخگویی: نامشخص"
+                                                image={owner.image_url}
+                                            />
+                                        </div>
+                                    }
                                     {/* <h3>Prices</h3>
                                     <table className="table table-striped add_bottom_45">
                                         <tbody>
@@ -268,53 +324,6 @@ export default withNamespaces('common')(
                                     <div id="map" className="map map_single add_bottom_45"></div> */}
                                 </section>
                             </div>
-                            {/* <aside className="col-lg-4" id="sidebar">
-                                <div className="box_detail booking">
-                                    <div className="price">
-                                        <span>45$ <small>person</small></span>
-                                        <div className="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div>
-                                    </div>
-    
-                                    <div className="form-group" id="input-dates">
-                                        <input className="form-control" type="text" name="dates" placeholder="When.." />
-                                        <i className="icon_calendar" />
-                                    </div>
-    
-                                    <div className="panel-dropdown">
-                                        <a href="#">Guests <span className="qtyTotal">1</span></a>
-                                        <div className="panel-dropdown-content right">
-                                            <div className="qtyButtons">
-                                                <label>Adults</label>
-                                                <input type="text" name="qtyInput" value="1" />
-                                            </div>
-                                            <div className="qtyButtons">
-                                                <label>Childrens</label>
-                                                <input type="text" name="qtyInput" value="0" />
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    <div className="form-group clearfix">
-                                        <div className="custom-select-form">
-                                            <select className="wide">
-                                                <option>Room Type</option>
-                                                <option>Single Room</option>
-                                                <option>Double Room</option>
-                                                <option>Suite Room</option>
-                                            </select>
-                                        </div>
-                                    </div>
-    
-                                    <a href="/checkout" className=" add_top_30 btn_1 full-width purchase">Purchase</a>
-                                    <a href="/wishlist" className="btn_1 full-width outline wishlist"><i className="icon_heart"></i> Add to wishlist</a>
-                                    <div className="text-center"><small>No money charged in this step</small></div>
-                                </div>
-                                <ul className="share-buttons">
-                                    <li><a className="fb-share" href="#0"><i className="social_facebook"></i> Share</a></li>
-                                    <li><a className="twitter-share" href="#0"><i className="social_twitter"></i> Tweet</a></li>
-                                    <li><a className="gplus-share" href="#0"><i className="social_googleplus"></i> Share</a></li>
-                                </ul>
-                            </aside> */}
                         </Section>
                         <Section id="reviews" justifyCenter={false}>
                             {/* <h2>نظرات</h2> */}
@@ -465,10 +474,10 @@ export default withNamespaces('common')(
             }
             else {
                 return (
-                   <></>
-                        )
-                    }
-        
-                }
+                    <></>
+                )
             }
-        );
+
+        }
+    }
+);
