@@ -272,7 +272,7 @@ export default withNamespaces('common')(
                                 top: '-30px'
                             }}>
 
-                                <section id="description">
+                                <section id="description" className="car_det">
                                     ‍<div className="detail_title_1">
                                         {isMobile &&
                                             <PriceCard style={{
@@ -320,7 +320,7 @@ export default withNamespaces('common')(
                                         <div className="row add_bottom_30not">
                                             <div className="col-6">
                                                 <ul className="bullets">
-                                                    {facility_set.map((value, index) => ( <li>{value.name}</li>))}
+                                                    {facility_set.map((value, index) => (<li>{value.name}</li>))}
                                                 </ul>
                                             </div>
                                             {/* <div className="col-6">

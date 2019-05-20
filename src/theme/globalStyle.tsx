@@ -127,6 +127,16 @@ const GlobalStyle = createGlobalStyle`
     #field_input_year,#field_dropdown_month{
       margin-top:25px;
     }
+    .car_det{
+      background-color: #fff;
+      padding: 25px 25px 15px 25px;
+      box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+      border-radius: 3px;
+      margin-bottom: 30px;
+      &>div{
+        z-index: -1;
+      }
+    }
   }
   /**============================== Bootstrap Styles ==============================**/
   .container {
