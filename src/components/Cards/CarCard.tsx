@@ -208,11 +208,11 @@ export const CarCard: React.FunctionComponent<{
           <a href={`/car?id=${id}`}>
             {title}<br />
             <small>{year}</small><br />
-            <StarRatingComponent
+            {/* <StarRatingComponent
               name="rate1"
               starCount={5}
               value={3}
-            />
+            /> */}
           </a>
         </h3>
       </div>
