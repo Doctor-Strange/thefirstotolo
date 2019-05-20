@@ -25,7 +25,7 @@ export default withRouter(withNamespaces('common')(
       token: '',
       error: '',
       city: 1,
-      cityname: null,
+      cityName: null,
       showFilters: false,
       citiesFarsi: [{ text: 'کمی صبر کنید...', value: null }],
       citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
