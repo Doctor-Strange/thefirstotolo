@@ -49,7 +49,7 @@ export default withRouter(withNamespaces('common')(
       results: [{}],
       carBodyType: [],
       latest_result_key: null,
-      page: 0,
+      page: 1,
       total_count: 0,
       stats: {
         deliver_at_renters_place: 0,
@@ -385,7 +385,7 @@ export default withRouter(withNamespaces('common')(
           .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=4&` + queryString)
           .then(response => {
             // update URL
-            const href = `/search-results?${shownURL}start=${page}`;
+            const href = `/search-results?${shownURL}page=${page}`;
             const as = href;
             Router.replace(href, as, { shallow: true });
             if (response.data.success) {
@@ -442,7 +442,7 @@ export default withRouter(withNamespaces('common')(
         console.log("here we go again...!");
         axios
           .get('https://otoli.net'
-            + `/core/rental-car/search-for-rent/list?start=${page * 4}&limit=4&result_key=`
+            + `/core/rental-car/search-for-rent/list?page=${page}&limit=4&result_key=`
             + this.state.latest_result_key)
           .then(response => {
             // update URL
@@ -525,8 +525,8 @@ export default withRouter(withNamespaces('common')(
         page,
         lodingMore
       } = this.state;
-      const showMore = ((page * 4) + 4 <= total_count);
-      console.log({ num: (page * 4) + 4, total_count, showMore });
+      const showMore = ((page * 4) <= total_count);
+      console.log({ num: (page * 4), total_count, showMore });
       return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
           <SearchBar
