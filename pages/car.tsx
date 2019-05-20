@@ -62,6 +62,7 @@ export default withNamespaces('common')(
             description: null,
             capacity: null,
             extra_km_price: null,
+            facility_set: [],
             car: {},
             loaded: false
         };
@@ -86,6 +87,13 @@ export default withNamespaces('common')(
                 .then(response => {
                     if (response.data.id) {
                         const data = response.data;
+                        let facilities = [];
+                        data.facility_set.map((value, index) => {
+                            facilities.push({
+                                id: value.id,
+                                name: value.name.fa
+                            });
+                        });
                         let media_set = [];
                         data.media_set.map((value, index) => media_set.push(value.url));
                         this.setState({
@@ -105,6 +113,7 @@ export default withNamespaces('common')(
                             capacity: data.capacity,
                             extra_km_price: data.extra_km_price,
                             car: data.car,
+                            facility_set: facilities,
                             loaded: true,
                             media_set
                         });
@@ -130,7 +139,7 @@ export default withNamespaces('common')(
                 end_date = moment(endDate).format('jD jMMMM jYY');
             }
             const { error, media_set, year, mileage_range, owner, body_style, color, color_code,
-                deliver_at_renters_place, cancellation_policy, transmission_type, location,
+                deliver_at_renters_place, cancellation_policy, transmission_type, location, facility_set,
                 max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day } = this.state;
             if (loaded) {
                 return (
@@ -311,20 +320,17 @@ export default withNamespaces('common')(
                                         <div className="row add_bottom_30not">
                                             <div className="col-6">
                                                 <ul className="bullets">
-                                                    <li>کروز</li>
-                                                    <li>پله‌برقی</li>
-                                                    <li>شیشه‌شور برقی</li>
-                                                    <li>پریز برق صندلی عقب</li>
+                                                    {facility_set.map((value, index) => ( <li>{value.name}</li>))}
                                                 </ul>
                                             </div>
-                                            <div className="col-6">
+                                            {/* <div className="col-6">
                                                 <ul className="bullets">
                                                     <li>ماساژور صندلی</li>
                                                     <li>دنده ۲۳تایی</li>
                                                     <li>آب‌سرد کن</li>
                                                     <li>نون گرم </li>
                                                 </ul>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </Details>
                                     {/* <Details title="کارکرد">
