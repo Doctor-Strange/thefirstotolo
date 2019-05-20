@@ -1942,7 +1942,7 @@ textarea {
   height: 550px;
   @media (max-width: 767px) {
     /* height: 350px; */
-    height: auto;
+    height: 100%;
   }
 }
 .hero_in.hotels_detail:before {
@@ -2442,6 +2442,10 @@ ul.bullets li {
       margin: 3px 0 0 0;
     }
   }
+}
+
+.slider {
+    height: 100% !important;
 }
 
 `;

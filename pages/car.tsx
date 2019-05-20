@@ -10,6 +10,12 @@ import { PriceCard, UserCard } from '../src/components/Cards'
 import { Details, ListDetails, CarNav } from '../src/components/Car'
 import { i18n, withNamespaces } from '../src/i18n';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile
+} from "react-device-detect";
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment-jalaali';
@@ -64,6 +70,9 @@ export default withNamespaces('common')(
             '+۲۰۰٫۰۰۰  کیلومتر']
 
         componentDidMount() {
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 0);
             //get car info
             console.log(this.props.rentalCarID);
             axios
@@ -89,7 +98,8 @@ export default withNamespaces('common')(
                             capacity: data.capacity,
                             extra_km_price: data.extra_km_price,
                             car: data.car,
-                            loaded: true
+                            loaded: true,
+                            media_set
                         });
                     }
                     console.log(this.state);
@@ -121,9 +131,12 @@ export default withNamespaces('common')(
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
-                        <CarNav startDate={start_date} endDate={end_date} />
+                        {isMobile &&
+                            <CarNav startDate={start_date} endDate={end_date} />
+                        }
                         <div className="hero_in hotels_detail">
                             <Carousel
+                                heightMode="current"
                                 renderCenterLeftControls={({ previousSlide }) => (
                                     <button
                                         onClick={previousSlide}
@@ -430,30 +443,32 @@ export default withNamespaces('common')(
                             </div>
                          */}
                         </Section>
-                        <Button
-                            style={{
-                                zIndex: '55',
-                                bottom: '0',
-                                position: 'fixed',
-                                borderRadius: '0',
-                                margin: '0',
-                                height: '56px'
-                            }}
-                            primary
-                            type="submit"
-                            className="btn_1 full-width"
-                        >
-                            درخواست اجاره
-                        </Button>
+                        {isMobile &&
+                            <Button
+                                style={{
+                                    zIndex: '55',
+                                    bottom: '0',
+                                    position: 'fixed',
+                                    borderRadius: '0',
+                                    margin: '0',
+                                    height: '56px'
+                                }}
+                                primary
+                                type="submit"
+                                className="btn_1 full-width"
+                            >
+                                درخواست اجاره
+                            </Button>
+                        }
                     </Layout >
                 );
             }
             else {
                 return (
-                    <p>در حال بارگذاری...</p>
-                )
+                   <></>
+                        )
+                    }
+        
+                }
             }
-
-        }
-    }
-);
+        );
