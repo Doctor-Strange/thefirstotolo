@@ -368,7 +368,11 @@ export default withRouter(withNamespaces('common')(
         shownURL = shownURL + `deliver=1&`;
       }
       if (this.state.price) {
-        queryString = queryString + `min_price=${this.state.price[0]}&max_price=${this.state.price[1]}&`;
+        let max = this.state.price[1];
+        if (max == 2000000) {
+          max = 100000000
+        }
+        queryString = queryString + `min_price=${this.state.price[0]}&max_price=${max}&`;
         shownURL = shownURL + `min_price=${this.state.price[0]}&max_price=${this.state.price[1]}&`;
       }
       if (this.state.carBodyType) {

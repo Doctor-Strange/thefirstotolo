@@ -491,7 +491,7 @@ export class FilterAndSortBar extends React.Component<{
                         </PriceCard>
                       </div>
                       <div className="col-6">
-                        <PriceCard number={price[1]} preNumber={ta} fontSize={25}>
+                        <PriceCard moreThan={(price[1] >= 2000000)} number={price[1]} preNumber={ta} fontSize={25}>
                           در روز
                         </PriceCard>
                       </div>
