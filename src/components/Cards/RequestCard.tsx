@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
-import { Pelak,sizeType} from './index';
+import { Pelak, sizeType } from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 
 const Card = styled.div`
@@ -94,8 +94,8 @@ export const RequestCard: React.FunctionComponent<{
                                         ۹۸/۰۵/۲۴
                                     </div>
                                 </Grid.Column>
-                                <Grid.Column width={8} className="left">
-                                    <div className="date" style={{ float: 'left', textAlign: 'left' }}>
+                                <Grid.Column width={7} className="left">
+                                    <div className="date" style={{ float: 'right', textAlign: 'right' }}>
                                         <strong>جمعه</strong><br />
                                         ۹۸/۰۵/۳۰
                                     </div>
@@ -107,8 +107,10 @@ export const RequestCard: React.FunctionComponent<{
                                 <Grid.Column width={8} className="right">
                                     هزینه اجاره
                                 </Grid.Column>
-                                <Grid.Column width={8} className="left">
-                                    <strong>۶۰۰ هزار تومان</strong>
+                                <Grid.Column width={7} className="left">
+                                    <div style={{ float: 'right', textAlign: 'right' }}>
+                                        <strong style={{fontSize: '14px'}}>۶۰۰ هزار تومان</strong>
+                                    </div>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
