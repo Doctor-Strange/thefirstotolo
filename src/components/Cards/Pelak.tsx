@@ -24,20 +24,21 @@ const Card = styled.div`
         height: 40px;
         width: 175px;
         font-size: 20px;
+        color:#6c6c6cad;
         .row {
             left: 15px;
             padding-top: 5px;
             padding-bottom: 5px;
             .column {
-                border-bottom: 1px solid #6c6c6c;
-                border-top: 1px solid #6c6c6c;
+                border-bottom: 1px solid #6c6c6cad;
+                border-top: 1px solid #6c6c6cad;
                 padding: 0;
                 text-align: center;
                 :first-child{
                     padding-right: 0 !important;
                     border-bottom-left-radius: 5px;
                     border-top-left-radius: 5px;
-                    border-left: 1px solid #6c6c6c;
+                    border-left: 1px solid #6c6c6cad;
                 }
                 :nth-child(2) {
                     span{
@@ -59,7 +60,7 @@ const Card = styled.div`
     .small {
         height: 32px;
         width: 129px;
-        font-size: 15px;
+        font-size: 17px;
         display: contents;
         .column {
             padding-top: 3px !important;
