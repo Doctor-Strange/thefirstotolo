@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
+import { Pelak,sizeType} from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 
 const Card = styled.div`
@@ -26,7 +27,7 @@ const Card = styled.div`
     .img_wrapper{
         padding: 0 !important;
         img {
-            width: 150px;
+            /* width: 150px; */
             height: auto;
             border-radius: .28571429rem;
         }
@@ -114,6 +115,15 @@ export const RequestCard: React.FunctionComponent<{
                     </Grid.Column>
                     <Grid.Column width={5} className="img_wrapper">
                         <img src={picture} alt={carName} />
+                        <Pelak
+                            first="22"
+                            second="ص"
+                            third="546"
+                            forth="22"
+                            type={1}
+                            size={sizeType.small}
+                            style={{}}
+                        />
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row style={{ margin: '0 auto' }}>

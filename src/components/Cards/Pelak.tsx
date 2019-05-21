@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 import * as PelakImage from '../../../static/pelak2.png';
 
 const Card = styled.div`
-    margin: 16px auto;
-    display: inline-block;
+    display: block;
+    direction: ltr;
     .large {
         background: url(${PelakImage}) no-repeat;
         height: 70px;
@@ -57,7 +57,13 @@ const Card = styled.div`
         }
     }
     .small {
-
+        height: 32px;
+        width: 129px;
+        font-size: 15px;
+        display: contents;
+        .column {
+            padding-top: 3px !important;
+        }
     }
     
 `;
@@ -70,14 +76,14 @@ const Pelak: React.FunctionComponent<{
     type?: number;
     size?: sizeType;
     style?: any;
-}> = ({ first, second, third, forth, type = 1, size = sizeType.normal },style = {}) => (
-    <Card className="pelak">
-        <Grid className={`${size} type${type}`} style={style}>
+}> = ({ first, second, third, forth, type = 1, size = sizeType.normal, style = {} }) => (
+    <Card className="pelak" style={style}>
+        <Grid className={`${(size != sizeType.small) ? size : 'normal small'} type${type}`}>
             <Grid.Row columns={4}>
                 <Grid.Column width={(size == 'large') ? 5 : 4} className="first">
                     {convertNumbers2Persian(first)}
                 </Grid.Column>
-                <Grid.Column width={(size == 'large') ? 3 : 3} className="second">
+                <Grid.Column width={(size == 'large') ? 3 : 4} className="second">
                     <span>{second}</span>
                 </Grid.Column>
                 <Grid.Column width={(size == 'large') ? 4 : 4} className="third">
@@ -94,7 +100,7 @@ const Pelak: React.FunctionComponent<{
 enum sizeType {
     large = 'large',
     normal = 'normal',
-    // small = 'small',
+    small = 'small',
     // tiny = 'tiny'
 }
 
