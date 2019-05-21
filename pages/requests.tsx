@@ -15,7 +15,7 @@ export default props => (
                 <Box width={2 / 2} px={2}>
                     <Item.Group divided style={{maxWidth: '530px'}}>
                         <RequestCard
-                            status={"در انتظار تایید"}
+                            status={1}
                             carName={"جیلی امگراند  آر وی ۷"}
                             start={""}
                             end={""}
@@ -26,7 +26,7 @@ export default props => (
                             picture={"https://otoli.net/media/17/i/20190507/1557234331_15e443c2e330.jpg"}
                         />
                         <RequestCard
-                            status={"در انتظار تایید"}
+                            status={2}
                             carName={"جیلی امگراند  آر وی ۷"}
                             start={""}
                             end={""}
@@ -37,7 +37,40 @@ export default props => (
                             picture={"https://otoli.net/media/17/i/20190507/1557234331_15e443c2e330.jpg"}
                         />
                         <RequestCard
-                            status={"req"}
+                            status={3}
+                            carName={"جیلی امگراند  آر وی ۷"}
+                            start={""}
+                            end={""}
+                            price={600000}
+                            ownerName={"حاج مهراد روستا و دوستان"}
+                            ownerPhone={"09190722999"}
+                            pelak={"۱۲ ب ۳۶۵ ۱۱"}
+                            picture={"https://otoli.net/media/17/i/20190507/1557234331_15e443c2e330.jpg"}
+                        />
+                        <RequestCard
+                            status={4}
+                            carName={"جیلی امگراند  آر وی ۷"}
+                            start={""}
+                            end={""}
+                            price={600000}
+                            ownerName={"حاج مهراد روستا و دوستان"}
+                            ownerPhone={"09190722999"}
+                            pelak={"۱۲ ب ۳۶۵ ۱۱"}
+                            picture={"https://otoli.net/media/17/i/20190507/1557234331_15e443c2e330.jpg"}
+                        />
+                        <RequestCard
+                            status={5}
+                            carName={"جیلی امگراند  آر وی ۷"}
+                            start={""}
+                            end={""}
+                            price={600000}
+                            ownerName={"حاج مهراد روستا و دوستان"}
+                            ownerPhone={"09190722999"}
+                            pelak={"۱۲ ب ۳۶۵ ۱۱"}
+                            picture={"https://otoli.net/media/17/i/20190507/1557234331_15e443c2e330.jpg"}
+                        />
+                        <RequestCard
+                            status={6}
                             carName={"جیلی امگراند  آر وی ۷"}
                             start={""}
                             end={""}
