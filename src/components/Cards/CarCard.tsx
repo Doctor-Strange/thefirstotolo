@@ -188,64 +188,65 @@ export const CarCard: React.FunctionComponent<{
   price: any;
   deliver_at_renters_place: boolean;
   dateURL?: string;
-}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place, id,dateURL}) => (
+  search_id?: string;
+}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place, id, dateURL, search_id }) => (
   <Card className="strip grid carcard">
-    <figure>
-      {/* <a href="#0" className="wish_bt" >
-        
-      </a> */}
-      <a href={`/car?id=${id}${dateURL}`}>
+    <a href={`/car?id=${id}${dateURL}&search_id=${search_id}`}>
+      <figure>
+        {/* <a href="#0" className="wish_bt" >
+          
+        </a> */}
         <img src={img} className="img-fluid" alt="" />
         <div className="read_more">
           <span>مشاهده و رزرو</span>
         </div>
-      </a>
-      {/* <small>Restaurant</small> */}
-    </figure>
-    <div className="wrapper row">
-      <div className="col-8">
-        <h3>
-          <a href={`/car?id=${id}`}>
-            {title}<br />
-            <small>{year}</small><br />
-            {/* <StarRatingComponent
-              name="rate1"
-              starCount={5}
-              value={3}
-            /> */}
-          </a>
-        </h3>
+        {/* <small>Restaurant</small> */}
+      </figure>
+      <div className="wrapper row">
+        <div className="col-8">
+          <h3>
+            <a href={`/car?id=${id}`}>
+              {title}<br />
+              <small>{year}</small><br />
+              {/* <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={3}
+              /> */}
+            </a>
+          </h3>
+        </div>
+        <div className="col-4 leftbox">
+          <PriceCard number={price}>
+            در روز
+          </PriceCard>
+        </div>
+        {/* <small>{text2}</small> */}
+        {/* <p>{description}</p> */}
+        {/* <a className="address" href={`/car?id=${id}`}>
+          Get directions
+        </a> */}
+        <ul>
+          {deliver_at_renters_place ?
+            (
+              <li>
+                <span className="loc_open">تحویل در محل</span>
+              </li>
+            ) : (<li></li>)
+          }
+          {/*<li>
+            <span className="loc_closed">Now Closed</span>
+          </li> */}
+          {/* <li>
+            <div className="score">
+              <span>
+                Superb<em>350 Reviews</em>
+              </span>
+              <strong>{score}</strong>
+            </div>
+          </li> */}
+        </ul>
       </div>
-      <div className="col-4 leftbox">
-        <PriceCard number={price}>
-          در روز
-        </PriceCard>
-      </div>
-      {/* <small>{text2}</small> */}
-      {/* <p>{description}</p> */}
-      {/* <a className="address" href={`/car?id=${id}`}>
-        Get directions
-      </a> */}
-      <ul>
-        {deliver_at_renters_place ?
-          (
-            <li>
-              <span className="loc_open">تحویل در محل</span>
-            </li>
-          ) : (<li></li>)
-        }
-        {/*<li>
-          <span className="loc_closed">Now Closed</span>
-        </li> */}
-        {/* <li>
-          <div className="score">
-            <span>
-              Superb<em>350 Reviews</em>
-            </span>
-            <strong>{score}</strong>
-          </div>
-        </li> */}
-      </ul>
-    </div>
+    </a>
   </Card>
 );

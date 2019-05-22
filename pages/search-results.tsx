@@ -416,6 +416,7 @@ export default withRouter(withNamespaces('common')(
                 total_price: value.total_price,
                 transmission_type: value.transmission_type,
                 year: value.year,
+                search_id: value.search_id
               }));
               if (results === undefined || results.length == 0) {
                 this.setState({ results: [], loadingResults: false, noResult: true, lodingMore: false });
@@ -477,6 +478,7 @@ export default withRouter(withNamespaces('common')(
                 total_price: value.total_price,
                 transmission_type: value.transmission_type,
                 year: value.year,
+                search_id: value.search_id
               }));
               if (results === undefined || results.length == 0) {
                 this.setState({ results: [], loadingResults: false, noResult: true, lodingMore: false });

@@ -91,6 +91,7 @@ export class ResultsCards extends React.Component<{
                                     // text2={value.text2}
                                     score={"8.4"}
                                     dateURL={dateURL}
+                                    search_id={value.search_id}
                                 />
                             )
                         )
