@@ -95,7 +95,7 @@ export class SearchBar extends React.Component<{
     }
     const textDate = ` از تاریخ ${convertNumbers2Persian(start)} تا ${convertNumbers2Persian(end)}`;
     return (
-      <SearchResult id="results" class="navbar">
+      <SearchResult id="results" className="navbar">
         <div className="container">
           <Flex justifyContent="space-around" className="row hide_on_mobile">
             <Box width={12 / 12} px={2}>
