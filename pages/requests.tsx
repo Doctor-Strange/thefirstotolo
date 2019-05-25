@@ -7,6 +7,8 @@ import { RequestCard } from '../src/components/Cards';
 import Layout from '../src/components/Layout';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
+import moment from 'moment-jalaali';
+moment.loadPersian();
 
 export default props => (
     <Layout haveSubHeader={true} pageTitle={'Hello World'}>
@@ -17,8 +19,8 @@ export default props => (
                         <RequestCard
                             status={1}
                             carName={"جیلی امگراند  آر وی ۷"}
-                            start={""}
-                            end={""}
+                            start={moment()}
+                            end={moment()}
                             price={600000}
                             ownerName={"حاج مهراد روستا و دوستان"}
                             ownerPhone={"09190722999"}
@@ -28,8 +30,8 @@ export default props => (
                         <RequestCard
                             status={2}
                             carName={"جیلی امگراند  آر وی ۷"}
-                            start={""}
-                            end={""}
+                            start={moment()}
+                            end={moment()}
                             price={600000}
                             ownerName={"حاج مهراد روستا و دوستان"}
                             ownerPhone={"09190722999"}
@@ -39,8 +41,8 @@ export default props => (
                         <RequestCard
                             status={3}
                             carName={"جیلی امگراند  آر وی ۷"}
-                            start={""}
-                            end={""}
+                            start={moment()}
+                            end={moment()}
                             price={600000}
                             ownerName={"حاج مهراد روستا و دوستان"}
                             ownerPhone={"09190722999"}
@@ -50,8 +52,8 @@ export default props => (
                         <RequestCard
                             status={4}
                             carName={"جیلی امگراند  آر وی ۷"}
-                            start={""}
-                            end={""}
+                            start={moment()}
+                            end={moment()}
                             price={600000}
                             ownerName={"حاج مهراد روستا و دوستان"}
                             ownerPhone={"09190722999"}
@@ -61,8 +63,8 @@ export default props => (
                         <RequestCard
                             status={5}
                             carName={"جیلی امگراند  آر وی ۷"}
-                            start={""}
-                            end={""}
+                            start={moment()}
+                            end={moment()}
                             price={600000}
                             ownerName={"حاج مهراد روستا و دوستان"}
                             ownerPhone={"09190722999"}
@@ -72,8 +74,8 @@ export default props => (
                         <RequestCard
                             status={6}
                             carName={"جیلی امگراند  آر وی ۷"}
-                            start={""}
-                            end={""}
+                            start={moment()}
+                            end={moment()}
                             price={600000}
                             ownerName={"حاج مهراد روستا و دوستان"}
                             ownerPhone={"09190722999"}

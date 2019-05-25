@@ -5,6 +5,7 @@ import { CarCardPlaceholder } from './CarCardPlaceholder';
 import { UserCard } from './UserCard';
 import { RequestCard } from './RequestCard';
 import { Pelak, sizeType } from './Pelak';
+import { DateGrid } from './DateGrid';
 export {
   BoxedList,
   CarCard,
@@ -13,5 +14,6 @@ export {
   UserCard,
   RequestCard,
   Pelak,
-  sizeType
+  sizeType,
+  DateGrid
 };

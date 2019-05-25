@@ -2,8 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
-import { Pelak, sizeType } from './index';
+import { Pelak, sizeType, DateGrid } from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
+import moment from 'moment-jalaali';
+moment.loadPersian();
 
 const Card = styled.div`
     direction: rtl;
@@ -87,7 +89,7 @@ export const RequestCard: React.FunctionComponent<{
     pelak: any;
     picture?: any;
     style?: any;
-}> = ({ status, carName, start, price, ownerName, ownerPhone, pelak, picture, style = {} }) => {
+}> = ({ status, carName, start, end, price, ownerName, ownerPhone, pelak, picture, style = {} }) => {
     let title;
     let actions;
     switch (status) {
@@ -112,7 +114,7 @@ export const RequestCard: React.FunctionComponent<{
             title = <span><Icon name="credit card outline" /> در انتظار پرداخت</span>;
             break;
         case 3:
-            title = <span style={{ color: '#a00000de'}}><Icon name="calendar times" /> لغو شد</span>;
+            title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> لغو شد</span>;
             break;
         case 4:
             title = <span><Icon name="map marker alternate" /> در انتظار تحویل خودرو</span>;
@@ -156,22 +158,7 @@ export const RequestCard: React.FunctionComponent<{
                     <Grid.Row columns={2} style={{ margin: '0 auto', marginTop: '8px' }}>
                         <Grid.Column width={11} style={{ paddingLeft: '24px', paddingRight: '0' }}>
                             <h3>{carName}</h3>
-                            <Grid className="property-row">
-                                <Grid.Row columns={2} centered className="property">
-                                    <Grid.Column width={8} className="right">
-                                        <div className="date" style={{ float: 'right', textAlign: 'right' }}>
-                                            <strong>سه‌شنبه</strong> <br />
-                                            ۹۸/۰۵/۲۴
-                                    </div>
-                                    </Grid.Column>
-                                    <Grid.Column width={7} className="left">
-                                        <div className="date" style={{ float: 'right', textAlign: 'right' }}>
-                                            <strong>جمعه</strong><br />
-                                            ۹۸/۰۵/۳۰
-                                    </div>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                            <DateGrid start={start} end={end} />
                             <Grid className="property-row">
                                 <Grid.Row columns={2} centered className="property">
                                     <Grid.Column width={8} className="right">
