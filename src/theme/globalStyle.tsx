@@ -2471,11 +2471,12 @@ ul.bullets li {
   padding: 0px;
   li {
     margin-bottom: 8px;
-    padding-bottom: 6px;
+    padding-bottom: 4px;
     font-weight: 500;
-    border-bottom: 1px solid rgb(237, 237, 237);
-    last-child {
+    border-bottom: 1px solid rgba(237, 237, 237, 0.36);
+    :last-child {
       font-size: 18px;
+      font-weight: 600;
     }
   }
 }

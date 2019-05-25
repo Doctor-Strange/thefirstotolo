@@ -193,31 +193,31 @@ export default withNamespaces('common')(
                                 position: 'relative'
                             }}>
 
-                                <section id="description" className="car_det">
+                                <section id="description_" className="car_det box_detail">
                                     <Grid>
                                         <Grid.Row columns={2} centered className="property">
                                             <Grid.Column width={9} className="right" style={{ paddingRight: '0' }}><div>
-                                                <h1 style={{ fontSize: '22px', textAlign: 'right', paddingBottom: '8px' }}>
+                                                <h1 style={{ fontSize: '20px', textAlign: 'right', paddingBottom: '8px' }}>
                                                     {`${car.brand.name.fa} ${car.name.fa}`}
                                                 </h1>
                                                 <br />
                                                 {/* <DateGrid start={startDate} end={endDate} /> */}
                                                 {/* <span>{year.fa}</span> <br /> */}
                                             </div>
-                                                <Details title="محل خودرو">
+                                                <Details title="محل خودرو" showHr={false}>
                                                     <p>{location.name.breadcrumb_fa}</p>
                                                     <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
                                                 </Details>
-                                                <Details title="قوانین کنسلی">
+                                                <Details title="قوانین کنسلی" showHr={false}>
                                                     {cancellation_policy ? cancellation_policy : "ندارد"}
                                                 </Details>
-                                                <Details title="محدودیت مسافت">
+                                                <Details title="محدودیت مسافت" showHr={false}>
                                                     <ul className="">
                                                         <li>{max_km_per_day ? max_km_per_day + "کیلومتر" : "ندارد"}</li>
                                                         <li>{extra_km_price ? `هزینه هر کیلومتر اضافه ${extra_km_price} هزار تومان` : ""}</li>
                                                     </ul>
                                                 </Details>
-                                                <Details title="توضیحات">
+                                                <Details title="توضیحات" showHr={false}>
                                                     {description ? description : "ندارد"}
                                                 </Details>
                                             </Grid.Column>
@@ -231,58 +231,60 @@ export default withNamespaces('common')(
                                     </Grid>
                                 </section>
                             </div>
-                            {isBrowser &&
-                                <aside className="col-lg-4" id="sidebar">
-                                    <div className="box_detail booking">
-                                        <ul className="thelist">
-                                            <li>قیمت روزانه
+                            <aside className="col-lg-4" id="sidebar">
+                                <div className="box_detail booking">
+                                    <ul className="thelist">
+                                        <li>قیمت روزانه
                                                 <span className="float-left">
-                                                    <span>{convertNumbers2Persian(numberWithCommas(avg_price_per_day))}</span>
-                                                    {' '}
-                                                    <span> تومان </span>
-                                                </span>
-                                            </li>
-                                            <li>از <span className="float-left">{LongDate(startDate)}</span></li>
-                                            <li>تا <span className="float-left">{LongDate(endDate)}</span></li>
-                                            <li>مدت زمان
+                                                <span>{convertNumbers2Persian(numberWithCommas(avg_price_per_day))}</span>
+                                                {' '}
+                                                <span> تومان </span>
+                                            </span>
+                                        </li>
+                                        <li>از <span className="float-left">{LongDate(startDate)}</span></li>
+                                        <li>تا <span className="float-left">{LongDate(endDate)}</span></li>
+                                        <li>مدت زمان
                                                 <span className="float-left">
-                                                    {convertNumbers2Persian(no_of_days)}
-                                                    <span> روز </span>
-                                                </span>
-                                            </li>
-                                            <li>هزینه کل
+                                                {convertNumbers2Persian(no_of_days)}
+                                                <span> روز </span>
+                                            </span>
+                                        </li>
+                                        <li>هزینه کل
                                                 <span className="float-left">
-                                                    <span>{convertNumbers2Persian(numberWithCommas(total_price))}</span>
-                                                    <span> تومان </span>
-                                                </span>
-                                            </li>
-                                            {discount_percent &&
-                                                <li> هزینه پس از کاستن تخفیف
+                                                <span>{convertNumbers2Persian(numberWithCommas(total_price))}</span>
+                                                <span> تومان </span>
+                                            </span>
+                                        </li>
+                                        {discount_percent &&
+                                            <li> هزینه پس از کاستن تخفیف
                                                     <span className="float-left">
-                                                        <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price))}</span>
-                                                        <span> تومان </span>
-                                                    </span>
-                                                </li>
-                                            }
-                                        </ul>
-                                        <br />
-                                        <Button
-                                            style={{ height: '48px' }}
-                                            size='large'
-                                            fluid
-                                            onClick={() => {
-                                                this.reserve(search_id);
-                                            }}
-                                            color='teal'>ثبت درخواست</Button>
-                                        <div
-                                            style={{ marginTop: '8px' }}
-                                            className="text-center"
-                                        >
-                                            <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
-                                        </div>
-                                    </div>
-                                </aside>
-                            }
+                                                    <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price))}</span>
+                                                    <span> تومان </span>
+                                                </span>
+                                            </li>
+                                        }
+                                    </ul>
+                                    {isBrowser && <>
+                                            <br />
+                                            <Button
+                                                style={{ height: '48px' }}
+                                                size='large'
+                                                fluid
+                                                onClick={() => {
+                                                    this.reserve(search_id);
+                                                }}
+                                                color='teal'>ثبت درخواست</Button>
+                                            <div
+                                                style={{ marginTop: '8px' }}
+                                                className="text-center"
+                                            >
+                                                <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
+                                            </div>
+                                            </>
+                                        }
+                                </div>
+                            </aside>
+
                         </Section>
                         {isMobile &&
                             <Button
