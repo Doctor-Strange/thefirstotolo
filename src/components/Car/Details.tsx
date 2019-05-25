@@ -6,6 +6,7 @@ import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from
 
 const Item = styled.div`
     direction: rtl;
+    text-align:right;
 `;
 
 export const Details: React.FunctionComponent<{
