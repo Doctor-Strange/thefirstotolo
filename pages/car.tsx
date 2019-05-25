@@ -5,6 +5,7 @@ import Layout from '../src/components/Layout';
 import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
+import Router from 'next/router';
 import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard } from '../src/components/Cards'
 import { Details, ListDetails, CarNav } from '../src/components/Car'
@@ -27,7 +28,7 @@ const SearchResult = styled.div`
 `;
 
 export default withNamespaces('common')(
-    class extends React.Component<{ t: any, rentalCarID: number, start: any, end: any }> {
+    class extends React.Component<{ t: any, rentalCarID: number, start: any, end: any, search_id: string }> {
 
         static async getInitialProps(props) {
             if (typeof window === 'undefined') {
@@ -40,6 +41,7 @@ export default withNamespaces('common')(
                 rentalCarID: props.query.id,
                 start: props.query.start,
                 end: props.query.end,
+                search_id: props.query.search_id
             };
         }
 
@@ -126,8 +128,15 @@ export default withNamespaces('common')(
                 });
         }
 
+        reserve() {
+            const { start, end, search_id, rentalCarID } = this.props;
+            const href = `/checkout?search_id=${search_id}&id=${rentalCarID}`;
+            // const as = `/checkout/${rentalCarID}/${search_id}`;
+            Router.push(href, href, { shallow: true });
+        }
+
         render() {
-            const { t, start, end } = this.props;
+            const { t, start, end, search_id } = this.props;
             let start_date, end_date = null;
             let startDate, endDate = null;
             if (start && end) {
@@ -157,7 +166,12 @@ export default withNamespaces('common')(
                                             onClick={previousSlide}
                                             aria-label="next"
                                             style={{
-                                                border: '0px', background: 'rgba(0, 0, 0, 0.4)', color: 'white', padding: '10px', opacity: '1', cursor: 'pointer'
+                                                border: '0px',
+                                                background: 'rgba(0, 0, 0, 0.4)',
+                                                color: 'white',
+                                                padding: '10px',
+                                                opacity: '1',
+                                                cursor: 'pointer'
                                             }}
                                         >
                                             <Icon name="angle left" />
@@ -168,7 +182,12 @@ export default withNamespaces('common')(
                                             onClick={nextSlide}
                                             aria-label="next"
                                             style={{
-                                                border: '0px', background: 'rgba(0, 0, 0, 0.4)', color: 'white', padding: '10px', opacity: '1', cursor: 'pointer'
+                                                border: '0px',
+                                                background: 'rgba(0, 0, 0, 0.4)',
+                                                color: 'white',
+                                                padding: '10px',
+                                                opacity: '1',
+                                                cursor: 'pointer'
                                             }}
                                         >
                                             <Icon name="angle right" />
@@ -198,7 +217,12 @@ export default withNamespaces('common')(
                                             >
                                                 در روز
                                             </PriceCard>
-                                            <div className="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div>
+                                            <div className="score">
+                                                <span>
+                                                    Good <em> 350 Reviews </em>
+                                                </span>
+                                                <strong> 7.0 </strong>
+                                            </div>
                                         </div>
                                         <br /> <br />
                                         <CarNav startDate={start_date} endDate={end_date} simpleMode={true} />
@@ -214,6 +238,9 @@ export default withNamespaces('common')(
                                             style={{ height: '48px' }}
                                             size='large'
                                             fluid
+                                            onClick={() => {
+                                                this.reserve();
+                                            }}
                                             color='teal'>درخواست اجاره</Button>
                                         <div
                                             style={{ marginTop: '8px' }}
@@ -511,6 +538,9 @@ export default withNamespaces('common')(
                                 }}
                                 primary
                                 type="submit"
+                                onClick={
+                                    () => this.reserve()
+                                }
                                 className="btn_1 full-width"
                             >
                                 درخواست اجاره
