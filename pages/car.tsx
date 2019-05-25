@@ -130,7 +130,7 @@ export default withNamespaces('common')(
 
         reserve() {
             const { start, end, search_id, rentalCarID } = this.props;
-            const href = `/checkout?search_id=${search_id}&id=${rentalCarID}`;
+            const href = `/checkout?search_id=${search_id}&id=${rentalCarID}&start=${start}&end=${end}`;
             // const as = `/checkout/${rentalCarID}/${search_id}`;
             Router.push(href, href, { shallow: true });
         }

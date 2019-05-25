@@ -127,8 +127,14 @@ const GlobalStyle = createGlobalStyle`
     #field_input_year,#field_dropdown_month{
       margin-top:25px;
     }
-    .car_det_wrapper{
+    .car_det_wrapper {
       z-index: -1;
+      &.checkout{
+        z-index: 1;
+        .car_det {
+          padding: 25px 16px 15px 16px;
+        }
+      }
       .car_det {
         background-color: #fff;
         padding: 25px 25px 15px 25px;
@@ -835,6 +841,10 @@ input[inputmode="numeric"],  div[inputMode='numeric'] input {
 }
   .rtl {
     text-align:right;
+
+    .column.row.property {
+      direction:rtl;
+    }
     .carcard {
       text-align:right;
       direction:rtl;
@@ -2455,6 +2465,24 @@ ul.bullets li {
   direction: rtl;
 }
 
+.thelist {
+  list-style: none;
+  margin: 0px 0px 20px;
+  padding: 0px;
+  li {
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    font-weight: 500;
+    border-bottom: 1px solid rgb(237, 237, 237);
+    last-child {
+      font-size: 18px;
+    }
+  }
+}
+.float-left {
+    float: left !important;
+    direction: rtl;
+}
 `;
 
 const lightTheme = {
