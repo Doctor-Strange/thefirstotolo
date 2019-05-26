@@ -1,13 +1,12 @@
 import 'isomorphic-fetch';
 import * as React from 'react';
-import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 // import jsCookie from 'js-cookie';
-import { getStore } from '../src/store';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 import { appWithTranslation } from '../src/i18n';
+import { Provider } from '../src/store'
 
 Router.events.on('routeChangeStart', url => {
   console.log(`Loading: ${url}`);
@@ -33,14 +32,11 @@ class OtoliApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
     const server = !!ctx.req;
-    const store = getStore(undefined, server);
-    const state = store.getState();
-    const out = { state, server } as any;
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    return { pageProps, ...out };
+    return { pageProps };
   }
 
   componentDidMount() {
@@ -79,11 +75,10 @@ class OtoliApp extends App {
   render() {
     const { props } = this as any;
     const { Component, pageProps } = props;
-    const store = getStore(undefined, props.server);
     return (
       <Container>
         <GlobalStyle />
-        <Provider store={store}>
+        <Provider>
           <Component {...pageProps} />
         </Provider>
       </Container>

@@ -8,13 +8,12 @@ import {
   Sidebar
 } from 'semantic-ui-react';
 import { ltrTheme, rtlTheme } from '../../theme/directions';
-import { connect } from 'react-redux';
-import { changeLang } from '../../redux/system';
 import { Header, SubHeader } from '../Header';
 import Footer from '../Footer';
 import Head from 'next/head';
 import Link from 'next/link';
 import { i18n, withNamespaces } from '../../i18n';
+import { actions } from "../../store";
 
 class Layout extends React.Component<{
   haveSubHeader: boolean;
@@ -35,12 +34,6 @@ class Layout extends React.Component<{
   handleHideClick = () => this.setState({ visible: false });
   handleShowClick = () => this.setState({ visible: true });
   handleSidebarHide = () => this.setState({ visible: false });
-
-  changeLang_i18n = () => {
-    console.log('changeLang happend ', i18n.language);
-    i18n.changeLanguage(i18n.language === 'en' ? 'fa' : 'en');
-    this.props.changeLang(i18n.language === 'en' ? 'fa' : 'en');
-  };
 
   componentDidMount() {
     if (this.props.onRef) this.props.onRef(this);
@@ -117,11 +110,11 @@ class Layout extends React.Component<{
             onRef={this.doRef}
             openMenu={this.handleShowClick}
             headerBtn={t('add_car')}
-            changeLang={this.changeLang_i18n}
+            changeLang={actions.changeLang}
           />
           {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
           <main>{children}</main>
-          <Footer changeLangFunc={this.changeLang_i18n} />
+          <Footer changeLangFunc={actions.changeLang} />
         </div>
         {/* </Sidebar.Pusher>
         </Sidebar.Pushable> */}
@@ -132,7 +125,4 @@ class Layout extends React.Component<{
 
 const mapStateToProps = ({ }) => ({});
 
-export default connect(
-  mapStateToProps,
-  { changeLang }
-)(withNamespaces('common')(Layout));
+export default withNamespaces('common')(Layout);
