@@ -1,13 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
-import jsCookie from 'js-cookie';
 import { Nav } from '../Nav';
 import { Logo } from '../Logo';
 import Router from 'next/router';
 import { i18n, withNamespaces } from '../../i18n';
 import ReactModal from 'react-modal';
 import LoginModal from '../Modals/LoginModal';
+import { connect } from '../../store';
 
 const HeaderSticky = styled.div`
   header {
@@ -241,9 +241,7 @@ class Header extends React.Component<{
   headerBtn: string;
   openMenu: any;
   changeLang: any;
-  firstName?: string;
-  lastName?: string;
-  token?: string;
+  user: any;
   onRef?: any;
 }> {
   [x: string]: any;
@@ -252,12 +250,6 @@ class Header extends React.Component<{
       namespacesRequired: ['common']
     };
   }
-
-  state = {
-    token: '',
-    firstName: '',
-    lastName: ''
-  };
 
   constructor(props) {
     super(props);
@@ -269,15 +261,15 @@ class Header extends React.Component<{
   };
 
   logout = () => {
-    alert('Loging out...');
-    localStorage.removeItem('token');
-    localStorage.removeItem('first_name');
-    localStorage.removeItem('last_name');
-    this.setState({
-      token: '',
-      firstName: '',
-      lastName: ''
-    });
+    // alert('Loging out...');
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('first_name');
+    // localStorage.removeItem('last_name');
+    // this.setState({
+    //   token: '',
+    //   firstName: '',
+    //   lastName: ''
+    // });
   };
 
   doRef = ref => {
@@ -285,7 +277,6 @@ class Header extends React.Component<{
   };
 
   componentDidMount() {
-    this.updateInfo();
     this.props.onRef(this);
   }
   componentWillUnmount() {
@@ -293,15 +284,12 @@ class Header extends React.Component<{
   }
 
   updateInfo() {
-    this.setState({
-      firstName: jsCookie.get('first_name'),
-      lastName: jsCookie.get('last_name'),
-      token: jsCookie.get('token')
-    });
   }
 
   render() {
-    const { t } = this.props;
+    const { t, user } = this.props;
+    console.log(user);
+    const { token, phone, first_name, last_name } = user;
     return (
       <>
         <HeaderSticky>
@@ -319,7 +307,7 @@ class Header extends React.Component<{
                       </a>
                     </li>
                     <li>
-                      {!this.state.token && (
+                      {!token && (
                         <a
                           href="#"
                           id="sign-in"
@@ -330,9 +318,9 @@ class Header extends React.Component<{
                           {t('signin')}
                         </a>
                       )}
-                      {this.state.token && (
+                      {token && (
                         <span>
-                          {this.state.firstName} {this.state.lastName}
+                          {first_name} {last_name}
                           {/* {', '}
                           <a
                             href="#"
@@ -362,7 +350,7 @@ class Header extends React.Component<{
                 </a>
               </li>
               <li>
-                {!this.state.token && (
+                {!token && (
                   <a
                     href="#"
                     id="sign-in"
@@ -373,9 +361,9 @@ class Header extends React.Component<{
                     {t('signin')}
                   </a>
                 )}
-                {this.state.token && (
+                {token && (
                   <span>
-                    {this.state.firstName}  {this.state.lastName}
+                    {first_name}  {last_name}
                   </span>
                 )}
               </li>
@@ -389,4 +377,4 @@ class Header extends React.Component<{
   }
 }
 
-export default withNamespaces('common')(Header);
+export default withNamespaces('common')(connect(state => state)(Header));

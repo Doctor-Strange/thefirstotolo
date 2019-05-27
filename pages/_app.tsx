@@ -6,7 +6,7 @@ import NProgress from 'nprogress';
 // import jsCookie from 'js-cookie';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 import { appWithTranslation } from '../src/i18n';
-import { Provider } from '../src/store'
+import { Provider, actions } from '../src/store'
 
 Router.events.on('routeChangeStart', url => {
   console.log(`Loading: ${url}`);
@@ -40,6 +40,8 @@ class OtoliApp extends App {
   }
 
   componentDidMount() {
+    // authenticate the user if he is longed in
+    actions.auth();
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')

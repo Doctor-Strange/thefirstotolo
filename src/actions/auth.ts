@@ -13,7 +13,6 @@ export const auth = () => {
 };
 
 export const signin = (authData: Iuser) => {
-  console.log(authData);
   jsCookie.set('token', authData.token);
   jsCookie.set('phone', authData.phone);
   if (authData.complete_register) {
@@ -21,7 +20,6 @@ export const signin = (authData: Iuser) => {
   }
   if (authData.first_name) jsCookie.set('first_name', authData.first_name);
   if (authData.last_name) jsCookie.set('last_name', authData.last_name);
-  console.log('return', authData);
   return authData;
 };
 
