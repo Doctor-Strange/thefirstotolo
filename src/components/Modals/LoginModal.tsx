@@ -5,7 +5,6 @@ import { Button, Form, Input } from 'formik-semantic-ui';
 import { Formik, FormikActions } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import jsCookie from 'js-cookie';
 import Countdown from 'react-countdown-now';
 import { LoginForm, PhoneRow } from './LoginStyle';
 import { ModalWrapper } from './ModalWrapper';
@@ -14,6 +13,7 @@ import { Panel } from '../Carousel/Panel';
 // import { mobileNumberOptions } from '../../constants/options';
 import { i18n, withNamespaces } from '../../i18n';
 import { ltrTheme, rtlTheme } from '../../theme/directions';
+import { actions } from "../../store";
 
 function convertToEnglishNum(s) {
   const a = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -117,7 +117,7 @@ export default withNamespaces('common')(
     };
 
     render() {
-      const { t,updateInfo} = this.props;
+      const { t, updateInfo } = this.props;
       const theme = i18n.language == 'fa' ? rtlTheme : ltrTheme;
       return (
         <ThemeProvider
@@ -141,7 +141,7 @@ export default withNamespaces('common')(
                   initialValues={{ phone: Number(this.state.phone) || null }}
                   onSubmit={(
                     values: LoginModalValues,
-                    actions: FormikActions<LoginModalValues>
+                    formikActions: FormikActions<LoginModalValues>
                   ) => {
                     let validPhoneFormated;
                     const phone = convertToEnglishNum(values.phone.toString());
@@ -171,7 +171,7 @@ export default withNamespaces('common')(
                         console.error(error.response.data);
                       })
                       .then(() => {
-                        actions.setSubmitting(false);
+                        formikActions.setSubmitting(false);
                       });
                   }}
                   validationSchema={Yup.object().shape({
@@ -240,7 +240,7 @@ export default withNamespaces('common')(
                   initialValues={{ code: null }}
                   onSubmit={(
                     values: LoginModalCodeValues,
-                    actions: FormikActions<LoginModalCodeValues>
+                    formikActions: FormikActions<LoginModalCodeValues>
                   ) => {
                     axios
                       .post('https://otoli.net' + '/core/device/login', {
@@ -258,9 +258,12 @@ export default withNamespaces('common')(
                             codeError: null,
                             timeToSendSMSAgain: null
                           });
-                          jsCookie.set('token', response.data.token);
-                          jsCookie.set('phone', this.state.phone);
-                          jsCookie.set('complete_register', 'true');
+                          // sign user in store
+                          actions.signin({
+                            token: response.data.token,
+                            phone: this.state.phone,
+                            complete_register: true
+                          });
                           // TODO: add token to redux;
                           this.handleCloseModal();
                           let go_to_pathname = Router.pathname;
@@ -283,9 +286,7 @@ export default withNamespaces('common')(
                           response.data.token &&
                           response.data.has_name
                         ) {
-                          // TODO: add token to redux;
-                          jsCookie.set('token', response.data.token);
-                          jsCookie.set('phone', this.state.phone);
+                          // let also get user name and last name and them sign them in
                           axios
                             .post(
                               'https://otoli.net' + '/core/user/info',
@@ -297,16 +298,15 @@ export default withNamespaces('common')(
                               }
                             )
 
-                            .then(response => {
+                            .then(response2 => {
+                              // now lets sign them in
                               console.log(response);
-                              jsCookie.set(
-                                'first_name',
-                                response.data.data.first_name
-                              );
-                              jsCookie.set(
-                                'last_name',
-                                response.data.data.last_name
-                              );
+                              actions.signin({
+                                token: response.data.token,
+                                phone: this.state.phone,
+                                first_name: response2.data.data.first_name,
+                                last_name: response2.data.data.last_name
+                              });
                               this.handleCloseModal();
                               updateInfo();
                             });
@@ -325,7 +325,7 @@ export default withNamespaces('common')(
                         });
                       })
                       .then(() => {
-                        actions.setSubmitting(false);
+                        formikActions.setSubmitting(false);
                       });
                   }}
                   validationSchema={Yup.object().shape({

@@ -1,19 +1,16 @@
 // tslint:disable: object-literal-sort-keys
 import createStore from 'react-waterfall';
-import { i18n } from './i18n';
-
-function changeLangFunc() {
-  console.log('changeLang happend in me', i18n.language);
-  const nextLang = i18n.language === 'en' ? 'fa' : 'en';
-  i18n.changeLanguage(nextLang);
-  return nextLang;
-}
+import { auth, changeLangFunc, signin } from './actions';
 
 const config = {
-  initialState: { count: 0, lang: 'fa' },
+  initialState: { lang: 'fa', user: { token: null, phone: null } },
   actionsCreators: {
-    increment: ({ count }) => ({ count: count + 1 }),
-    changeLang: () => ({ lang: changeLangFunc() })
+    changeLang: () => ({ lang: changeLangFunc() }),
+    auth: () => ({ user: auth() }),
+    signin: ({ user }, _a, payload) => {
+      const val = signin(payload);
+      return { user: val };
+    }
   }
 };
 

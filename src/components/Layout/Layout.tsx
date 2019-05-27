@@ -110,11 +110,11 @@ class Layout extends React.Component<{
             onRef={this.doRef}
             openMenu={this.handleShowClick}
             headerBtn={t('add_car')}
-            changeLang={actions.changeLang}
+            changeLang={() => actions.changeLang()}
           />
           {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
           <main>{children}</main>
-          <Footer changeLangFunc={actions.changeLang} />
+          <Footer changeLangFunc={() => actions.changeLang()} />
         </div>
         {/* </Sidebar.Pusher>
         </Sidebar.Pushable> */}
