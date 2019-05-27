@@ -6,11 +6,11 @@ import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup, Grid } from 'semantic-ui-react';
 import Router from 'next/router';
-import jsCookie from 'js-cookie';
 import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard, DateGrid } from '../src/components/Cards'
 import { Details, ListDetails, CarNav } from '../src/components/Car'
 import { i18n, withNamespaces } from '../src/i18n';
+import { connect } from '../src/store';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
 import { LongDate, ShortDate } from '../src/lib/date';
 import {
@@ -25,8 +25,10 @@ import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
 
-export default withNamespaces('common')(
-    class extends React.Component<{ t: any, rentalCarID: number, start: any, end: any, search_id: string }> {
+export default withNamespaces('common')(connect(state => state)(
+    class extends React.Component<{ 
+        t: any, rentalCarID: number, start: any, end: any, search_id: string, user: any
+    }> {
 
         static async getInitialProps(props) {
             if (typeof window === 'undefined') {
@@ -44,7 +46,6 @@ export default withNamespaces('common')(
         }
 
         state = {
-            token: '',
             error: '',
             media_set: [],
             year: {},
@@ -75,12 +76,6 @@ export default withNamespaces('common')(
             '۵۰٫۰۰۰ - ۱۰۰٫۰۰۰ کیلومتر',
             '۱۰۰٫۰۰۰ - ۲۰۰٫۰۰۰ کیلومتر',
             '+۲۰۰٫۰۰۰  کیلومتر']
-
-        componentWillMount() {
-            this.setState({
-                token: jsCookie.get('token')
-            });
-        }
 
         componentDidMount() {
             setTimeout(() => {
@@ -150,7 +145,7 @@ export default withNamespaces('common')(
                     },
                     {
                         headers: {
-                            Authorization: 'Bearer ' + this.state.token
+                            Authorization: 'Bearer ' + this.props.user.token
                         }
                     }
                 )
@@ -265,23 +260,23 @@ export default withNamespaces('common')(
                                         }
                                     </ul>
                                     {isBrowser && <>
-                                            <br />
-                                            <Button
-                                                style={{ height: '48px' }}
-                                                size='large'
-                                                fluid
-                                                onClick={() => {
-                                                    this.reserve(search_id);
-                                                }}
-                                                color='teal'>ثبت درخواست</Button>
-                                            <div
-                                                style={{ marginTop: '8px' }}
-                                                className="text-center"
-                                            >
-                                                <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
-                                            </div>
-                                            </>
-                                        }
+                                        <br />
+                                        <Button
+                                            style={{ height: '48px' }}
+                                            size='large'
+                                            fluid
+                                            onClick={() => {
+                                                this.reserve(search_id);
+                                            }}
+                                            color='teal'>ثبت درخواست</Button>
+                                        <div
+                                            style={{ marginTop: '8px' }}
+                                            className="text-center"
+                                        >
+                                            <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
+                                        </div>
+                                    </>
+                                    }
                                 </div>
                             </aside>
 
@@ -317,4 +312,4 @@ export default withNamespaces('common')(
 
         }
     }
-);
+));

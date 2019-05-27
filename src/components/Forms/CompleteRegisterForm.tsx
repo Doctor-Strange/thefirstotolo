@@ -18,9 +18,9 @@ import {
   isBrowser,
   isMobile
 } from "react-device-detect";
-import jsCookie from 'js-cookie';
 import Error404 from '../404';
 import { i18n, withNamespaces } from '../../i18n';
+import { actions } from '../../store';
 import Router from 'next/router';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -81,12 +81,11 @@ interface ICompleteRegisterFormValues {
 
 export default withNamespaces('common')(
   class CompleteRegisterForm extends React.Component<{
-    phone?: string;
-    token?: string;
     strings: object;
     success: boolean;
     name: string;
     query?: any;
+    user: any;
   }> {
     static async getInitialProps() {
       return {
@@ -94,8 +93,6 @@ export default withNamespaces('common')(
       };
     }
     state = {
-      phone: '',
-      token: '',
       error: '',
       name: null,
       success: false
@@ -103,14 +100,6 @@ export default withNamespaces('common')(
 
     constructor(props) {
       super(props);
-    }
-
-    componentDidMount() {
-      this.setState({
-        completeRegister: jsCookie.get('complete_register'),
-        phone: jsCookie.get('phone'),
-        token: jsCookie.get('token')
-      });
     }
 
     render() {
@@ -132,9 +121,10 @@ export default withNamespaces('common')(
         $agreement_sentence,
         $birthdate
       } = this.props.strings;
-      const { phone, token, error, completeRegister } = this.state;
+      const { error } = this.state;
+      const { phone, token, completeRegister } = this.props.user;
       const { t, query } = this.props;
-      if (this.state.token) {
+      if (token) {
         return (
           <Formik
             initialValues={{
@@ -150,9 +140,9 @@ export default withNamespaces('common')(
             }}
             onSubmit={(
               values: ICompleteRegisterFormValues,
-              actions: FormikActions<ICompleteRegisterFormValues>
+              formikActions: FormikActions<ICompleteRegisterFormValues>
             ) => {
-              actions.setSubmitting(true);
+              formikActions.setSubmitting(true);
               this.setState({ error: '' });
               console.log(values);
               const {
@@ -179,7 +169,7 @@ export default withNamespaces('common')(
                   },
                   {
                     headers: {
-                      Authorization: 'Bearer ' + this.state.token
+                      Authorization: 'Bearer ' + token
                     }
                   }
                 )
@@ -190,9 +180,11 @@ export default withNamespaces('common')(
                       success: response.data.success,
                       error: ''
                     });
-                    jsCookie.set('first_name', firstName);
-                    jsCookie.set('last_name', lastName);
-                    localStorage.removeItem('complete_register');
+                    actions.completeRegister({
+                      first_name: firstName,
+                      last_name: lastName,
+                      complete_register: false
+                    });
                     let path_to_go = '/me';
                     console.log(query);
                     if (query.go_to_pathname) {
@@ -211,14 +203,14 @@ export default withNamespaces('common')(
                   this.setState({ error, success: false });
                 })
                 .then(() => {
-                  actions.setSubmitting(false);
+                  formikActions.setSubmitting(false);
                 });
               setTimeout(() => {
                 console.log(values);
                 this.setState({
                   name: values.firstName + ' ' + values.lastName
                 });
-                actions.setSubmitting(false);
+                formikActions.setSubmitting(false);
               }, 3000);
             }}
             validationSchema={Yup.object().shape({
@@ -359,7 +351,7 @@ export default withNamespaces('common')(
                             : values.nationalid
                           }
                         >
-                          <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/  />
+                          <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/ />
                         </Input>
                         {errors.nationalid && touched.nationalid && (
                           <span className="sui-error-message">
@@ -395,7 +387,7 @@ export default withNamespaces('common')(
                               : values.day
                             }
                           >
-                            <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/  />
+                            <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/ />
                           </Input>
                         </div>
 
@@ -491,7 +483,7 @@ export default withNamespaces('common')(
                                 : values.year
                               }
                             >
-                              <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/  />
+                              <input style={{ marginBottom: '0px !important' }} inputMode='numeric' /* novalidate pattern="[0-9]*/ />
                             </Input>
                           </div>
                         }
@@ -578,7 +570,7 @@ export default withNamespaces('common')(
       }
       else {
         return (
-          <Error404 token={this.state.token} openModal={this.props.openModal} />
+          <Error404 token={token} openModal={this.props.openModal} />
         )
       }
     }

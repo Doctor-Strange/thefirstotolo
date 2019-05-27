@@ -23,10 +23,23 @@ export const signin = (authData: Iuser) => {
   return authData;
 };
 
+export const completeRegister = (user: IuserNames) => {
+  jsCookie.set('first_name', user.first_name);
+  jsCookie.set('last_name', user.last_name);
+  jsCookie.set('complete_register', user.complete_register);
+  return user;
+};
+
+interface IuserNames {
+  first_name: string;
+  last_name: string;
+  complete_register?: boolean;
+}
+
 interface Iuser {
   token: string;
   phone: string;
-  complete_register?: any;
+  complete_register?: boolean;
   first_name?: string;
   last_name?: string;
 }

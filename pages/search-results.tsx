@@ -6,15 +6,15 @@ import debounce from 'lodash.debounce';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
+import { connect } from '../src/store'
 import { FilterAndSortBar, SearchBar, ResultsCards } from '../src/components/Search';
 import Router, { withRouter } from 'next/router';
-import jsCookie from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 
-export default withRouter(withNamespaces('common')(
-  class extends React.Component<{ t: any, router: any, href: any }> {
+export default withRouter(withNamespaces('common')(connect(state => state)(
+  class extends React.Component<{ t: any, router: any, href: any, user: any }> {
     static async getInitialProps() {
       return {
         namespacesRequired: ['common']
@@ -22,7 +22,6 @@ export default withRouter(withNamespaces('common')(
     }
 
     state = {
-      token: '',
       error: '',
       city: 1,
       cityName: null,
@@ -268,9 +267,6 @@ export default withRouter(withNamespaces('common')(
           });
         }
       }
-      this.setState({
-        token: jsCookie.get('token')
-      });
     }
 
     componentDidMount() {
@@ -588,4 +584,4 @@ export default withRouter(withNamespaces('common')(
       );
     }
   }
-));
+)));

@@ -17,7 +17,6 @@ import {
 import Nouislider from "nouislider-react";
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
-import jsCookie from 'js-cookie';
 import axios from 'axios';
 import { i18n, withNamespaces } from '../../i18n';
 import {

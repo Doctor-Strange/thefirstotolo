@@ -29,7 +29,6 @@ import {
   Input,
   Item
 } from 'semantic-ui-react';
-import jsCookie from 'js-cookie';
 import Error404 from '../404';
 import { i18n, withNamespaces } from '../../i18n';
 import { Formik, FormikActions, withFormik } from 'formik';
@@ -88,14 +87,12 @@ interface IIndexFormValues {
 
 export default withNamespaces('common')(
   class IndexForm extends React.Component<{
-    token?: string;
     t: any;
     success: boolean;
     name: string;
     rentalCarID: string;
   }> {
     state = {
-      token: '',
       error: '',
       name: null,
       success: false,
@@ -107,12 +104,6 @@ export default withNamespaces('common')(
 
     constructor(props) {
       super(props);
-    }
-
-    componentWillMount() {
-      this.setState({
-        token: jsCookie.get('token')
-      });
     }
 
     componentDidMount() {
@@ -141,7 +132,7 @@ export default withNamespaces('common')(
     }
 
     render() {
-      const { token, error } = this.state;
+      const { error } = this.state;
       const { t } = this.props;
       const fieldErrorGenrator = fieldName => {
         return (

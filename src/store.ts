@@ -1,6 +1,6 @@
 // tslint:disable: object-literal-sort-keys
 import createStore from 'react-waterfall';
-import { auth, changeLangFunc, signin } from './actions';
+import { auth, changeLangFunc, completeRegister, signin } from './actions';
 
 const config = {
   initialState: {
@@ -16,6 +16,10 @@ const config = {
     signin: ({ user }, _a, payload) => {
       const val = signin(payload);
       return { user: val };
+    },
+    completeRegister: ({ user }, _a, payload) => {
+      const val = completeRegister(payload);
+      return { user: { ...user, ...val } };
     }
   }
 };

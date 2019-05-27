@@ -22,9 +22,9 @@ import {
   Card,
   TextArea
 } from 'semantic-ui-react';
-import jsCookie from 'js-cookie';
 import Error404 from '../404';
 import { i18n, withNamespaces } from '../../i18n';
+import { connect } from '../../store';
 // import {  } from 'formik-semantic-ui';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -227,16 +227,15 @@ interface IAddCarFormValues {
   carDescription: string;
 }
 
-export default withNamespaces('common')(
+export default withNamespaces('common')(connect(state => state)(
   class AddCarForm extends React.Component<{
-    token?: string;
     t: any;
     success: boolean;
     name: string;
     openModal?: any;
+    user: any;
   }> {
     state = {
-      token: '',
       error: '',
       name: null,
       success: false,
@@ -281,13 +280,6 @@ export default withNamespaces('common')(
 
     constructor(props) {
       super(props);
-    }
-
-
-    componentWillMount() {
-      this.setState({
-        token: jsCookie.get('token')
-      });
     }
 
     componentDidMount() {
@@ -618,7 +610,8 @@ export default withNamespaces('common')(
     }
 
     render() {
-      const { checkboxes, token, error } = this.state;
+      const { checkboxes, error } = this.state;
+      const { token } = this.props.user;
       const { t } = this.props;
       const fieldErrorGenrator = fieldName => {
         return (
@@ -627,7 +620,7 @@ export default withNamespaces('common')(
           t('forms.error_filed_required2')
         );
       };
-      if (this.state.token) return (
+      if (token) return (
         <Formik
           initialValues={{
             carCity: null,
@@ -705,7 +698,7 @@ export default withNamespaces('common')(
                 },
                 {
                   headers: {
-                    Authorization: 'Bearer ' + this.state.token
+                    Authorization: 'Bearer ' + token
                   }
                 }
               )
@@ -1418,7 +1411,7 @@ export default withNamespaces('common')(
                                 form,
                                 {
                                   headers: {
-                                    Authorization: 'Bearer ' + this.state.token,
+                                    Authorization: 'Bearer ' + token,
                                     'Content-Type':
                                       'application/x-www-form-urlencoded'
                                   }
@@ -1590,8 +1583,8 @@ export default withNamespaces('common')(
         </Formik>
       );
       else return (
-        <Error404 token={this.state.token} openModal={this.props.openModal} />
+        <Error404 token={token} openModal={this.props.openModal} />
       )
     }
   }
-);
+));

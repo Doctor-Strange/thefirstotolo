@@ -29,9 +29,9 @@ import {
   Input,
   Item
 } from 'semantic-ui-react';
-import jsCookie from 'js-cookie';
 import Error404 from '../404';
 import { i18n, withNamespaces } from '../../i18n';
+import { connect } from '../../store';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 // import { setLocale } from 'yup';
@@ -234,16 +234,15 @@ interface ISetCarTimingFormValues {
   cancellationPolicy: string;
 }
 
-export default withNamespaces('common')(
+export default withNamespaces('common')(connect(state => state)(
   class SetCarTimingForm extends React.Component<{
-    token?: string;
+    user: any;
     t: any;
     success: boolean;
     name: string;
     rentalCarID: string;
   }> {
     state = {
-      token: '',
       error: '',
       name: null,
       success: false,
@@ -276,38 +275,35 @@ export default withNamespaces('common')(
       super(props);
     }
 
-    componentWillMount() {
-      this.setState({
-        token: jsCookie.get('token')
-      });
-    }
-
     componentDidMount() {
-      //get rental car and genrate preview for it
-      this.getRentalCarInfo(this.props.rentalCarID, this.state.token)
-        .then(response => {
-          console.error(response);
-          this.setState({
-            carName: response.model.fa,
-            carBrand: response.brand.fa,
-            carPelak: '',
-            carColor: response.color,
-            carYear: response.year.fa,
-            carMin_days_to_rent: response.min_days_to_rent,
-            carDeliver_at_renters_place: response.deliver_at_renters_place,
-            carLocation: response.location.fa,
-            carDescription: response.description,
-            carMedia_set: response.media_set,
-            plate1: response.registration_plate_first_part,
-            plate2: response.registration_plate_second_part,
-            plate3: response.registration_plate_third_part,
-            plate4: response.registration_plate_forth_part
+      // FIXME
+      setTimeout(() => {
+        //get rental car and genrate preview for it
+        this.getRentalCarInfo(this.props.rentalCarID, this.props.user.token)
+          .then(response => {
+            console.error(response);
+            this.setState({
+              carName: response.model.fa,
+              carBrand: response.brand.fa,
+              carPelak: '',
+              carColor: response.color,
+              carYear: response.year.fa,
+              carMin_days_to_rent: response.min_days_to_rent,
+              carDeliver_at_renters_place: response.deliver_at_renters_place,
+              carLocation: response.location.fa,
+              carDescription: response.description,
+              carMedia_set: response.media_set,
+              plate1: response.registration_plate_first_part,
+              plate2: response.registration_plate_second_part,
+              plate3: response.registration_plate_third_part,
+              plate4: response.registration_plate_forth_part
+            });
+          })
+          .catch(error => {
+            console.error(error);
+            this.setState({ error: true, success: false });
           });
-        })
-        .catch(error => {
-          console.error(error);
-          this.setState({ error: true, success: false });
-        });
+      }, 3000);
     }
 
     getRentalCarInfo(rentalCarID, token) {
@@ -386,7 +382,6 @@ export default withNamespaces('common')(
 
     render() {
       const {
-        token,
         error,
         carName,
         carBrand,
@@ -404,6 +399,7 @@ export default withNamespaces('common')(
         plate4
       } = this.state;
       const { t } = this.props;
+      const { token } = this.props.user;
       const fieldErrorGenrator = fieldName => {
         return (
           t('forms.error_filed_required1') +
@@ -426,7 +422,7 @@ export default withNamespaces('common')(
         )}`;
       };
 
-      if (this.state.token) return (
+      if (token) return (
         <Formik
           initialValues={{
             daysToGetReminded: "1",
@@ -458,7 +454,7 @@ export default withNamespaces('common')(
             if (!deliverAtRentersPlace) deliverAtRentersPlace = false;
             const header = {
               headers: {
-                Authorization: 'Bearer ' + this.state.token
+                Authorization: 'Bearer ' + token
               }
             };
             const id = this.props.rentalCarID;
@@ -1441,8 +1437,8 @@ export default withNamespaces('common')(
         </Formik>
       )
       else return (
-        <Error404 token={this.state.token} openModal={this.props.openModal} />
+        <Error404 token={token} openModal={this.props.openModal} />
       )
     }
   }
-);
+));
