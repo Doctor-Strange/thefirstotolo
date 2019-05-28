@@ -7,7 +7,11 @@ import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
 import { connect } from '../src/store'
-import { REQUEST_getLocations } from '../src/API';
+import {
+  REQUEST_getFactoryBrands,
+  REQUEST_getFactoryCars,
+  REQUEST_getLocations,
+} from '../src/API';
 import { FilterAndSortBar, SearchBar, ResultsCards } from '../src/components/Search';
 import Router, { withRouter } from 'next/router';
 import axios from 'axios';
@@ -169,7 +173,7 @@ export default withRouter(withNamespaces('common')(connect(state => state)(
       this.setState({ focusedInput });
     }
 
-    setBrandAndGetModels(brandID, brandName) {
+    async setBrandAndGetModels(brandID, brandName) {
       if (brandID === "") {
         this.setState({ brand: null, model: null, modelLoading: false, loadingResults: true }, () => {
           this.renderResults();
@@ -178,38 +182,8 @@ export default withRouter(withNamespaces('common')(connect(state => state)(
         this.setState({ brand: brandID, modelLoading: true, loadingResults: true }, () => {
           this.renderResults();
         });
-        axios
-          .post('https://otoli.net' + '/core/car/list?limit=100&brand_id=' + brandID)
-          .then(response => {
-            if (
-              response.data.success &&
-              Object.keys(response.data.items).length >= 1
-            ) {
-              const modelsFarsi = response.data.items.map((value, index) => ({
-                key: value.id,
-                text: `${value.name.fa} - ${value.name.en}`,
-                value: value.id
-              }));
-              const modelsEnglish = response.data.items.map((value, index) => ({
-                key: value.id,
-                text: value.name.en,
-                value: value.id
-              }));
-              this.setState({ modelsFarsi, modelsEnglish, model: null, modelLoading: false });
-            } else {
-              this.setState({
-                model: null,
-                modelLoading: false,
-                modelsEnglish: [{ text: 'All Models', value: 0 }],
-                modelsFarsi: [{ text: 'تمام مدل‌ها', value: 0 }]
-              });
-            }
-          })
-          .catch(error => {
-            // tslint:disable-next-line:no-console
-            console.error(error);
-            this.setState({ error: error, success: false });
-          })
+        const res = await REQUEST_getFactoryCars({ limit: 900, brand_id: brandID });
+        this.setState(res);
       }
     }
 
@@ -271,8 +245,10 @@ export default withRouter(withNamespaces('common')(connect(state => state)(
     }
 
     async componentDidMount() {
-      const res = await REQUEST_getLocations({ brief: true });
-      this.setState(res);
+      // get Locations and assign them to state
+      const resLocations = await REQUEST_getLocations({ brief: true });
+      this.setState(resLocations);
+
       if (this.state.city) {
         console.log(this.state.citiesFarsi[this.state.city].text);
         this.state.citiesFarsi.map((value, index) => {
@@ -284,28 +260,9 @@ export default withRouter(withNamespaces('common')(connect(state => state)(
 
       this.renderResults();
 
-      // get car brands and genrate a dropdown input in form
-      axios
-        .post('https://otoli.net' + '/core/brand/list?limit=500')
-        .then(response => {
-          if (response.data.success) {
-            const brandsFarsi = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: `${value.name.fa} - ${value.name.en}`,
-              value: value.id
-            }));
-            const brandsEnglish = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: value.name.en,
-              value: value.id
-            }));
-            this.setState({ brandsEnglish, brandsFarsi, brandLoading: false });
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          this.setState({ error: error, success: false });
-        });
+      // get car brands and assign them to state
+      const resBrands = await REQUEST_getFactoryBrands({ limit: 900 });
+      this.setState(resBrands);
     }
 
     // renderResultsDebounced(page = 0) {
