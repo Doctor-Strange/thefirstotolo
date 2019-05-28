@@ -5,9 +5,10 @@ const GET_SEARCH_FOR_RENT = '/core/rental-car/search-for-rent/list';
 
 export const REQUEST_getSearchForRent = (data: IgetSearchForRent) => {
   return new Promise((resolve, reject) => {
+    console.log("let's search", data);
     let queryString;
-    if (data.page > 1 && data.result_key) {
-      queryString = '&result_key=' + data.result_key;
+    if (data.result_key) {
+      queryString = 'result_key=' + data.result_key;
     } else {
       queryString = data.queryString;
     }
@@ -16,7 +17,7 @@ export const REQUEST_getSearchForRent = (data: IgetSearchForRent) => {
         DOMAIN +
           GET_SEARCH_FOR_RENT +
           ('?limit=' + data.limit + '&start=' + data.page) +
-          queryString
+          ('&' + queryString)
       )
       .then(response => {
         if (response.data.success) {
@@ -45,7 +46,6 @@ export const REQUEST_getSearchForRent = (data: IgetSearchForRent) => {
             year: value.year,
             search_id: value.search_id
           }));
-          console.log('results', results);
           if (results === undefined || results.length == 0) {
             resolve({
               results: [],
