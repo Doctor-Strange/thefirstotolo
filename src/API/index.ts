@@ -1,2 +1,3 @@
 import { REQUEST_getCar } from './getCar';
-export { REQUEST_getCar };
+import { REQUEST_getLocations } from './getLocations';
+export { REQUEST_getCar, REQUEST_getLocations };

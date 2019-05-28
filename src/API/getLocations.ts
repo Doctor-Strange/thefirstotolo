@@ -1,0 +1,30 @@
+import axios from 'axios';
+
+const DOMAIN = 'https://otoli.net';
+const GET_RENTAL_CAR = '/core/location/list';
+
+export const REQUEST_getLocations = (data: IgetLocation) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(DOMAIN + GET_RENTAL_CAR + '?brief=' + data.brief)
+      .then(response => {
+        if (response.data.success) {
+          const citiesFarsi = response.data.items.map((value, index) => ({
+            key: value.id,
+            text: value.name.fa,
+            value: value.id
+          }));
+          const citiesEnglish = response.data.items.map((value, index) => ({
+            key: value.id,
+            text: value.name.en,
+            value: value.id
+          }));
+          resolve({ citiesFarsi, citiesEnglish });
+        }
+      });
+  });
+};
+
+interface IgetLocation {
+  brief: boolean;
+}

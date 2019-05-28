@@ -34,6 +34,7 @@ import { i18n, withNamespaces } from '../../i18n';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { REQUEST_getLocations } from '../../API';
 import { Box, Flex } from '@rebass/grid';
 
 function numberWithCommas(x) {
@@ -106,29 +107,10 @@ export default withNamespaces('common')(
       super(props);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
       //get cities and genrate a dropdown input in form
-      axios
-        .post('https://otoli.net' + '/core/location/list?brief=1')
-        .then(response => {
-          if (response.data.success) {
-            const citiesFarsi = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: value.name.fa,
-              value: value.id
-            }));
-            const citiesEnglish = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: value.name.en,
-              value: value.id
-            }));
-            this.setState({ citiesFarsi, citiesEnglish });
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          this.setState({ error: error, success: false });
-        });
+      const res = await REQUEST_getLocations({ brief: true });
+      this.setState(res);
     }
 
     render() {

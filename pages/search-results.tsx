@@ -7,6 +7,7 @@ import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withNamespaces } from '../src/i18n';
 import { connect } from '../src/store'
+import { REQUEST_getLocations } from '../src/API';
 import { FilterAndSortBar, SearchBar, ResultsCards } from '../src/components/Search';
 import Router, { withRouter } from 'next/router';
 import axios from 'axios';
@@ -269,38 +270,18 @@ export default withRouter(withNamespaces('common')(connect(state => state)(
       }
     }
 
-    componentDidMount() {
-      // get cities and genrate a dropdown input in form
-      axios
-        .post('https://otoli.net' + '/core/location/list?brief=1')
-        .then(response => {
-          if (response.data.success) {
-            const citiesFarsi = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: value.name.fa,
-              value: value.id
-            }));
-            const citiesEnglish = response.data.items.map((value, index) => ({
-              key: value.id,
-              text: value.name.en,
-              value: value.id
-            }));
-            this.setState({ citiesFarsi, citiesEnglish });
-            if (this.state.city) {
-              console.log(this.state.citiesFarsi[this.state.city].text);
-              this.state.citiesFarsi.map((value, index) => {
-                if (value.value == this.state.city) {
-                  this.setState({ cityName: this.state.citiesFarsi[index].text });
-                }
-              });
-
-            }
+    async componentDidMount() {
+      const res = await REQUEST_getLocations({ brief: true });
+      this.setState(res);
+      if (this.state.city) {
+        console.log(this.state.citiesFarsi[this.state.city].text);
+        this.state.citiesFarsi.map((value, index) => {
+          if (value.value == this.state.city) {
+            this.setState({ cityName: this.state.citiesFarsi[index].text });
           }
-        })
-        .catch(error => {
-          console.error(error);
-          this.setState({ error, success: false });
         });
+      }
+
       this.renderResults();
 
       // get car brands and genrate a dropdown input in form
