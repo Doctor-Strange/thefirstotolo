@@ -11,6 +11,7 @@ import {
   REQUEST_getFactoryBrands,
   REQUEST_getFactoryCars,
   REQUEST_getLocations,
+  REQUEST_getSearchForRent
 } from '../src/API';
 import { FilterAndSortBar, SearchBar, ResultsCards } from '../src/components/Search';
 import Router, { withRouter } from 'next/router';
@@ -269,7 +270,7 @@ export default withRouter(withNamespaces('common')(connect(state => state)(
     //   debounce(this.renderResults(page), 500)
     // };
 
-    renderResults(page = 0) {
+    async renderResults(page = 0) {
       // send search resluts request
       let queryString = '';
       let shownURL = '';
@@ -319,116 +320,21 @@ export default withRouter(withNamespaces('common')(connect(state => state)(
       }
 
       if (page === 0) {
-        axios
-          .get('https://otoli.net' + `/core/rental-car/search-for-rent/list?start=${page}&limit=4&` + queryString)
-          .then(response => {
-            // update URL
-            const href = `/search-results?${shownURL}page=${page}`;
-            const as = href;
-            Router.replace(href, as, { shallow: true });
-            if (response.data.success) {
-              console.log(response.data.result_key);
-              const results = response.data.items.map((value, index) => ({
-                key: value.index,
-                id: value.id,
-                avg_price_per_day: value.avg_price_per_day,
-                body_style: value.body_style,
-                cancellation_policy: value.cancellation_policy,
-                capacity: value.capacity,
-                car: value.car,
-                color: value.color,
-                deliver_at_renters_place: value.deliver_at_renters_place,
-                description: value.description,
-                extra_km_price: value.extra_km_price,
-                location: value.location,
-                max_km_per_day: value.max_km_per_day,
-                media_set: value.media_set,
-                mileage_range: value.mileage_range,
-                min_days_to_rent: value.min_days_to_rent,
-                no_of_days: value.no_of_days,
-                owner: value.owner,
-                total_price: value.total_price,
-                transmission_type: value.transmission_type,
-                year: value.year,
-                search_id: value.search_id
-              }));
-              if (results === undefined || results.length == 0) {
-                this.setState({ results: [], loadingResults: false, noResult: true, lodingMore: false });
-              }
-              else {
-                const stats = response.data.extra_info.stats;
-                const body_style_stats = stats.body_style_set.map((value, index) => ({
-                  id: value.id,
-                  count: value.count,
-                }));
-                this.setState({
-                  results, loadingResults: false, noResult: false, lodingMore: false,
-                  latest_result_key: response.data.result_key,
-                  total_count: response.data.total_count,
-                  stats: {
-                    body_style_set: body_style_stats,
-                    deliver_at_renters_place: stats.deliver_at_renters_place
-                  }
-                });
-              }
-            }
-          })
-          .catch(error => {
-            console.error(error);
-            this.setState({ error: error, success: false });
-          });
+        const res = await REQUEST_getSearchForRent({ page, limit: 4, queryString });
+        this.setState(res);
+        // update URL
+        const href = `/search-results?${shownURL}page=${page}`;
+        const as = href;
+        Router.replace(href, as, { shallow: true });
       } else if (this.state.latest_result_key) {
         console.log("here we go again...!");
-        axios
-          .get('https://otoli.net'
-            + `/core/rental-car/search-for-rent/list?page=${page}&limit=4&result_key=`
-            + this.state.latest_result_key)
-          .then(response => {
-            // update URL
-            // const href = `/search-results?${shownURL}start=${page}`;
-            // const as = href;
-            // Router.push(href, as, { shallow: true });
-            if (response.data.success) {
-              console.log(response.data);
-              const results = response.data.items.map((value, index) => ({
-                key: value.index,
-                id: value.id,
-                avg_price_per_day: value.avg_price_per_day,
-                body_style: value.body_style,
-                cancellation_policy: value.cancellation_policy,
-                capacity: value.capacity,
-                car: value.car,
-                color: value.color,
-                deliver_at_renters_place: value.deliver_at_renters_place,
-                description: value.description,
-                extra_km_price: value.extra_km_price,
-                location: value.location,
-                max_km_per_day: value.max_km_per_day,
-                media_set: value.media_set,
-                mileage_range: value.mileage_range,
-                min_days_to_rent: value.min_days_to_rent,
-                no_of_days: value.no_of_days,
-                owner: value.owner,
-                total_price: value.total_price,
-                transmission_type: value.transmission_type,
-                year: value.year,
-                search_id: value.search_id
-              }));
-              if (results === undefined || results.length == 0) {
-                this.setState({ results: [], loadingResults: false, noResult: true, lodingMore: false });
-              }
-              else {
-                let temp = this.state.results;
-                this.setState({
-                  results: temp.concat(results), loadingResults: false, noResult: false, page, lodingMore: false
-                });
-              }
-            }
-          })
-          .catch(error => {
-            console.error(error);
-            this.setState({ error: error, success: false });
-          });
+        const res = await REQUEST_getSearchForRent({ page, limit: 4, result_key: this.state.latest_result_key });
+        let temp = this.state.results;
+        this.setState({
+          ...res,
+          results: temp.concat(res.results)
+        });
+
       }
     }
 
