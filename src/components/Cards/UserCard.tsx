@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
+import Link from 'next/link';
 import StarRatingComponent from 'react-star-rating-component';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
@@ -57,9 +58,9 @@ export const UserCard: React.FunctionComponent<{
 }> = ({ name, responceTime, image, id }) => (
   <Card className="usercard">
     <div className="box">
-      <a href={`/car?id=${id}`}>
+    <Link href={`/profile?id=${id}`} shallow>
         <img src={image} className="img-fluid" alt="" />
-      </a>
+        </Link>
       {/* <div className="profilePhotoWithRating-badge roundedBadge">
           <div className="profilePhotoWithRating-ratingLabel driverRatingLabel row gutter--0 u-justifyContentCenter u-alignItemsCenter">
             4.6
@@ -73,6 +74,6 @@ export const UserCard: React.FunctionComponent<{
             <span>Joined May 2016</span>
           </div> */}
       <div className="hostDetailCard-responseTime">{responceTime}</div>
-    </div>
+        </div>
   </Card>
 );
