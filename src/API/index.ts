@@ -1,8 +1,8 @@
-import { REQUEST_getCar } from './getCar';
-import { REQUEST_getLocations } from './getLocations';
-import { REQUEST_getFactoryBrands } from './getFactoryBrands';
-import { REQUEST_getFactoryCars } from './getFactoryCars';
-import { REQUEST_getSearchForRent } from './getSearchForRent';
+import { REQUEST_getCar } from './Get/getCar';
+import { REQUEST_getLocations } from './Get/getLocations';
+import { REQUEST_getFactoryBrands } from './Get/getFactoryBrands';
+import { REQUEST_getFactoryCars } from './Get/getFactoryCars';
+import { REQUEST_getSearchForRent } from './Get/getSearchForRent';
 
 export {
   REQUEST_getCar,
