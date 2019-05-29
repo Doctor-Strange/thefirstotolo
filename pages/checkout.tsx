@@ -8,9 +8,10 @@ import { Icon, Segment, Button, Popup, Grid } from 'semantic-ui-react';
 import Router from 'next/router';
 import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard, DateGrid } from '../src/components/Cards'
-import { Details, ListDetails, CarNav } from '../src/components/Car'
+import { Details, CarNav } from '../src/components/Car'
 import { i18n, withNamespaces } from '../src/i18n';
 import { connect } from '../src/store';
+import { REQUEST_getCar, REQUEST_newRentRequest } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
 import { LongDate, ShortDate } from '../src/lib/date';
 import {
@@ -26,7 +27,7 @@ moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
 
 export default withNamespaces('common')(connect(state => state)(
-    class extends React.Component<{ 
+    class extends React.Component<{
         t: any, rentalCarID: number, start: any, end: any, search_id: string, user: any
     }> {
 
@@ -77,95 +78,32 @@ export default withNamespaces('common')(connect(state => state)(
             '۱۰۰٫۰۰۰ - ۲۰۰٫۰۰۰ کیلومتر',
             '+۲۰۰٫۰۰۰  کیلومتر']
 
-        componentDidMount() {
+        async componentDidMount() {
             setTimeout(() => {
                 window.dispatchEvent(new Event('resize'));
             }, 0);
-            let queryString = ""
-            //setDate
-            if (this.props.start && this.props.end) {
-                queryString = queryString + `&start_date=${this.props.start}&end_date=${this.props.end}`;
-            }
             //get car info
-            axios
-                .post('https://otoli.net' + '/core/rental-car/search-for-rent/get?rental_car_id=' + this.props.rentalCarID + queryString)
-                .then(response => {
-                    if (response.data.id) {
-                        const data = response.data;
-                        console.log(data);
-                        let facilities = [];
-                        data.facility_set.map((value, index) => {
-                            facilities.push({
-                                id: value.id,
-                                name: value.name.fa
-                            });
-                        });
-                        let media_set = [];
-                        data.media_set.map((value, index) => media_set.push(value.url));
-                        this.setState({
-                            year: data.year.name,
-                            mileage_range: data.mileage_range,
-                            avg_price_per_day: data.avg_price_per_day,
-                            discount_percent: data.discount_percent,
-                            discounted_total_price: data.discounted_total_price,
-                            total_price: data.total_price,
-                            owner: data.owner,
-                            body_style: data.body_style.name,
-                            color: data.color.name,
-                            color_code: data.color.code,
-                            deliver_at_renters_place: data.deliver_at_renters_place,
-                            cancellation_policy: data.cancellation_policy,
-                            transmission_type: data.transmission_type.name,
-                            location: data.location,
-                            max_km_per_day: data.max_km_per_day,
-                            description: data.description,
-                            capacity: data.capacity,
-                            extra_km_price: data.extra_km_price,
-                            car: data.car,
-                            facility_set: facilities,
-                            loaded: true,
-                            no_of_days: data.no_of_days,
-                            media_set
-                        });
-                    }
-                    console.log(this.state);
-                })
-                .catch(error => {
-                    console.error("error", error);
-                    this.setState({ error: error, success: false });
-                });
+            const res = await REQUEST_getCar({
+                start: this.props.start,
+                end: this.props.end,
+                id: this.props.rentalCarID
+            })
+            this.setState(res);
         }
 
-        reserve(search_id) {
-            axios
-                .post(
-                    'https://otoli.net' + '/core/rental-car/rent-request/new',
-                    {
-                        search_id,
-                    },
-                    {
-                        headers: {
-                            Authorization: 'Bearer ' + this.props.user.token
-                        }
+        async reserve(search_id) {
+            const res = await REQUEST_newRentRequest({
+                search_id,
+                token: this.props.user.token
+            })
+            if (res) {
+                Router.push({
+                    pathname: '/requests',
+                    query: {
+                        id: search_id
                     }
-                )
-                .then(response => {
-                    if (response.data.success) {
-                        // tslint:disable-next-line:no-console
-                        console.log(response.data);
-                        Router.push({
-                            pathname: '/requests',
-                            query: {
-                                id: search_id
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    // tslint:disable-next-line:no-console
-                    console.error(error);
-                    this.setState({ error: error, success: false });
-                })
+                });
+            }
         }
 
         render() {
