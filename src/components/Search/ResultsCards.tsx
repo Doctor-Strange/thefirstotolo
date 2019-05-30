@@ -48,6 +48,8 @@ export class ResultsCards extends React.Component<{
     noResult: boolean;
     nextPage: any;
     dateURL?: string;
+    colClass?: string;
+    marginClass?: string;s
 }> {
     state = {
         error: '',
@@ -58,10 +60,10 @@ export class ResultsCards extends React.Component<{
     }
 
     render() {
-        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL, lodingMore } = this.props;
+        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL, lodingMore, colClass = "col-lg-9", marginClass = "margin_60_35"} = this.props;
         return (
             <>
-                <Section justifyCenter={false} justifyContent={'flex-end'} className="col-lg-9 margin_60_35 carcards_section">
+                <Section justifyCenter={false} justifyContent={'flex-end'} className={`${colClass} ${marginClass} carcards_section`}>
                     {(loadingResults === true) ?
                         (
                             <>

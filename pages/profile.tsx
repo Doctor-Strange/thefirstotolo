@@ -6,12 +6,13 @@ import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
-import { PriceCard, UserCard,  CarCard, CarCardPlaceholder  } from '../src/components/Cards'
+import { PriceCard, UserCard, CarCard, CarCardPlaceholder } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
 import { i18n, withNamespaces } from '../src/i18n';
 import { REQUEST_getCar } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { ResultsCards } from '../src/components/Search';
 import {
     BrowserView,
     MobileView,
@@ -23,10 +24,6 @@ import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 
-const SearchResult = styled.div`
-
-`;
-
 export default withNamespaces('common')(
     class extends React.Component<{ t: any, rentalCarID: number, start: any, end: any, search_id: string }> {
 
@@ -36,13 +33,13 @@ export default withNamespaces('common')(
             } else {
                 console.log('Client side Router Query', props.query);
             }
-            const res = await REQUEST_getCar({
-                id: props.query.id
-            })
+            // const res = await REQUEST_getCar({
+            //     id: props.query.id
+            // })
             return {
                 namespacesRequired: ['common'],
                 profileID: props.query.id,
-                ...res
+                // ...res
             };
         }
 
@@ -55,7 +52,7 @@ export default withNamespaces('common')(
 
 
         render() {
-            const { t, profileID } = this.props;
+            const { t/*, profileID*/ } = this.props;
             const { error } = this.state;
             // const {  } = this.props;
             return (
@@ -64,17 +61,19 @@ export default withNamespaces('common')(
                         <CarNav startDate={start_date} endDate={end_date} />
                     } */}
                     <Section justifyCenter={true} style={{ marginTop: '24px' }}>
-                        <div className="col-lg-8 car_det_wrapper" style={{
-                        }}>
-                            ‍<>
-                                    <CarCardPlaceholder />
-                                    <CarCardPlaceholder />
-                                    <CarCardPlaceholder />
-                                    <CarCardPlaceholder />
-                                    <CarCardPlaceholder />
-                                    <CarCardPlaceholder />
-                                </>
-                        </div>
+                        <ResultsCards
+                            t={t}
+                            nextPage={null}
+                            showNextPage={true}
+                            results={null}
+                            loadingResults={true}
+                            lodingMore={false}
+                            noResult={false}
+                            showMore={true}
+                            dateURL={null}
+                            colClass="col-lg-8"
+                            marginClass=""
+                        />
                         {isBrowser &&
                             <aside className="col-lg-4" id="sidebar">
                                 <div className="box_detail booking">
@@ -94,11 +93,11 @@ export default withNamespaces('common')(
                                         size='large'
                                         fluid
                                         color='teal'>ویرایش پروفایل</Button>
-                                    <div
+                                    {/* <div
                                         style={{ marginTop: '8px' }}
                                         className="text-center"
                                     >
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <ul className="share-buttons">
                                     <Popup
