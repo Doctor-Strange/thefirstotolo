@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
+import swal from '@sweetalert/with-react'
 import { Pelak, sizeType, DateGrid } from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 import jsCookie from 'js-cookie';
@@ -114,11 +115,32 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
     picture,
     style = {}
 }) => {
+
+    const doAction = async (data: IdoAction) => {
+        const res = await REQUEST_setOrderStatus({ id: data.id, action: data.action, token: jsCookie.get('token') });
+        console.log(res);
+    }
+
+    const openPhoneModal = () => {
+        swal(
+            <div>
+                <h1>شماره تلفن اجاره‌گیرنده</h1>
+                <span>{convertNumbers2Persian("0" + ownerPhone)}</span>
+            </div>,
+            {
+                button: {
+                    text: "بستن",
+                    closeModal: true,
+                },
+            }
+        );
+    }
+
     let title;
     let actions;
     switch (status) {
         case 'new':
-            statusOwner === "owner" 
+            statusOwner === "owner"
                 ? title = <span><Icon name="calendar check" /> درخواست اجاره</span>
                 : title = <span><Icon name="calendar check" />  درخواست اجاره (در انتظار تایید)</span>
             actions = <>
@@ -171,10 +193,10 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
             </>;
             break;
         case 'rejected':
-            title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> رد شد</span>;
+            title = <span><Icon name="calendar times" /> رد شد</span>;
             break;
         case 'cancelled':
-            title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> لغو شد</span>;
+            title = <span><Icon name="calendar times" /> لغو شد</span>;
             break;
         case 'paid':
             title = <span><Icon name="map marker alternate" /> در انتظار تحویل خودرو</span>;
@@ -230,17 +252,12 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
         default:
     }
 
-    async function doAction(data: IdoAction) {
-        const res = await REQUEST_setOrderStatus({ id: data.id, action: data.action, token: jsCookie.get('token') });
-        console.log(res);
-    }
-
     return (
         <Card className="request_card">
             <Segment padded>
                 <Label attached='top right'>{title}</Label>
                 <Grid className="margintop8">
-                    <Grid.Row columns={2} style={{ margin: '0 auto', marginTop: '8px' }}>
+                    <Grid.Row columns={2} style={{ margin: '0 auto', marginTop: '8px',paddingBottom: 0 }}>
                         <Grid.Column width={11} style={{ paddingLeft: '24px', paddingRight: '0' }}>
                             <h3>{carName}</h3>
                             <DateGrid start={start} end={end} />
@@ -281,21 +298,30 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                         <strong><Icon name="user circle" /> {ownerName} </strong>
                                     </Grid.Column>
                                     <Grid.Column width={6} className="left" style={{ padding: 0, }}>
-                                    {statusOwner === "owner" &&
-                                        <>
-                                            {isMobile &&
-                                                <a href={`tel:${ownerPhone}`} style={{ color: '#00ACC1' }}>
-                                                    تماس با  درخواست‌دهنده
+                                        {statusOwner === "owner" &&
+                                            <>
+                                                {isMobile &&
+                                                    <a href={`tel:${ownerPhone}`} style={{ color: '#00ACC1' }}>
+                                                        تماس با  درخواست‌دهنده
                                                 </a>
-                                            }
-                                        </>
+                                                }
+                                                {isBrowser &&
+                                                    <Button
+                                                        basic
+                                                        style={{ color: '#00ACC1', boxShadow: 'none'}}
+                                                        onClick={() => openPhoneModal()}
+                                                >
+                                                    تماس با  درخواست‌دهنده
+                                                    </Button>
+                                        }
+                                            </>
                                     }
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
                         </Grid.Column>
                     </Grid.Row>
-                    {actions}
+                {actions}
                 </Grid>
             </Segment>
         </Card>

@@ -14,18 +14,20 @@ export const DateGrid: React.FunctionComponent<{
 }> = ({ start = moment(), end = moment() }) => {
     let startDate = moment(start).format('jYY/jMM/jDD');
     let endDate = moment(end).format('jYY/jMM/jDD');
+    let startDay = moment(start).format('dddd');
+    let endDay = moment(end).format('dddd');
     return (
         <Card className="property-row">
             <Grid.Row columns={2} centered className="property">
                 <Grid.Column width={8} className="right">
                     <div className="date" style={{ float: 'right', textAlign: 'right' }}>
-                        <strong>سه‌شنبه</strong> <br />
+                        <strong>{startDay}</strong> <br />
                         {convertNumbers2Persian(startDate)}
                     </div>
                 </Grid.Column>
                 <Grid.Column width={7} className="left">
                     <div className="date" style={{ float: 'right', textAlign: 'right' }}>
-                        <strong>جمعه</strong><br />
+                        <strong>{endDay}</strong><br />
                         {convertNumbers2Persian(endDate)}
                     </div>
                 </Grid.Column>
