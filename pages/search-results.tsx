@@ -70,7 +70,7 @@ export default withRouter(
                     }
                     const res = await REQUEST_getSearchForRent({
                         page: 0,
-                        limit: 4,
+                        limit: 8,
                         queryString
                     });
                     return {
@@ -418,7 +418,7 @@ export default withRouter(
 
                         const res = await REQUEST_getSearchForRent({
                             page,
-                            limit: 4,
+                            limit: 8,
                             queryString
                         });
                         this.setState({
@@ -433,7 +433,7 @@ export default withRouter(
                         console.log('here we go again...!');
                         const res = await REQUEST_getSearchForRent({
                             page,
-                            limit: 4,
+                            limit: 8,
                             result_key: this.state.latest_result_key
                         });
                         const stateTemp = this.state.results;
@@ -478,7 +478,7 @@ export default withRouter(
                         page,
                         lodingMore
                     } = this.state;
-                    const showMore = page * 4 < total_count;
+                    const showMore = page * 8 < total_count;
                     // console.log({ num: page * 4, total_count, showMore });
                     return (
                         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
