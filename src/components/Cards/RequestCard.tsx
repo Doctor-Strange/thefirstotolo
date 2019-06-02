@@ -69,17 +69,9 @@ const Card = styled.div`
     }
 `;
 
-enum statusType {
-    newRequest = 1,
-    cancelled = 2,
-    notPeyed = 3,
-    ready = 4,
-    inRent = 5,
-    doneRent = 6,
-}
-
-export const RequestCard: React.FunctionComponent<{
-    status: statusType;
+interface IRequestCard {
+    status: 'new' | 'rejected' | 'not_paid' | 'paid' | 'cancelled' | 'not_delivered' | 'delivered' | 'returned',
+    statusOwner: 'owner' | 'renter',
     carName: string;
     start: any;
     end: any;
@@ -89,11 +81,25 @@ export const RequestCard: React.FunctionComponent<{
     pelak: any;
     picture?: any;
     style?: any;
-}> = ({ status, carName, start, end, price, ownerName, ownerPhone, pelak, picture, style = {} }) => {
+}
+
+
+export const RequestCard: React.FunctionComponent<IRequestCard> = ({
+    status,
+    carName,
+    start,
+    end,
+    price,
+    ownerName,
+    ownerPhone,
+    pelak,
+    picture,
+    style = {}
+}) => {
     let title;
     let actions;
     switch (status) {
-        case 1:
+        case 'new':
             title = <span><Icon name="calendar check" /> درخواست اجاره</span>;
             actions = <>
                 <Grid.Row className="buttons">
@@ -110,16 +116,19 @@ export const RequestCard: React.FunctionComponent<{
                 </Grid.Row>
             </>;
             break;
-        case 2:
+        case 'not_paid':
             title = <span><Icon name="credit card outline" /> در انتظار پرداخت</span>;
             break;
-        case 3:
+        case 'rejected':
             title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> لغو شد</span>;
             break;
-        case 4:
+        case 'cancelled':
+            title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> لغو شد</span>;
+            break;
+        case 'paid':
             title = <span><Icon name="map marker alternate" /> در انتظار تحویل خودرو</span>;
             break;
-        case 5:
+        case 'not_delivered':
             title = <span>
                 <Icon.Group>
                     <Icon name='road' />
@@ -135,7 +144,7 @@ export const RequestCard: React.FunctionComponent<{
                 </Grid.Row>
             </>;
             break;
-        case 6:
+        case 'returned':
             title = <span><Icon name="flag checkered" /> پایان اجاره</span>;
             actions = <>
                 <Grid.Row className="buttons">
@@ -148,7 +157,6 @@ export const RequestCard: React.FunctionComponent<{
             </>;
             break;
         default:
-        // code block
     }
     return (
         <Card className="request_card">
