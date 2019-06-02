@@ -49,7 +49,9 @@ export class ResultsCards extends React.Component<{
     nextPage: any;
     dateURL?: string;
     colClass?: string;
-    marginClass?: string;s
+    marginClass?: string;
+    showInProfile?: boolean;
+    userOwnPage?: boolean;
 }> {
     state = {
         error: '',
@@ -60,7 +62,19 @@ export class ResultsCards extends React.Component<{
     }
 
     render() {
-        const { t, results, loadingResults, noResult, showMore, nextPage, dateURL, lodingMore, colClass = "col-lg-9", marginClass = "margin_60_35"} = this.props;
+        const { t,
+            results,
+            loadingResults,
+            noResult,
+            showMore,
+            nextPage,
+            dateURL,
+            lodingMore,
+            colClass = "col-lg-9",
+            marginClass = "margin_60_35",
+            showInProfile = false,
+            userOwnPage = false,
+        } = this.props;
         return (
             <>
                 <Section justifyCenter={false} justifyContent={'flex-end'} className={`${colClass} ${marginClass} carcards_section`}>
@@ -94,6 +108,8 @@ export class ResultsCards extends React.Component<{
                                     score={"8.4"}
                                     dateURL={dateURL}
                                     search_id={value.search_id}
+                                    simpleMode={showInProfile}
+                                    showEditButtons={userOwnPage}
                                 />
                             )
                         )

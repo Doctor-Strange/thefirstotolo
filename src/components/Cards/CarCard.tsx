@@ -189,55 +189,73 @@ export const CarCard: React.FunctionComponent<{
   deliver_at_renters_place: boolean;
   dateURL?: string;
   search_id?: string;
-}> = ({ children, title, img, description, year, score, price, deliver_at_renters_place, id, dateURL, search_id }) => (
-  <Card className="strip grid carcard">
-    <a href={`/car?id=${id}${dateURL}&search_id=${search_id}`}>
-      <figure>
-        {/* <a href="#0" className="wish_bt" >
+  simpleMode?: boolean;
+  showEditButtons?: boolean
+}> = ({
+  children,
+  title,
+  img,
+  description,
+  year,
+  score,
+  price,
+  deliver_at_renters_place,
+  id,
+  dateURL,
+  search_id,
+  simpleMode = true,
+  showEditButtons = false
+}) => (
+      <Card className="strip grid carcard">
+        <a href={`/car?id=${id}${dateURL}&search_id=${search_id}`}>
+          <figure>
+            {/* <a href="#0" className="wish_bt" >
           
         </a> */}
-        <img src={img} className="img-fluid" alt="" />
-        <div className="read_more">
-          <span>مشاهده و رزرو</span>
-        </div>
-        {/* <small>Restaurant</small> */}
-      </figure>
-      <div className="wrapper row">
-        <div className="col-8">
-          <h3>
-            <a href={`/car?id=${id}`}>
-              {title}<br />
-              <small>{year}</small><br />
-              {/* <StarRatingComponent
+            <img src={img} className="img-fluid" alt="" />
+            <div className="read_more">
+              <span>{simpleMode ? "مشاهده" : "مشاهده و رزرو"}</span>
+            </div>
+            {/* <small>Restaurant</small> */}
+          </figure>
+          <div className="wrapper row">
+            <div className="col-8">
+              <h3>
+                <a href={`/car?id=${id}`}>
+                  {title}<br />
+                  <small>{year}</small><br />
+                  {/* <StarRatingComponent
                 name="rate1"
                 starCount={5}
                 value={3}
               /> */}
-            </a>
-          </h3>
-        </div>
-        <div className="col-4 leftbox">
-          <PriceCard number={price}>
-            در روز
-          </PriceCard>
-        </div>
-        {/* <small>{text2}</small> */}
-        {/* <p>{description}</p> */}
-        {/* <a className="address" href={`/car?id=${id}`}>
+                </a>
+              </h3>
+            </div>
+            {!simpleMode &&
+              <div className="col-4 leftbox">
+                <PriceCard number={price}>
+                  در روز
+            </PriceCard>
+              </div>
+            }
+            {/* <small>{text2}</small> */}
+            {/* <p>{description}</p> */}
+            {/* <a className="address" href={`/car?id=${id}`}>
           Get directions
         </a> */}
-        <ul>
-          {deliver_at_renters_place ?
-            (
-              <li>
-                <span className="loc_open">تحویل در محل</span>
-              </li>
-            ) : (<li></li>)
-          }
-          {/*<li>
+            <ul>
+              {deliver_at_renters_place ?
+                (
+                  <li>
+                    <span className="loc_open">تحویل در محل</span>
+                  </li>
+                ) : (<li></li>)
+              }
+              {/*<li>
             <span className="loc_closed">Now Closed</span>
           </li> */}
-          {/* <li>
+              {/* <li>
             <div className="score">
               <span>
                 Superb<em>350 Reviews</em>
@@ -245,8 +263,8 @@ export const CarCard: React.FunctionComponent<{
               <strong>{score}</strong>
             </div>
           </li> */}
-        </ul>
-      </div>
-    </a>
-  </Card>
-);
+          </ul>
+          </div>
+        </a>
+      </Card>
+    );
