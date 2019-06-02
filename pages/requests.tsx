@@ -38,18 +38,33 @@ export default props => {
                             {(requestsCount >= 1) ? requests.map((value, index) => {
                                 console.log(requests);
                                 const rentDump = value.rent_search_dump;
+                                console.log(rentDump);
                                 return (
                                     <RequestCard
+                                        id={value.id}
                                         key={index}
-                                        status={'new'}
-                                        statusOwner={'renter'}
+                                        status={value.status.id}
+                                        statusOwner={value.role}
                                         carName={`${rentDump.car.brand.name.fa} ${rentDump.car.name.fa}`}
-                                        start={moment()}
-                                        end={moment()}
-                                        price={600000}
-                                        ownerName={"حاج مهراد روستا و دوستان"}
-                                        ownerPhone={"09190722999"}
-                                        pelak={"۱۲ ب ۳۶۵ ۱۱"}
+                                        start={moment(rentDump.start_date, 'jYYYY/jMM/jDD')}
+                                        end={moment(rentDump.end_date, 'jYYYY/jMM/jDD')}
+                                        price={rentDump.discounted_total_price}
+                                        ownerName={
+                                            (value.role === "owner")
+                                                ? `${value.renter.first_name} ${value.renter.last_name}`
+                                                : `${rentDump.owner.first_name} ${rentDump.owner.last_name}`
+                                        }
+                                        ownerPhone={
+                                            (value.role === "renter")
+                                                ? null
+                                                : value.renter.cell
+                                        }
+                                        pelak={{
+                                            first: rentDump.registration_plate_first_part,
+                                            second: rentDump.registration_plate_second_part,
+                                            third: rentDump.registration_plate_third_part,
+                                            fourth: rentDump.registration_plate_forth_part
+                                        }}
                                         picture={rentDump.media_set[0].url}
                                     />
                                 )

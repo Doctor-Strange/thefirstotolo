@@ -6,7 +6,7 @@ function numberWithCommas(x) {
 }
 
 function convertNumbers2Persian(num) {
-  if (num !== null) {
+  if (num !== null && num !== undefined) {
     const id = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     return num.toString().replace(/[0-9]/g, function(w) {
       return id[+w];

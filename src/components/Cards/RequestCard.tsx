@@ -4,6 +4,14 @@ import { Box, Flex } from '@rebass/grid';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
 import { Pelak, sizeType, DateGrid } from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
+import jsCookie from 'js-cookie';
+import { REQUEST_setOrderStatus } from '../../API';
+import {
+    BrowserView,
+    MobileView,
+    isBrowser,
+    isMobile
+} from "react-device-detect";
 import moment from 'moment-jalaali';
 moment.loadPersian();
 
@@ -28,10 +36,12 @@ const Card = styled.div`
     }
     .img_wrapper{
         padding: 0 !important;
+        text-align:center;
         img {
             /* width: 150px; */
             height: auto;
             border-radius: .28571429rem;
+            max-height: 105px;
         }
     }
     .property {
@@ -70,7 +80,8 @@ const Card = styled.div`
 `;
 
 interface IRequestCard {
-    status: 'new' | 'rejected' | 'not_paid' | 'paid' | 'cancelled' | 'not_delivered' | 'delivered' | 'returned',
+    id: any;
+    status: 'new' | 'rejected' | 'approved' | 'paid' | 'cancelled' | 'not_delivered' | 'delivered' | 'returned',
     statusOwner: 'owner' | 'renter',
     carName: string;
     start: any;
@@ -83,16 +94,23 @@ interface IRequestCard {
     style?: any;
 }
 
+interface IdoAction {
+    id: any;
+    action: 'approve' | 'reject' | 'pay' | 'cancel';
+}
+
 
 export const RequestCard: React.FunctionComponent<IRequestCard> = ({
+    id,
     status,
+    statusOwner,
     carName,
     start,
     end,
-    price,
+    price = 10,
     ownerName,
     ownerPhone,
-    pelak,
+    pelak = { first: "", second: "", third: "", forth: "" },
     picture,
     style = {}
 }) => {
@@ -100,33 +118,84 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
     let actions;
     switch (status) {
         case 'new':
-            title = <span><Icon name="calendar check" /> درخواست اجاره</span>;
+            statusOwner === "owner" 
+                ? title = <span><Icon name="calendar check" /> درخواست اجاره</span>
+                : title = <span><Icon name="calendar check" />  درخواست اجاره (در انتظار تایید)</span>
             actions = <>
-                <Grid.Row className="buttons">
-                    <Grid.Column width={8}>
-                        <div style={{ marginLeft: '8px' }}>
-                            <Button primary fluid className="left">قبول</Button>
-                        </div>
-                    </Grid.Column>
-                    <Grid.Column width={8}>
-                        <div style={{ marginRight: '8px' }}>
-                            <Button basic fluid className="right">رد</Button>
-                        </div>
-                    </Grid.Column>
-                </Grid.Row>
+                {statusOwner === "owner" &&
+                    <Grid.Row className="buttons">
+                        <Grid.Column width={8}>
+                            <div style={{ marginLeft: '8px' }}>
+                                <Button
+                                    onClick={() => doAction({ id, action: 'approve' })}
+                                    primary
+                                    fluid
+                                    className="left">
+                                    قبول
+                            </Button>
+                            </div>
+                        </Grid.Column>
+                        <Grid.Column width={8}>
+                            <div style={{ marginRight: '8px' }}>
+                                <Button
+                                    onClick={() => doAction({ id, action: 'reject' })}
+                                    basic
+                                    fluid
+                                    className="right">
+                                    رد
+                                </Button>
+                            </div>
+                        </Grid.Column>
+                    </Grid.Row>
+                }
             </>;
             break;
-        case 'not_paid':
+        case 'approved':
             title = <span><Icon name="credit card outline" /> در انتظار پرداخت</span>;
+            actions = <>
+                {statusOwner === "renter" &&
+                    <Grid.Row className="buttons">
+                        <Grid.Column width={16}>
+                            <div style={{ marginLeft: '8px' }}>
+                                <Button
+                                    onClick={() => doAction({ id, action: 'pay' })}
+                                    primary
+                                    fluid
+                                    className="left">
+                                    پرداخت
+                        </Button>
+                            </div>
+                        </Grid.Column>
+                    </Grid.Row>
+                }
+            </>;
             break;
         case 'rejected':
-            title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> لغو شد</span>;
+            title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> رد شد</span>;
             break;
         case 'cancelled':
             title = <span style={{ color: '#a00000de' }}><Icon name="calendar times" /> لغو شد</span>;
             break;
         case 'paid':
             title = <span><Icon name="map marker alternate" /> در انتظار تحویل خودرو</span>;
+            actions = <>
+                {statusOwner === "renter" &&
+                    <Grid.Row className="buttons">
+                        <Grid.Column width={16}>
+                            <div style={{ marginLeft: '8px' }}>
+                                <Button
+                                    primary
+                                    fluid
+                                    className="left"
+                                    onClick={() => doAction({ id, action: 'pay' })}
+                                >
+                                    خودرو را تحویل گرفتم
+                                </Button>
+                            </div>
+                        </Grid.Column>
+                    </Grid.Row>
+                }
+            </>
             break;
         case 'not_delivered':
             title = <span>
@@ -135,13 +204,15 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                     <Icon corner='bottom right' name='car' />
                 </Icon.Group> در حال سفر</span>;
             actions = <>
-                <Grid.Row className="buttons">
-                    <Grid.Column width={16}>
-                        <div style={{ marginLeft: '8px' }}>
-                            <Button primary fluid className="left">خودرو را تحویل گرفتم</Button>
-                        </div>
-                    </Grid.Column>
-                </Grid.Row>
+                {statusOwner === "owner" &&
+                    <Grid.Row className="buttons">
+                        <Grid.Column width={16}>
+                            <div style={{ marginLeft: '8px' }}>
+                                <Button primary fluid className="left">خودرو را بازتحویل گرفتم</Button>
+                            </div>
+                        </Grid.Column>
+                    </Grid.Row>
+                }
             </>;
             break;
         case 'returned':
@@ -158,6 +229,12 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
             break;
         default:
     }
+
+    async function doAction(data: IdoAction) {
+        const res = await REQUEST_setOrderStatus({ id: data.id, action: data.action, token: jsCookie.get('token') });
+        console.log(res);
+    }
+
     return (
         <Card className="request_card">
             <Segment padded>
@@ -174,7 +251,10 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                 </Grid.Column>
                                     <Grid.Column width={7} className="left">
                                         <div style={{ float: 'right', textAlign: 'right' }}>
-                                            <strong style={{ fontSize: '14px' }}>۶۰۰ هزار تومان</strong>
+                                            <strong style={{ fontSize: '14px' }}>
+                                                {convertNumbers2Persian(numberWithCommas(price))}{' '}
+                                                تومان
+                                            </strong>
                                         </div>
                                     </Grid.Column>
                                 </Grid.Row>
@@ -183,10 +263,10 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                         <Grid.Column width={5} className="img_wrapper">
                             <img src={picture} alt={carName} />
                             <Pelak
-                                first="22"
-                                second="ص"
-                                third="546"
-                                forth="22"
+                                first={pelak.first}
+                                second={pelak.second}
+                                third={pelak.third}
+                                forth={pelak.fourth}
                                 type={1}
                                 size={sizeType.small}
                                 style={{}}
@@ -198,11 +278,19 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                             <Grid className="property-row">
                                 <Grid.Row columns={2} centered className="property">
                                     <Grid.Column width={10} className="right" style={{ paddingRight: '0' }}>
-                                        <strong><Icon name="user circle" />  حاج مهراد روستا و دوستان</strong>
+                                        <strong><Icon name="user circle" /> {ownerName} </strong>
                                     </Grid.Column>
-                                    <Grid.Column width={6} className="left" style={{ padding: 0, color: '#00ACC1' }}>
-                                        نمایش شماره تماس
-                                </Grid.Column>
+                                    <Grid.Column width={6} className="left" style={{ padding: 0, }}>
+                                    {statusOwner === "owner" &&
+                                        <>
+                                            {isMobile &&
+                                                <a href={`tel:${ownerPhone}`} style={{ color: '#00ACC1' }}>
+                                                    تماس با  درخواست‌دهنده
+                                                </a>
+                                            }
+                                        </>
+                                    }
+                                    </Grid.Column>
                                 </Grid.Row>
                             </Grid>
                         </Grid.Column>
