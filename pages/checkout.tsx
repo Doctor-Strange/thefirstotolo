@@ -20,13 +20,14 @@ import {
     isBrowser,
     isMobile
 } from "react-device-detect";
+import jsCookie from 'js-cookie';
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
 
-export default withNamespaces('common')(connect(state => state)(
+export default withNamespaces('common')(
     class extends React.Component<{
         t: any, rentalCarID: number, start: any, end: any, search_id: string, user: any
     }> {
@@ -37,12 +38,18 @@ export default withNamespaces('common')(connect(state => state)(
             } else {
                 console.log('Client side Router Query', props.query);
             }
+            const res = await REQUEST_getCar({
+                start: props.query.start,
+                end: props.query.end,
+                id: props.query.id
+            })
             return {
                 namespacesRequired: ['common'],
                 rentalCarID: props.query.id,
                 start: props.query.start,
                 end: props.query.end,
-                search_id: props.query.search_id
+                search_id: props.query.search_id,
+                ...res
             };
         }
 
@@ -78,23 +85,23 @@ export default withNamespaces('common')(connect(state => state)(
             '۱۰۰٫۰۰۰ - ۲۰۰٫۰۰۰ کیلومتر',
             '+۲۰۰٫۰۰۰  کیلومتر']
 
-        async componentDidMount() {
+        componentDidMount() {
             setTimeout(() => {
                 window.dispatchEvent(new Event('resize'));
             }, 0);
             //get car info
-            const res = await REQUEST_getCar({
-                start: this.props.start,
-                end: this.props.end,
-                id: this.props.rentalCarID
-            })
-            this.setState(res);
+            this.setState({ ...this.props });
+            // const res = await REQUEST_getCar({
+            //     start: this.props.start,
+            //     end: this.props.end,
+            //     id: this.props.rentalCarID
+            // })
         }
 
         async reserve(search_id) {
             const res = await REQUEST_newRentRequest({
                 search_id,
-                token: this.props.user.token
+                token: jsCookie.get('token')
             })
             if (res) {
                 Router.push({
@@ -184,14 +191,14 @@ export default withNamespaces('common')(connect(state => state)(
                                         </li>
                                         <li>هزینه کل
                                                 <span className="float-left">
-                                                <span>{convertNumbers2Persian(numberWithCommas(total_price))}</span>
+                                                <span>{convertNumbers2Persian(numberWithCommas(total_price || 0))}</span>
                                                 <span> تومان </span>
                                             </span>
                                         </li>
                                         {discount_percent &&
                                             <li> هزینه پس از کاستن تخفیف
                                                     <span className="float-left">
-                                                    <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price))}</span>
+                                                    <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price || 0))}</span>
                                                     <span> تومان </span>
                                                 </span>
                                             </li>
@@ -250,4 +257,4 @@ export default withNamespaces('common')(connect(state => state)(
 
         }
     }
-));
+);
