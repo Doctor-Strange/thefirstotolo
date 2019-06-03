@@ -1,15 +1,9 @@
 /* tslint:disable */
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCallback } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import {
-  DateRangePicker,
-  SingleDatePicker,
-  DayPickerRangeController
-} from 'react-dates';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
+import DatePicker from 'react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 import {
@@ -86,190 +80,160 @@ interface IIndexFormValues {
   endDate: any;
 }
 
-export default withNamespaces('common')(
-  class IndexForm extends React.Component<{
-    t: any;
-    success: boolean;
-    name: string;
-    rentalCarID: string;
-  }> {
-    state = {
-      error: '',
-      name: null,
-      success: false,
-      citiesFarsi: [{ text: 'کمی صبر کنید...', value: null }],
-      citiesEnglish: [{ text: 'کمی صبر کنید...', value: null }],
-      startDate: moment(),
-      endDate: moment()
-    };
+interface IIndexForm {
+  t: any;
+  success: boolean;
+  name: string;
+}
 
-    constructor(props) {
-      super(props);
-    }
+const IndexForm: React.SFC<IIndexForm> = ({t}) => {
+  const [error, setError] = useState('');
+  const [name, setName] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [citiesFarsi, setCitiesFarsi] = useState([{ text: 'کمی صبر کنید...', value: null }]);
+  const [citiesEnglish, setCitiesEnglish] = useState([{ text: 'کمی صبر کنید...', value: null }]);
+  const [date, setDate] = useState({
+    from: null,
+    to: null
+  });
 
-    async componentDidMount() {
-      //get cities and genrate a dropdown input in form
-      const res = await REQUEST_getLocations({ brief: true });
-      this.setState(res);
-    }
-
-    render() {
-      const { error } = this.state;
-      const { t } = this.props;
-      const fieldErrorGenrator = fieldName => {
-        return (
-          t('forms.error_filed_required1') +
-          fieldName +
-          t('forms.error_filed_required2')
-        );
-      };
-
-      return (
-        <Formik
-          initialValues={{ carCity: null }}
-          onSubmit={(
-            values: IIndexFormValues,
-            actions: FormikActions<IIndexFormValues>
-          ) => {
-            actions.setSubmitting(true);
-            let queryString = '';
-            let shownURL = '';
-            if (values.carCity) {
-              queryString = queryString + `location_id=${values.carCity}&`;
-              shownURL = shownURL + `city=${values.carCity}&`;
-            }
-            if (this.state.startDate && this.state.endDate) {
-              queryString = queryString + `start_date=${
-                moment(this.state.startDate).format('jYYYY/jMM/jDD')
-                }&end_date=${
-                moment(this.state.endDate).format('jYYYY/jMM/jDD')
-                }&`;
-              shownURL = shownURL + `start=${
-                moment(this.state.startDate).format('jYYYY/jMM/jDD')
-                }&end=${
-                moment(this.state.endDate).format('jYYYY/jMM/jDD')
-                }&`;
-            }
-            const href = `/search-results?${shownURL}`;
-            const as = href;
-            Router.push(href, as, { shallow: true })
-              .then(response => {
-                this.setState({ error: '' });
-                actions.setSubmitting(false);
-              });
-
-          }}
-          validationSchema={Yup.object().shape({})}
-        >
-          {({
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            isSubmitting,
-            setFieldValue,
-            setFieldTouched,
-            submitCount,
-            values,
-            errors,
-            touched
-          }) => {
-            return (
-              <BoxAccount className="box_account">
-                <Form onSubmit={handleSubmit}>
-                  <Flex
-                    justifyContent="space-around"
-                    className="wrapper"
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'flex-start',
-                      maxWidth: '700px',
-                      margin: '0 auto'
-                    }}
-                  >
-                    <Box className="indexFullOnMobile" width={[4 / 12, 1, 1]}>
-                      <Form.Dropdown
-                        name="carCity"
-                        id="carCity"
-                        placeholder={t('carProperty.city')}
-                        noResultsMessage={t('forms.error_no_result_found')}
-                        selection
-                        loading={this.state.citiesFarsi[0].value == null}
-                        options={
-                          i18n.language === 'en'
-                            ? this.state.citiesEnglish
-                            : this.state.citiesFarsi
-                        }
-                        error={Boolean(errors.carCity && touched.carCity)}
-                        onChange={(e, data) => {
-                          if (data && data.name) {
-                            setFieldValue(data.name, data.value);
-                          }
-                        }}
-                        onClose={(e, data) => {
-                          console.log(e);
-                          if (data && data.name) {
-                            setFieldTouched(data.name);
-                          }
-                        }}
-                        value={values.carCity}
-                      />
-                    </Box>
-                    <Box className="indexFullOnMobile" width={[6 / 12, 1, 1]} style={{ minWidth: '300px' }}>
-                      <DateRangePicker
-                        isRTL
-                        startDate={this.state.startDate}
-                        startDateId="unique_start_date_id"
-                        endDate={this.state.endDate}
-                        endDateId="unique_end_date_id"
-                        onDatesChange={({ startDate, endDate }) =>
-                          this.setState({ startDate, endDate })
-                        }
-                        focusedInput={this.state.focusedInput}
-                        onFocusChange={focusedInput =>
-                          this.setState({ focusedInput })
-                        }
-                        startDatePlaceholderText="تاریخ شروع"
-                        endDatePlaceholderText="تاریخ پایان"
-                        // minimumNights={1}
-                        monthFormat={'jMMMM jYYYY'}
-                        numberOfMonths={1}
-                        renderMonthText={month =>
-                          moment(month).format('jMMMM jYYYY')
-                        }
-                        renderDayContents={day => moment(day).format('jD')}
-                      />
-                    </Box>
-                    <Box className="indexFullOnMobile" width={[2 / 12, 1, 1]}>
-                      <Form.Field
-                        style={{ textAlign: 'center', fontSize: '0.8em' }}
-                      >
-                        <Button
-                          loading={isSubmitting}
-                          primary
-                          type="submit"
-                          className="btn_1 full-width"
-                        >
-                          {t('search')}
-                        </Button>
-                      </Form.Field>
-                    </Box>
-                  </Flex>
-                </Form>
-                {error && (
-                  <Label attached="bottom" color="red">
-                    {t('forms.error')}
-                  </Label>
-                )}
-                {Object.keys(errors).length >= 1 && submitCount >= 1 && (
-                  <Label attached="bottom" color="red">
-                    {Object.values(errors)[0]}
-                  </Label>
-                )}
-              </BoxAccount>
-            );
-          }}
-        </Formik>
-      );
-    }
+  async function fetchAPI() {
+    //get cities and genrate a dropdown input in form
+    const res = await REQUEST_getLocations({ brief: true });
+    setCitiesFarsi(res.citiesFarsi);
+    setCitiesEnglish(res.citiesEnglish);
   }
-);
+
+  useEffect(() => {
+    fetchAPI();
+  }, []);
+
+  return (
+    <Formik
+      initialValues={{ carCity: null }}
+      onSubmit={(
+        values: IIndexFormValues,
+        actions: FormikActions<IIndexFormValues>
+      ) => {
+        actions.setSubmitting(true);
+        let queryString = '';
+        let shownURL = '';
+        if (values.carCity) {
+          queryString = queryString + `location_id=${values.carCity}&`;
+          shownURL = shownURL + `city=${values.carCity}&`;
+        }
+        console.log(date);
+        if (date.from) {
+          queryString = queryString +
+            `start_date=${date.from.year}/${date.from.month}/${date.from.day}` + 
+            `&end_date=${date.to.year}/${date.to.month}/${date.to.day}&`;
+          shownURL = shownURL +
+            `start=${date.from.year}/${date.from.month}/${date.from.day}` +
+            `&end=${date.to.year}/${date.to.month}/${date.to.day}&`;
+        }
+        const href = `/search-results?${shownURL}`;
+        const as = href;
+        Router.push(href, as, { shallow: true })
+          .then(response => {
+            setError('');
+            actions.setSubmitting(false);
+          });
+
+      }}
+      validationSchema={Yup.object().shape({})}
+    >
+      {({
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        setFieldValue,
+        setFieldTouched,
+        submitCount,
+        values,
+        errors,
+        touched
+      }) => {
+        return (
+          <BoxAccount className="box_account">
+            <Form onSubmit={handleSubmit}>
+              <Flex
+                justifyContent="space-around"
+                className="wrapper"
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  maxWidth: '700px',
+                  margin: '0 auto'
+                }}
+              >
+                <Box className="indexFullOnMobile" width={[4 / 12, 1, 1]}>
+                  <Form.Dropdown
+                    name="carCity"
+                    id="carCity"
+                    placeholder={t('carProperty.city')}
+                    noResultsMessage={t('forms.error_no_result_found')}
+                    selection
+                    loading={citiesFarsi[0].value == null}
+                    options={
+                      i18n.language === 'en'
+                        ? citiesEnglish
+                        : citiesFarsi
+                    }
+                    error={Boolean(errors.carCity && touched.carCity)}
+                    onChange={(e, data) => {
+                      if (data && data.name) {
+                        setFieldValue(data.name, data.value);
+                      }
+                    }}
+                    onClose={(e, data) => {
+                      console.log(e);
+                      if (data && data.name) {
+                        setFieldTouched(data.name);
+                      }
+                    }}
+                    value={values.carCity}
+                  />
+                </Box>
+                <Box className="indexFullOnMobile" width={[6 / 12, 1, 1]} style={{ minWidth: '300px' }}>
+                  <DatePicker
+                    selectedDayRange={date}
+                    onChange={setDate}
+                    inputPlaceholder="انتخاب روزهای نمایش"
+                    isDayRange
+                  />
+                </Box>
+                <Box className="indexFullOnMobile" width={[2 / 12, 1, 1]}>
+                  <Form.Field
+                    style={{ textAlign: 'center', fontSize: '0.8em' }}
+                  >
+                    <Button
+                      loading={isSubmitting}
+                      primary
+                      type="submit"
+                      className="btn_1 full-width"
+                    >
+                      {t('search')}
+                    </Button>
+                  </Form.Field>
+                </Box>
+              </Flex>
+            </Form>
+            {error && (
+              <Label attached="bottom" color="red">
+                {t('forms.error')}
+              </Label>
+            )}
+            {Object.keys(errors).length >= 1 && submitCount >= 1 && (
+              <Label attached="bottom" color="red">
+                {Object.values(errors)[0]}
+              </Label>
+            )}
+          </BoxAccount>
+        );
+      }}
+    </Formik>
+  );
+
+}
+export default withNamespaces('common')(IndexForm);

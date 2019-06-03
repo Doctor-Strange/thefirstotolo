@@ -7000,6 +7000,14 @@ react-outside-click-handler@^1.2.0:
     object.values "^1.1.0"
     prop-types "^15.7.2"
 
+react-persian-calendar-date-picker@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-persian-calendar-date-picker/-/react-persian-calendar-date-picker-1.0.1.tgz#3016dd9d8f5e1e9d326e791c45053aacd04221ca"
+  integrity sha512-Kb14KgJc7dti5MYHCQBm5dcKLdq6CJlns4TgHEK5uNjkVluucyqI8hR3AlkVliWSQhcwF+aYONr+RQaVK7mrSQ==
+  dependencies:
+    jalaali-js "^1.1.0"
+    prop-types "^15.7.2"
+
 react-portal@^4.1.5:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.2.0.tgz#5400831cdb0ae64dccb8128121cf076089ab1afd"

@@ -189,6 +189,9 @@ const GlobalStyle = createGlobalStyle`
     .justInDesktop{
       display:none;
     }
+    .hero_single .wrapper {
+      flex-direction: unset !important;
+    }
   }
   
 
