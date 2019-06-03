@@ -9,7 +9,7 @@ import Router from 'next/router';
 import { PriceCard, UserCard, CarCard, CarCardPlaceholder } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
 import { i18n, withNamespaces } from '../src/i18n';
-import { REQUEST_getCar } from '../src/API';
+import { REQUEST_getCar, REQUEST_getUser } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ResultsCards } from '../src/components/Search';
@@ -33,7 +33,7 @@ export default withNamespaces('common')(
             } else {
                 console.log('Client side Router Query', props.query);
             }
-            // const res = await REQUEST_getCar({
+            // const res = await REQUEST_getUser({
             //     id: props.query.id
             // })
             return {
@@ -296,7 +296,7 @@ export default withNamespaces('common')(
 
         render() {
             const { t/*, profileID*/ } = this.props;
-            // const {  } = this.props;
+            const { id } = this.props;
             return (
                 <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
                     {/* {isMobile &&
