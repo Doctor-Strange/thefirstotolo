@@ -189,6 +189,9 @@ const GlobalStyle = createGlobalStyle`
     .justInDesktop{
       display:none;
     }
+    .profile_page{
+      flex-direction: column-reverse;
+    }
     .hero_single .wrapper {
       flex-direction: unset !important;
     }
@@ -219,7 +222,7 @@ const GlobalStyle = createGlobalStyle`
     }
      @media (min-width: 1200px){
       .carcard{
-        width: 380px;
+        width: 340px;
       }
     }
   }

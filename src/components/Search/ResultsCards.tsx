@@ -46,7 +46,7 @@ export class ResultsCards extends React.Component<{
     showMore: boolean;
     lodingMore: boolean;
     noResult: boolean;
-    nextPage: any;
+    nextPage?: any;
     dateURL?: string;
     colClass?: string;
     marginClass?: string;
@@ -66,7 +66,7 @@ export class ResultsCards extends React.Component<{
             results,
             loadingResults,
             noResult,
-            showMore,
+            showMore = false,
             nextPage,
             dateURL,
             lodingMore,

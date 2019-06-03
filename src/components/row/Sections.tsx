@@ -7,13 +7,14 @@ export const Section: React.FunctionComponent<{
   bgColor?: string;
   margin?: Margin;
   className?: any;
+  rowClassName?: string;
   style?: any;
   id?: any;
-}> = ({ children, justifyCenter, justifyContent, bgColor, margin, className, style, id }) => (
+}> = ({ children, justifyCenter, justifyContent, bgColor, margin, className, style, id, rowClassName }) => (
   <div style={{ backgroundColor: bgColor }} className={className}>
     <div className={'container ' + (margin || '')} style={style || {}}>
       <div
-        className={'row ' + (justifyCenter && 'justify-content-center')}
+        className={'row ' + (justifyCenter && 'justify-content-center') + ` ${rowClassName}`}
         style={{ justifyContent }}
         id={id}
       >
