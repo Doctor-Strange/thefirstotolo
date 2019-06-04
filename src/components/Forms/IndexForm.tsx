@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useCallback } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
+import "react-persian-calendar-date-picker/lib/DatePicker.css";
 import DatePicker from 'react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
 moment.loadPersian();
@@ -86,7 +87,7 @@ interface IIndexForm {
   name: string;
 }
 
-const IndexForm: React.SFC<IIndexForm> = ({t}) => {
+const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
   const [error, setError] = useState('');
   const [name, setName] = useState('');
   const [success, setSuccess] = useState(false);
@@ -125,7 +126,7 @@ const IndexForm: React.SFC<IIndexForm> = ({t}) => {
         console.log(date);
         if (date.from) {
           queryString = queryString +
-            `start_date=${date.from.year}/${date.from.month}/${date.from.day}` + 
+            `start_date=${date.from.year}/${date.from.month}/${date.from.day}` +
             `&end_date=${date.to.year}/${date.to.month}/${date.to.day}&`;
           shownURL = shownURL +
             `start=${date.from.year}/${date.from.month}/${date.from.day}` +
