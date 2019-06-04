@@ -16,7 +16,7 @@ export const REQUEST_getSearchForRent = (data: IgetSearchForRent) => {
       .post(
         DOMAIN +
           GET_SEARCH_FOR_RENT +
-          ('?limit=' + data.limit + '&start=' + data.page) +
+          ('?limit=' + data.limit + '&page=' + data.page) +
           ('&' + queryString)
       )
       .then(response => {

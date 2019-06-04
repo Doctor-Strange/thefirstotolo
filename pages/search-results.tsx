@@ -106,7 +106,7 @@ export default withRouter(
                     results: [{}],
                     carBodyType: [],
                     latest_result_key: null,
-                    page: 0,
+                    page: 1,
                     total_count: 0,
                     stats: {
                         deliver_at_renters_place: 0,
@@ -356,9 +356,9 @@ export default withRouter(
                 //   debounce(this.renderResults(page), 500)
                 // };
 
-                async renderResults(page = 0) {
+                async renderResults(page = 1) {
                     // send search resluts request
-                    if (page === 0) {
+                    if (page === 1) {
                         let queryString = '';
                         let shownURL = '';
                         if (this.state.city) {
@@ -423,7 +423,7 @@ export default withRouter(
                         });
                         this.setState({
                             ...res,
-                            page: 0
+                            page: 1
                         });
                         // update URL
                         const href = `/search-results?${shownURL}page=${page}`;
@@ -530,9 +530,7 @@ export default withRouter(
                                     lodingMore={lodingMore}
                                     noResult={noResult}
                                     showMore={showMore}
-                                    dateURL={`&start=${moment(this.state.startDate).format(
-                                        'jYYYY/jMM/jDD'
-                                    )}&end=${moment(this.state.endDate).format('jYYYY/jMM/jDD')}`}
+                                    dateURL={''}
                                 />
                             </div>
                         </Layout>
