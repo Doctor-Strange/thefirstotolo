@@ -46,7 +46,8 @@ const Profile: React.SFC<IProfile> = ({ t, id, name, image_url }) => {
 
     useEffect(() => {
         fetchAPI();
-        if (jsCookie.get('id') === id) {
+        console.warn("user id is: ", jsCookie.get('user_id'));
+        if (jsCookie.get('user_id') == id) {
             setOwnership(true);
         }
     }, []);
