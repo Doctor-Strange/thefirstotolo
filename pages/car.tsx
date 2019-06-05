@@ -29,7 +29,7 @@ const SearchResult = styled.div`
 `;
 
 export default withNamespaces('common')(
-    class extends React.Component<{ t: any, rentalCarID: number, start: any, end: any, search_id: string }> {
+    class extends React.Component<{ t: any, rentalCarID: number, start_date: any, end_date: any, search_id: string }> {
 
         static async getInitialProps(props) {
             if (typeof window === 'undefined') {
@@ -38,9 +38,7 @@ export default withNamespaces('common')(
                 console.log('Client side Router Query', props.query);
             }
             const res = await REQUEST_getCar({
-                start: props.query.start,
-                end: props.query.end,
-                id: props.query.id
+                search_id: props.query.search_id,
             })
             return {
                 namespacesRequired: ['common'],
@@ -88,23 +86,26 @@ export default withNamespaces('common')(
         }
 
         reserve() {
-            const { start, end, search_id, rentalCarID } = this.props;
-            const href = `/checkout?search_id=${search_id}&id=${rentalCarID}&start=${start}&end=${end}`;
+            const { search_id, rentalCarID } = this.props;
+            const href = `/checkout?search_id=${search_id}`;
             // const as = `/checkout/${rentalCarID}/${search_id}`;
             Router.push(href, href, { shallow: true });
         }
 
         render() {
-            const { t, start, end, search_id } = this.props;
-            let start_date, end_date = null;
+            const { t, start_date, end_date, search_id } = this.props;
+            let start, end = null;
             let startDate, endDate = null;
-            if (start && end) {
-                startDate = moment(start, 'jYYYY/jMM/jDD');
-                endDate = moment(end, 'jYYYY/jMM/jDD');
+            console.log(start_date);
+            if (start_date && end_date) {
+                startDate = moment(start_date, 'jYYYY/jMM/jDD');
+                endDate = moment(end_date, 'jYYYY/jMM/jDD');
+                console.log(startDate);
             }
             if (startDate && endDate) {
-                start_date = moment(startDate).format('jD jMMMM jYY');
-                end_date = moment(endDate).format('jD jMMMM jYY');
+                start = moment(startDate).format('jD jMMMM jYY');
+                end = moment(endDate).format('jD jMMMM jYY');
+                console.log(start);
             }
             const { error } = this.state;
             const { media_set, year, mileage_range, owner, body_style, color, color_code,
@@ -112,204 +113,204 @@ export default withNamespaces('common')(
                 max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day } = this.props;
             return (
                 <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
-                {isMobile &&
-                    <CarNav startDate={start_date} endDate={end_date} />
-                }
-                <div className="hero_mother">
-                    <div className="hero_in hotels_detail" style={{ maxWidth: '1111px' }}>
-                        <Carousel
-                            heightMode="current"
-                            initialSlideWidth={isBrowser ? "970px" : undefined}
-                            renderCenterLeftControls={({ previousSlide }) => (
-                                <button
-                                    onClick={previousSlide}
-                                    aria-label="next"
-                                    style={{
-                                        border: '0px',
-                                        background: 'rgba(0, 0, 0, 0.4)',
-                                        color: 'white',
-                                        padding: '10px',
-                                        opacity: '1',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    <Icon name="angle left" />
-                                </button>
-                            )}
-                            renderCenterRightControls={({ nextSlide }) => (
-                                <button
-                                    onClick={nextSlide}
-                                    aria-label="next"
-                                    style={{
-                                        border: '0px',
-                                        background: 'rgba(0, 0, 0, 0.4)',
-                                        color: 'white',
-                                        padding: '10px',
-                                        opacity: '1',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    <Icon name="angle right" />
-                                </button>
-                            )}
-                        >
-                            {(media_set.length >= 1) ? media_set.map((value, index) =>
-                                <img key={index} src={value} />
-                            ) : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />}
-                        </Carousel>
-                    </div>
-                </div>
-                
-                <Section justifyCenter={true} style={{ marginTop: '24px' }}>
-                    {isBrowser &&
-                        <aside className="col-lg-4" id="sidebar">
-                            <div className="box_detail booking">
-                                <div className="price">
-                                    <PriceCard
+                    {isMobile &&
+                        <CarNav startDate={start} endDate={end} />
+                    }
+                    <div className="hero_mother">
+                        <div className="hero_in hotels_detail" style={{ maxWidth: '1111px' }}>
+                            <Carousel
+                                heightMode="current"
+                                initialSlideWidth={isBrowser ? "970px" : undefined}
+                                renderCenterLeftControls={({ previousSlide }) => (
+                                    <button
+                                        onClick={previousSlide}
+                                        aria-label="next"
                                         style={{
-                                            display: 'inline-grid',
-                                            left: '50px',
-                                            top: '-40px',
-                                            position: 'absolute'
+                                            border: '0px',
+                                            background: 'rgba(0, 0, 0, 0.4)',
+                                            color: 'white',
+                                            padding: '10px',
+                                            opacity: '1',
+                                            cursor: 'pointer'
                                         }}
-                                        number={avg_price_per_day}
                                     >
-                                        در روز
+                                        <Icon name="angle left" />
+                                    </button>
+                                )}
+                                renderCenterRightControls={({ nextSlide }) => (
+                                    <button
+                                        onClick={nextSlide}
+                                        aria-label="next"
+                                        style={{
+                                            border: '0px',
+                                            background: 'rgba(0, 0, 0, 0.4)',
+                                            color: 'white',
+                                            padding: '10px',
+                                            opacity: '1',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        <Icon name="angle right" />
+                                    </button>
+                                )}
+                            >
+                                {(media_set.length >= 1) ? media_set.map((value, index) =>
+                                    <img key={index} src={value} />
+                                ) : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />}
+                            </Carousel>
+                        </div>
+                    </div>
+
+                    <Section justifyCenter={true} style={{ marginTop: '24px' }}>
+                        {isBrowser &&
+                            <aside className="col-lg-4" id="sidebar">
+                                <div className="box_detail booking">
+                                    <div className="price">
+                                        <PriceCard
+                                            style={{
+                                                display: 'inline-grid',
+                                                left: '50px',
+                                                top: '-40px',
+                                                position: 'absolute'
+                                            }}
+                                            number={avg_price_per_day}
+                                        >
+                                            در روز
                                     </PriceCard>
-                                    <div className="score">
-                                        <span>
-                                            Good <em> 350 Reviews </em>
-                                        </span>
-                                        <strong> 7.0 </strong>
+                                        <div className="score">
+                                            <span>
+                                                Good <em> 350 Reviews </em>
+                                            </span>
+                                            <strong> 7.0 </strong>
+                                        </div>
+                                    </div>
+                                    <br /> <br />
+                                    <CarNav startDate={start} endDate={end} simpleMode={true} />
+                                    <UserCard
+                                        id={owner.id}
+                                        name={owner.name}
+                                        responceTime="میانگین زمان پاسخگویی: نامشخص"
+                                        image={owner.image_url}
+                                    />
+
+
+                                    <Button
+                                        style={{ height: '48px' }}
+                                        size='large'
+                                        fluid
+                                        onClick={() => {
+                                            this.reserve();
+                                        }}
+                                        color='teal'>درخواست اجاره</Button>
+                                    <div
+                                        style={{ marginTop: '8px' }}
+                                        className="text-center"
+                                    >
+                                        <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
                                     </div>
                                 </div>
-                                <br /> <br />
-                                <CarNav startDate={start_date} endDate={end_date} simpleMode={true} />
-                                <UserCard
-                                    id={owner.id}
-                                    name={owner.name}
-                                    responceTime="میانگین زمان پاسخگویی: نامشخص"
-                                    image={owner.image_url}
-                                />
-                
-                
-                                <Button
-                                    style={{ height: '48px' }}
-                                    size='large'
-                                    fluid
-                                    onClick={() => {
-                                        this.reserve();
-                                    }}
-                                    color='teal'>درخواست اجاره</Button>
-                                <div
-                                    style={{ marginTop: '8px' }}
-                                    className="text-center"
-                                >
-                                    <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
-                                </div>
-                            </div>
-                            <ul className="share-buttons">
-                                <Popup
-                                    position='bottom right'
-                                    size='tiny'
-                                    content='توییت کنید'
-                                    inverted
-                                    trigger={
-                                        <Button circular icon='twitter' />
+                                <ul className="share-buttons">
+                                    <Popup
+                                        position='bottom right'
+                                        size='tiny'
+                                        content='توییت کنید'
+                                        inverted
+                                        trigger={
+                                            <Button circular icon='twitter' />
+                                        }
+                                    />
+                                    <Popup
+                                        position='bottom right'
+                                        size='tiny'
+                                        content='ارسال از طریق ایمیل'
+                                        inverted
+                                        trigger={
+                                            <Button circular icon='mail' />
+                                        }
+                                    />
+                                    <Popup
+                                        position='bottom right'
+                                        size='tiny'
+                                        content='ارسال به تلگرام'
+                                        inverted
+                                        trigger={
+                                            <Button circular icon='telegram' />
+                                        }
+                                    />
+                                    <Popup
+                                        position='bottom right'
+                                        size='tiny'
+                                        content='کپی پیوند خودرو'
+                                        inverted
+                                        trigger={
+                                            <CopyToClipboard
+                                                text={window.location.href}
+                                                onCopy={() => alert("کپی شد")}
+                                            >
+                                                <Button circular icon='copy' />
+                                            </CopyToClipboard>
+                                        }
+                                    />
+                                </ul>
+                            </aside>
+                        }
+                        <div className="col-lg-8 car_det_wrapper" style={{
+                            position: 'relative',
+                            top: '-30px'
+                        }}>
+
+                            <section id="description" className="car_det">
+                                ‍<div className="detail_title_1">
+                                    {isMobile &&
+                                        <PriceCard style={{
+                                            display: 'inline-grid',
+                                            left: '10px',
+                                            top: '-15px',
+                                            position: 'absolute'
+                                        }} number={avg_price_per_day}>در روز</PriceCard>
                                     }
-                                />
-                                <Popup
-                                    position='bottom right'
-                                    size='tiny'
-                                    content='ارسال از طریق ایمیل'
-                                    inverted
-                                    trigger={
-                                        <Button circular icon='mail' />
-                                    }
-                                />
-                                <Popup
-                                    position='bottom right'
-                                    size='tiny'
-                                    content='ارسال به تلگرام'
-                                    inverted
-                                    trigger={
-                                        <Button circular icon='telegram' />
-                                    }
-                                />
-                                <Popup
-                                    position='bottom right'
-                                    size='tiny'
-                                    content='کپی پیوند خودرو'
-                                    inverted
-                                    trigger={
-                                        <CopyToClipboard
-                                            text={window.location.href}
-                                            onCopy={() => alert("کپی شد")}
-                                        >
-                                            <Button circular icon='copy' />
-                                        </CopyToClipboard>
-                                    }
-                                />
-                            </ul>
-                        </aside>
-                    }
-                    <div className="col-lg-8 car_det_wrapper" style={{
-                        position: 'relative',
-                        top: '-30px'
-                    }}>
-                
-                        <section id="description" className="car_det">
-                            ‍<div className="detail_title_1">
-                                {isMobile &&
-                                    <PriceCard style={{
-                                        display: 'inline-grid',
-                                        left: '10px',
-                                        top: '-15px',
-                                        position: 'absolute'
-                                    }} number={avg_price_per_day}>در روز</PriceCard>
-                                }
-                                {/* <div className="cat_star">
+                                    {/* <div className="cat_star">
                                     <i className="icon_star" /><i className="icon_star" /><i className="icon_star"></i
                                     ><i className="icon_star" />
                                 </div> */}
-                                <h1 style={{ fontSize: '22px' }}>{`${car.brand.name.fa} ${car.name.fa}`}</h1>
-                                <span>{year.fa}</span> <br />
-                                {/* <a
+                                    <h1 style={{ fontSize: '22px' }}>{`${car.brand.name.fa} ${car.name.fa}`}</h1>
+                                    <span>{year.fa}</span> <br />
+                                    {/* <a
                                     className="address"
                                     href="https://www.goog504327!2d48.8568361"
                                 >۱۰ سفر  با امتیاز پنج ستاره</a
                                 > */}
-                            </div>
-                            <hr />
-                            <Details title="محل خودرو">
-                                <p>{location.name.breadcrumb_fa}</p>
-                                <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
-                            </Details>
-                            <Details title="محدودیت مسافت">
-                                <ul className="">
-                                    <li>{max_km_per_day ? max_km_per_day + "کیلومتر" : "ندارد"}</li>
-                                    <li>{extra_km_price ? `هزینه هر کیلومتر اضافه ${extra_km_price} هزار تومان` : ""}</li>
-                                </ul>
-                            </Details>
-                            <Details title="توضیحات">
-                                {description ? description : "ندارد"}
-                            </Details>
-                            <Details title="مشخصات فنی">
-                                <ul className="bullets">
-                                    <li>نوع بدنه: {body_style.fa}</li>
-                                    <li>دهنده {transmission_type.fa}</li>
-                                    <li>کارکرد: {mileage_range ? this.mileage_ranges[mileage_range.id + 1] : "صفر کیلومتر"}</li>
-                                    <li>ظرفیت: {capacity}</li>
-                                </ul>
-                            </Details>
-                            <Details title="امکانات">
-                                <div className="row add_bottom_30not">
-                                    <div className="col-6">
-                                        <ul className="bullets">
-                                            {facility_set.map((value, index) => (<li>{value.name}</li>))}
-                                        </ul>
-                                    </div>
-                                    {/* <div className="col-6">
+                                </div>
+                                <hr />
+                                <Details title="محل خودرو">
+                                    <p>{location.name.breadcrumb_fa}</p>
+                                    <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
+                                </Details>
+                                <Details title="محدودیت مسافت">
+                                    <ul className="">
+                                        <li>{max_km_per_day ? max_km_per_day + "کیلومتر" : "ندارد"}</li>
+                                        <li>{extra_km_price ? `هزینه هر کیلومتر اضافه ${extra_km_price} هزار تومان` : ""}</li>
+                                    </ul>
+                                </Details>
+                                <Details title="توضیحات">
+                                    {description ? description : "ندارد"}
+                                </Details>
+                                <Details title="مشخصات فنی">
+                                    <ul className="bullets">
+                                        <li>نوع بدنه: {body_style.fa}</li>
+                                        <li>دهنده {transmission_type.fa}</li>
+                                        <li>کارکرد: {mileage_range ? this.mileage_ranges[mileage_range.id + 1] : "صفر کیلومتر"}</li>
+                                        <li>ظرفیت: {capacity}</li>
+                                    </ul>
+                                </Details>
+                                <Details title="امکانات">
+                                    <div className="row add_bottom_30not">
+                                        <div className="col-6">
+                                            <ul className="bullets">
+                                                {facility_set.map((value, index) => (<li>{value.name}</li>))}
+                                            </ul>
+                                        </div>
+                                        {/* <div className="col-6">
                                         <ul className="bullets">
                                             <li>ماساژور صندلی</li>
                                             <li>دنده ۲۳تایی</li>
@@ -317,25 +318,25 @@ export default withNamespaces('common')(
                                             <li>نون گرم </li>
                                         </ul>
                                     </div> */}
-                                </div>
-                            </Details>
-                            {/* <Details title="کارکرد">
+                                    </div>
+                                </Details>
+                                {/* <Details title="کارکرد">
                                 {mileage_range ? this.mileage_ranges[mileage_range.id + 1] : "صفر کیلومتر"}
                             </Details> */}
-                            <Details title="قوانین کنسلی">
-                                {cancellation_policy ? cancellation_policy : "ندارد"}
-                            </Details>
-                            {isMobile &&
-                                <div className="strip grid usercard">
-                                    <UserCard
-                                        id={owner.id}
-                                        name={owner.name}
-                                        responceTime="میانگین زمان پاسخگویی: نامشخص"
-                                        image={owner.image_url}
-                                    />
-                                </div>
-                            }
-                            {/* <h3>Prices</h3>
+                                <Details title="قوانین کنسلی">
+                                    {cancellation_policy ? cancellation_policy : "ندارد"}
+                                </Details>
+                                {isMobile &&
+                                    <div className="strip grid usercard">
+                                        <UserCard
+                                            id={owner.id}
+                                            name={owner.name}
+                                            responceTime="میانگین زمان پاسخگویی: نامشخص"
+                                            image={owner.image_url}
+                                        />
+                                    </div>
+                                }
+                                {/* <h3>Prices</h3>
                             <table className="table table-striped add_bottom_45">
                                 <tbody>
                                     <tr>
@@ -355,12 +356,12 @@ export default withNamespaces('common')(
                             <hr />
                             <h3>Location</h3>
                             <div id="map" className="map map_single add_bottom_45"></div> */}
-                        </section>
-                    </div>
-                </Section>
-                <Section id="reviews" justifyCenter={false}>
-                    {/* <h2>نظرات</h2> */}
-                    {/* <div className="reviews-container add_bottom_30">
+                            </section>
+                        </div>
+                    </Section>
+                    <Section id="reviews" justifyCenter={false}>
+                        {/* <h2>نظرات</h2> */}
+                        {/* <div className="reviews-container add_bottom_30">
                         <div className="row">
                             <div className="col-lg-3">
                                 <div id="review_summary">
@@ -484,27 +485,27 @@ export default withNamespaces('common')(
                 
                     </div>
                     */}
-                </Section>
-                {isMobile &&
-                    <Button
-                        style={{
-                            zIndex: '55',
-                            bottom: '0',
-                            position: 'fixed',
-                            borderRadius: '0',
-                            margin: '0',
-                            height: '56px'
-                        }}
-                        primary
-                        type="submit"
-                        onClick={
-                            () => this.reserve()
-                        }
-                        className="btn_1 full-width"
-                    >
-                        درخواست اجاره
+                    </Section>
+                    {isMobile &&
+                        <Button
+                            style={{
+                                zIndex: '55',
+                                bottom: '0',
+                                position: 'fixed',
+                                borderRadius: '0',
+                                margin: '0',
+                                height: '56px'
+                            }}
+                            primary
+                            type="submit"
+                            onClick={
+                                () => this.reserve()
+                            }
+                            className="btn_1 full-width"
+                        >
+                            درخواست اجاره
                     </Button>
-                }
+                    }
                 </Layout >
             );
         }

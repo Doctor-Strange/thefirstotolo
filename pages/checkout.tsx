@@ -38,19 +38,19 @@ export default withNamespaces('common')(
             } else {
                 console.log('Client side Router Query', props.query);
             }
-            const res = await REQUEST_getCar({
-                start: props.query.start,
-                end: props.query.end,
-                id: props.query.id
-            })
-            return {
-                namespacesRequired: ['common'],
-                rentalCarID: props.query.id,
-                start: props.query.start,
-                end: props.query.end,
-                search_id: props.query.search_id,
-                ...res
-            };
+            try {
+                const res = await REQUEST_getCar({
+                    search_id: props.query.search_id
+                })
+                return {
+                    namespacesRequired: ['common'],
+                    search_id: props.query.search_id,
+                    ...res
+                };
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
 
         state = {
@@ -91,11 +91,6 @@ export default withNamespaces('common')(
             }, 0);
             //get car info
             this.setState({ ...this.props });
-            // const res = await REQUEST_getCar({
-            //     start: this.props.start,
-            //     end: this.props.end,
-            //     id: this.props.rentalCarID
-            // })
         }
 
         async reserve(search_id) {
@@ -114,17 +109,24 @@ export default withNamespaces('common')(
         }
 
         render() {
-            const { t, start, end, search_id } = this.props;
-            let start_date, end_date = null;
+            const { t, start_date, end_date, search_id } = this.props;
+            let start, end = null;
             let startDate, endDate = null;
-            if (start && end) {
-                startDate = moment(start, 'jYYYY/jMM/jDD');
-                endDate = moment(end, 'jYYYY/jMM/jDD');
+            console.log(start_date);
+            if (start_date && end_date) {
+                startDate = moment(start_date, 'jYYYY/jMM/jDD');
+                endDate = moment(end_date, 'jYYYY/jMM/jDD');
+                console.log(startDate);
             }
-            const { error, media_set, year, mileage_range, owner, body_style, color, color_code,
+            if (startDate && endDate) {
+                start = moment(startDate).format('jD jMMMM jYY');
+                end = moment(endDate).format('jD jMMMM jYY');
+                console.log(start);
+            }
+            const { media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location, facility_set,
                 max_km_per_day, description, capacity, extra_km_price, car, loaded, discount_percent,
-                discounted_total_price, total_price, avg_price_per_day, no_of_days } = this.state;
+                discounted_total_price, total_price, avg_price_per_day, no_of_days } = this.props;
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
