@@ -248,11 +248,7 @@ export default withNamespaces('common')(
                         code: convertToEnglishNum(values.code)
                       })
                       .then(response => {
-                        console.log('Sent');
-                        console.log(response.data);
                         if (response.data.token && !response.data.has_name) {
-                          // tslint:disable-next-line:no-console
-                          console.error(response.data);
                           this.setState({
                             code: convertToEnglishNum(values.code),
                             codeError: null,
@@ -260,11 +256,11 @@ export default withNamespaces('common')(
                           });
                           // sign user in store
                           actions.signin({
+                            user_id: response.data.user_profile.id,
                             token: response.data.token,
                             phone: this.state.phone,
-                            complete_register: true
+                            complete_register: true,
                           });
-                          // TODO: add token to redux;
                           this.handleCloseModal();
                           let go_to_pathname = Router.pathname;
                           let go_to_queries = Router.query;
@@ -302,6 +298,7 @@ export default withNamespaces('common')(
                               // now lets sign them in
                               console.log(response);
                               actions.signin({
+                                user_id: response.data.user_profile.id,
                                 token: response.data.token,
                                 phone: this.state.phone,
                                 first_name: response2.data.data.first_name,

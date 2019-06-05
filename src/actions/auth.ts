@@ -6,7 +6,8 @@ export const auth = () => {
     phone: jsCookie.get('phone'),
     complete_register: jsCookie.get('complete_register'),
     first_name: jsCookie.get('first_name'),
-    last_name: jsCookie.get('last_name')
+    last_name: jsCookie.get('last_name'),
+    user_id: jsCookie.get('user_id')
   };
   if (out.token) return out;
   else return false;
@@ -16,10 +17,11 @@ export const signin = (authData: Iuser) => {
   jsCookie.set('token', authData.token);
   jsCookie.set('phone', authData.phone);
   if (authData.complete_register) {
-    jsCookie.set('complete_register', authData.complete_register);
+    jsCookie.set('', authData.complete_register);
   }
   if (authData.first_name) jsCookie.set('first_name', authData.first_name);
   if (authData.last_name) jsCookie.set('last_name', authData.last_name);
+  if (authData.user_id) jsCookie.set('user_id', authData.user_id);
   return authData;
 };
 
@@ -42,4 +44,5 @@ interface Iuser {
   complete_register?: boolean;
   first_name?: string;
   last_name?: string;
+  user_id?: number;
 }
