@@ -97,7 +97,7 @@ interface IRequestCard {
 
 interface IdoAction {
     id: any;
-    action: 'approve' | 'reject' | 'pay' | 'cancel';
+    action: 'approve' | 'reject' | 'pay' | 'cancel' | 'deliver' | 'return' | 'rate';
 }
 
 
@@ -185,7 +185,7 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                     fluid
                                     className="left">
                                     پرداخت
-                        </Button>
+                                </Button>
                             </div>
                         </Grid.Column>
                     </Grid.Row>
@@ -208,8 +208,7 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                 <Button
                                     primary
                                     fluid
-                                    className="left"
-                                    onClick={() => doAction({ id, action: 'pay' })}
+                                    onClick={() => doAction({ id, action: 'deliver' })}
                                 >
                                     خودرو را تحویل گرفتم
                                 </Button>
@@ -230,7 +229,13 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                     <Grid.Row className="buttons">
                         <Grid.Column width={16}>
                             <div style={{ marginLeft: '8px' }}>
-                                <Button primary fluid className="left">خودرو را بازتحویل گرفتم</Button>
+                                <Button
+                                    primary
+                                    fluid
+                                    onClick={() => doAction({ id, action: 'return' })}
+                                >
+                                    خودرو را تحویل گرفتم
+                                </Button>
                             </div>
                         </Grid.Column>
                     </Grid.Row>
@@ -243,7 +248,14 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                 <Grid.Row className="buttons">
                     <Grid.Column width={16}>
                         <div style={{ marginLeft: '8px' }}>
-                            <Button primary fluid className="left">ثبت نظر</Button>
+                            <Button
+                                primary
+                                fluid
+                                className="left"
+                                onClick={() => doAction({ id, action: 'rate' })}
+                            >
+                            ثبت نظر
+                            </Button>
                         </div>
                     </Grid.Column>
                 </Grid.Row>

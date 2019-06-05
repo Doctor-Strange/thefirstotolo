@@ -5,8 +5,8 @@ const SET_ORDER_CANCEL = '/core/rental-car/order/cancel';
 const SET_ORDER_APPROVE = '/core/rental-car/order/approve';
 const SET_ORDER_REJECT = '/core/rental-car/order/reject';
 const SET_ORDER_PAY = '/core/rental-car/order/pay';
-const SET_ORDER_TAHVIL = '';
-const SET_ORDER_BAZTAHVIL = '';
+const SET_ORDER_DLIVER = '/core/rental-car/order/deliver';
+const SET_ORDER_RETURN = '/core/rental-car/order/return';
 const SET_ORDER_RATE = '';
 
 export const REQUEST_setOrderStatus = (data: InewRentRequest) => {
@@ -24,6 +24,15 @@ export const REQUEST_setOrderStatus = (data: InewRentRequest) => {
         break;
       case 'pay':
         ACTION_URL = SET_ORDER_PAY;
+        break;
+      case 'deliver':
+        ACTION_URL = SET_ORDER_DLIVER;
+        break;
+      case 'return':
+        ACTION_URL = SET_ORDER_RETURN;
+        break;
+      case 'rate':
+        ACTION_URL = SET_ORDER_RATE;
         break;
     }
     axios
@@ -51,6 +60,13 @@ export const REQUEST_setOrderStatus = (data: InewRentRequest) => {
 
 interface InewRentRequest {
   id: string;
-  action: 'approve' | 'reject' | 'pay' | 'cancel';
+  action:
+    | 'approve'
+    | 'reject'
+    | 'pay'
+    | 'cancel'
+    | 'deliver'
+    | 'return'
+    | 'rate';
   token: string;
 }
