@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useCallback } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import "react-persian-calendar-date-picker/lib/DatePicker.css";
-import DatePicker from 'react-persian-calendar-date-picker';
+import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
+import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 import {
@@ -67,12 +67,7 @@ function clearNumber(x) {
 }
 
 const BoxAccount = styled.div`
-  .DateInput {
-    width: 46%;
-  }
-  .DateRangePickerInput__withBorder {
-    border: none;
-  }
+
 `;
 
 interface IIndexFormValues {
@@ -202,6 +197,9 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                     onChange={setDate}
                     inputPlaceholder="انتخاب روزهای نمایش"
                     isDayRange
+                    disableBackward
+                    colorPrimary={"#00ACC1"}
+                    colorPrimaryLight={"#00acc147"}
                   />
                 </Box>
                 <Box className="indexFullOnMobile" width={[2 / 12, 1, 1]}>

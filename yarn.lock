@@ -6216,6 +6216,14 @@ osenv@^0.1.4:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+otoli-react-persian-calendar-date-picker@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/otoli-react-persian-calendar-date-picker/-/otoli-react-persian-calendar-date-picker-1.0.3.tgz#7d3aa02269e1f33db283c9966e28f467cec4acad"
+  integrity sha512-HJ2ydxNENGbEyz//FlAOOaqKbU9gFC+jDeZ3wNQdnSSsxOxHeU1vDOKrvaTgB+lNUdfyoF+vkIovwoT7efaYwA==
+  dependencies:
+    jalaali-js "^1.1.0"
+    prop-types "^15.7.2"
+
 p-finally@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
@@ -6998,14 +7006,6 @@ react-outside-click-handler@^1.2.0:
     consolidated-events "^1.1.1 || ^2.0.0"
     document.contains "^1.0.0"
     object.values "^1.1.0"
-    prop-types "^15.7.2"
-
-react-persian-calendar-date-picker@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-persian-calendar-date-picker/-/react-persian-calendar-date-picker-1.0.1.tgz#3016dd9d8f5e1e9d326e791c45053aacd04221ca"
-  integrity sha512-Kb14KgJc7dti5MYHCQBm5dcKLdq6CJlns4TgHEK5uNjkVluucyqI8hR3AlkVliWSQhcwF+aYONr+RQaVK7mrSQ==
-  dependencies:
-    jalaali-js "^1.1.0"
     prop-types "^15.7.2"
 
 react-portal@^4.1.5:

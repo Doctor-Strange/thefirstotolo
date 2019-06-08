@@ -19,13 +19,6 @@ import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { i18n, withNamespaces } from '../../i18n';
-import {
-  DateRangePicker,
-  DayPickerRangeController,
-  SingleDatePicker
-} from 'react-dates';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 import { Box, Flex } from '@rebass/grid';

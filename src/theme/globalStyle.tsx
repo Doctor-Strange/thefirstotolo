@@ -2487,8 +2487,25 @@ ul.bullets li {
   }
 }
 .float-left {
-    float: left !important;
-    direction: rtl;
+  float: left !important;
+  direction: rtl;
+}
+
+.DatePicker__calendarContainer {
+  opacity: 1;
+}
+
+.DatePicker__calendarContainer.fadein {
+  opacity: 0;
+  animation: fadeIn 0.1s ease-in;
+  transition: all 0.1s ease-in;
+}
+
+.DatePicker__calendarContainer.fadeout {
+  opacity: 0;
+  animation: fadeOut 0.4s ease-in;
+  transition: all 0.4s ease-in;
+  transform: translateX(-50%);
 }
 `;
 

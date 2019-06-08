@@ -18,13 +18,6 @@ import {
 import { CarCard, CarCardPlaceholder } from '../Cards';
 import { BulletList } from "react-content-loader";
 import { i18n, withNamespaces } from '../../i18n';
-import {
-    DateRangePicker,
-    DayPickerRangeController,
-    SingleDatePicker
-} from 'react-dates';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 import { Box, Flex } from '@rebass/grid';

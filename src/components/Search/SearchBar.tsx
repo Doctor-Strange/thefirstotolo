@@ -14,13 +14,6 @@ import {
   TextArea
 } from 'semantic-ui-react';
 import { i18n, withNamespaces } from '../../i18n';
-import {
-  DateRangePicker,
-  DayPickerRangeController,
-  SingleDatePicker
-} from 'react-dates';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
 import { Box, Flex } from '@rebass/grid';
 import moment from 'moment-jalaali';
 moment.loadPersian();
@@ -40,9 +33,6 @@ const SearchResult = styled.div`
     h4 {
       margin: 3px 0 0 0;
     }
-  }
-  .DateRangePickerInput__withBorder {
-    border: none;
   }
   .hide_on_desktop {
     text-align: center;
@@ -170,29 +160,7 @@ export class SearchBar extends React.Component<{
                     />
                   </Box>
                   <Box width={5 / 10} style={{ textAlign: 'center' }}>
-                    <DateRangePicker
-                      isRTL
-                      startDate={startDate}
-                      startDateId="unique_start_date_id"
-                      endDate={endDate}
-                      endDateId="unique_end_date_id"
-                      onDatesChange={({ startDate, endDate }) => {
-                        setDate(startDate, endDate);
-                      }}
-                      focusedInput={focusedInput}
-                      onFocusChange={val => {
-                        setfocusedInput(val);
-                      }}
-                      startDatePlaceholderText="تاریخ شروع"
-                      endDatePlaceholderText="تاریخ پایان"
-                      // minimumNights={1}
-                      monthFormat={'jMMMM jYYYY'}
-                      numberOfMonths={1}
-                      renderMonthText={month =>
-                        moment(month).format('jMMMM jYYYY')
-                      }
-                      renderDayContents={day => moment(day).format('jD')}
-                    />
+                   
                   </Box>
                   <Box width={2 / 10}>
                     <Form.Field
