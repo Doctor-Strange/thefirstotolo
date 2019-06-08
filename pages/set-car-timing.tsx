@@ -27,7 +27,7 @@ export default withNamespaces('common')(
           <Section justifyCenter={true}>
             <Flex justifyContent="space-around" style={{ width: '600px' }}>
               <Box width={1 / 1} px={2}>
-                <SetCarTimingForm t={t} rentalCarID={this.props.rentalCarID} />
+                <SetCarTimingForm t={t} id={this.props.rentalCarID} />
               </Box>
             </Flex>
           </Section>
