@@ -2493,6 +2493,7 @@ ul.bullets li {
 
 .DatePicker__calendarContainer {
   opacity: 1;
+  z-index:99;
 }
 
 .DatePicker__calendarContainer.fadein {
