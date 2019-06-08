@@ -6,6 +6,7 @@ import { REQUEST_getSearchForRent } from './Get/getSearchForRent';
 import { REQUEST_getOrderRequests } from './Get/getOrderRequests';
 import { REQUEST_getUser } from './Get/getUser';
 import { REQUEST_getUserCars } from './Get/getUserCars';
+import { REQUEST_getCarIsMine } from './Get/getCarIsMine';
 import { REQUEST_newRentRequest } from './Set/newRentRequest';
 import { REQUEST_setOrderStatus } from './Set/setRequestsActions';
 
@@ -18,6 +19,7 @@ export {
   REQUEST_getOrderRequests,
   REQUEST_getUser,
   REQUEST_getUserCars,
+  REQUEST_getCarIsMine,
   REQUEST_newRentRequest,
   REQUEST_setOrderStatus
 };
