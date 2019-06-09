@@ -37,9 +37,15 @@ export default withNamespaces('common')(
             } else {
                 console.log('Client side Router Query', props.query);
             }
-            const res = await REQUEST_getCar({
-                search_id: props.query.search_id,
-            })
+            let res;
+            if (props.query.search_id) 
+                res = await REQUEST_getCar({
+                    search_id: props.query.search_id,
+                });
+            else if (props.query.id) 
+                res = await REQUEST_getCar({
+                    id: props.query.id,
+                });
             return {
                 namespacesRequired: ['common'],
                 rentalCarID: props.query.id,
@@ -165,7 +171,8 @@ export default withNamespaces('common')(
                         {isBrowser &&
                             <aside className="col-lg-4" id="sidebar">
                                 <div className="box_detail booking">
-                                    <div className="price">
+                                <div className="price">
+                                    {(avg_price_per_day > 0) &&
                                         <PriceCard
                                             style={{
                                                 display: 'inline-grid',
@@ -176,7 +183,8 @@ export default withNamespaces('common')(
                                             number={avg_price_per_day}
                                         >
                                             در روز
-                                    </PriceCard>
+                                        </PriceCard>
+                                    }
                                         <div className="score">
                                             <span>
                                                 Good <em> 350 Reviews </em>
