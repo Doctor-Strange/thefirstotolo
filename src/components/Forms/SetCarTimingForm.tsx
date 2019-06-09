@@ -354,7 +354,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
   const [submittingSteps, setSubmittingSteps] = useState(0);
   const [disabledDays, setDisabledDays] = useState([]);
 
-  const modifyCarTimings = async (array) => {
+  const modifyCarTimings = async (array, curentRange = [] /* fixme */) => {
     setCarTimings(array);
     let out = [];
     var disabledDaysFiltered = array.filter((range) => {
@@ -385,10 +385,23 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
         console.log("isIsAllTime======> ", value.price_per_day);
       }
       else {
+        const s = value.start_date.jalali;
+        const e = value.end_date.jalali;
         return {
           id: value.id,
           price: value.price_per_day,
-          date: convertMomentsToDateRange(value.start_date, value.end_date)
+          date:  {
+            from: {
+              year: s.y,
+              month: s.m,
+              day: s.d 
+            },
+            to: {
+              year: e.y,
+              month: e.m,
+              day: e.d 
+            }
+          }
         }
       }
     });
@@ -567,9 +580,9 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                                         false
                                                       );
                                                       Router.push({
-                                                        pathname: '/done',
+                                                        pathname: '/car',
                                                         query: {
-                                                          car_id:
+                                                          id:
                                                             response.data
                                                               .data.id
                                                         }
@@ -619,9 +632,9 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                                   false
                                                 );
                                                 Router.push({
-                                                  pathname: '/done',
+                                                  pathname: '/car',
                                                   query: {
-                                                    car_id:
+                                                    id:
                                                       response.data.data
                                                         .id
                                                   }
