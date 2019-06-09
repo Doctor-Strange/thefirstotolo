@@ -8,7 +8,7 @@ import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
 import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard } from '../src/components/Cards';
-import { Details, CarNav, CarSideCard} from '../src/components/Car';
+import { Details, CarNav, CarSideCard } from '../src/components/Car';
 import { i18n, withNamespaces } from '../src/i18n';
 import { REQUEST_getCar } from '../src/API';
 import {
@@ -36,11 +36,11 @@ export default withNamespaces('common')(
                 console.log('Client side Router Query', props.query);
             }
             let res;
-            if (props.query.search_id) 
+            if (props.query.search_id)
                 res = await REQUEST_getCar({
                     search_id: props.query.search_id,
                 });
-            else if (props.query.id) 
+            else if (props.query.id)
                 res = await REQUEST_getCar({
                     id: props.query.id,
                 });
@@ -89,8 +89,8 @@ export default withNamespaces('common')(
             }, 0);
         }
 
-        reserve() {
-            const { search_id, rentalCarID } = this.props;
+        reserve(search_id) {
+            // const { search_id, rentalCarID } = this.props;
             const href = `/checkout?search_id=${search_id}`;
             // const as = `/checkout/${rentalCarID}/${search_id}`;
             Router.push(href, href, { shallow: true });
@@ -167,19 +167,19 @@ export default withNamespaces('common')(
                     <Section justifyCenter={true} style={{ marginTop: '24px' }}>
                         {isBrowser &&
                             <aside className="col-lg-4" id="sidebar">
-                            <CarSideCard
-                                date={{
-                                    start: startDate,
-                                    end: endDate
-                                }}
-                                price={avg_price_per_day}
-                                user={{
-                                    id:owner.id,
-                                    name: owner.name,
-                                    image_url: owner.image_url
-                                }}
-                                reserveFunction={this.reserve}
-                            />
+                                <CarSideCard
+                                    date={{
+                                        start: startDate,
+                                        end: endDate
+                                    }}
+                                    price={avg_price_per_day}
+                                    user={{
+                                        id: owner.id,
+                                        name: owner.name,
+                                        image_url: owner.image_url
+                                    }}
+                                    reserveFunction={() => { this.reserve(search_id) }}
+                                />
                             </aside>
                         }
                         <div className="col-lg-8 car_det_wrapper" style={{
@@ -427,7 +427,7 @@ export default withNamespaces('common')(
                             primary
                             type="submit"
                             onClick={
-                                () => this.reserve()
+                                () => this.reserve(search_id)
                             }
                             className="btn_1 full-width"
                         >

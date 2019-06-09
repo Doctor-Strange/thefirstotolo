@@ -130,49 +130,7 @@ export default withNamespaces('common')(
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
-                        <Section justifyCenter={true} style={{ marginTop: '24px' }}>
-                            <div className="col-lg-8 car_det_wrapper checkout" style={{
-                                position: 'relative'
-                            }}>
-
-                                <section id="description_" className="car_det box_detail">
-                                    <Grid>
-                                        <Grid.Row columns={2} centered className="property">
-                                            <Grid.Column width={9} className="right" style={{ paddingRight: '0' }}><div>
-                                                <h1 style={{ fontSize: '20px', textAlign: 'right', paddingBottom: '8px' }}>
-                                                    {`${car.brand.name.fa} ${car.name.fa}`}
-                                                </h1>
-                                                <br />
-                                                {/* <DateGrid start={startDate} end={endDate} /> */}
-                                                {/* <span>{year.fa}</span> <br /> */}
-                                            </div>
-                                                <Details title="محل خودرو" showHr={false}>
-                                                    <p>{location.name.breadcrumb_fa}</p>
-                                                    <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
-                                                </Details>
-                                                <Details title="قوانین کنسلی" showHr={false}>
-                                                    {cancellation_policy ? cancellation_policy : "ندارد"}
-                                                </Details>
-                                                <Details title="محدودیت مسافت" showHr={false}>
-                                                    <ul className="">
-                                                        <li>{max_km_per_day ? max_km_per_day + "کیلومتر" : "ندارد"}</li>
-                                                        <li>{extra_km_price ? `هزینه هر کیلومتر اضافه ${extra_km_price} هزار تومان` : ""}</li>
-                                                    </ul>
-                                                </Details>
-                                                <Details title="توضیحات" showHr={false}>
-                                                    {description ? description : "ندارد"}
-                                                </Details>
-                                            </Grid.Column>
-                                            <Grid.Column width={6} className="left" style={{ padding: '0' }}>
-                                                {(media_set.length >= 1)
-                                                    ? <img key="1" src={media_set[0]} style={{ width: '100%' }} />
-                                                    : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />
-                                                }
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
-                                </section>
-                            </div>
+                        <Section id="checkout" justifyCenter={true} style={{ marginTop: '24px' }}>
                             <aside className="col-lg-4" id="sidebar">
                                 <div className="box_detail booking">
                                     <ul className="thelist">
@@ -226,6 +184,48 @@ export default withNamespaces('common')(
                                     }
                                 </div>
                             </aside>
+                            <div className="col-lg-8 car_det_wrapper checkout" style={{
+                                position: 'relative'
+                            }}>
+
+                                <section id="description_" className="car_det box_detail">
+                                    <Grid>
+                                        <Grid.Row columns={2} centered className="property">
+                                            <Grid.Column width={9} className="right" style={{ paddingRight: '0' }}><div>
+                                                <h1 style={{ fontSize: '20px', textAlign: 'right', paddingBottom: '8px' }}>
+                                                    {`${car.brand.name.fa} ${car.name.fa}`}
+                                                </h1>
+                                                <br />
+                                                {/* <DateGrid start={startDate} end={endDate} /> */}
+                                                {/* <span>{year.fa}</span> <br /> */}
+                                            </div>
+                                                <Details title="محل خودرو" showHr={false}>
+                                                    <p>{location.name.breadcrumb_fa}</p>
+                                                    <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
+                                                </Details>
+                                                <Details title="قوانین کنسلی" showHr={false}>
+                                                    {cancellation_policy ? cancellation_policy : "ندارد"}
+                                                </Details>
+                                                <Details title="محدودیت مسافت" showHr={false}>
+                                                    <ul className="">
+                                                        <li>{max_km_per_day ? max_km_per_day + "کیلومتر" : "ندارد"}</li>
+                                                        <li>{extra_km_price ? `هزینه هر کیلومتر اضافه ${extra_km_price} هزار تومان` : ""}</li>
+                                                    </ul>
+                                                </Details>
+                                                <Details title="توضیحات" showHr={false}>
+                                                    {description ? description : "ندارد"}
+                                                </Details>
+                                            </Grid.Column>
+                                            <Grid.Column width={6} className="left" style={{ padding: '0' }}>
+                                                {(media_set.length >= 1)
+                                                    ? <img key="1" src={media_set[0]} style={{ width: '100%' }} />
+                                                    : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />
+                                                }
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Grid>
+                                </section>
+                            </div>
 
                         </Section>
                         {isMobile &&

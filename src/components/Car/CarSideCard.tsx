@@ -21,33 +21,36 @@ const Card = styled.nav`
     @media (min-width: 768px){
         margin-top: -60px;
     }
-
-.price {
-    top: -20px;
-    position: relative;
-    text-align: center;
-    width: 80px;
-    height: 80px;
-    padding: 5px;
-    margin: 0 auto;
-    .number{
-        height: 34px;
-        line-height: 43px;
-        display: block;
-        width: 65px;
-        margin: 0 auto;
-        font-weight: 500;
+    .DatePicker__input {
+        font-size: 15px;
+        font-family: Vazir;
     }
-    .unit{
-        padding: 0px;
-        display: block;
-        .strong{
-            font-size: 14px;
+    .price {
+        top: -20px;
+        position: relative;
+        text-align: center;
+        width: 80px;
+        height: 80px;
+        padding: 5px;
+        margin: 0 auto;
+        .number{
+            height: 34px;
+            line-height: 43px;
             display: block;
-            font-weight: 400;
+            width: 65px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+        .unit{
+            padding: 0px;
+            display: block;
+            .strong{
+                font-size: 14px;
+                display: block;
+                font-weight: 400;
+            }
         }
     }
-}
 `;
 
 const CarideCard: React.FunctionComponent<{

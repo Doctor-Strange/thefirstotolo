@@ -189,7 +189,7 @@ const GlobalStyle = createGlobalStyle`
     .justInDesktop{
       display:none;
     }
-    .profile_page{
+    .profile_page,#checkout{
       flex-direction: column-reverse;
     }
     .hero_single .wrapper {
