@@ -1,3 +1,5 @@
 import { Details } from './Details';
 import { CarNav } from './CarNav';
-export { Details, CarNav };
+import CarSideCard from './CarSideCard';
+import { CarDateRange } from './CarDateRange';
+export { Details, CarNav, CarSideCard, CarDateRange };

@@ -9,8 +9,8 @@ const Card = styled.figure`
     padding: 16px;
     margin: 0 !important;
   img {
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     border-radius: 999em;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.13);
   }
@@ -30,7 +30,7 @@ const Card = styled.figure`
     z-index: 1;
   }
   .hostDetailCard {
-    top: 15px;
+    top: 5px;
     position: relative;
     right: 5px;
     .name {

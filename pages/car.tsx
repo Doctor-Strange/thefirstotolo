@@ -7,12 +7,10 @@ import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
 import Carousel from 'nuka-carousel';
-import { PriceCard, UserCard } from '../src/components/Cards'
-import { Details, ListDetails, CarNav } from '../src/components/Car'
+import { PriceCard, UserCard } from '../src/components/Cards';
+import { Details, CarNav, CarSideCard} from '../src/components/Car';
 import { i18n, withNamespaces } from '../src/i18n';
 import { REQUEST_getCar } from '../src/API';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
     BrowserView,
     MobileView,
@@ -113,7 +111,6 @@ export default withNamespaces('common')(
                 end = moment(endDate).format('jD jMMMM jYY');
                 console.log(start);
             }
-            const { error } = this.state;
             const { media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location, facility_set,
                 max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day } = this.props;
@@ -126,7 +123,7 @@ export default withNamespaces('common')(
                         <div className="hero_in hotels_detail" style={{ maxWidth: '1111px' }}>
                             <Carousel
                                 heightMode="current"
-                                initialSlideWidth={isBrowser ? "970px" : undefined}
+                                initialSlideWidth={isBrowser ? 970 : undefined}
                                 renderCenterLeftControls={({ previousSlide }) => (
                                     <button
                                         onClick={previousSlide}
@@ -170,96 +167,19 @@ export default withNamespaces('common')(
                     <Section justifyCenter={true} style={{ marginTop: '24px' }}>
                         {isBrowser &&
                             <aside className="col-lg-4" id="sidebar">
-                                <div className="box_detail booking">
-                                <div className="price">
-                                    {(avg_price_per_day > 0) &&
-                                        <PriceCard
-                                            style={{
-                                                display: 'inline-grid',
-                                                left: '50px',
-                                                top: '-40px',
-                                                position: 'absolute'
-                                            }}
-                                            number={avg_price_per_day}
-                                        >
-                                            در روز
-                                        </PriceCard>
-                                    }
-                                        <div className="score">
-                                            <span>
-                                                Good <em> 350 Reviews </em>
-                                            </span>
-                                            <strong> 7.0 </strong>
-                                        </div>
-                                    </div>
-                                    <br /> <br />
-                                    <CarNav startDate={start} endDate={end} simpleMode={true} />
-                                    <UserCard
-                                        id={owner.id}
-                                        name={owner.name}
-                                        responceTime="میانگین زمان پاسخگویی: نامشخص"
-                                        image={owner.image_url}
-                                    />
-
-
-                                    <Button
-                                        style={{ height: '48px' }}
-                                        size='large'
-                                        fluid
-                                        onClick={() => {
-                                            this.reserve();
-                                        }}
-                                        color='teal'>درخواست اجاره</Button>
-                                    <div
-                                        style={{ marginTop: '8px' }}
-                                        className="text-center"
-                                    >
-                                        <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
-                                    </div>
-                                </div>
-                                <ul className="share-buttons">
-                                    <Popup
-                                        position='bottom right'
-                                        size='tiny'
-                                        content='توییت کنید'
-                                        inverted
-                                        trigger={
-                                            <Button circular icon='twitter' />
-                                        }
-                                    />
-                                    <Popup
-                                        position='bottom right'
-                                        size='tiny'
-                                        content='ارسال از طریق ایمیل'
-                                        inverted
-                                        trigger={
-                                            <Button circular icon='mail' />
-                                        }
-                                    />
-                                    <Popup
-                                        position='bottom right'
-                                        size='tiny'
-                                        content='ارسال به تلگرام'
-                                        inverted
-                                        trigger={
-                                            <Button circular icon='telegram' />
-                                        }
-                                    />
-                                    <Popup
-                                        position='bottom right'
-                                        size='tiny'
-                                        content='کپی پیوند خودرو'
-                                        inverted
-                                        trigger={
-                                            <CopyToClipboard
-                                                text={window.location.href}
-                                                onCopy={() => alert("کپی شد")}
-                                            >
-                                                <Button circular icon='copy' />
-                                            </CopyToClipboard>
-                                        }
-                                    />
-                                </ul>
+                            <CarSideCard
+                                date={{
+                                    start: startDate,
+                                    end: endDate
+                                }}
+                                price={avg_price_per_day}
+                                user={{
+                                    id:owner.id,
+                                    name: owner.name,
+                                    image_url: owner.image_url
+                                }}
+                                reserveFunction={this.reserve}
+                            />
                             </aside>
                         }
                         <div className="col-lg-8 car_det_wrapper" style={{
