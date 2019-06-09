@@ -25,7 +25,7 @@ import {
   Item
 } from 'semantic-ui-react';
 import Error404 from '../404';
-import { REQUEST_getCarIsMine } from '../../API';
+import { REQUEST_getCarIsMine, REQUEST_getCarAvailabilities } from '../../API';
 import { i18n, withNamespaces } from '../../i18n';
 import { connect } from '../../store';
 import { Formik, FormikActions, withFormik } from 'formik';
@@ -44,6 +44,12 @@ import * as Pelak from '../../../static/pelak2.png';
 import { Box, Flex } from '@rebass/grid';
 import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import {
+  convertDateToMoment,
+  convertRangeDateToMoment,
+  convertMomentsToDateRange,
+  getBetweenRange
+} from '../../lib/date';
 
 function clearNumber(x) {
   return convertNumbers2English(x.toString())
@@ -216,14 +222,23 @@ interface ISetCarTimingFormValues {
   distanceLimit: string;
   extraKm: string;
   radioGroup: boolean;
-  start_date: string;
-  end_date: string;
+  date: IRange;
   price: string;
   radiGoroup: boolean;
   availableInAllPrice: string;
   cancellationPolicy: string;
 }
 
+interface IDate {
+  year: number;
+  month: number;
+  day: number;
+}
+
+interface IRange {
+  from: IDate;
+  to: IDate;
+}
 
 interface ISetCarTimingForm {
   user: any;
@@ -319,48 +334,72 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
     year: {}
   }
 
+  const empetyDate = {
+    from: null,
+    to: null
+  };
+
   const [error, setError] = useState(false);
   const [car, setCar] = useState({ ...carSample });
   const [mapApiToFormik, setMapApiToFormik] = useState(false);
   const [name, setName] = useState(null);
-  const [carTimings, setcarTimings] = useState([]);
+  const [carTimings, setCarTimings] = useState([]);
+  const [isIsAllTime, setIsIsAllTime] = useState(false);
+  const [isAllTimePrice, setIsAllTimePrice] = useState(0);
   const [success, setSuccess] = useState('');
-  const [price, serPrice] = useState(null);
-  const [date, setDate] = useState('');
+  const [price, setPrice] = useState(null);
+  const [date, setDate] = useState(empetyDate);
   const [showNewEntery, setShowNewEntery] = useState(true);
   const [openEditFor, setOpenEditFor] = useState(null);
   const [submittingSteps, setSubmittingSteps] = useState(0);
+  const [disabledDays, setDisabledDays] = useState([]);
+
+  const modifyCarTimings = async (array) => {
+    setCarTimings(array);
+    let out = [];
+    var disabledDaysFiltered = array.filter((range) => {
+      if (array.is_all_time) {
+        return false; // skip
+      }
+      return true;
+    }).map((value, index) => {
+      console.log("index:", index)
+      var days = getBetweenRange(value.date);
+      out.push(...days);
+    });
+    await setDisabledDays(out);
+    console.log("disabledDays is: ", disabledDays);
+  }
 
   const fetchAPI = async () => {
-    let carRes = await REQUEST_getCarIsMine({ id, token: jsCookie.get('token') });
+    const carRes = await REQUEST_getCarIsMine({ id, token: jsCookie.get('token') });
+    const timeRes = await REQUEST_getCarAvailabilities({ id, token: jsCookie.get('token') });
     console.log(carRes);
+    console.log(timeRes);
     setCar(carRes);
+    const results = timeRes.map((value, index) => {
+      console.log("34", value.is_all_time);
+      if (value.is_all_time) {
+        setIsIsAllTime(true);
+        setIsAllTimePrice(value.price_per_day);
+        console.log("isIsAllTime======> ", value.price_per_day);
+      }
+      else {
+        return {
+          id: value.id,
+          price: value.price_per_day,
+          date: convertMomentsToDateRange(value.start_date, value.end_date)
+        }
+      }
+    });
+    modifyCarTimings(results);
     setMapApiToFormik(true);
+    console.log(results);
   }
 
   useEffect(() => {
     fetchAPI();
   }, []);
-
-  const getDates = () => {
-    // const startDate = this.state.startDate;
-    // const endDate = this.state.endDate;
-    // console.log(startDate);
-    // let out = {
-    //   from: {
-    //     day: Number(moment(startDate).format('jDD')),
-    //     month: Number(moment(startDate).format('jMM')),
-    //     year: Number(moment(startDate).format('jYYYY'))
-    //   },
-    //   to: {
-    //     day: Number(moment(endDate).format('jDD')),
-    //     month: Number(moment(endDate).format('jMM')),
-    //     year: Number(moment(endDate).format('jYYYY'))
-    //   }
-    // }
-    // console.log(out);
-    // return out;
-  }
 
   const fieldErrorGenrator = fieldName => {
     return (
@@ -547,10 +586,10 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                                       '/core/rental-car/availability/new',
                                                       {
                                                         rental_car_id: id,
-                                                        start_date: val.startDate.format(
+                                                        start_date: convertDateToMoment(val.date.from).format(
                                                           'jYYYY/jMM/jDD'
                                                         ),
-                                                        end_date: val.endDate.format(
+                                                        end_date: convertDateToMoment(val.date.to).format(
                                                           'jYYYY/jMM/jDD'
                                                         ),
                                                         price: clearNumber(
@@ -672,6 +711,16 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
           setFieldValue('deliverAtRentersPlace', car.deliver_at_renters_place);
           setFieldValue('daysToGetReminded', car.days_to_get_reminded);
           setFieldValue('minDaysToRent', car.min_days_to_rent);
+          console.log("isAllTimePrice: ", isAllTimePrice);
+          if (isIsAllTime) {
+            console.log("setting is all time price", isAllTimePrice);
+            setFieldValue('availableInAllPrice', isAllTimePrice);
+          }
+          else {
+            console.log("setFieldValue", values.radioGroup);
+            setFieldValue('radioGroup', true);
+            console.log("setFieldValue", values.radioGroup);
+          }
         }
         return (
           <BoxAccount className="box_account">
@@ -975,7 +1024,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                     </span>
                   </div>
                 )}
-
+                {/* ===================================================================== */}
                 <Form.Field style={{ paddingTop: radioPad }}>
                   <Radio
                     label={t(
@@ -1000,17 +1049,20 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                   <div style={{ maxWidth: '370px' }}>
                     <Segment.Group style={{ marginBottom: '12px' }}>
                       {carTimings.map((val, index) => {
+                        if (val == undefined) {
+                          return <></>;
+                        }
                         if (openEditFor == index) {
+                          console.log("date is: ", date);
+                          console.log("price is: ", price);
                           if (
-                            startDate === null ||
-                            endDate === null ||
+                            date.to === null &&
+                            date.from === null &&
                             price === null
                           ) {
-                            this.setState({
-                              startDate: val.startDate,
-                              endDate: val.endDate,
-                              price: val.price
-                            });
+                            setDate({ from: val.date.from, to: val.date.to });
+                            setPrice(val.price);
+                            console.log("date and price setted from carTiming: ", date);
                           }
                           return (
                             <Segment
@@ -1023,18 +1075,18 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                 >
                                   <label>{t('carTiming.from')}</label>
                                 </Form.Field>
-                                <Form.Field
-                                  style={{ margin: 0, maxWidth: '47%' }}
-                                >
-                                  <label>{t('carTiming.to')}</label>
-                                </Form.Field>
                               </Form.Group>
                               <DatePicker
                                 selectedDayRange={date}
-                                onChange={setDate}
+                                onChange={(value) => {
+                                  console.log("val ", value);
+                                  setDate({ from: value.from, to: value.to });
+                                  console.log("date ", date);
+                                }}
                                 inputPlaceholder="انتخاب روزهای نمایش"
                                 isDayRange
                                 disableBackward
+                                disabledDays={disabledDays}
                                 colorPrimary={"#00ACC1"}
                                 colorPrimaryLight={"#00acc147"}
                               />
@@ -1056,6 +1108,15 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                 }
                               >
                                 <input inputMode="numeric" />
+                                <span
+                                  style={{
+                                    float: 'right',
+                                    lineHeight: '48px',
+                                    marginRight: '8px'
+                                  }}
+                                >
+                                  {t('carTiming.toman')}
+                                </span>
                               </Form.Input>
                               <Button.Group
                                 size="tiny"
@@ -1070,13 +1131,10 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                   type="button"
                                   className="pos_bott"
                                   onClick={e => {
-                                    this.setState({
-                                      startDate: moment(),
-                                      endDate: moment(),
-                                      price: '',
-                                      showNewEntery: false,
-                                      openEditFor: null
-                                    });
+                                    setDate(empetyDate);
+                                    setPrice('');
+                                    setShowNewEntery(false);
+                                    setOpenEditFor(null);
                                   }}
                                 >
                                   لغو
@@ -1091,23 +1149,19 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                     console.log(e);
                                     let data = carTimings;
                                     if (
-                                      startDate &&
-                                      endDate &&
+                                      date.from &&
+                                      date.to &&
                                       price
                                     ) {
                                       data.splice(index, 1, {
-                                        startDate: startDate,
-                                        endDate: endDate,
+                                        date,
                                         price
                                       });
-                                      this.setState({
-                                        carTimings: data,
-                                        startDate: moment(),
-                                        endDate: moment(),
-                                        price: '',
-                                        showNewEntery: false,
-                                        openEditFor: null
-                                      });
+                                      modifyCarTimings(data);
+                                      setDate(empetyDate);
+                                      setPrice('');
+                                      setShowNewEntery(false);
+                                      setOpenEditFor(null);
                                     }
                                   }}
                                 >
@@ -1116,7 +1170,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                               </Button.Group>
                             </Segment>
                           );
-                        } else {
+                        }
+                        else {
                           return (
                             <Segment
                               key={index}
@@ -1124,9 +1179,9 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                             >
                               <span>
                                 <label>از</label>{' '}
-                                {convertNumbers2Persian(val.startDate.format('jDD jMMMM jYY'))}{' '}
+                                {convertNumbers2Persian(convertDateToMoment(val.date.from).format('jDD jMMMM jYY'))}{' '}
                                 <label>تا</label>{' '}
-                                {convertNumbers2Persian(val.endDate.format('jDD jMMMM jYY'))}{' '}
+                                {convertNumbers2Persian(convertDateToMoment(val.date.to).format('jDD jMMMM jYY'))}{' '}
                                 <br />
                                 <label>با قیمت</label>{' '}
                                 {convertNumbers2Persian(
@@ -1139,7 +1194,11 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                 onClick={e => {
                                   let data = carTimings;
                                   data.splice(index, 1);
-                                  setCarTimings(data);
+                                  console.log(data);
+                                  modifyCarTimings(data);
+                                  setShowNewEntery(false);
+                                  setPrice(null);
+                                  setDate(empetyDate);
                                 }}
                               />
                               <Icon
@@ -1148,8 +1207,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                   setShowNewEntery(false);
                                   setOpenEditFor(index);
                                   setPrice(null);
-                                  // startDate: null,
-                                  // endDate: null,
+                                  setDate(empetyDate);
                                 }}
                               />
                             </Segment>
@@ -1162,25 +1220,21 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                         <Segment className="timingEntery">
                           <Form.Group>
                             <Form.Field
-                              style={{ margin: 0, maxWidth: '47%' }}
+                              style={{ margin: 0, maxWidth: '100%' }}
                             >
                               <label>{t('carTiming.from')}</label>
-                            </Form.Field>
-                            <Form.Field
-                              style={{ margin: 0, maxWidth: '47%' }}
-                            >
-                              <label>{t('carTiming.to')}</label>
+                              <DatePicker
+                                selectedDayRange={date}
+                                onChange={setDate}
+                                inputPlaceholder="انتخاب روزهای نمایش"
+                                isDayRange
+                                disableBackward
+                                disabledDays={disabledDays}
+                                colorPrimary={"#00ACC1"}
+                                colorPrimaryLight={"#00acc147"}
+                              />
                             </Form.Field>
                           </Form.Group>
-                          <DatePicker
-                            selectedDayRange={date}
-                            onChange={setDate}
-                            inputPlaceholder="انتخاب روزهای نمایش"
-                            isDayRange
-                            disableBackward
-                            colorPrimary={"#00ACC1"}
-                            colorPrimaryLight={"#00acc147"}
-                          />
                           <Form.Input
                             style={{ width: '47%' }}
                             name="price"
@@ -1216,7 +1270,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                               flexDirection: 'row-reverse',
                               position: 'relative',
                               bottom: '-20px',
-                              left: '-15px'
+                              left: '-75px'
                             }}
                           >
                             <Button
@@ -1239,22 +1293,18 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                 console.log(e);
                                 let data = carTimings;
                                 if (
-                                  startDate &&
-                                  endDate &&
+                                  date.from &&
+                                  date.to &&
                                   price
                                 ) {
                                   data.push({
-                                    startDate,
-                                    endDate,
+                                    date,
                                     price
                                   });
-                                  this.setState({
-                                    carTimings: data,
-                                    startDate: moment(),
-                                    endDate: moment(),
-                                    price: '',
-                                    showNewEntery: false
-                                  });
+                                  modifyCarTimings(data);
+                                  setDate(empetyDate);
+                                  setPrice('');
+                                  setShowNewEntery(false);
                                 }
                               }}
                             >
@@ -1275,13 +1325,10 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                         basic
                         color='blue'
                         onClick={e => {
-                          this.setState({
-                            showNewEntery: true,
-                            openEditFor: null,
-                            startDate: moment(),
-                            endDate: moment(),
-                            price: ''
-                          });
+                          setDate(empetyDate);
+                          setPrice('');
+                          setShowNewEntery(true);
+                          setOpenEditFor(null);
                         }}
                       >
                         افزودن
