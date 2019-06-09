@@ -66,6 +66,9 @@ const Card = styled.div`
             padding-top: 3px !important;
         }
     }
+    .flrt{
+        display: inline-block;
+    }
     
 `;
 
@@ -75,16 +78,16 @@ const Pelak: React.FunctionComponent<{
     third: string;
     forth: string;
     type?: number;
-    size?: sizeType;
+    size?: 'large' | 'normal' | 'small';
     style?: any;
 }> = ({ first, second, third, forth, type = 1, size = sizeType.normal, style = {} }) => (
     <Card className="pelak" style={style}>
-        <Grid className={`${(size != sizeType.small) ? size : 'normal small'} type${type}`}>
+        <Grid className={`${(size != 'small') ? size : 'normal small'} type${type} flrt`}>
             <Grid.Row columns={4}>
                 <Grid.Column width={(size == 'large') ? 5 : 4} className="first">
                     {convertNumbers2Persian(first)}
                 </Grid.Column>
-                <Grid.Column width={(size == 'large') ? 3 : 4} className="second">
+                <Grid.Column width={(size == 'large') ? 3 : 3} className="second">
                     <span>{second}</span>
                 </Grid.Column>
                 <Grid.Column width={(size == 'large') ? 4 : 4} className="third">

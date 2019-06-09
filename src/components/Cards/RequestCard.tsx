@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
 import swal from '@sweetalert/with-react'
-import { Pelak, sizeType, DateGrid } from './index';
+import { Pelak, DateGrid } from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 import jsCookie from 'js-cookie';
 import { REQUEST_setOrderStatus } from '../../API';
@@ -297,7 +297,7 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                 third={pelak.third}
                                 forth={pelak.fourth}
                                 type={1}
-                                size={sizeType.small}
+                                size={"small"}
                                 style={{}}
                             />
                         </Grid.Column>

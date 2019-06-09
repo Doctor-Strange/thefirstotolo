@@ -40,7 +40,7 @@ import jsCookie from 'js-cookie';
 // });
 import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
-import * as Pelak from '../../../static/pelak2.png';
+import { Pelak } from '../Cards';
 import { Box, Flex } from '@rebass/grid';
 import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
@@ -84,40 +84,6 @@ const BoxAccount = styled.div`
     flex-direction: row;
     &.new_client {
       background: url(${NewUser}) center left no-repeat;
-    }
-  }
-  .pelak {
-    background: url(${Pelak}) no-repeat;
-    height: 40px;
-    width: 170px;
-    background-size: contain;
-    #carLicensePlates1 {
-      position: relative;
-      direction: ltr;
-      left: -115px;
-      top: 11px;
-      font-size: 25px;
-    }
-    #carLicensePlates2 {
-      position: relative;
-      direction: ltr;
-      left: -64px;
-      top: 11px;
-      font-size: 25px;
-    }
-    #carLicensePlates3 {
-      position: relative;
-      direction: ltr;
-      left: 36px;
-      top: 11px;
-      font-size: 25px;
-    }
-    #carLicensePlates4 {
-      position: relative;
-      direction: ltr;
-      left: 42px;
-      top: 15px;
-      font-size: 25px;
     }
   }
   .ui.input {
@@ -390,16 +356,16 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
         return {
           id: value.id,
           price: value.price_per_day,
-          date:  {
+          date: {
             from: {
               year: s.y,
               month: s.m,
-              day: s.d 
+              day: s.d
             },
             to: {
               year: e.y,
               month: e.m,
-              day: e.d 
+              day: e.d
             }
           }
         }
@@ -752,18 +718,15 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                       </Item.Header>
                       {/* <Item.Meta>{carDescription}</Item.Meta> */}
                       <Item.Description>
-                        <div className="pelak" style={{}}>
-                          <span id="carLicensePlates1">
-                            {convertNumbers2Persian(car.registration_plate_first_part)}
-                          </span>
-                          <span id="carLicensePlates2">{car.registration_plate_second_part}</span>
-                          <span id="carLicensePlates3">
-                            {convertNumbers2Persian(car.registration_plate_third_part)}
-                          </span>
-                          <span id="carLicensePlates4">
-                            {convertNumbers2Persian(car.registration_plate_forth_part)}
-                          </span>
-                        </div>
+                        <Pelak
+                          first={convertNumbers2Persian(car.registration_plate_first_part)}
+                          second={car.registration_plate_second_part}
+                          third={convertNumbers2Persian(car.registration_plate_third_part)}
+                          forth={convertNumbers2Persian(car.registration_plate_forth_part)}
+                          type={1}
+                          size={"small"}
+                          style={{ maxWidth: '150px' }}
+                        />
                       </Item.Description>
                       {/* <Item.Extra>{carLocation}</Item.Extra> */}
                     </Item.Content>
@@ -1383,7 +1346,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                     type="submit"
                     className="btn_1 full-width"
                   >
-                    {t('signin')}
+                    {t('confirm')}
                   </Button>
                   {/* {isSubmitting && (
                       <Progress
