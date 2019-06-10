@@ -136,6 +136,20 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
         );
     }
 
+    const openRatingModal = () => {
+        swal(
+            <div>
+                <h1>اامتیاز دهید</h1>
+            </div>,
+            {
+                button: {
+                    text: "بستن",
+                    closeModal: true,
+                },
+            }
+        );
+    }
+
     let title;
     let actions;
     switch (status) {
