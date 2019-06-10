@@ -88,8 +88,9 @@ const Profile: React.SFC<IProfile> = ({ t, id, name, image_url }) => {
                             {own &&
                                 <Button
                                     style={{ height: '48px' }}
-                                    size='large'
+                                    size='small'
                                     fluid
+                                    basic
                                     color='teal'>
                                     ویرایش پروفایل
                                 </Button>

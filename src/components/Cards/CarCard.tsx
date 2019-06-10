@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
+import Link from 'next/link';
+import Router from 'next/router';
 import StarRatingComponent from 'react-star-rating-component';
 import { Icon, Button, Grid } from 'semantic-ui-react';
 import { PriceCard } from './index'
@@ -178,118 +180,136 @@ const Card = styled.div`
     bottom: 48px;
   }
   .edit{
+      width: 108%;
       .item {
         padding: 0 !important;
+        text-align:center !important;
       }
+  }
+  button.ui.basic.button {
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 5px 0 5px;
+    color: #3e3e3e !important;
+  
   }
 `;
 
 export const CarCard: React.FunctionComponent<{
-    id: any;
-    title: string;
-    img: string;
-    description: string;
-    year: string;
-    score: any;
-    price: any;
-    deliver_at_renters_place: boolean;
-    dateURL?: string;
-    search_id?: string;
-    simpleMode?: boolean;
-    showEditButtons?: boolean
+  id: any;
+  title: string;
+  img: string;
+  description: string;
+  year: string;
+  score: any;
+  price: any;
+  deliver_at_renters_place: boolean;
+  dateURL?: string;
+  search_id?: string;
+  simpleMode?: boolean;
+  showEditButtons?: boolean
 }> = ({
-    children,
-    title,
-    img,
-    description,
-    year,
-    score,
-    price,
-    deliver_at_renters_place,
-    id,
-    dateURL,
-    search_id,
-    simpleMode = true,
-    showEditButtons = false
+  children,
+  title,
+  img,
+  description,
+  year,
+  score,
+  price,
+  deliver_at_renters_place,
+  id,
+  dateURL,
+  search_id,
+  simpleMode = true,
+  showEditButtons = false
 }) => {
-        let link = "";
-        if (simpleMode) {
-            link = `/car?id=${id}`;
-        }
-        else {
-            link = `/car?id=${id}${dateURL}&search_id=${search_id}`;
-        }
-        return (
-            <Card className="strip grid carcard">
-                <a href={link}>
-                    <figure>
-                        {/* <a href="#0" className="wish_bt" >
-          
-        </a> */}
-                        <img src={img} className="img-fluid" alt="" />
-                        <div className="read_more">
-                            <span>{simpleMode ? "مشاهده" : "مشاهده و رزرو"}</span>
-                        </div>
-                        {/* <small>Restaurant</small> */}
-                    </figure>
-                    <div className="wrapper row">
-                        <div className="col-8">
-                            <h3>
-                                <a href={`/car?id=${id}`}>
-                                    {title}<br />
-                                    <small>{year}</small><br />
-                                    {/* <StarRatingComponent
-                name="rate1"
-                starCount={5}
-                value={3}
-              /> */}
-                                </a>
-                            </h3>
-                        </div>
-                        {!simpleMode &&
-                            <div className="col-4 leftbox">
-                                <PriceCard number={price}>
-                                    در روز
-            </PriceCard>
-                            </div>
-                        }
-                        {/* <small>{text2}</small> */}
-                        {/* <p>{description}</p> */}
-                        {/* <a className="address" href={`/car?id=${id}`}>Get directions</a> */}
-                        {!simpleMode &&
-                            <ul>
-                                {deliver_at_renters_place ?
-                                    (
-                                        <li>
-                                            <span className="loc_open">تحویل در محل</span>
-                                        </li>
-                                    ) : (<li></li>)
-                                }
-                            </ul>
-                        }
-                        {showEditButtons &&
-                            <Grid className="edit">
-                                <Grid.Row columns={3} centered className="property">
-                                    <Grid.Column width={5} className="item">
-                                        <Button basic>
-                                            <Icon name='calendar alternate outline' /> تغیر تاریخ و قیمت
-                                        </Button>
-                                    </Grid.Column>
-                                    <Grid.Column width={5} className="item">
-                                        <Button basic>
-                                            <Icon name='settings' /> ویرایش مشخصات
-                                        </Button>
-                                    </Grid.Column>
-                                    <Grid.Column width={5} className="item">
-                                        <Button basic>
-                                            <Icon name='pause circle outline' /> توقف نمایش
-                                        </Button>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
-                        }
-                    </div>
-                </a>
-            </Card>
-        );
+    let link = "";
+    if (simpleMode) {
+      link = `/car?id=${id}`;
     }
+    else {
+      link = `/car?id=${id}${dateURL}&search_id=${search_id}`;
+    }
+
+    const setCarTiming = () => {
+      const href = `/set-car-timing?id=${id}`;
+      Router.push(href, href, { shallow: true });
+    }
+
+    const pauseCar = () => {
+      // const href = `/set-car-timing?id=${id}`;
+      // Router.push(href, href, { shallow: true });
+      alert("خودروی شما از دیده‌ها پنهان شد.");
+    }
+
+    return (
+      <Card className="strip grid carcard">
+        <Link href={link} shallow>
+          <figure>
+            {/* <a href="#0" className="wish_bt" >
+            
+              </a> */}
+            <img src={img} className="img-fluid" alt="" />
+            <div className="read_more">
+              <span>{simpleMode ? "مشاهده" : "مشاهده و رزرو"}</span>
+            </div>
+            {/* <small>Restaurant</small> */}
+          </figure>
+        </Link>
+        <div className="wrapper row">
+          <div className="col-8">
+            <Link href={link} shallow>
+              <h3>
+                <a href={`/car?id=${id}`}>
+                  {title}<br />
+                  <small>{year}</small><br />
+                  {/* <StarRatingComponent
+                      name="rate1"
+                      starCount={5}
+                      value={3}
+                    /> */}
+                </a>
+              </h3>
+            </Link>
+          </div>
+          {!simpleMode &&
+            <div className="col-4 leftbox">
+              <PriceCard number={price}>
+                در روز
+            </PriceCard>
+            </div>
+          }
+          {/* <small>{text2}</small> */}
+          {/* <p>{description}</p> */}
+          {/* <a className="address" href={`/car?id=${id}`}>Get directions</a> */}
+          {!simpleMode &&
+            <ul>
+              {deliver_at_renters_place ?
+                (
+                  <li>
+                    <span className="loc_open">تحویل در محل</span>
+                  </li>
+                ) : (<li></li>)
+              }
+            </ul>
+          }
+          {showEditButtons &&
+            <Grid className="edit">
+              <Grid.Row columns={2} centered className="property">
+                <Grid.Column width={8} className="item">
+                  <Button basic onClick={setCarTiming}>
+                    <Icon name='calendar alternate outline' /> تغیر تاریخ و قیمت
+                    </Button>
+                </Grid.Column>
+                <Grid.Column width={8} className="item">
+                  <Button basic onClick={pauseCar}>
+                    <Icon name='pause circle outline' /> توقف نمایش
+                    </Button>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          }
+        </div>
+      </Card>
+    );
+  }
