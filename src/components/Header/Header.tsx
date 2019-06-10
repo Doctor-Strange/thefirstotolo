@@ -4,6 +4,7 @@ import { Icon } from 'semantic-ui-react';
 import { Nav } from '../Nav';
 import { Logo } from '../Logo';
 import Router from 'next/router';
+import Link from 'next/link';
 import { i18n, withNamespaces } from '../../i18n';
 import ReactModal from 'react-modal';
 import LoginModal from '../Modals/LoginModal';
@@ -306,10 +307,6 @@ class Header extends React.Component<{
                   <Logo />
                 </div>
                 <div className="col-lg-9 col-12">
-                  <ul id="top_menu">
-
-                  </ul>
-
                   <Nav>
                     <>
                       <li>
@@ -345,13 +342,16 @@ class Header extends React.Component<{
             </div>
           </header>
           <header className="justInMobile">
-            <Icon name="bars" onClick={this.props.openMenu} />
-            <ul id="top_menu">
+            <ul id="top_menu" style={{float: 'left',margin: '0 10px 0 0'}}>
               <li>
-                <a onClick={() => { Router.push("/add-car", "/add-car", { shallow: true }); }} className="btn_add">
-                  {this.props.headerBtn}
-                </a>
+                <Link href="/requests">
+                  <a>سفارش‌های من</a>
+                </Link>
               </li>
+            </ul>
+           
+            <Logo />
+            <ul id="top_menu">
               <li>
                 {!token && (
                   <a
