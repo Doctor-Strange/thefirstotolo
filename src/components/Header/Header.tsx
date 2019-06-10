@@ -235,6 +235,12 @@ const HeaderSticky = styled.div`
       opacity: 1 !important;
     }
   }
+  .img-header {
+    height: 24px;
+    width: 24px;
+    border-radius: 999em;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.13)
+  }
 `;
 
 class Header extends React.Component<{
@@ -301,44 +307,39 @@ class Header extends React.Component<{
                 </div>
                 <div className="col-lg-9 col-12">
                   <ul id="top_menu">
-                    <li>
-                      <a onClick={() => { Router.push("/add-car", "/add-car", { shallow: true }); }} className="btn_add">
-                        {this.props.headerBtn}
-                      </a>
-                    </li>
-                    <li>
-                      {!token && (
-                        <a
-                          href="#"
-                          id="sign-in"
-                          className="login"
-                          title={t('signin')}
-                          onClick={this.onClick}
-                        >
-                          {t('signin')}
-                        </a>
-                      )}
-                      {token && (
-                        <span>
-                          <a href={`/profile?id=${user_id}`}>
-                            {first_name} {last_name}
-                          </a>
-                          {/* {', '}
+
+                  </ul>
+
+                  <Nav>
+                    <>
+                      <li>
+                        {!token && (
                           <a
                             href="#"
                             id="sign-in"
                             className="login"
-                            title={t('logout')}
-                            onClick={this.logout}
+                            title={t('signin')}
+                            onClick={this.onClick}
                           >
-                            {t('logout')}
-                          </a> */}
-                        </span>
-                      )}
-                    </li>
-                  </ul>
-
-                  <Nav />
+                            {t('signin')}
+                          </a>
+                        )}
+                        {token && (
+                          <span>
+                            <a href={`/profile?id=${user_id}`}>
+                              {first_name} {last_name}
+                              {' '}
+                              <img
+                                src={"https://otoli.net/static/core/default_profile_pic.png"}
+                                className="img-header"
+                                alt=""
+                              />
+                            </a>
+                          </span>
+                        )}
+                      </li>
+                    </>
+                  </Nav>
                 </div>
               </div>
             </div>

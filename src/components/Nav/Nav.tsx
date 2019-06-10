@@ -253,43 +253,35 @@ const Navigation = styled.div`
   }
 `;
 
-export const Nav: React.FunctionComponent = props => (
+export const Nav: React.FunctionComponent = ({children}) => (
   <Navigation>
     <nav id="menu" className="main-menu">
       <ul>
         <li>
           <span>
-            <Link href="#0">
-              <a>صفحه</a>
-            </Link>
+              <a>بیشتر بدانید</a>
           </span>
           <ul>
             <li>
-              <Link href="/admin_section/index.html">
-                <a>تست یک</a>
+              <Link href="/what_is_otoli">
+                <a>اتولی چیست؟</a>
               </Link>
             </li>
             <li>
-              <Link href="/media-gallery">
-                <a>تست دوم</a>
+              <Link href="/add-car">
+                <a>افزودن خودرو</a>
               </Link>
             </li>
           </ul>
         </li>
         <li>
           <span>
-            <Link href="#0">
-              <a>بیشتر</a>
+            <Link href="/requests">
+              <a>سفارش‌های من</a>
             </Link>
           </span>
-          <ul>
-            <li>
-              <Link href="/404">
-                <a>فلان بیسار</a>
-              </Link>
-            </li>
-          </ul>
         </li>
+        {children}
       </ul>
     </nav>
   </Navigation>
