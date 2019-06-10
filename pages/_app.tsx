@@ -3,6 +3,7 @@ import App, { Container } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
+import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
 import { appWithTranslation } from '../src/i18n';
 import { Provider, actions } from '../src/store'
 
