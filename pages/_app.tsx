@@ -5,7 +5,7 @@ import NProgress from 'nprogress';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
 import { appWithTranslation } from '../src/i18n';
-import { Provider, actions } from '../src/store'
+import { Provider, actions } from '../src/store';
 
 Router.events.on('routeChangeStart', url => {
   console.log(`Loading: ${url}`);
@@ -17,6 +17,11 @@ Router.events.on('hashChangeStart', url => {
 });
 
 Router.events.on('routeChangeComplete', () => {
+  if (process.env.NODE_ENV !== 'production') {
+    const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
+    const timestamp = new Date().valueOf();
+    els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
+  }
   console.log(`Complete loading`);
   NProgress.done()
 });
