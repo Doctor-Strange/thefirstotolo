@@ -1,6 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
 import styled from 'styled-components';
+import { Button, Icon } from 'semantic-ui-react'
 import * as CardsAll from '../../../static/cards_all.svg';
 
 const FooterTag = styled.footer`
@@ -311,7 +312,7 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
               aria-controls="collapse_ft_1"
               className="collapse_bt_mobile"
             >
-              <h3>Quick Links</h3>
+              {/* <h3>پیوندهای مفید</h3> */}
               <div className="circle-plus closed">
                 <div className="horizontal" />
                 <div className="vertical" />
@@ -320,22 +321,13 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
             <div className="collapse show" id="collapse_ft_1">
               <ul className="links">
                 <li>
-                  <a href="#0">About us</a>
+                  <a href="#0">اتولی چگونه کار می‌کند؟</a>
                 </li>
                 <li>
-                  <a href="#0">Faq</a>
+                  <a href="#0">چرا اتولی؟</a>
                 </li>
                 <li>
-                  <a href="#0">Help</a>
-                </li>
-                <li>
-                  <a href="#0">My account</a>
-                </li>
-                <li>
-                  <a href="#0">Create account</a>
-                </li>
-                <li>
-                  <a href="#0">Contacts</a>
+                  <a href="#0">چگونه خودرو ثبت کنم؟</a>
                 </li>
               </ul>
             </div>
@@ -348,7 +340,7 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
               aria-controls="collapse_ft_2"
               className="collapse_bt_mobile"
             >
-              <h3>Categories</h3>
+              <h3>پیوندهای مفید</h3>
               <div className="circle-plus closed">
                 <div className="horizontal" />
                 <div className="vertical" />
@@ -357,22 +349,13 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
             <div className="collapse show" id="collapse_ft_2">
               <ul className="links">
                 <li>
-                  <a href="#0">Shops</a>
+                  <a href="#0">درباره ما</a>
                 </li>
                 <li>
-                  <a href="#0">Hotels</a>
+                  <a href="#0">سوالات متداول</a>
                 </li>
                 <li>
-                  <a href="#0">Restaurants</a>
-                </li>
-                <li>
-                  <a href="#0">Bars</a>
-                </li>
-                <li>
-                  <a href="#0">Events</a>
-                </li>
-                <li>
-                  <a href="#0">Fitness</a>
+                  <a href="#0">بیمه</a>
                 </li>
               </ul>
             </div>
@@ -385,7 +368,7 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
               aria-controls="collapse_ft_3"
               className="collapse_bt_mobile"
             >
-              <h3>Contacts</h3>
+              <h3>تماس</h3>
               <div className="circle-plus closed">
                 <div className="horizontal" />
                 <div className="vertical" />
@@ -395,23 +378,23 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
               <ul className="contacts">
                 <li>
                   <i className="ti-home" />
-                  97845 Baker st. 567
+                  ایران، تهران
                   <br />
-                  Los Angeles - US
+                  شهرک غرب، بلوار شهید دادمان
                 </li>
                 <li>
                   <i className="ti-headphone-alt" />
-                  +39 06 97240120
+                  ۰۲۱ -  ۸۸ ۵۶ ۷۷ ۵۹
                 </li>
                 <li>
                   <i className="ti-email" />
-                  <a href="#0">info@sparker.com</a>
+                  <a href="mailto:info@otoli.net">info@otoli.net</a>
                 </li>
               </ul>
             </div>
           </div>
           <div className="col-lg-3 col-md-6 col-sm-6">
-            <a
+            {/* <a
               data-toggle="collapse"
               data-target="#collapse_ft_4"
               aria-expanded="false"
@@ -423,62 +406,16 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
                 <div className="vertical" />
               </div>
               <h3>Keep in touch</h3>
-            </a>
-            <div className="collapse show" id="collapse_ft_4">
-              <Newsletter id="newsletter">
-                <div id="message-newsletter" />
-                <form
-                  method="post"
-                  action="assets/newsletter.php"
-                  name="newsletter_form"
-                  id="newsletter_form"
-                >
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      name="email_newsletter"
-                      id="email_newsletter"
-                      className="form-control"
-                      placeholder="Your email"
-                    />
-                    <input
-                      type="submit"
-                      value="Submit"
-                      id="submit-newsletter"
-                    />
-                  </div>
-                </form>
-              </Newsletter>
-              <div className="follow_us">
-                <h5>Follow Us</h5>
-                <ul>
-                  <li>
-                    <a href="#0">
-                      <i className="ti-facebook" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#0">
-                      <i className="ti-twitter-alt" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#0">
-                      <i className="ti-google" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#0">
-                      <i className="ti-pinterest" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#0">
-                      <i className="ti-instagram" />
-                    </a>
-                  </li>
-                </ul>
-              </div>
+            </a> */}
+            <div className="follow_us">
+              <h3>دنبالمان کنید</h3>
+              <Icon name='facebook' />
+              <Icon name='twitter' />
+              <Icon name='google plus' />
+              <Icon name='vk' />
+              <Icon name='linkedin' />
+              <Icon name='instagram' />
+              <Icon name='youtube' />
             </div>
           </div>
         </div>
@@ -488,7 +425,7 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
             <FooterSelector id="footer-selector">
               <li>
                 <div className="styled-select" id="lang-selector">
-                  <button onClick={changeLangFunc}>CHANGE LANG</button>
+                  <button onClick={changeLangFunc}>تغیر زبان</button>
                   {/* <select>
                     <option value="English" selected>
                       English
@@ -517,13 +454,13 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
           <div className="col-lg-6">
             <AdditionalLinks>
               <li>
-                <a href="#0">Terms and conditions</a>
+                <a href="#0">ارتباط با ما</a>
               </li>
               <li>
-                <a href="#0">Privacy</a>
+                <a href="#0">شرایط و قوانین استفاده</a>
               </li>
               <li>
-                <span>© 2018 Sparker</span>
+                <span>۱۳۹۸ اتولی ©</span>
               </li>
             </AdditionalLinks>
           </div>

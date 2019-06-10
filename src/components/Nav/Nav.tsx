@@ -260,114 +260,18 @@ export const Nav: React.FunctionComponent = props => (
         <li>
           <span>
             <Link href="#0">
-              <a>Listings</a>
-            </Link>
-          </span>
-          <ul>
-            <li>
-              <span>
-                <Link href="#0">
-                  <a>Grid Layout</a>
-                </Link>
-              </span>
-              <ul>
-                <li>
-                  <Link href="/grid-listings-filterscol-search-aside">
-                    <a>Sidebar+Search mobile 1</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/grid-listings-filterstop-search-aside">
-                    <a>Full+Search mobile 1</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/grid-listings-filterscol">
-                    <a>Sidebar+Search mobile 2</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/grid-listings-filterstop">
-                    <a>Full+Search mobile 2</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/grid-listings-isotope">
-                    <a>Full+Isotope filter</a>
-                  </Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link href="/listing-map">
-                <a>Listing Map</a>
-              </Link>
-            </li>
-            <li>
-              <span>
-                <Link href="#0">
-                  <a>Detail pages</a>
-                </Link>
-              </span>
-              <ul className="second_level_left">
-                <li>
-                  <Link href="/detail-hotel">
-                    <a>Detail page 1</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/detail-restaurant">
-                    <a>Detail page 2</a>
-                  </Link>
-                </li>
-                <li>
-                  <span>
-                    <Link href="#0">
-                      <a>Third level left</a>
-                    </Link>
-                  </span>
-                  <ul className="third_level_left">
-                    <li>
-                      <Link href="/detail-shop">
-                        <a>Detail page 3</a>
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link href="/bookings">
-                <a>Bookings - Purchases</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/checkout">
-                <a>Checkout</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/confirm">
-                <a>Confirm</a>
-              </Link>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <span>
-            <Link href="#0">
-              <a>Pages</a>
+              <a>صفحه</a>
             </Link>
           </span>
           <ul>
             <li>
               <Link href="/admin_section/index.html">
-                <a>Admin section</a>
+                <a>تست یک</a>
               </Link>
             </li>
             <li>
               <Link href="/media-gallery">
-                <a>Media gallery</a>
+                <a>تست دوم</a>
               </Link>
             </li>
           </ul>
@@ -375,28 +279,16 @@ export const Nav: React.FunctionComponent = props => (
         <li>
           <span>
             <Link href="#0">
-              <a>Extra</a>
+              <a>بیشتر</a>
             </Link>
           </span>
           <ul>
             <li>
               <Link href="/404">
-                <a>404 page</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/contacts-2">
-                <a>Contacts 2</a>
+                <a>فلان بیسار</a>
               </Link>
             </li>
           </ul>
-        </li>
-        <li>
-          <span>
-            <Link href="#0">
-              <a>Buy template</a>
-            </Link>
-          </span>
         </li>
       </ul>
     </nav>
