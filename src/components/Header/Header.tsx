@@ -289,7 +289,7 @@ class Header extends React.Component<{
   render() {
     const { t, user } = this.props;
     console.log(user);
-    const { token, phone, first_name, last_name } = user;
+    const { token, user_id, phone, first_name, last_name } = user;
     return (
       <>
         <HeaderSticky>
@@ -320,7 +320,9 @@ class Header extends React.Component<{
                       )}
                       {token && (
                         <span>
-                          {first_name} {last_name}
+                          <a href={`/profile?id=${user_id}`}>
+                            {first_name} {last_name}
+                          </a>
                           {/* {', '}
                           <a
                             href="#"
