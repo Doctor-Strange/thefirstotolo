@@ -4,6 +4,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
+// upper line is becuase of https://github.com/zeit/next-plugins/issues/282
 import { appWithTranslation } from '../src/i18n';
 import { Provider, actions } from '../src/store';
 
@@ -17,6 +18,7 @@ Router.events.on('hashChangeStart', url => {
 });
 
 Router.events.on('routeChangeComplete', () => {
+  // copied from https://github.com/zeit/next-plugins/issues/282#issuecomment-480740246
   if (process.env.NODE_ENV !== 'production') {
     const els = document.querySelectorAll('link[href*="/_next/static/css/styles.chunk.css"]');
     const timestamp = new Date().valueOf();
