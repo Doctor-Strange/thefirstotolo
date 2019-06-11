@@ -492,29 +492,33 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                     }
                   });
               } else {
+                let timings = [];
                 carTimings.map((val, index) => {
-                  axios
+                  timings.push({
+                    start_date: convertDateToMoment(val.date.from).format(
+                      'jYYYY/jMM/jDD'
+                    ),
+                    end_date: convertDateToMoment(val.date.to).format(
+                      'jYYYY/jMM/jDD'
+                    ),
+                    price_per_day: clearNumber(val.price),
+                    status_id: 'available'
+                  });
+                });
+                axios
                     .post(
-                      'https://otoli.net' + '/core/rental-car/availability/new',
+                      'https://otoli.net' + '/core/rental-car/availability/replace-set',
                       {
                         rental_car_id: id,
-                        start_date: convertDateToMoment(val.date.from).format(
-                          'jYYYY/jMM/jDD'
-                        ),
-                        end_date: convertDateToMoment(val.date.to).format(
-                          'jYYYY/jMM/jDD'
-                        ),
-                        price_per_day: clearNumber(val.price),
-                        status_id: 'available'
+                        data: JSON.stringify(timings)
                       },
                       header
                     )
                     .then(response => {
                       if (response.data.success) {
-                        console.log(response.data.data.id);
+                        console.log(response.data.success);
                       }
                     });
-                });
                 setSubmittingSteps(7);
                 setTimeout(() => {
                   actions.setSubmitting(false);
