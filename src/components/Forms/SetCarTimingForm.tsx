@@ -504,7 +504,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                         end_date: convertDateToMoment(val.date.to).format(
                           'jYYYY/jMM/jDD'
                         ),
-                        price: clearNumber(val.price),
+                        price_per_day: clearNumber(val.price),
                         status_id: 'available'
                       },
                       header
