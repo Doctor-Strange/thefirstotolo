@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useCallback, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
+import 'otoli-react-persian-calendar-date-picker/lib/DatePicker.css';
 import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
 moment.loadPersian();
@@ -43,7 +43,11 @@ import * as NewUser from '../../../static/new_user.svg';
 import { Pelak } from '../Cards';
 import { Box, Flex } from '@rebass/grid';
 import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import {
+  numberWithCommas,
+  convertNumbers2Persian,
+  convertNumbers2English
+} from '../../lib/numbers';
 import {
   convertDateToMoment,
   convertRangeDateToMoment,
@@ -69,7 +73,6 @@ const BoxAccount = styled.div`
   .DateInput {
     max-width: 128px;
     margin-top: 5px;
-
   }
   h3 {
     font-size: 21px;
@@ -153,7 +156,7 @@ const BoxAccount = styled.div`
       }
     }
   }
-  
+
   i.close,
   i.edit.outline {
     float: left;
@@ -165,14 +168,17 @@ const BoxAccount = styled.div`
   .ui.form input[type='text'] {
     direction: ltr;
   }
-  button#pos_bott, button#pos_bott2, button.pos_bott {
+  button#pos_bott,
+  button#pos_bott2,
+  button.pos_bott {
     box-shadow: none !important;
     font-size: 14px !important;
     padding: 14px !important;
     background: none !important;
   }
 
-  i.icon.edit, i.icon.calendar {
+  i.icon.edit,
+  i.icon.calendar {
     margin-right: 0px !important;
     :before {
       right: -5px;
@@ -215,90 +221,88 @@ interface ISetCarTimingForm {
 }
 
 interface ICar {
-  carName: string,
-  carBrand: string,
-  carPelak: string,
-  carColor: string,
-  carYear: any,
-  carMin_days_to_rent: any,
-  carDeliver_at_renters_place: any,
-  carDays_to_get_reminded: any,
-  carLocation: any,
-  carDescription: string,
-  carMedia_set: [any],
-  plate1: any,
-  plate2: any,
-  plate3: any,
-  plate4: any,
+  carName: string;
+  carBrand: string;
+  carPelak: string;
+  carColor: string;
+  carYear: any;
+  carMin_days_to_rent: any;
+  carDeliver_at_renters_place: any;
+  carDays_to_get_reminded: any;
+  carLocation: any;
+  carDescription: string;
+  carMedia_set: [any];
+  plate1: any;
+  plate2: any;
+  plate3: any;
+  plate4: any;
 }
 
-const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
-
+const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
   const carSample = {
-    registration_plate_first_part: "",
+    registration_plate_first_part: '',
     max_km_per_day: 0,
     extra_km_price: 0,
-    cancellation_policy: "",
+    cancellation_policy: '',
     color: {
       priority: 1,
-      name: { fa: "", en: "Black" },
+      name: { fa: '', en: 'Black' },
       id: 5,
-      slug: { fa: "", en: "black" },
-      code: "#000000"
+      slug: { fa: '', en: 'black' },
+      code: '#000000'
     },
     body_style: {
-      id: 0,
+      id: 0
     },
-    registration_plate_forth_part: "",
+    registration_plate_forth_part: '',
     media_set: [
       {
         id: 0,
         thumbnail_url: null,
-        url: ""
+        url: ''
       }
     ],
     deliver_at_renters_place: true,
     car: {
       brand: {
-        name: { fa: "", en: "" },
+        name: { fa: '', en: '' },
         id: 0,
         description: { fa: null, en: null }
       },
       media_set: [],
       id: 0,
       differential: null,
-      slug: { fa: "", en: "" },
-      description: { fa: "", en: "" },
+      slug: { fa: '', en: '' },
+      description: { fa: '', en: '' },
       transmission_type: null,
       facility_set: [],
       capacity: 0,
       body_style: null,
-      name: { fa: "", en: "" }
+      name: { fa: '', en: '' }
     },
     capacity: 0,
-    vin: "",
-    owner: {
-    },
+    vin: '',
+    owner: {},
     location: {
       id: 0,
       name: {
-        breadcrumb_en: "",
-        fa: "",
-        en: "",
-        breadcrumb_fa: ""
+        breadcrumb_en: '',
+        fa: '',
+        en: '',
+        breadcrumb_fa: ''
       }
     },
-    description: "",
-    registration_plate_third_part: "",
+    description: '',
+    registration_plate_third_part: '',
     days_to_get_reminded: 0,
-    min_days_to_rent: "",
+    min_days_to_rent: '',
     id: 0,
-    registration_plate_second_part: "",
+    registration_plate_second_part: '',
     mileage_range: {},
     transmission_type: {},
     facility_set: [],
     year: {}
-  }
+  };
 
   const empetyDate = {
     from: null,
@@ -323,34 +327,41 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
   const modifyCarTimings = async (array, curentRange = [] /* fixme */) => {
     setCarTimings(array);
     let out = [];
-    var disabledDaysFiltered = array.filter((range) => {
-      if (array.is_all_time) {
-        return false; // skip
-      }
-      return true;
-    }).map((value, index) => {
-      console.log("index:", index)
-      var days = getBetweenRange(value.date);
-      out.push(...days);
-    });
+    var disabledDaysFiltered = array
+      .filter(range => {
+        if (array.is_all_time) {
+          return false; // skip
+        }
+        return true;
+      })
+      .map((value, index) => {
+        console.log('index:', index);
+        var days = getBetweenRange(value.date);
+        out.push(...days);
+      });
     await setDisabledDays(out);
-    console.log("disabledDays is: ", disabledDays);
-  }
+    console.log('disabledDays is: ', disabledDays);
+  };
 
   const fetchAPI = async () => {
-    const carRes = await REQUEST_getCarIsMine({ id, token: jsCookie.get('token') });
-    const timeRes = await REQUEST_getCarAvailabilities({ id, token: jsCookie.get('token') });
+    const carRes = await REQUEST_getCarIsMine({
+      id,
+      token: jsCookie.get('token')
+    });
+    const timeRes = await REQUEST_getCarAvailabilities({
+      id,
+      token: jsCookie.get('token')
+    });
     console.log(carRes);
     console.log(timeRes);
     setCar(carRes);
     const results = timeRes.map((value, index) => {
-      console.log("34", value.is_all_time);
+      console.log('34', value.is_all_time);
       if (value.is_all_time) {
         setIsIsAllTime(true);
         setIsAllTimePrice(value.price_per_day);
-        console.log("isIsAllTime======> ", value.price_per_day);
-      }
-      else {
+        console.log('isIsAllTime======> ', value.price_per_day);
+      } else {
         const s = value.start_date.jalali;
         const e = value.end_date.jalali;
         return {
@@ -368,13 +379,13 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
               day: e.d
             }
           }
-        }
+        };
       }
     });
     modifyCarTimings(results);
     setMapApiToFormik(true);
     console.log(results);
-  }
+  };
 
   useEffect(() => {
     fetchAPI();
@@ -439,184 +450,82 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
         };
         axios
           .post(
-            'https://otoli.net' +
-            '/core/rental-car/set-deliver-at-renters-place',
+            'https://otoli.net' + '/core/rental-car/edit/partial',
             {
               id,
-              value: deliverAtRentersPlace
+              deliver_at_renters_place: deliverAtRentersPlace,
+              max_km_per_day: distanceLimit,
+              extra_km_price: extraKm,
+              cancellation_policy: cancellationPolicy,
+              days_to_get_reminded: daysToGetReminded,
+              min_days_to_rent: minDaysToRent
             },
             header
           )
           .then(response => {
             if (response.data.success) {
-              console.log(1);
-              setSubmittingSteps(1);
-              axios
-                .post(
-                  'https://otoli.net' +
-                  '/core/rental-car/set-max-km-per-day',
-                  {
-                    id,
-                    value: distanceLimit
-                  },
-                  header
-                )
-                .then(response => {
-                  if (response.data.success) {
-                    console.log(2);
-                    setSubmittingSteps(2);
-                    axios
-                      .post(
-                        'https://otoli.net' +
-                        '/core/rental-car/set-extra-km-price',
-                        {
-                          id,
-                          value: extraKm
-                        },
-                        header
-                      )
-                      .then(response => {
-                        if (response.data.success) {
-                          console.log(3);
-                          setSubmittingSteps(3);
-                          axios
-                            .post(
-                              'https://otoli.net' +
-                              '/core/rental-car/set-cancellation-policy',
-                              {
-                                id,
-                                value: cancellationPolicy
-                              },
-                              header
-                            )
-                            .then(response => {
-                              if (response.data.success) {
-                                console.log(4);
-                                setSubmittingSteps(4);
-                                axios
-                                  .post(
-                                    'https://otoli.net' +
-                                    '/core/rental-car/set-days-to-get-reminded',
-                                    {
-                                      id,
-                                      value: daysToGetReminded
-                                    },
-                                    header
-                                  )
-                                  .then(response => {
-                                    if (response.data.success) {
-                                      console.log(5);
-                                      setSubmittingSteps(5);
-                                      axios
-                                        .post(
-                                          'https://otoli.net' +
-                                          '/core/rental-car/set-min-days-to-rent',
-                                          {
-                                            id,
-                                            value: minDaysToRent
-                                          },
-                                          header
-                                        )
-                                        .then(response => {
-                                          if (response.data.success) {
-                                            console.log(6);
-                                            setSubmittingSteps(6);
-                                            if (radioGroup == false) {
-                                              axios
-                                                .post(
-                                                  'https://otoli.net' +
-                                                  '/core/rental-car/availability/new',
-                                                  {
-                                                    rental_car_id: id,
-                                                    is_all_time: 1,
-                                                    price_per_day: clearNumber(
-                                                      availableInAllPrice
-                                                    ),
-                                                    status_id: 'available'
-                                                  },
-                                                  header
-                                                )
-                                                .then(response => {
-                                                  if (
-                                                    response.data.success
-                                                  ) {
-                                                    setSubmittingSteps(7);
-                                                    setTimeout(() => {
-                                                      actions.setSubmitting(
-                                                        false
-                                                      );
-                                                      Router.push({
-                                                        pathname: '/car',
-                                                        query: {
-                                                          id:
-                                                            response.data
-                                                              .data.id
-                                                        }
-                                                      });
-                                                    }, 1000);
-                                                  }
-                                                });
-                                            } else {
-                                              carTimings.map(
-                                                (val, index) => {
-                                                  axios
-                                                    .post(
-                                                      'https://otoli.net' +
-                                                      '/core/rental-car/availability/new',
-                                                      {
-                                                        rental_car_id: id,
-                                                        start_date: convertDateToMoment(val.date.from).format(
-                                                          'jYYYY/jMM/jDD'
-                                                        ),
-                                                        end_date: convertDateToMoment(val.date.to).format(
-                                                          'jYYYY/jMM/jDD'
-                                                        ),
-                                                        price: clearNumber(
-                                                          val.price
-                                                        ),
-                                                        status_id:
-                                                          'available'
-                                                      },
-                                                      header
-                                                    )
-                                                    .then(response => {
-                                                      if (
-                                                        response.data
-                                                          .success
-                                                      ) {
-                                                        console.log(
-                                                          response.data
-                                                            .data.id
-                                                        );
-                                                      }
-                                                    });
-                                                }
-                                              );
-                                              setSubmittingSteps(7);
-                                              setTimeout(() => {
-                                                actions.setSubmitting(
-                                                  false
-                                                );
-                                                Router.push({
-                                                  pathname: '/car',
-                                                  query: {
-                                                    id:
-                                                      response.data.data
-                                                        .id
-                                                  }
-                                                });
-                                              }, 1000);
-                                            }
-                                          }
-                                        });
-                                    }
-                                  });
-                              }
-                            });
-                        }
-                      });
-                  }
+              console.log(6);
+              if (radioGroup == false) {
+                axios
+                  .post(
+                    'https://otoli.net' + '/core/rental-car/availability/new',
+                    {
+                      rental_car_id: id,
+                      is_all_time: 1,
+                      price_per_day: clearNumber(availableInAllPrice),
+                      status_id: 'available'
+                    },
+                    header
+                  )
+                  .then(response => {
+                    if (response.data.success) {
+                      setSubmittingSteps(7);
+                      setTimeout(() => {
+                        actions.setSubmitting(false);
+                        Router.push({
+                          pathname: '/car',
+                          query: {
+                            id: response.data.data.id
+                          }
+                        });
+                      }, 1000);
+                    }
+                  });
+              } else {
+                carTimings.map((val, index) => {
+                  axios
+                    .post(
+                      'https://otoli.net' + '/core/rental-car/availability/new',
+                      {
+                        rental_car_id: id,
+                        start_date: convertDateToMoment(val.date.from).format(
+                          'jYYYY/jMM/jDD'
+                        ),
+                        end_date: convertDateToMoment(val.date.to).format(
+                          'jYYYY/jMM/jDD'
+                        ),
+                        price: clearNumber(val.price),
+                        status_id: 'available'
+                      },
+                      header
+                    )
+                    .then(response => {
+                      if (response.data.success) {
+                        console.log(response.data.data.id);
+                      }
+                    });
                 });
+                setSubmittingSteps(7);
+                setTimeout(() => {
+                  actions.setSubmitting(false);
+                  Router.push({
+                    pathname: '/car',
+                    query: {
+                      id: response.data.data.id
+                    }
+                  });
+                }, 1000);
+              }
             }
           })
           .catch(error => {
@@ -630,10 +539,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
           .required(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
           .typeError(fieldErrorGenrator(t('carTiming.daysToGetReminded')))
           .min(1, MinErrorGenrator(t('carTiming.daysToGetReminded'), 1))
-          .max(
-            31,
-            MaxErrorGenrator(t('carTiming.daysToGetReminded'), 31)
-          ),
+          .max(31, MaxErrorGenrator(t('carTiming.daysToGetReminded'), 31)),
         minDaysToRent: Yup.number()
           .required(fieldErrorGenrator(t('carTiming.minDaysToRent')))
           .typeError(fieldErrorGenrator(t('carTiming.minDaysToRent')))
@@ -652,16 +558,18 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
           ),
         cancellationPolicy: Yup.string()
           .required(fieldErrorGenrator(t('carTiming.cancellationPolicy')))
-          .typeError(
-            fieldErrorGenrator(t('carTiming.cancellationPolicy'))
-          ),
+          .typeError(fieldErrorGenrator(t('carTiming.cancellationPolicy'))),
         availableInAllPrice: Yup.mixed()
           .when('radioGroup', {
             is: false, // alternatively: (val) => val == true
-            then: Yup.number().required(fieldErrorGenrator(t('carTiming.price'))).typeError(fieldErrorGenrator(t('carTiming.price'))),
-            otherwise: Yup.number(),
+            then: Yup.number()
+              .required(fieldErrorGenrator(t('carTiming.price')))
+              .typeError(fieldErrorGenrator(t('carTiming.price'))),
+            otherwise: Yup.number()
           })
-          .when('$other', (other, schema) => (other === 4 ? schema.max(6) : schema)),
+          .when('$other', (other, schema) =>
+            other === 4 ? schema.max(6) : schema
+          )
       })}
     >
       {({
@@ -690,15 +598,14 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
           setFieldValue('deliverAtRentersPlace', car.deliver_at_renters_place);
           setFieldValue('daysToGetReminded', car.days_to_get_reminded);
           setFieldValue('minDaysToRent', car.min_days_to_rent);
-          console.log("isAllTimePrice: ", isAllTimePrice);
+          console.log('isAllTimePrice: ', isAllTimePrice);
           if (isIsAllTime) {
-            console.log("setting is all time price", isAllTimePrice);
+            console.log('setting is all time price', isAllTimePrice);
             setFieldValue('availableInAllPrice', isAllTimePrice);
-          }
-          else {
-            console.log("setFieldValue", values.radioGroup);
+          } else {
+            console.log('setFieldValue', values.radioGroup);
             setFieldValue('radioGroup', true);
-            console.log("setFieldValue", values.radioGroup);
+            console.log('setFieldValue', values.radioGroup);
           }
         }
         return (
@@ -709,9 +616,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
               <Segment>
                 <Item.Group>
                   <Item>
-                    <Item.Image
-                      src={(car.media_set[0] || { url: '' }).url}
-                    />
+                    <Item.Image src={(car.media_set[0] || { url: '' }).url} />
                     <Item.Content>
                       <Item.Header as="a">
                         {`${car.car.brand.name.fa} - ${car.car.name.fa}`}
@@ -719,12 +624,18 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                       {/* <Item.Meta>{carDescription}</Item.Meta> */}
                       <Item.Description>
                         <Pelak
-                          first={convertNumbers2Persian(car.registration_plate_first_part)}
+                          first={convertNumbers2Persian(
+                            car.registration_plate_first_part
+                          )}
                           second={car.registration_plate_second_part}
-                          third={convertNumbers2Persian(car.registration_plate_third_part)}
-                          forth={convertNumbers2Persian(car.registration_plate_forth_part)}
+                          third={convertNumbers2Persian(
+                            car.registration_plate_third_part
+                          )}
+                          forth={convertNumbers2Persian(
+                            car.registration_plate_forth_part
+                          )}
                           type={1}
-                          size={"small"}
+                          size={'small'}
                           style={{ maxWidth: '150px' }}
                         />
                       </Item.Description>
@@ -740,7 +651,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                   <Header as="h4">
                     <Icon name="edit" />
                     شرایط اجاره
-                    </Header>
+                  </Header>
                 </Divider>
                 {/* ===================================================================== */}
                 <Form.Field style={{ margin: 0 }}>
@@ -807,13 +718,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                       basic
                       onClick={(e, data) => {
                         if (clearNumber(values.minDaysToRent) < 31) {
-                          let val = Number(
-                            clearNumber(values.minDaysToRent)
-                          );
-                          setFieldValue(
-                            'minDaysToRent',
-                            clearNumber(++val)
-                          );
+                          let val = Number(clearNumber(values.minDaysToRent));
+                          setFieldValue('minDaysToRent', clearNumber(++val));
                         }
                       }}
                     >
@@ -824,13 +730,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                       basic
                       onClick={(e, data) => {
                         if (clearNumber(values.minDaysToRent) > 1) {
-                          let val = Number(
-                            clearNumber(values.minDaysToRent)
-                          );
-                          setFieldValue(
-                            'minDaysToRent',
-                            clearNumber(--val)
-                          );
+                          let val = Number(clearNumber(values.minDaysToRent));
+                          setFieldValue('minDaysToRent', clearNumber(--val));
                         }
                       }}
                     >
@@ -860,8 +761,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                     value={
                       values.distanceLimit
                         ? convertNumbers2Persian(
-                          numberWithCommas(values.distanceLimit)
-                        )
+                            numberWithCommas(values.distanceLimit)
+                          )
                         : values.distanceLimit
                     }
                   >
@@ -875,7 +776,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                     }}
                   >
                     کیلومتر در روز
-                    </span>
+                  </span>
                 </Form.Field>
                 {/* ===================================================================== */}
                 <Form.Field style={{ margin: 0 }}>
@@ -898,8 +799,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                     value={
                       values.extraKm
                         ? convertNumbers2Persian(
-                          numberWithCommas(values.extraKm)
-                        )
+                            numberWithCommas(values.extraKm)
+                          )
                         : values.extraKm
                     }
                   >
@@ -913,7 +814,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                     }}
                   >
                     تومان
-                    </span>
+                  </span>
                 </Form.Field>
                 {/* ===================================================================== */}
                 <Form.Field>
@@ -938,9 +839,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                 {/* ===================================================================== */}
                 <Form.Field className="marg8">
                   <Radio
-                    label={t(
-                      'carTiming.availableInAllDatesWithSamePrice'
-                    )}
+                    label={t('carTiming.availableInAllDatesWithSamePrice')}
                     name="radioGroup"
                     value={false}
                     checked={values.radioGroup === false}
@@ -968,22 +867,19 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                       className="extraKm"
                       error={Boolean(
                         errors.availableInAllPrice &&
-                        touched.availableInAllPrice
+                          touched.availableInAllPrice
                       )}
                       onChange={(e, data) => {
                         if (data && data.name) {
-                          setFieldValue(
-                            data.name,
-                            clearNumber(data.value)
-                          );
+                          setFieldValue(data.name, clearNumber(data.value));
                           setFieldTouched(data.name);
                         }
                       }}
                       value={
                         values.availableInAllPrice
                           ? convertNumbers2Persian(
-                            numberWithCommas(values.availableInAllPrice)
-                          )
+                              numberWithCommas(values.availableInAllPrice)
+                            )
                           : values.availableInAllPrice
                       }
                     >
@@ -1029,8 +925,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                           return <></>;
                         }
                         if (openEditFor == index) {
-                          console.log("date is: ", date);
-                          console.log("price is: ", price);
+                          console.log('date is: ', date);
+                          console.log('price is: ', price);
                           if (
                             date.to === null &&
                             date.from === null &&
@@ -1038,13 +934,13 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                           ) {
                             setDate({ from: val.date.from, to: val.date.to });
                             setPrice(val.price);
-                            console.log("date and price setted from carTiming: ", date);
+                            console.log(
+                              'date and price setted from carTiming: ',
+                              date
+                            );
                           }
                           return (
-                            <Segment
-                              key={index}
-                              style={{ textAlign: 'right' }}
-                            >
+                            <Segment key={index} style={{ textAlign: 'right' }}>
                               <Form.Group>
                                 <Form.Field
                                   style={{ margin: 0, maxWidth: '47%' }}
@@ -1054,17 +950,17 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                               </Form.Group>
                               <DatePicker
                                 selectedDayRange={date}
-                                onChange={(value) => {
-                                  console.log("val ", value);
+                                onChange={value => {
+                                  console.log('val ', value);
                                   setDate({ from: value.from, to: value.to });
-                                  console.log("date ", date);
+                                  console.log('date ', date);
                                 }}
                                 inputPlaceholder="انتخاب روزهای نمایش"
                                 isDayRange
                                 disableBackward
                                 disabledDays={disabledDays}
-                                colorPrimary={"#00ACC1"}
-                                colorPrimaryLight={"#00acc147"}
+                                colorPrimary={'#00ACC1'}
+                                colorPrimaryLight={'#00acc147'}
                               />
                               <Form.Input
                                 style={{ width: '47%' }}
@@ -1078,8 +974,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                 value={
                                   price
                                     ? convertNumbers2Persian(
-                                      numberWithCommas(price)
-                                    )
+                                        numberWithCommas(price)
+                                      )
                                     : price
                                 }
                               >
@@ -1114,9 +1010,9 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                   }}
                                 >
                                   لغو
-                                  </Button>
+                                </Button>
                                 <Button
-                                  color='blue'
+                                  color="blue"
                                   basic
                                   type="button"
                                   id="pos_bott2"
@@ -1124,11 +1020,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                   onClick={e => {
                                     console.log(e);
                                     let data = carTimings;
-                                    if (
-                                      date.from &&
-                                      date.to &&
-                                      price
-                                    ) {
+                                    if (date.from && date.to && price) {
                                       data.splice(index, 1, {
                                         date,
                                         price
@@ -1142,29 +1034,33 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                   }}
                                 >
                                   ثبت
-                                  </Button>
+                                </Button>
                               </Button.Group>
                             </Segment>
                           );
-                        }
-                        else {
+                        } else {
                           return (
-                            <Segment
-                              key={index}
-                              style={{ textAlign: 'right' }}
-                            >
+                            <Segment key={index} style={{ textAlign: 'right' }}>
                               <span>
                                 <label>از</label>{' '}
-                                {convertNumbers2Persian(convertDateToMoment(val.date.from).format('jDD jMMMM jYY'))}{' '}
+                                {convertNumbers2Persian(
+                                  convertDateToMoment(val.date.from).format(
+                                    'jDD jMMMM jYY'
+                                  )
+                                )}{' '}
                                 <label>تا</label>{' '}
-                                {convertNumbers2Persian(convertDateToMoment(val.date.to).format('jDD jMMMM jYY'))}{' '}
+                                {convertNumbers2Persian(
+                                  convertDateToMoment(val.date.to).format(
+                                    'jDD jMMMM jYY'
+                                  )
+                                )}{' '}
                                 <br />
                                 <label>با قیمت</label>{' '}
                                 {convertNumbers2Persian(
                                   numberWithCommas(val.price)
                                 )}{' '}
                                 تومان
-                                </span>
+                              </span>
                               <Icon
                                 name="close"
                                 onClick={e => {
@@ -1195,9 +1091,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                       {showNewEntery && (
                         <Segment className="timingEntery">
                           <Form.Group>
-                            <Form.Field
-                              style={{ margin: 0, maxWidth: '100%' }}
-                            >
+                            <Form.Field style={{ margin: 0, maxWidth: '100%' }}>
                               <label>{t('carTiming.from')}</label>
                               <DatePicker
                                 selectedDayRange={date}
@@ -1206,8 +1100,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                                 isDayRange
                                 disableBackward
                                 disabledDays={disabledDays}
-                                colorPrimary={"#00ACC1"}
-                                colorPrimaryLight={"#00acc147"}
+                                colorPrimary={'#00ACC1'}
+                                colorPrimaryLight={'#00acc147'}
                               />
                             </Form.Field>
                           </Form.Group>
@@ -1224,8 +1118,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                             value={
                               price
                                 ? convertNumbers2Persian(
-                                  numberWithCommas(price)
-                                )
+                                    numberWithCommas(price)
+                                  )
                                 : price
                             }
                           >
@@ -1238,7 +1132,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                               }}
                             >
                               تومان
-                              </span>
+                            </span>
                           </Form.Input>
                           <Button.Group
                             size="tiny"
@@ -1258,9 +1152,9 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                               }}
                             >
                               حذف
-                              </Button>
+                            </Button>
                             <Button
-                              color='blue'
+                              color="blue"
                               basic
                               type="button"
                               className="pos_bott"
@@ -1268,11 +1162,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                               onClick={e => {
                                 console.log(e);
                                 let data = carTimings;
-                                if (
-                                  date.from &&
-                                  date.to &&
-                                  price
-                                ) {
+                                if (date.from && date.to && price) {
                                   data.push({
                                     date,
                                     price
@@ -1285,21 +1175,23 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                               }}
                             >
                               ثبت
-                              </Button>
+                            </Button>
                           </Button.Group>
                         </Segment>
                       )}
                     </Segment.Group>
-                    <div style={{
-                      textAlign: 'right',
-                      marginBottom: '24px'
-                    }}>
+                    <div
+                      style={{
+                        textAlign: 'right',
+                        marginBottom: '24px'
+                      }}
+                    >
                       <Button
                         icon
                         labelPosition="right"
                         type="button"
                         basic
-                        color='blue'
+                        color="blue"
                         onClick={e => {
                           setDate(empetyDate);
                           setPrice('');
@@ -1308,7 +1200,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                         }}
                       >
                         افزودن
-                          <Icon name="plus" />
+                        <Icon name="plus" />
                       </Button>
                     </div>
                   </div>
@@ -1323,8 +1215,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                     placeholder={t('carTiming.cancellationPolicy')}
                     style={{ minHeight: 150 }}
                     error={Boolean(
-                      errors.cancellationPolicy &&
-                      touched.cancellationPolicy
+                      errors.cancellationPolicy && touched.cancellationPolicy
                     )}
                     onChange={(e, data) => {
                       if (data && data.name) {
@@ -1337,9 +1228,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
                   />
                 </Form.Group>
                 {/* ===================================================================== */}
-                <Form.Field
-                  style={{ textAlign: 'center', fontSize: '0.8em' }}
-                >
+                <Form.Field style={{ textAlign: 'center', fontSize: '0.8em' }}>
                   <Button
                     loading={isSubmitting}
                     primary
@@ -1373,7 +1262,9 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id, }) => {
         );
       }}
     </Formik>
-  )
-}
+  );
+};
 
-export default withNamespaces('common')(connect(state => state)(SetCarTimingForm));
+export default withNamespaces('common')(
+  connect(state => state)(SetCarTimingForm)
+);
