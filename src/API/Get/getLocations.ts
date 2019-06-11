@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://otoli.net';
+const DOMAIN = 'https://core.otoli.net';
 const GET_LOCATIONS = '/core/location/list';
 
 export const REQUEST_getLocations = (data: IgetLocation) => {

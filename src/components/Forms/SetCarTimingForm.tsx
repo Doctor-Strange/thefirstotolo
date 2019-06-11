@@ -450,7 +450,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
         };
         axios
           .post(
-            'https://otoli.net' + '/core/rental-car/edit/partial',
+            'https://core.otoli.net' + '/core/rental-car/edit/partial',
             {
               id,
               deliver_at_renters_place: deliverAtRentersPlace,
@@ -468,7 +468,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
               if (radioGroup == false) {
                 axios
                   .post(
-                    'https://otoli.net' + '/core/rental-car/availability/new',
+                    'https://core.otoli.net' + '/core/rental-car/availability/new',
                     {
                       rental_car_id: id,
                       is_all_time: 1,
@@ -507,7 +507,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                 });
                 axios
                     .post(
-                      'https://otoli.net' + '/core/rental-car/availability/replace-set',
+                      'https://core.otoli.net' + '/core/rental-car/availability/replace-set',
                       {
                         rental_car_id: id,
                         data: JSON.stringify(timings)

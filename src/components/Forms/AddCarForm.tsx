@@ -286,7 +286,7 @@ export default withNamespaces('common')(connect(state => state)(
       scrollToElement('#form');
       //get cities and genrate a dropdown input in form
       axios
-        .post('https://otoli.net' + '/core/location/list?limit=800')
+        .post('https://core.otoli.net' + '/core/location/list?limit=800')
         .then(response => {
           if (response.data.success) {
             const citiesFarsi = response.data.items.map((value, index) => ({
@@ -309,7 +309,7 @@ export default withNamespaces('common')(connect(state => state)(
 
       //get body styles and genrate a dropdown input in form
       axios
-        .post('https://otoli.net' + '/core/body-style/list?limit=800')
+        .post('https://core.otoli.net' + '/core/body-style/list?limit=800')
         .then(response => {
           if (response.data.success) {
             const bodyStyleFarsi = response.data.items.map((value, index) => ({
@@ -334,7 +334,7 @@ export default withNamespaces('common')(connect(state => state)(
 
       //get car colors and genrate a dropdown input in form
       axios
-        .post('https://otoli.net' + '/core/color/list?limit=16')
+        .post('https://core.otoli.net' + '/core/color/list?limit=16')
         .then(response => {
           if (response.data.success) {
             const colors = response.data.items.map((value, index) => ({
@@ -354,7 +354,7 @@ export default withNamespaces('common')(connect(state => state)(
 
       //get car brands and genrate a dropdown input in form
       axios
-        .post('https://otoli.net' + '/core/brand/list?limit=500')
+        .post('https://core.otoli.net' + '/core/brand/list?limit=500')
         .then(response => {
           if (response.data.success) {
             const brandsFarsi = response.data.items.map((value, index) => ({
@@ -377,7 +377,7 @@ export default withNamespaces('common')(connect(state => state)(
 
       //get years and genrate a dropdown input in form
       axios
-        .post('https://otoli.net' + '/core/year/list?limit=500')
+        .post('https://core.otoli.net' + '/core/year/list?limit=500')
         .then(response => {
           if (response.data.success) {
             const yearsFarsi = response.data.items.map((value, index) => ({
@@ -400,7 +400,7 @@ export default withNamespaces('common')(connect(state => state)(
 
       //get facilities and genrate checkbox inputs in form
       axios
-        .post('https://otoli.net' + '/core/facility/list?limit=10000')
+        .post('https://core.otoli.net' + '/core/facility/list?limit=10000')
         .then(response => {
           if (response.data.success) {
             let checkboxes = [];
@@ -426,7 +426,7 @@ export default withNamespaces('common')(connect(state => state)(
 
       axios
         .post(
-          'https://otoli.net' +
+          'https://core.otoli.net' +
           '/core/location/list?limit=800&parent_id=' +
           cityID
         )
@@ -476,7 +476,7 @@ export default withNamespaces('common')(connect(state => state)(
     setModels(brandID) {
       this.setState({ brand: brandID, shouldModelLoad: true });
       axios
-        .post('https://otoli.net' + '/core/car/list?limit=800&brand_id=' + brandID)
+        .post('https://core.otoli.net' + '/core/car/list?limit=800&brand_id=' + brandID)
         .then(response => {
           if (
             response.data.success &&
@@ -543,7 +543,7 @@ export default withNamespaces('common')(connect(state => state)(
     getCarInfo(modelID) {
       return new Promise(function (resolve, reject) {
         axios
-          .post('https://otoli.net' + '/core/car/get?id=' + modelID)
+          .post('https://core.otoli.net' + '/core/car/get?id=' + modelID)
           .then(response => {
             if (response.data.success) {
               let output = {};
@@ -673,7 +673,7 @@ export default withNamespaces('common')(connect(state => state)(
             } = values;
             axios
               .post(
-                'https://otoli.net' + '/core/rental-car/new',
+                'https://core.otoli.net' + '/core/rental-car/new',
                 {
                   car_id: carModel,
                   location_id: (carDistrict || carCity),
@@ -1406,7 +1406,7 @@ export default withNamespaces('common')(connect(state => state)(
                             form.append('media', file);
                             axios
                               .post(
-                                'https://otoli.net' +
+                                'https://core.otoli.net' +
                                 '/core/rental-car/media/new',
                                 form,
                                 {

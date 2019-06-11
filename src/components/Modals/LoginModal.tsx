@@ -153,7 +153,7 @@ export default withNamespaces('common')(
                       validPhoneFormated = phone;
                     }
                     axios
-                      .post('https://otoli.net' + '/core/device/send-code', {
+                      .post('https://core.otoli.net' + '/core/device/send-code', {
                         cell: validPhoneFormated
                       })
                       .then(response => {
@@ -243,7 +243,7 @@ export default withNamespaces('common')(
                     formikActions: FormikActions<LoginModalCodeValues>
                   ) => {
                     axios
-                      .post('https://otoli.net' + '/core/device/login', {
+                      .post('https://core.otoli.net' + '/core/device/login', {
                         cell: this.state.phone,
                         code: convertToEnglishNum(values.code)
                       })
@@ -285,7 +285,7 @@ export default withNamespaces('common')(
                           // let also get user name and last name and them sign them in
                           axios
                             .post(
-                              'https://otoli.net' + '/core/user/info',
+                              'https://core.otoli.net' + '/core/user/info',
                               {},
                               {
                                 headers: {

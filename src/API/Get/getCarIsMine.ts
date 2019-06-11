@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://otoli.net';
+const DOMAIN = 'https://core.otoli.net';
 const GET_RENTAL_CAR_Is_Mine = '/core/rental-car/get';
 
 export const REQUEST_getCarIsMine = (data: IgetCarIsMine) => {

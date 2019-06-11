@@ -327,7 +327,7 @@ class Header extends React.Component<{
                               {first_name} {last_name}
                               {' '}
                               <img
-                                src={"https://otoli.net/static/core/default_profile_pic.png"}
+                                src={"https://core.otoli.net/static/core/default_profile_pic.png"}
                                 className="img-header"
                                 alt=""
                               />

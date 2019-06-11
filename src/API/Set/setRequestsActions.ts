@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://otoli.net';
+const DOMAIN = 'https://core.otoli.net';
 const SET_ORDER_CANCEL = '/core/rental-car/order/cancel';
 const SET_ORDER_APPROVE = '/core/rental-car/order/approve';
 const SET_ORDER_REJECT = '/core/rental-car/order/reject';

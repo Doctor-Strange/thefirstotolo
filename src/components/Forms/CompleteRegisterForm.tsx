@@ -158,7 +158,7 @@ export default withNamespaces('common')(
               } = values;
               axios
                 .post(
-                  'https://otoli.net' + '/core/user/update',
+                  'https://core.otoli.net' + '/core/user/update',
                   {
                     first_name: firstName,
                     last_name: lastName,

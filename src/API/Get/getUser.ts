@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://otoli.net';
+const DOMAIN = 'https://core.otoli.net';
 const GET_USER = '/core/user/info';
 
 export const REQUEST_getUser = (data: IgetUser) => {
