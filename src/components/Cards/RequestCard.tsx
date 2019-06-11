@@ -94,6 +94,7 @@ interface IRequestCard {
     pelak: any;
     picture?: any;
     style?: any;
+    refresh?: any;
 }
 
 interface IdoAction {
@@ -114,14 +115,17 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
     ownerPhone,
     pelak = { first: "", second: "", third: "", forth: "" },
     picture,
-    style = {}
+    style = {},
+    refresh
 }) => {
 
     const doAction = async (data: IdoAction) => {
         const res = await REQUEST_setOrderStatus({ id: data.id, action: data.action, token: jsCookie.get('token') });
         console.log(res);
         if (data.action == 'pay')
-            Router.push(href, res.redirect_to, { shallow: false });
+            Router.push(res.redirect_to, res.redirect_to, { shallow: false });
+        else
+            refresh();
     }
 
     const openPhoneModal = () => {

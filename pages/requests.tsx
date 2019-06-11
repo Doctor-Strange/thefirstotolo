@@ -73,6 +73,7 @@ export default props => {
                                                 fourth: rentDump.registration_plate_forth_part
                                             }}
                                             picture={rentDump.media_set[0].url}
+                                            refresh={fetchAPI}
                                         />
                                     )
                                 })
