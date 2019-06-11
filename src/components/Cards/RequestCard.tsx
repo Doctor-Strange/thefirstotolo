@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
+import Router from 'next/router';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
 import swal from '@sweetalert/with-react'
 import { Pelak, DateGrid } from './index';
@@ -119,6 +120,8 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
     const doAction = async (data: IdoAction) => {
         const res = await REQUEST_setOrderStatus({ id: data.id, action: data.action, token: jsCookie.get('token') });
         console.log(res);
+        if (data.action == 'pay')
+            Router.push(href, res.redirect_to, { shallow: false });
     }
 
     const openPhoneModal = () => {
