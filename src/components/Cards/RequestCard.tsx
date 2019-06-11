@@ -235,6 +235,13 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
         case 'not_delivered':
             title = <span>
                 <Icon.Group>
+                    <Icon name='calendar times' />
+                    <Icon corner='bottom right' name='car' />
+                </Icon.Group> سفر به شکل دستی لغو شد </span>;
+            break;
+        case 'delivered':
+            title = <span>
+                <Icon.Group>
                     <Icon name='road' />
                     <Icon corner='bottom right' name='car' />
                 </Icon.Group> در حال سفر</span>;
@@ -248,7 +255,7 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                     fluid
                                     onClick={() => doAction({ id, action: 'return' })}
                                 >
-                                    خودرو را تحویل گرفتم
+                                    خودرو را بازتحویل گرفتم
                                 </Button>
                             </div>
                         </Grid.Column>
@@ -268,7 +275,7 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                 className="left"
                                 onClick={() => doAction({ id, action: 'rate' })}
                             >
-                            ثبت نظر
+                                ثبت نظر
                             </Button>
                         </div>
                     </Grid.Column>
@@ -283,7 +290,7 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
             <Segment padded>
                 <Label attached='top right'>{title}</Label>
                 <Grid className="margintop8">
-                    <Grid.Row columns={2} style={{ margin: '0 auto', marginTop: '8px',paddingBottom: 0 }}>
+                    <Grid.Row columns={2} style={{ margin: '0 auto', marginTop: '8px', paddingBottom: 0 }}>
                         <Grid.Column width={11} style={{ paddingLeft: '24px', paddingRight: '0' }}>
                             <h3>{carName}</h3>
                             <DateGrid start={start} end={end} />
@@ -334,20 +341,20 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                                 {isBrowser &&
                                                     <Button
                                                         basic
-                                                        style={{ color: '#00ACC1', boxShadow: 'none'}}
+                                                        style={{ color: '#00ACC1', boxShadow: 'none' }}
                                                         onClick={() => openPhoneModal()}
-                                                >
-                                                    تماس با  درخواست‌دهنده
+                                                    >
+                                                        تماس با  درخواست‌دهنده
                                                     </Button>
-                                        }
+                                                }
                                             </>
-                                    }
+                                        }
                                     </Grid.Column>
                                 </Grid.Row>
                             </Grid>
                         </Grid.Column>
                     </Grid.Row>
-                {actions}
+                    {actions}
                 </Grid>
             </Segment>
         </Card>
