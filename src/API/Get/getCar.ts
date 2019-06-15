@@ -23,6 +23,7 @@ export const REQUEST_getCar = (data: IgetCar) => {
         });
         const media_set = [];
         data.media_set.map((value, index) => media_set.push(value.url));
+        console.log(data);
         resolve({
           year: data.year.name,
           mileage_range: data.mileage_range,
@@ -44,7 +45,10 @@ export const REQUEST_getCar = (data: IgetCar) => {
           loaded: true,
           media_set,
           end_date: data.end_date,
-          start_date: data.start_date
+          start_date: data.start_date,
+          no_of_days: data.no_of_days,
+          total_price: data.total_price,
+          discounted_total_price: data.discounted_total_price
         });
       } else {
         reject(false);
