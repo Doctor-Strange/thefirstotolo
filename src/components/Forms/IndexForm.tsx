@@ -25,7 +25,7 @@ import {
   Item
 } from 'semantic-ui-react';
 import Error404 from '../404';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -99,6 +99,14 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
     setCitiesFarsi(res.citiesFarsi);
     setCitiesEnglish(res.citiesEnglish);
   }
+
+  const getSelectedDayValue = date => {
+    if (!date) return '';
+    const { year } = date;
+    const { month } = date;
+    const { day } = date;
+    return `${year}/${month}/${day}`;
+  };
 
   useEffect(() => {
     fetchAPI();
@@ -197,6 +205,32 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                     onChange={setDate}
                     inputPlaceholder="انتخاب روزهای نمایش"
                     isDayRange
+                    renderInput={({ ref, onFocus, onBlur }) => {
+                      return (
+                        <>
+                          <input
+                            readOnly
+                            ref={ref}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            value={getSelectedDayValue(date.from)}
+                            placeholder="از تاریخ"
+                            className="DatePicker__input"
+                            aria-label="انتخاب تاریخ"
+                          />
+                          <input
+                            readOnly
+                            ref={ref}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
+                            value={getSelectedDayValue(date.to)}
+                            placeholder="تا تاریخ"
+                            className="DatePicker__input"
+                            aria-label="انتخاب تاریخ"
+                          />
+                        </>
+                      );
+                    }}
                     disableBackward
                     colorPrimary={"#00ACC1"}
                     colorPrimaryLight={"#00acc147"}
@@ -235,4 +269,4 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
   );
 
 }
-export default withNamespaces('common')(IndexForm);
+export default withTranslation('common')(IndexForm);
