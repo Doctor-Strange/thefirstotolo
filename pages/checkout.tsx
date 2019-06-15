@@ -25,6 +25,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
+import swal from '@sweetalert/with-react'
 
 
 export default withTranslation('common')(
@@ -93,18 +94,39 @@ export default withTranslation('common')(
             this.setState({ ...this.props });
         }
 
+        showError(text) {
+            swal(
+                <div>
+                    <h1>خطایی غیرمنتظره رخ داد</h1>
+                    <span>{text}</span>
+                </div>,
+                {
+                    button: {
+                        text: "بستن",
+                        closeModal: true,
+                    },
+                }
+            );
+        }
+
         async reserve(search_id) {
-            const res = await REQUEST_newRentRequest({
-                search_id,
-                token: jsCookie.get('token')
-            })
-            if (res) {
-                Router.push({
-                    pathname: '/requests',
-                    query: {
-                        id: search_id
-                    }
-                });
+            try {
+                const res = await REQUEST_newRentRequest({
+                    search_id,
+                    token: jsCookie.get('token')
+                })
+                if (res) {
+                    Router.push({
+                        pathname: '/requests',
+                        query: {
+                            id: search_id
+                        }
+                    });
+                }
+            }
+            catch (error) {
+                console.log(error.data);
+                this.showError(error.data.message);
             }
         }
 

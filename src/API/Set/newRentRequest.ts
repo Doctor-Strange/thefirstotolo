@@ -23,7 +23,7 @@ export const REQUEST_newRentRequest = (data: InewRentRequest) => {
         }
       })
       .catch(error => {
-        reject(error);
+        reject(error.response);
       });
   });
 };
