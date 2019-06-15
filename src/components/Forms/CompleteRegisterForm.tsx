@@ -19,7 +19,7 @@ import {
   isMobile
 } from "react-device-detect";
 import Error404 from '../404';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import { actions } from '../../store';
 import Router from 'next/router';
 import * as Yup from 'yup';
@@ -79,7 +79,7 @@ interface ICompleteRegisterFormValues {
   subscribe: boolean;
 }
 
-export default withNamespaces('common')(
+export default withTranslation('common')(
   class CompleteRegisterForm extends React.Component<{
     strings: object;
     success: boolean;

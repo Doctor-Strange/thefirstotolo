@@ -23,7 +23,7 @@ import {
   TextArea
 } from 'semantic-ui-react';
 import Error404 from '../404';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import { connect } from '../../store';
 // import {  } from 'formik-semantic-ui';
 import { Formik, FormikActions, withFormik } from 'formik';
@@ -227,7 +227,7 @@ interface IAddCarFormValues {
   carDescription: string;
 }
 
-export default withNamespaces('common')(connect(state => state)(
+export default withTranslation('common')(connect(state => state)(
   class AddCarForm extends React.Component<{
     t: any;
     success: boolean;

@@ -5,8 +5,10 @@ import IndexForm from '../src/components/Forms/IndexForm';
 import Layout from '../src/components/Layout';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
+import * as backgroundImage from '../static/back.jpg';
+import { i18n, Link, withTranslation } from '../src/i18n';
 
-export default props => (
+export default withTranslation('common')(props => (
   <Layout haveSubHeader={true} pageTitle={'Hello World'}>
     <Section justifyCenter={true}>
       <div className="hero_single version_4">
@@ -49,4 +51,4 @@ export default props => (
       </Flex>
     </Section> */}
   </Layout>
-);
+));

@@ -17,7 +17,7 @@ import {
 } from 'semantic-ui-react';
 import { CarCard, CarCardPlaceholder } from '../Cards';
 import { BulletList } from "react-content-loader";
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import moment from 'moment-jalaali';
 moment.loadPersian();
 import { Box, Flex } from '@rebass/grid';

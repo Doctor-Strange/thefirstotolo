@@ -7,7 +7,7 @@ import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
 import { PriceCard, UserCard, CarCard, CarCardPlaceholder } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
-import { i18n, withNamespaces } from '../src/i18n';
+import { i18n, withTranslation } from '../src/i18n';
 import { REQUEST_getUserCars, REQUEST_getUser } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -136,7 +136,7 @@ const Profile: React.SFC<IProfile> = ({ t, id, name, image_url }) => {
                                 inverted
                                 trigger={
                                     <CopyToClipboard
-                                        text={window.location.href}
+                                        text={"Test"}
                                         onCopy={() => alert("کپی شد")}
                                     >
                                         <Button circular icon='copy' />
@@ -184,7 +184,7 @@ Profile.getInitialProps = async (props) => {
     };
 }
 
-export default withNamespaces('common')(Profile);
+export default withTranslation('common')(Profile);
 
 
 

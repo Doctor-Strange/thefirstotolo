@@ -5,9 +5,9 @@ import Layout from '../src/components/Layout';
 import CompleteRegisterForm from '../src/components/Forms/CompleteRegisterForm';
 import { Box, Flex } from '@rebass/grid';
 import Router, { withRouter } from 'next/router';
-import { i18n, withNamespaces } from '../src/i18n';
+import { i18n, withTranslation } from '../src/i18n';
 
-export default withRouter(withNamespaces('common')(
+export default withRouter(withTranslation('common')(
   class extends React.Component<{ t: any, router: any }> {
     static async getInitialProps() {
       return {

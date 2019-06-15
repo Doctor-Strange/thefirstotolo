@@ -13,7 +13,7 @@ import {
   Segment,
   TextArea
 } from 'semantic-ui-react';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import { Box, Flex } from '@rebass/grid';
 import moment from 'moment-jalaali';
 moment.loadPersian();

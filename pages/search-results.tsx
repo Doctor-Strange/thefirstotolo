@@ -1,4 +1,4 @@
-import { i18n, withNamespaces } from '../src/i18n';
+import { i18n, withTranslation } from '../src/i18n';
 import * as React from 'react';
 import IndexForm from '../src/components/Forms/IndexForm';
 import Layout from '../src/components/Layout';
@@ -24,7 +24,7 @@ import moment from 'moment-jalaali';
 moment.loadPersian();
 
 export default withRouter(
-    withNamespaces('common')(
+    withTranslation('common')(
         connect(state => state)(
             class extends React.Component<{
                 t: any;

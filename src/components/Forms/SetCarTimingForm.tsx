@@ -26,7 +26,7 @@ import {
 } from 'semantic-ui-react';
 import Error404 from '../404';
 import { REQUEST_getCarIsMine, REQUEST_getCarAvailabilities } from '../../API';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import { connect } from '../../store';
 import { Formik, FormikActions, withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -1269,6 +1269,6 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
   );
 };
 
-export default withNamespaces('common')(
+export default withTranslation('common')(
   connect(state => state)(SetCarTimingForm)
 );

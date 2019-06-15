@@ -12,7 +12,7 @@ import { Header, SubHeader } from '../Header';
 import Footer from '../Footer';
 import Head from 'next/head';
 import Link from 'next/link';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import { actions } from "../../store";
 
 class Layout extends React.Component<{
@@ -125,4 +125,4 @@ class Layout extends React.Component<{
 
 const mapStateToProps = ({ }) => ({});
 
-export default withNamespaces('common')(Layout);
+export default withTranslation('common')(Layout);

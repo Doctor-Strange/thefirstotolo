@@ -11,7 +11,7 @@ import { ModalWrapper } from './ModalWrapper';
 import { PanelsWrapper } from '../Carousel/PanelsWrapper';
 import { Panel } from '../Carousel/Panel';
 // import { mobileNumberOptions } from '../../constants/options';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import { ltrTheme, rtlTheme } from '../../theme/directions';
 import { actions } from "../../store";
 
@@ -31,7 +31,7 @@ interface LoginModalCodeValues {
   code: number;
 }
 
-export default withNamespaces('common')(
+export default withTranslation('common')(
   class extends React.Component<
     { onRef: any; t: any, updateInfo: any },
     {

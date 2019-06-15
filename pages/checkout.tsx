@@ -9,7 +9,7 @@ import Router from 'next/router';
 import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard, DateGrid } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
-import { i18n, withNamespaces } from '../src/i18n';
+import { i18n, withTranslation } from '../src/i18n';
 import { connect } from '../src/store';
 import { REQUEST_getCar, REQUEST_newRentRequest } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
@@ -27,7 +27,7 @@ import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: true });
 
 
-export default withNamespaces('common')(
+export default withTranslation('common')(
     class extends React.Component<{
         t: any, rentalCarID: number, start: any, end: any, search_id: string, user: any
     }> {

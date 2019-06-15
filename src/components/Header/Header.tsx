@@ -5,7 +5,7 @@ import { Nav } from '../Nav';
 import { Logo } from '../Logo';
 import Router from 'next/router';
 import Link from 'next/link';
-import { i18n, withNamespaces } from '../../i18n';
+import { i18n, withTranslation } from '../../i18n';
 import ReactModal from 'react-modal';
 import LoginModal from '../Modals/LoginModal';
 import { connect } from '../../store';
@@ -342,14 +342,14 @@ class Header extends React.Component<{
             </div>
           </header>
           <header className="justInMobile">
-            <ul id="top_menu" style={{float: 'left',margin: '0 10px 0 0'}}>
+            <ul id="top_menu" style={{ float: 'left', margin: '0 10px 0 0' }}>
               <li>
                 <Link href="/requests">
                   <a>سفارش‌های من</a>
                 </Link>
               </li>
             </ul>
-           
+
             <Logo />
             <ul id="top_menu">
               <li>
@@ -380,4 +380,4 @@ class Header extends React.Component<{
   }
 }
 
-export default withNamespaces('common')(connect(state => state)(Header));
+export default withTranslation('common')(connect(state => state)(Header));

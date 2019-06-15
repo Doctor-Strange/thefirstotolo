@@ -9,7 +9,7 @@ import Router from 'next/router';
 import Carousel from 'nuka-carousel';
 import { PriceCard, UserCard } from '../src/components/Cards';
 import { Details, CarNav, CarSideCard } from '../src/components/Car';
-import { i18n, withNamespaces } from '../src/i18n';
+import { i18n, withTranslation } from '../src/i18n';
 import { REQUEST_getCar } from '../src/API';
 import {
     BrowserView,
@@ -26,7 +26,7 @@ const SearchResult = styled.div`
 
 `;
 
-export default withNamespaces('common')(
+export default withTranslation('common')(
     class extends React.Component<{ t: any, rentalCarID: number, start_date: any, end_date: any, search_id: string }> {
 
         static async getInitialProps(props) {
