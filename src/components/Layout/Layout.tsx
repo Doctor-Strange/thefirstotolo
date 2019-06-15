@@ -20,6 +20,7 @@ class Layout extends React.Component<{
   pageTitle: string;
   t: any;
   changeLang: any;
+  bgImage?: string;
 }> {
   [x: string]: any;
 
@@ -52,8 +53,9 @@ class Layout extends React.Component<{
 
   render() {
     const theme = i18n.language == 'en' ? ltrTheme : rtlTheme;
-    console.log(i18n.language);
-    const { t, pageTitle, children } = this.props;
+    console.log("i18n.language: ", i18n.language);
+    const { t, pageTitle, children, bgImage } = this.props;
+    console.log("bgImage ", bgImage)
     return (
       <ThemeProvider
         theme={{
@@ -113,7 +115,11 @@ class Layout extends React.Component<{
             changeLang={() => actions.changeLang()}
           />
           {this.propshaveSubHeader ? <SubHeader title={pageTitle} /> : null}
-          <main>{children}</main>
+          <div style={{
+            background: `url(${bgImage}) no-repeat 50%/cover`,
+            backgroundPositionY: '60%',
+            minHeight: '80vh'
+          }}>{children}</div>
           <Footer changeLangFunc={() => actions.changeLang()} />
         </div>
         {/* </Sidebar.Pusher>

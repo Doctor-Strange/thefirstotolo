@@ -8,8 +8,8 @@ import { Box, Flex } from '@rebass/grid';
 import * as backgroundImage from '../static/back.jpg';
 import { i18n, Link, withTranslation } from '../src/i18n';
 
-export default withTranslation('common')(props => (
-  <Layout haveSubHeader={true} pageTitle={'Hello World'}>
+const Page = props => (
+  <Layout haveSubHeader={true} pageTitle={'Hello World'} bgImage={backgroundImage}>
     <Section justifyCenter={true}>
       <div className="hero_single version_4">
         <Flex justifyContent="space-around" className="wrapper">
@@ -19,14 +19,6 @@ export default withTranslation('common')(props => (
               ماشینی که دوست دارید رو پیدا کنید و در سریع‌ترین زمان اجاره کنید
             </p>
             <IndexForm t={props.t} />
-            <ul className="counter">
-              <li>
-                <strong>۶</strong> شهر
-              </li>
-              <li>
-                <strong>۳۴٫۰۰۰</strong> ماشین
-              </li>
-            </ul>
           </Box>
         </Flex>
       </div>
@@ -51,4 +43,6 @@ export default withTranslation('common')(props => (
       </Flex>
     </Section> */}
   </Layout>
-));
+)
+
+export default withTranslation('common')(Page);

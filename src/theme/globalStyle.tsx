@@ -1324,6 +1324,7 @@ input[type="email"] {
       h3 {
         font-size: 42px;
         font-size: 2.625rem;
+        color:White;
         text-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
         @media (max-width: 767px) {
           font-size: 26px;
@@ -1336,6 +1337,7 @@ input[type="email"] {
         }
       }
       p {
+        color: white;
         font-weight: 400;
         margin: 5px 0 20px 0;
         padding: 0;
@@ -1363,6 +1365,25 @@ input[type="email"] {
           color: #fff;
         }
       }
+    }
+  }
+  .index-box{
+    background-color: #FFFFFF;
+    box-shadow: 0 2 0 5px #000000;
+    padding: 32px;
+    &>div {
+      padding: 0px 8px;
+    }
+    .pickerbox {
+      width:50%
+    }
+    .field {
+      margin-bottom: 4px !important;
+    }
+    
+    .btn_1 {
+      bottom: -25px;
+      position: relative;
     }
   }
   ul.counter {

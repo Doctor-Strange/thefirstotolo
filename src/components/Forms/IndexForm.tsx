@@ -161,96 +161,104 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
         return (
           <BoxAccount className="box_account">
             <Form onSubmit={handleSubmit}>
-              <Flex
-                justifyContent="space-around"
-                className="wrapper"
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  maxWidth: '700px',
-                  margin: '0 auto'
-                }}
-              >
-                <Box className="indexFullOnMobile" width={[4 / 12, 1, 1]}>
-                  <Form.Dropdown
-                    name="carCity"
-                    id="carCity"
-                    placeholder={t('carProperty.city')}
-                    noResultsMessage={t('forms.error_no_result_found')}
-                    selection
-                    loading={citiesFarsi[0].value == null}
-                    options={
-                      i18n.language === 'en'
-                        ? citiesEnglish
-                        : citiesFarsi
-                    }
-                    error={Boolean(errors.carCity && touched.carCity)}
-                    onChange={(e, data) => {
-                      if (data && data.name) {
-                        setFieldValue(data.name, data.value);
-                      }
-                    }}
-                    onClose={(e, data) => {
-                      console.log(e);
-                      if (data && data.name) {
-                        setFieldTouched(data.name);
-                      }
-                    }}
-                    value={values.carCity}
-                  />
-                </Box>
-                <Box className="indexFullOnMobile" width={[6 / 12, 1, 1]} style={{ minWidth: '300px' }}>
-                  <DatePicker
-                    selectedDayRange={date}
-                    onChange={setDate}
-                    inputPlaceholder="انتخاب روزهای نمایش"
-                    isDayRange
-                    renderInput={({ ref, onFocus, onBlur }) => {
-                      return (
-                        <>
-                          <input
-                            readOnly
-                            ref={ref}
-                            onFocus={onFocus}
-                            onBlur={onBlur}
-                            value={getSelectedDayValue(date.from)}
-                            placeholder="از تاریخ"
-                            className="DatePicker__input"
-                            aria-label="انتخاب تاریخ"
-                          />
-                          <input
-                            readOnly
-                            ref={ref}
-                            onFocus={onFocus}
-                            onBlur={onBlur}
-                            value={getSelectedDayValue(date.to)}
-                            placeholder="تا تاریخ"
-                            className="DatePicker__input"
-                            aria-label="انتخاب تاریخ"
-                          />
-                        </>
-                      );
-                    }}
-                    disableBackward
-                    colorPrimary={"#00ACC1"}
-                    colorPrimaryLight={"#00acc147"}
-                  />
-                </Box>
-                <Box className="indexFullOnMobile" width={[2 / 12, 1, 1]}>
-                  <Form.Field
-                    style={{ textAlign: 'center', fontSize: '0.8em' }}
-                  >
-                    <Button
-                      loading={isSubmitting}
-                      primary
-                      type="submit"
-                      className="btn_1 full-width"
+              <DatePicker
+                selectedDayRange={date}
+                onChange={setDate}
+                inputPlaceholder="انتخاب روزهای نمایش"
+                isDayRange
+                renderInput={({ ref, onFocus, onBlur }) => {
+                  return (
+                    <Flex
+                      justifyContent="space-around"
+                      className="wrapper index-box"
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'flex-start',
+                        maxWidth: '900px',
+                        width: '900px',
+                        margin: '0 auto'
+                      }}
                     >
-                      {t('search')}
-                    </Button>
-                  </Form.Field>
-                </Box>
-              </Flex>
+                      <Box className="indexFullOnMobile" width={[4 / 16]}>
+                        <Form.Dropdown
+                          label={'خودرو را کجا تحویل می‌گیرید؟'}
+                          name="carCity"
+                          id="carCity"
+                          placeholder={t('carProperty.city')}
+                          noResultsMessage={t('forms.error_no_result_found')}
+                          selection
+                          loading={citiesFarsi[0].value == null}
+                          options={
+                            i18n.language === 'en'
+                              ? citiesEnglish
+                              : citiesFarsi
+                          }
+                          error={Boolean(errors.carCity && touched.carCity)}
+                          onChange={(e, data) => {
+                            if (data && data.name) {
+                              setFieldValue(data.name, data.value);
+                            }
+                          }}
+                          onClose={(e, data) => {
+                            console.log(e);
+                            if (data && data.name) {
+                              setFieldTouched(data.name);
+                            }
+                          }}
+                          value={values.carCity}
+                        />
+                      </Box>
+                      <Box className="indexFullOnMobile" width={[4 / 16]}>
+                        <Form.Field style={{ margin: 0 }}>
+                          <label>از تاریخ</label>
+                        </Form.Field>
+                        <input
+                          readOnly
+                          ref={ref}
+                          onFocus={onFocus}
+                          onBlur={onBlur}
+                          value={getSelectedDayValue(date.from)}
+                          placeholder="از تاریخ"
+                          className="DatePicker__input index"
+                          aria-label="انتخاب تاریخ"
+                        />
+                      </Box>
+                      <Box className="indexFullOnMobile" width={[4 / 16]}>
+                        <Form.Field style={{ margin: 0 }}>
+                          <label>تا تاریخ</label>
+                        </Form.Field>
+                        <input
+                          readOnly
+                          ref={ref}
+                          onFocus={onFocus}
+                          onBlur={onBlur}
+                          value={getSelectedDayValue(date.to)}
+                          placeholder="تا تاریخ"
+                          className="DatePicker__input"
+                          aria-label="انتخاب تاریخ"
+                        />
+                      </Box>
+                      <Box className="indexFullOnMobile" width={[4 / 16]}>
+                        <Form.Field
+                          style={{ textAlign: 'center', fontSize: '0.8em' }}
+                        >
+                          <Button
+                            loading={isSubmitting}
+                            primary
+                            type="submit"
+                            className="btn_1 full-width"
+                          >
+                            {t('search')}
+                          </Button>
+                        </Form.Field>
+                      </Box>
+                    </Flex>
+                  );
+                }}
+                disableBackward
+                colorPrimary={"#00ACC1"}
+                colorPrimaryLight={"#00acc147"}
+              />
             </Form>
             {error && (
               <Label attached="bottom" color="red">
