@@ -19,7 +19,7 @@ import { CarCard, CarCardPlaceholder } from '../Cards';
 import { BulletList } from "react-content-loader";
 import { i18n, withTranslation } from '../../i18n';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({ dialect: 'persian-modern' });
 import { Box, Flex } from '@rebass/grid';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 

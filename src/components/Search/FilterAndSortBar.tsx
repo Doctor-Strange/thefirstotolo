@@ -20,7 +20,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { i18n, withTranslation } from '../../i18n';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({ dialect: 'persian-modern' });
 import { Box, Flex } from '@rebass/grid';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 import { PriceCard } from '../Cards'

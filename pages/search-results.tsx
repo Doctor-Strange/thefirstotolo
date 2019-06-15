@@ -21,7 +21,7 @@ import {
 import Router, { withRouter } from 'next/router';
 import axios from 'axios';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({ dialect: 'persian-modern' });
 
 export default withRouter(
     withTranslation('common')(

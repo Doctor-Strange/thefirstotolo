@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({ dialect: 'persian-modern' });
 const Card = styled(Grid)`
 
 `;

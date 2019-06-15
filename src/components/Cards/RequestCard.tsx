@@ -15,7 +15,7 @@ import {
     isMobile
 } from "react-device-detect";
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({dialect: 'persian-modern'});
 
 const Card = styled.div`
     direction: rtl;

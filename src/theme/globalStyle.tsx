@@ -1385,6 +1385,12 @@ input[type="email"] {
       bottom: -25px;
       position: relative;
     }
+    .DatePicker__calendarContainer {
+      transition: all .5s;
+    }
+    input.DatePicker__input {
+      cursor: pointer;
+    }
   }
   ul.counter {
     margin: 10px 0 0 0;

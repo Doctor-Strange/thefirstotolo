@@ -11,7 +11,7 @@ import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import jsCookie from 'js-cookie';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({ dialect: 'persian-modern' });
 
 export default props => {
 

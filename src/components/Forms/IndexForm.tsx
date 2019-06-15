@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
 import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({ dialect: 'persian-modern' });
 import {
   Form,
   Divider,
@@ -31,33 +31,15 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { REQUEST_getLocations } from '../../API';
 import { Box, Flex } from '@rebass/grid';
+import {
+  convertDateToMoment,
+  convertMomentToDate,
+  convertRangeDateToMoment,
+  convertMomentsToDateRange,
+  getBetweenRange
+} from '../../lib/date';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
-function numberWithCommas(x) {
-  return x
-    .toString()
-    .replace(',', '')
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-function convertNumbers2Persian(num) {
-  if (num !== null) {
-    const id = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return num.toString().replace(/[0-9]/g, function (w) {
-      return id[+w];
-    });
-  } else {
-    return num;
-  }
-}
-function convertNumbers2English(string) {
-  return string
-    .replace(/[\u0660-\u0669]/g, function (c) {
-      return c.charCodeAt(0) - 0x0660;
-    })
-    .replace(/[\u06f0-\u06f9]/g, function (c) {
-      return c.charCodeAt(0) - 0x06f0;
-    });
-}
 
 function clearNumber(x) {
   return convertNumbers2English(x.toString())
@@ -86,6 +68,10 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
   const [error, setError] = useState('');
   const [name, setName] = useState('');
   const [success, setSuccess] = useState(false);
+  const [datepicker_animation, setDPA] = useState(`.DatePicker__calendarContainer {
+  transform: translateX(-22%);
+}
+`);
   const [citiesFarsi, setCitiesFarsi] = useState([{ text: 'کمی صبر کنید...', value: null }]);
   const [citiesEnglish, setCitiesEnglish] = useState([{ text: 'کمی صبر کنید...', value: null }]);
   const [date, setDate] = useState({
@@ -102,15 +88,34 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
 
   const getSelectedDayValue = date => {
     if (!date) return '';
-    const { year } = date;
-    const { month } = date;
-    const { day } = date;
-    return `${year}/${month}/${day}`;
+    return convertNumbers2Persian(
+      moment(
+        convertDateToMoment(date)
+      ).format('dddd jD jMMMM jYY')
+    );
   };
 
   useEffect(() => {
     fetchAPI();
   }, []);
+
+  const setStart = () => {
+    if (date.from && !date.to) {
+      setEnd();
+      return;
+    } else {
+      setDPA(`.DatePicker__calendarContainer {
+        transform: translateX(-22%);
+      }`);
+    }
+  }
+
+  const setEnd = () => {
+    setDPA(`.DatePicker__calendarContainer {
+      transform: translateX(-82%);
+    }
+    `);
+  }
 
   return (
     <Formik
@@ -161,9 +166,18 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
         return (
           <BoxAccount className="box_account">
             <Form onSubmit={handleSubmit}>
+              <style>
+                {datepicker_animation}
+              </style>
               <DatePicker
                 selectedDayRange={date}
-                onChange={setDate}
+                onChange={(v) => {
+                  console.log("fe", v);
+                  if (!v.to) {
+                    setEnd();
+                  }
+                  setDate(v)
+                }}
                 inputPlaceholder="انتخاب روزهای نمایش"
                 isDayRange
                 renderInput={({ ref, onFocus, onBlur }) => {
@@ -215,7 +229,7 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                         <input
                           readOnly
                           ref={ref}
-                          onFocus={onFocus}
+                          onFocus={() => { setStart(); onFocus() }}
                           onBlur={onBlur}
                           value={getSelectedDayValue(date.from)}
                           placeholder="از تاریخ"
@@ -230,7 +244,7 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                         <input
                           readOnly
                           ref={ref}
-                          onFocus={onFocus}
+                          onFocus={() => { setEnd(); onFocus() }}
                           onBlur={onBlur}
                           value={getSelectedDayValue(date.to)}
                           placeholder="تا تاریخ"

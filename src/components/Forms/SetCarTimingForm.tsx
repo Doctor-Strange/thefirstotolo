@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import 'otoli-react-persian-calendar-date-picker/lib/DatePicker.css';
 import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({ dialect: 'persian-modern' });
 import {
   Form,
   Divider,
@@ -506,19 +506,19 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                   });
                 });
                 axios
-                    .post(
-                      'https://core.otoli.net' + '/core/rental-car/availability/replace-set',
-                      {
-                        rental_car_id: id,
-                        data: JSON.stringify(timings)
-                      },
-                      header
-                    )
-                    .then(response => {
-                      if (response.data.success) {
-                        console.log(response.data.success);
-                      }
-                    });
+                  .post(
+                    'https://core.otoli.net' + '/core/rental-car/availability/replace-set',
+                    {
+                      rental_car_id: id,
+                      data: JSON.stringify(timings)
+                    },
+                    header
+                  )
+                  .then(response => {
+                    if (response.data.success) {
+                      console.log(response.data.success);
+                    }
+                  });
                 setSubmittingSteps(7);
                 setTimeout(() => {
                   actions.setSubmitting(false);
@@ -765,8 +765,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                     value={
                       values.distanceLimit
                         ? convertNumbers2Persian(
-                            numberWithCommas(values.distanceLimit)
-                          )
+                          numberWithCommas(values.distanceLimit)
+                        )
                         : values.distanceLimit
                     }
                   >
@@ -803,8 +803,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                     value={
                       values.extraKm
                         ? convertNumbers2Persian(
-                            numberWithCommas(values.extraKm)
-                          )
+                          numberWithCommas(values.extraKm)
+                        )
                         : values.extraKm
                     }
                   >
@@ -871,7 +871,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                       className="extraKm"
                       error={Boolean(
                         errors.availableInAllPrice &&
-                          touched.availableInAllPrice
+                        touched.availableInAllPrice
                       )}
                       onChange={(e, data) => {
                         if (data && data.name) {
@@ -882,8 +882,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                       value={
                         values.availableInAllPrice
                           ? convertNumbers2Persian(
-                              numberWithCommas(values.availableInAllPrice)
-                            )
+                            numberWithCommas(values.availableInAllPrice)
+                          )
                           : values.availableInAllPrice
                       }
                     >
@@ -978,8 +978,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                                 value={
                                   price
                                     ? convertNumbers2Persian(
-                                        numberWithCommas(price)
-                                      )
+                                      numberWithCommas(price)
+                                    )
                                     : price
                                 }
                               >
@@ -1122,8 +1122,8 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                             value={
                               price
                                 ? convertNumbers2Persian(
-                                    numberWithCommas(price)
-                                  )
+                                  numberWithCommas(price)
+                                )
                                 : price
                             }
                           >

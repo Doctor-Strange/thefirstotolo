@@ -22,7 +22,7 @@ import {
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment-jalaali';
-moment.loadPersian();
+moment.loadPersian({dialect: 'persian-modern'});
 
 
 interface IProfile {
