@@ -260,7 +260,6 @@ class Header extends React.Component<{
 
   constructor(props) {
     super(props);
-    this.updateInfo = this.updateInfo.bind(this);
   }
 
   onClick = () => {
@@ -290,12 +289,12 @@ class Header extends React.Component<{
     this.props.onRef(undefined);
   }
 
-  updateInfo() {
-  }
-
   render() {
-    const { t, user } = this.props;
+    let { t, user } = this.props;
     console.log(user);
+    if (!user)  {
+      user = { token: "", user_id: "", phone: "", first_name: "", last_name: "" };
+    }
     const { token, user_id, phone, first_name, last_name } = user;
     return (
       <>
