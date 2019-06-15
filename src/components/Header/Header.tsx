@@ -11,6 +11,10 @@ import LoginModal from '../Modals/LoginModal';
 import { connect } from '../../store';
 
 const HeaderSticky = styled.div`
+  background-color:#1B1B1B;
+  p, span, a {
+    color: #f9f9f9 !important;
+  }
   header {
     position: relative;
     left: 0;
@@ -292,7 +296,7 @@ class Header extends React.Component<{
   render() {
     let { t, user } = this.props;
     console.log(user);
-    if (!user)  {
+    if (!user) {
       user = { token: "", user_id: "", phone: "", first_name: "", last_name: "" };
     }
     const { token, user_id, phone, first_name, last_name } = user;
