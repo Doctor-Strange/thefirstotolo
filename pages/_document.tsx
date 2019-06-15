@@ -10,6 +10,16 @@ import {
   SITE_NAME,
   SITE_TITLE
 } from '../src/constants/env';
+import * as Sentry from '@sentry/browser';
+
+process.on('unhandledRejection', (err) => {
+  Sentry.captureException(err);
+});
+
+process.on('uncaughtException', (err) => {
+  Sentry.captureException(err);
+});
+
 
 export default class extends Document {
   static async getInitialProps(...args) {

@@ -7,6 +7,11 @@ import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
 // upper line is becuase of https://github.com/zeit/next-plugins/issues/282
 import { appWithTranslation } from '../src/i18n';
 import { Provider, actions } from '../src/store';
+import * as Sentry from '@sentry/browser';
+
+Sentry.init({
+  dsn: 'https://6324a921805a4a4c9c564b87d725bd94@sentry.io/1482778'
+});
 
 Router.events.on('routeChangeStart', url => {
   console.log(`Loading: ${url}`);
@@ -59,6 +64,18 @@ class OtoliApp extends App {
           console.warn('service worker registration failed', err.message)
         })
     }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
+        scope.setExtra(key, errorInfo[key]);
+      });
+
+      Sentry.captureException(error);
+    });
+
+    super.componentDidCatch(error, errorInfo);
   }
 
   render() {
