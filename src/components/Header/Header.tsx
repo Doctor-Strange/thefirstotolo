@@ -26,7 +26,7 @@ const HeaderSticky = styled.div`
   }
   @media (max-width: 767px) {
     padding: 15px 15px 5px 15px;
-    padding: 0px 15px 0px 15px;
+    padding: 0px 15px 15px 15px;
   }
   /* .logo_sticky {
     display: none;
@@ -329,11 +329,12 @@ class Header extends React.Component<{
                             <a href={`/profile?id=${user_id}`}>
                               {first_name} {last_name}
                               {' '}
-                              <img
+                              <Icon name="user circle" size='big' className="img-header"/>
+                              {/* <img
                                 src={"https://core.otoli.net/static/core/default_profile_pic.png"}
                                 className="img-header"
                                 alt=""
-                              />
+                              /> */}
                             </a>
                           </span>
                         )}
@@ -370,6 +371,12 @@ class Header extends React.Component<{
                 {token && (
                   <span>
                     {first_name}  {last_name}
+                     <Icon name="user circle" size='big' className="img-header"/>
+                      {/* <img
+                        src={"https://core.otoli.net/static/core/default_profile_pic.png"}
+                        className="img-header"
+                        alt=""
+                      /> */}
                   </span>
                 )}
               </li>

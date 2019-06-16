@@ -1385,23 +1385,25 @@ input[type="email"] {
       width: 933px;
     }
     @media (min-width: 1200px) {
-      width: 1127px;
+      width: 1056px;
     }
     &>div {
       padding: 0px 8px;
-      :nth-child(2) {
-        padding-left: 0px;
-        input.DatePicker__input {
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
-          border-left:none;
+      @media (min-width: 992px) {
+        :nth-child(2) {
+          padding-left: 0px;
+          input.DatePicker__input {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+            border-left:none;
+          }
         }
-      }
-      :nth-child(3) {
-        padding-right: 0px;
-        input.DatePicker__input {
-          border-bottom-right-radius: 0;
-          border-top-right-radius: 0;
+        :nth-child(3) {
+          padding-right: 0px;
+          input.DatePicker__input {
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+          }
         }
       }
     }
@@ -2571,6 +2573,22 @@ ul.bullets li {
 }
 .Calendar {
     box-shadow: 0 1em 4em 3px rgba(0, 0, 0, 0.38);
+}
+
+@media (max-width: 767px) {
+  .DatePicker__calendarContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: none !important;
+    height: 100vh;
+    width: 100vw;
+    background: #0000005e;
+    .Calendar{
+      margin: 0 auto;
+      transform: translateY(50%);
+    }
+  }
 }
 `;
 
