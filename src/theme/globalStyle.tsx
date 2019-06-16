@@ -222,7 +222,7 @@ const GlobalStyle = createGlobalStyle`
     }
      @media (min-width: 1200px){
       .carcard{
-        width: 340px;
+        width: 375px;
       }
     }
   }
@@ -295,46 +295,22 @@ const GlobalStyle = createGlobalStyle`
 .order-last{
     order:13
 }
-@media (min-width:576px){
-    .col-sm-6{
-        flex:0 0 50%;
-        max-width:50%
-    }
-    .order-sm-last{
-        order:13
-    }
-}
-@media (min-width:768px){
-    .col-md-2{
-        flex:0 0 16.666667%;
-        max-width:16.666667%
-    }
-    .col-md-3{
-        flex:0 0 25%;
-        max-width:25%
-    }
-    .col-md-4{
+@media (min-width:1200px){
+    .col-xl-4{
         flex:0 0 33.333333%;
         max-width:33.333333%
     }
-    .col-md-5{
+    .col-xl-5{
         flex:0 0 41.666667%;
         max-width:41.666667%
     }
-    .col-md-6{
+    .col-xl-6{
         flex:0 0 50%;
         max-width:50%
     }
-    .col-md-8{
-        flex:0 0 66.666667%;
-        max-width:66.666667%
-    }
-    .col-md-12{
-        flex:0 0 100%;
-        max-width:100%
-    }
-    .order-md-last{
-        order:13
+    .col-xl-7{
+        flex:0 0 58.333333%;
+        max-width:58.333333%
     }
 }
 @media (min-width:992px){
@@ -383,24 +359,49 @@ const GlobalStyle = createGlobalStyle`
         max-width:100%
     }
 }
-@media (min-width:1200px){
-    .col-xl-4{
+@media (min-width:768px){
+    .col-md-2{
+        flex:0 0 16.666667%;
+        max-width:16.666667%
+    }
+    .col-md-3{
+        flex:0 0 25%;
+        max-width:25%
+    }
+    .col-md-4{
         flex:0 0 33.333333%;
         max-width:33.333333%
     }
-    .col-xl-5{
+    .col-md-5{
         flex:0 0 41.666667%;
         max-width:41.666667%
     }
-    .col-xl-6{
+    .col-md-6{
         flex:0 0 50%;
         max-width:50%
     }
-    .col-xl-7{
-        flex:0 0 58.333333%;
-        max-width:58.333333%
+    .col-md-8{
+        flex:0 0 66.666667%;
+        max-width:66.666667%
+    }
+    .col-md-12{
+        flex:0 0 100%;
+        max-width:100%
+    }
+    .order-md-last{
+        order:13
     }
 }
+@media (min-width:576px){
+    .col-sm-6{
+        flex:0 0 50%;
+        max-width:50%
+    }
+    .order-sm-last{
+        order:13
+    }
+}
+
 
   .mt-1 {
       margin-top: .25rem!important;
@@ -623,6 +624,10 @@ const GlobalStyle = createGlobalStyle`
 
 .nomargin {
   margin: 0 !important;
+}
+
+.margin_16 {
+  padding-top: 16px;
 }
 
 .margin_30 {
@@ -2490,15 +2495,14 @@ ul.bullets li {
 }
 
 .navbar {
-  padding: 20px 0;
-  color: #fff;
-  background: #004dda;
+  padding: 8px 0;
+  color: #141414;
+  background: #fff;
   position: relative;
   z-index: 999 !important;
   text-align:center;
   h4 {
-    color: #fff;
-    margin: 12px 0 0 0;
+    margin: 8px 0 0 0;
     padding: 0;
     line-height: 1;
     font-size: 16px;

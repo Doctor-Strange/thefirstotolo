@@ -64,7 +64,7 @@ export class ResultsCards extends React.Component<{
             dateURL,
             lodingMore,
             colClass = "col-lg-9",
-            marginClass = "margin_60_35",
+            marginClass = "margin_16",
             showInProfile = false,
             userOwnPage = false,
         } = this.props;

@@ -16,7 +16,7 @@ import {
 import { i18n, withTranslation } from '../../i18n';
 import { Box, Flex } from '@rebass/grid';
 import moment from 'moment-jalaali';
-moment.loadPersian({dialect: 'persian-modern'});
+moment.loadPersian({ dialect: 'persian-modern' });
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
 
 const SearchResult = styled.div`
@@ -89,10 +89,10 @@ export class SearchBar extends React.Component<{
         <div className="container">
           <Flex justifyContent="space-around" className="row hide_on_mobile">
             <Box width={12 / 12} px={2}>
-              <h4 style={{ fontSize: '19px', textAlign: 'center' }}>
+              <h4 style={{ fontSize: '16px', textAlign: 'center' }}>
                 <strong> {convertNumbers2Persian(count)} </strong>
                 {text}
-                <Dropdown
+                {/* <Dropdown
                   inline
                   name="carCity"
                   id="carCity"
@@ -115,7 +115,8 @@ export class SearchBar extends React.Component<{
                       // setFieldValue(data.name, data.value);
                     }
                   }}
-                />
+                /> */}
+                {citiesFarsi[0].value && citiesFarsi[0].text}
                 {/* {loadingCity ? <Icon loading name='spinner' /> : ""} */}
                 {textDate ? textDate : ""}
               </h4>

@@ -17,19 +17,19 @@ const Card = styled.div`
   background-color: #fff;
   display: block;
   position: relative;
-  margin-bottom: 30px;
-  border-radius: 3px;
+  border-radius: 4px;
   box-shadow: 1px -1px 11px 3px #0000000f;
-  margin: 10px auto;
   @media (max-width: 768px){
     width: 97vw;
     max-width: 400px;
   }
   .img-fluid {
     max-width: 100%;
+    min-width: 100%;
     height: auto;
   }
   figure {
+    cursor: pointer;
     margin-bottom: 0;
     overflow: hidden;
     position: relative;
@@ -259,17 +259,17 @@ export const CarCard: React.FunctionComponent<{
         <div className="wrapper row">
           <div className="col-8">
             <Link href={link} shallow>
-              <h3>
-                <a href={`/car?id=${id}`}>
+              <a href={`/car?id=${id}`}>
+                <h3>
                   {title}<br />
                   <small>{year}</small><br />
                   {/* <StarRatingComponent
-                      name="rate1"
-                      starCount={5}
-                      value={3}
-                    /> */}
-                </a>
-              </h3>
+                        name="rate1"
+                        starCount={5}
+                        value={3}
+                      /> */}
+                </h3>
+              </a>
             </Link>
           </div>
           {!simpleMode &&

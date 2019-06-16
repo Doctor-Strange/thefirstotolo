@@ -5,7 +5,7 @@ import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getSh
 
 const Card = styled.div`
     left: 20px;
-    box-shadow: 5px -4px 6px 0px #0000000a;
+    box-shadow: none;
     text-align: center;
     border-radius: 5px;
     background: white;

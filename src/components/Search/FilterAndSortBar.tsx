@@ -267,7 +267,7 @@ export class FilterAndSortBar extends React.Component<{
           </FilterAndSort>
           <Transition visible={showFilters} duration={300}>
             <FiltersDiv className="collapse" id="filters">
-              <div className="container margin_30">
+              <div className="container margin_16">
                 <div className="row">
                   <div className="col-12">
                     <h6>قیمت</h6>
@@ -461,7 +461,7 @@ export class FilterAndSortBar extends React.Component<{
           </Transition>
         </Form>
 
-        <aside className="col-lg-3 hide_on_mobile margin_60_35 " id="sidebar">
+        <aside className="col-lg-3 hide_on_mobile margin_16 " id="sidebar">
           <Form>
             <div id="filters_col">
               <a
