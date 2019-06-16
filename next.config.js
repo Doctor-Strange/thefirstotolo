@@ -3,7 +3,8 @@ const images = require('next-images');
 const typescript = require('@zeit/next-typescript');
 const CSS = require('@zeit/next-css');
 const fonts = require('next-fonts');
-const sourceMaps = require('@zeit/next-source-maps')();
+const sourceMaps = require('@zeit/next-source-maps');
+const withOffline = require('next-offline');
 
 if (typeof require !== 'undefined') {
   require.extensions['.less'] = () => {};
@@ -17,6 +18,6 @@ const nextConfig = {
 };
 
 module.exports = withPlugins(
-  [sourceMaps, images, typescript, CSS, fonts],
+  [withOffline, sourceMaps, images, typescript, CSS, fonts],
   nextConfig
 );
