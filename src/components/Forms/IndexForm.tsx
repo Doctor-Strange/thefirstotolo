@@ -99,22 +99,24 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
     fetchAPI();
   }, []);
 
-  const setStart = () => {
+  const setCalStart = () => {
     if (date.from && !date.to) {
-      setEnd();
+      setCalEnd();
       return;
-    } else {
+    }
+    else {
       setDPA(`.DatePicker__calendarContainer {
         transform: translateX(-22%);
       }`);
     }
   }
 
-  const setEnd = () => {
+  const setCalEnd = () => {
     setDPA(`.DatePicker__calendarContainer {
       transform: translateX(-82%);
     }
     `);
+    document.activeElement.blur();
   }
 
   return (
@@ -174,7 +176,7 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                 onChange={(v) => {
                   console.log("fe", v);
                   if (!v.to) {
-                    setEnd();
+                    setCalEnd();
                   }
                   setDate(v)
                 }}
@@ -188,8 +190,6 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
-                        maxWidth: '900px',
-                        width: '900px',
                         margin: '0 auto'
                       }}
                     >
@@ -229,8 +229,8 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                         <input
                           readOnly
                           ref={ref}
-                          onFocus={() => { setStart(); onFocus() }}
-                          onBlur={onBlur}
+                          onFocus={() => { setCalStart(); onFocus() }}
+                          onBlur={() => { }}
                           value={getSelectedDayValue(date.from)}
                           placeholder="از تاریخ"
                           className="DatePicker__input index"
@@ -244,8 +244,8 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                         <input
                           readOnly
                           ref={ref}
-                          onFocus={() => { setEnd(); onFocus() }}
-                          onBlur={onBlur}
+                          onFocus={() => { setCalEnd(); onFocus() }}
+                          onBlur={() => { }}
                           value={getSelectedDayValue(date.to)}
                           placeholder="تا تاریخ"
                           className="DatePicker__input"

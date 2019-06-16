@@ -1319,7 +1319,7 @@ input[type="email"] {
     height: 600px;
   }
   &.version_4 {
-    height: 620px;
+    height: 450px;
     .wrapper {
       h3 {
         font-size: 42px;
@@ -1367,12 +1367,43 @@ input[type="email"] {
       }
     }
   }
-  .index-box{
+  .index-box {
+    .field>.selection.dropdown {
+      min-width: 149px !important;
+    }
     background-color: #FFFFFF;
     box-shadow: 0 2 0 5px #000000;
     padding: 32px;
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 100٪;
+    }
+    @media (min-width: 768px) {
+      width: 723px;
+    }
+    @media (min-width: 992px) {
+      width: 933px;
+    }
+    @media (min-width: 1200px) {
+      width: 1127px;
+    }
     &>div {
       padding: 0px 8px;
+      :nth-child(2) {
+        padding-left: 0px;
+        input.DatePicker__input {
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+          border-left:none;
+        }
+      }
+      :nth-child(3) {
+        padding-right: 0px;
+        input.DatePicker__input {
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 0;
+        }
+      }
     }
     .pickerbox {
       width:50%
@@ -1384,9 +1415,6 @@ input[type="email"] {
     .btn_1 {
       bottom: -25px;
       position: relative;
-    }
-    .DatePicker__calendarContainer {
-      transition: all .5s;
     }
     input.DatePicker__input {
       cursor: pointer;
@@ -2534,6 +2562,15 @@ ul.bullets li {
   animation: fadeOut 0.4s ease-in;
   transition: all 0.4s ease-in;
   transform: translateX(-50%);
+}
+
+.DatePicker__calendarContainer {
+  top: calc(100% + -1em);
+  transition: all .5s;
+  transform: translateX(-50%);
+}
+.Calendar {
+    box-shadow: 0 1em 4em 3px rgba(0, 0, 0, 0.38);
 }
 `;
 
