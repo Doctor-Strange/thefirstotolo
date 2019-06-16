@@ -78,7 +78,16 @@ export default withTranslation('common')(
             avg_price_per_day: null,
             car: {},
             no_of_days: null,
-            loaded: false
+            loaded: false,
+            openModal: () => (null)
+        };
+
+
+        doRef = ref => {
+            if (ref) {
+                this.header = ref;
+                this.setState({ openModal: this.header.onClick })
+            }
         };
 
         mileage_ranges = ['۰ - ۵۰٫۰۰۰ کیلومتر',
@@ -110,6 +119,10 @@ export default withTranslation('common')(
         }
 
         async reserve(search_id) {
+            if (!jsCookie.get('token')) {
+                this.state.openModal();
+                return;
+            }
             try {
                 const res = await REQUEST_newRentRequest({
                     search_id,
@@ -151,7 +164,7 @@ export default withTranslation('common')(
                 discounted_total_price, total_price, avg_price_per_day, no_of_days } = this.props;
             if (loaded) {
                 return (
-                    <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
+                    <Layout haveSubHeader={true} pageTitle={'list Your Car'} onRef={this.doRef}>
                         <Section id="checkout" justifyCenter={true} style={{ marginTop: '24px' }}>
                             <aside className="col-lg-4" id="sidebar">
                                 <div className="box_detail booking">

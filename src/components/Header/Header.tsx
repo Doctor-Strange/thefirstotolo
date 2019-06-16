@@ -286,6 +286,8 @@ class Header extends React.Component<{
     this.loginmodal = ref;
   };
 
+  updateInfo = () => { }
+
   componentDidMount() {
     this.props.onRef(this);
   }
