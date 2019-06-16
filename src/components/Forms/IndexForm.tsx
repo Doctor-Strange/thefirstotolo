@@ -106,16 +106,23 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
     }
     else {
       setDPA(`.DatePicker__calendarContainer {
-        transform: translateX(-22%);
+        transform: translateX(-25%);
       }`);
+      setDate({
+        from: null,
+        to: date.to
+      });
     }
   }
 
   const setCalEnd = () => {
     setDPA(`.DatePicker__calendarContainer {
-      transform: translateX(-82%);
-    }
-    `);
+      transform: translateX(-75%);
+    }`);
+    setDate({
+      from: date.from,
+      to: null
+    });
     document.activeElement.blur();
   }
 
@@ -269,6 +276,13 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                     </Flex>
                   );
                 }}
+                disabledDays={[
+                  {
+                    year: Number(moment().format('jYYYY')),
+                    month: Number(moment().format('jM')),
+                    day: Number(moment().format('jD')),
+                  }
+                ]}
                 disableBackward
                 colorPrimary={"#00ACC1"}
                 colorPrimaryLight={"#00acc147"}

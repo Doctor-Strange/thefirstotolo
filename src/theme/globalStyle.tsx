@@ -1371,7 +1371,11 @@ input[type="email"] {
     .field>.selection.dropdown {
       min-width: 149px !important;
     }
+    .field>label {
+      font-weight: 500;
+    }
     background-color: #FFFFFF;
+    border-radius: 4px;
     box-shadow: 0 2 0 5px #000000;
     padding: 32px;
     width: 100%;
@@ -2567,14 +2571,17 @@ ul.bullets li {
 }
 
 .DatePicker__calendarContainer {
-  top: calc(100% + -1em);
+  top: calc(94% + -2em);
   transition: all .5s;
   transform: translateX(-50%);
 }
 .Calendar {
-    box-shadow: 0 1em 4em 3px rgba(0, 0, 0, 0.38);
+    /* box-shadow: 0 1em 4em 3px rgba(0, 0, 0, 0.38); */
 }
-
+.Calendar::after {
+  display:none !important;
+  border-color:transparent transparent transparent transparent;
+}
 @media (max-width: 767px) {
   .DatePicker__calendarContainer{
     position: fixed;
