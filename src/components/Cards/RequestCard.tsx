@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import Router from 'next/router';
-import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
+import { Button, Icon, Form, Label, Grid, Segment, Rating, TextArea } from 'semantic-ui-react'
 import swal from '@sweetalert/with-react'
 import { Pelak, DateGrid } from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
@@ -15,7 +15,7 @@ import {
     isMobile
 } from "react-device-detect";
 import moment from 'moment-jalaali';
-moment.loadPersian({dialect: 'persian-modern'});
+moment.loadPersian({ dialect: 'persian-modern' });
 
 const Card = styled.div`
     direction: rtl;
@@ -98,12 +98,25 @@ interface IRequestCard {
 }
 
 interface IdoAction {
-    id: any;
-    action: 'approve' | 'reject' | 'pay' | 'cancel' | 'deliver' | 'return' | 'rate';
+    id: string;
+    action:
+    | 'approve'
+    | 'reject'
+    | 'pay'
+    | 'cancel'
+    | 'deliver'
+    | 'return'
+    | 'rate';
+    payload?: {
+        toRate: 'owner' | 'renter'; // only in rate action
+        type: 'user' | 'rent-order'; // only in rate action
+        user_profile_id?: string; // only in rate action
+        rate?: number; // only in rate action
+        review?: string; // only in rate action
+    };
 }
 
-
-export const RequestCard: React.FunctionComponent<IRequestCard> = ({
+export const RequestCard: React.SFC<IRequestCard> = ({
     id,
     status,
     statusOwner,
@@ -118,17 +131,22 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
     style = {},
     refresh
 }) => {
+    const [star1, setStar1] = useState();
+    const [star2, setStar2] = useState();
+    const [text, setText] = useState();
 
     const doAction = async (data: IdoAction) => {
-        const res = await REQUEST_setOrderStatus({ id: data.id, action: data.action, token: jsCookie.get('token') });
+        const res = await REQUEST_setOrderStatus({ ...data, token: jsCookie.get('token') });
         console.log(res);
-        if (data.action == 'pay')
+        if (data.action == 'pay') {
             Router.push(res.redirect_to, res.redirect_to, { shallow: false });
-        else
+        }
+        else {
             refresh();
+        }
     }
 
-    const openPhoneModal = () => {
+    const openPhoneModal = (id) => {
         swal(
             <div>
                 <h1>شماره تلفن اجاره‌گیرنده</h1>
@@ -143,18 +161,82 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
         );
     }
 
-    const openRatingModal = () => {
+    const openRatingModal = (id) => {
+        if (statusOwner === 'renter') {
+
+        }
         swal(
             <div>
-                <h1>اامتیاز دهید</h1>
-            </div>,
-            {
-                button: {
-                    text: "بستن",
-                    closeModal: true,
+                <h3>اامتیاز دهید</h3>
+                <Form>
+                    <Form.Field>
+                        <label>امتیاز به
+                            {statusOwner === 'renter'? 'اجاره‌دهنده' : 'اجاره‌گیرنده'}
+                        </label>
+                        <Rating
+                            maxRating={5}
+                            defaultRating={star1}
+                            icon='star'
+                            size='huge'
+                            onRate={(e, data) => { setStar1(data.rating); console.log(data) }}
+                        />
+                    </Form.Field>
+                    {statusOwner === 'renter' &&
+                        <Form.Field>
+                            <label>امتیاز به خودرو</label>
+                            <Rating
+                                maxRating={5}
+                                defaultRating={star2}
+                                icon='star'
+                                size='huge'
+                                onRate={(e, data) => { setStar2(data.rating); console.log(data) }}
+                            />
+                        </Form.Field>
+                    }
+                    <Form.Field>
+                        <label>تظر شما راجع به
+                        {statusOwner === 'renter' ? 'خودرو' : 'اجاره‌گیرنده'}
+                        </label>
+                        <TextArea
+                            placeholder='راستشو بگو...'
+                            value={text}
+                            onChange={(e, data) => { setText(data.value); console.log(data) }}
+                        />
+                    </Form.Field>
+                </Form>
+            </div>, {
+                buttons: {
+                    cancel: "لغو",
+                    catch: {
+                        text: "ثبت امتیاز",
+                        value: "done",
+                    }
                 },
-            }
-        );
+            })
+            .then((value) => {
+                switch (value) {
+                    case "done":
+                        doAction({
+                            id,
+                            action: 'rate',
+                            payload: {
+                                toRate: statusOwner,
+                                type: 'user',
+                                user_profile_id: id,
+                                rate: star1,
+                                review: text,
+                            }
+                        });
+                        swal("تامام!", "ارسال شد", "نظر شما با موفقیت ثبت شد");
+                        setStar1(null);
+                        setStar1(null);
+                        setStar1('');
+                        break;
+                    default:
+                        console.log('canceled');
+                }
+                console.log(star1, star2, text)
+            });
     }
 
     let title;
@@ -280,7 +362,7 @@ export const RequestCard: React.FunctionComponent<IRequestCard> = ({
                                 primary
                                 fluid
                                 className="left"
-                                onClick={() => doAction({ id, action: 'rate' })}
+                                onClick={() => openRatingModal(id)}
                             >
                                 ثبت نظر
                             </Button>
