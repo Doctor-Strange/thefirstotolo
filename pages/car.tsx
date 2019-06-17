@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import NextSeo from 'next-seo';
 import { Section } from '../src/components/row/Sections';
 import Layout from '../src/components/Layout';
 import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
@@ -20,7 +20,7 @@ import {
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment-jalaali';
-moment.loadPersian({dialect: 'persian-modern'});
+moment.loadPersian({ dialect: 'persian-modern' });
 
 const SearchResult = styled.div`
 
@@ -114,8 +114,32 @@ export default withTranslation('common')(
             const { media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location, facility_set,
                 max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day } = this.props;
+            let metaImagesArr = [];
+            media_set.length >= 1 ? media_set.map((value, index) =>
+                metaImagesArr.push({
+                    url: value,
+                    alt: 'Og Image Alt',
+                })
+            ) : <img src="https://i.kinja-img.com/gawker-media/image/upload/s--8Dk6Uk5v--/c_scale,f_auto,fl_progressive,q_80,w_800/qssqrb3mvffcipwl9jn0.jpg" />
             return (
                 <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
+                    <NextSeo
+                        config={{
+                            title: `اجاره ${car.brand.name.fa} ${car.name.fa} در اتولی`,
+                            description: description ? description : "همین حالا اجاره کنید",
+                            openGraph: {
+                                title: `اجاره ${car.brand.name.fa} ${car.name.fa} در اتولی`,
+                                description: description ? description : "همین حالا اجاره کنید",
+                                images: metaImagesArr,
+                                site_name: 'اتولی',
+                            },
+                            twitter: {
+                                handle: '@otoli_net',
+                                site: '@otoli_net',
+                                cardType: 'summary_large_image',
+                            },
+                        }}
+                    />
                     {isMobile &&
                         <CarNav startDate={start} endDate={end} />
                     }

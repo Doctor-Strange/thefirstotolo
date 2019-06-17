@@ -5874,6 +5874,11 @@ next-offline@^4.0.2:
     webpack "^4.19.1"
     workbox-webpack-plugin "^4.3.1"
 
+next-seo@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-1.11.2.tgz#e88d00442932e7c9695edcf48d4360d7acd4ac00"
+  integrity sha512-hsrX/s6ZqtVjPqo55Ys3x0m0+JekpzODq1DTpBSeIyVpWFrUGdeNN68OjSPlauy8UNoKQtabEgOmv40APw4FjA==
+
 next-server@8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/next-server/-/next-server-8.1.0.tgz#50a9f248ede69fb33d83aa5274ec6c66f421556e"

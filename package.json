@@ -41,6 +41,7 @@
     "next-i18next": "^0.42.0",
     "next-images": "^1.0.4",
     "next-offline": "^4.0.2",
+    "next-seo": "^1.11.2",
     "nouislider": "^13.1.5",
     "nouislider-react": "^2.3.3",
     "nprogress": "^0.2.0",
