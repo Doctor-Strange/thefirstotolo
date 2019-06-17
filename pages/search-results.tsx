@@ -339,7 +339,6 @@ export default withRouter(
                     this.setState(resLocations);
 
                     if (this.state.city) {
-                        console.log(this.state.citiesFarsi[this.state.city].text);
                         this.state.citiesFarsi.map((value, index) => {
                             if (value.value == this.state.city) {
                                 this.setState({ cityName: this.state.citiesFarsi[index].text });
