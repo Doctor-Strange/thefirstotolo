@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import Router from 'next/router';
 import { Button, Icon, Form, Label, Grid, Segment, Rating, TextArea } from 'semantic-ui-react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import swal from '@sweetalert/with-react'
 import { Pelak, DateGrid } from './index';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
@@ -171,7 +173,7 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                 <Form>
                     <Form.Field>
                         <label>امتیاز به
-                            {statusOwner === 'renter'? 'اجاره‌دهنده' : 'اجاره‌گیرنده'}
+                            {statusOwner === 'renter' ? 'اجاره‌دهنده' : 'اجاره‌گیرنده'}
                         </label>
                         <Rating
                             maxRating={5}
@@ -227,7 +229,14 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                                 review: text,
                             }
                         });
-                        swal("تامام!", "ارسال شد", "نظر شما با موفقیت ثبت شد");
+                        toast.error('مشکلی پیش آمد', {
+                            position: "bottom-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true
+                        });
                         setStar1(null);
                         setStar1(null);
                         setStar1('');

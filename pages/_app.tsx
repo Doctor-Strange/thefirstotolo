@@ -4,6 +4,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
 import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
+import { ToastContainer } from 'react-toastify';
 // upper line is becuase of https://github.com/zeit/next-plugins/issues/282
 import { appWithTranslation } from '../src/i18n';
 import { Provider, actions } from '../src/store';
@@ -86,6 +87,7 @@ class OtoliApp extends App {
         <GlobalStyle />
         <Provider>
           <Component {...pageProps} />
+          <ToastContainer />
         </Provider>
       </Container>
     );
