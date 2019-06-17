@@ -427,7 +427,7 @@ export default withRouter(
                         // update URL
                         const href = `/search-results?${shownURL}page=${page}`;
                         const as = href;
-                        Router.replace(href, as, { shallow: true });
+                        Router.replace(href, as);
                     } else if (this.state.latest_result_key) {
                         console.log('here we go again...!');
                         const res = await REQUEST_getSearchForRent({

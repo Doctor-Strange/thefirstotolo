@@ -276,8 +276,7 @@ export default withTranslation('common')(
                             }
                           }, {
                               pathname: '/complete-register'
-                            }
-                            , { shallow: true });
+                            });
                         } else if (
                           response.data.token &&
                           response.data.has_name

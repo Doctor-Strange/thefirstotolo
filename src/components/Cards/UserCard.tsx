@@ -58,7 +58,7 @@ export const UserCard: React.FunctionComponent<{
 }> = ({ name, responceTime, image, id }) => (
   <Card className="usercard">
     <div className="box">
-    <Link href={`/profile?id=${id}`} shallow>
+    <Link href={`/profile?id=${id}`}>
         <img src={image} className="img-fluid" alt="" />
         </Link>
       {/* <div className="profilePhotoWithRating-badge roundedBadge">

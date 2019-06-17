@@ -233,7 +233,7 @@ export const CarCard: React.FunctionComponent<{
 
     const setCarTiming = () => {
       const href = `/set-car-timing?id=${id}`;
-      Router.push(href, href, { shallow: true });
+      Router.push(href, href);
     }
 
     const pauseCar = () => {
@@ -244,7 +244,7 @@ export const CarCard: React.FunctionComponent<{
 
     return (
       <Card className="strip grid carcard">
-        <Link href={link} shallow>
+        <Link href={link}>
           <figure>
             {/* <a href="#0" className="wish_bt" >
             
@@ -258,7 +258,7 @@ export const CarCard: React.FunctionComponent<{
         </Link>
         <div className="wrapper row">
           <div className="col-8">
-            <Link href={link} shallow>
+            <Link href={link}>
               <a href={`/car?id=${id}`}>
                 <h3>
                   {title}<br />

@@ -151,7 +151,7 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
         }
         const href = `/search-results?${shownURL}`;
         const as = href;
-        Router.push(href, as, { shallow: true })
+        Router.push(href, as)
           .then(response => {
             setError('');
             actions.setSubmitting(false);
