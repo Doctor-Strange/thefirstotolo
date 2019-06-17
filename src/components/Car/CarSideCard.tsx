@@ -129,7 +129,7 @@ const CarideCard: React.FunctionComponent<{
                 inverted
                 trigger={
                     <CopyToClipboard
-                        text={window.location.href}
+                        text={"Test"}
                         onCopy={() => alert("کپی شد")}
                     >
                         <Button circular icon='copy' />
