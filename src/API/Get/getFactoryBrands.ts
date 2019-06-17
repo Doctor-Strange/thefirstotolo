@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const DOMAIN = 'https://core.otoli.net';
-const GET_FACTORY_BRANDS = '/core/car/list';
+const GET_FACTORY_BRANDS = '/core/brand/list';
 
 export const REQUEST_getFactoryBrands = (data: IgetFactoryBrands) => {
   return new Promise((resolve, reject) => {
