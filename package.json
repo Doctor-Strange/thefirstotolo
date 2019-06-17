@@ -41,6 +41,7 @@
     "next-i18next": "^0.42.0",
     "next-images": "^1.0.4",
     "next-offline": "^4.0.2",
+    "nouislider": "^13.1.5",
     "nouislider-react": "^2.3.3",
     "nprogress": "^0.2.0",
     "nuka-carousel": "^4.5.6",
@@ -85,6 +86,7 @@
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.2.1",
+    "webpack": "^4.34.0",
     "webpack-bundle-analyzer": "^3.0.2"
   },
   "jest": {
