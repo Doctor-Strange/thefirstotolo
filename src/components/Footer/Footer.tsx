@@ -247,7 +247,7 @@ const Newsletter = styled.div`
     border-radius: 0;
     padding-left: 15px;
     font-size: 14px;
-    font-size: 0.875rem;
+    font-size: 14px;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.06);
     :focus {

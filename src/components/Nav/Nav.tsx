@@ -3,15 +3,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 const Navigation = styled.div`
-  @media only screen and (min-width: 992px) {
-    #mm-menu.main-menu {
-      display: none !important;
-    }
-
-    header .btn_mobile {
-      display: none !important;
-    }
-
     nav#menu.main-menu {
       display: block !important;
     }
@@ -22,12 +13,8 @@ const Navigation = styled.div`
       z-index: 9;
       width: auto;
       top: 8px;
-      right: 15px;
+      right: 0px;
       float: right;
-      -moz-transition: all 0.3s ease-in-out;
-      -o-transition: all 0.3s ease-in-out;
-      -webkit-transition: all 0.3s ease-in-out;
-      -ms-transition: all 0.3s ease-in-out;
       transition: all 0.3s ease-in-out;
       color: #fff;
     }
@@ -51,10 +38,12 @@ const Navigation = styled.div`
     /*First level styles */
     .main-menu > ul > li span > a {
       color: #444;
-      padding: 0 8px 15px 8px;
+      padding: 0 8px 0px 24px;
       font-size: 14px;
-      font-size: 0.875rem;
       font-weight: 500;
+      :first-child {
+        padding-right: 0px;
+      }
     }
     .main-menu > ul > li span:hover > a {
       opacity: 0.7;
@@ -82,22 +71,13 @@ const Navigation = styled.div`
       padding: 0;
       background: #fff;
       min-width: 200px;
-      -webkit-box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.175);
-      -moz-box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.175);
       box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.175);
       transform: scale(0.4);
       transform-origin: 10% top;
       transition: 0.15s linear, 0.1s opacity cubic-bezier(0.39, 0.575, 0.565, 1),
         0.15s transform cubic-bezier(0.1, 1.26, 0.83, 1);
       opacity: 0;
-      -moz-transition: all 0.2s ease;
-      -o-transition: all 0.2s ease;
-      -webkit-transition: all 0.2s ease;
-      -ms-transition: all 0.2s ease;
       transition: all 0.2s ease;
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      -ms-border-radius: 3px;
       border-radius: 3px;
     }
     .main-menu ul ul:before {
@@ -132,27 +112,18 @@ const Navigation = styled.div`
       padding: 0;
       visibility: visible;
       opacity: 1;
-      -webkit-transform: scale(1);
       transform: scale(1);
-      -webkit-transition-delay: 0.2s;
       transition-delay: 0.2s;
-      -webkit-transition-duration: 0s, 0.2s, 0.2s;
       transition-duration: 0s, 0.2s, 0.2s;
     }
 
     .main-menu ul ul li:first-child a:hover {
-      -webkit-border-radius: 3px 3px 0 0;
-      -moz-border-radius: 3px 3px 0 0;
-      -ms-border-radius: 3px 3px 0 0;
       border-radius: 3px 3px 0 0;
     }
     .main-menu ul ul li:last-child a {
       border-bottom: none;
     }
     .main-menu ul ul li:last-child a:hover {
-      -webkit-border-radius: 0 0 3px 3px;
-      -moz-border-radius: 0 0 3px 3px;
-      -ms-border-radius: 0 0 3px 3px;
       border-radius: 0 0 3px 3px;
     }
     .main-menu ul ul li:hover > a {
@@ -160,7 +131,6 @@ const Navigation = styled.div`
       color: #004dda;
       padding-left: 15px;
     }
-  }
   .main-menu {
     ul {
       /* Submenu 2nd level right */
@@ -201,7 +171,6 @@ const Navigation = styled.div`
           padding: 0;
           background: #fff;
           min-width: 190px;
-          -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
           box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
           li a {
             border-bottom: 1px solid #ededed !important;
@@ -223,57 +192,31 @@ const Navigation = styled.div`
       }
     }
   }
-  /* All styles for screen size under 991px */
-  @media only screen and (max-width: 991px) {
-    nav#menu {
-      display: none !important;
-    }
-
-    .mm-menu {
-      background: #fff;
-    }
-
-    .main-menu {
-      top: 0;
-      right: 0;
-      float: none;
-    }
-
-    ul.mm-listview {
-      line-height: 25px;
-      li a {
-        color: #ccc;
-        display: block;
-      }
-    }
-  }
-  #menu.fake_menu {
-    display: none !important;
-    visibility: hidden !important;
-  }
 `;
 
-export const Nav: React.FunctionComponent = ({children}) => (
+export const Nav: React.FunctionComponent = ({ children, isMobile = false }) => (
   <Navigation>
     <nav id="menu" className="main-menu">
       <ul>
-        <li>
-          <span>
+        {!isMobile &&
+          <li>
+            <span>
               <a>بیشتر بدانید</a>
-          </span>
-          <ul>
-            <li>
-              <Link href="/what_is_otoli">
-                <a>اتولی چیست؟</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/add-car">
-                <a>افزودن خودرو</a>
-              </Link>
-            </li>
-          </ul>
-        </li>
+            </span>
+            <ul>
+              <li>
+                <Link href="/what_is_otoli">
+                  <a>اتولی چیست؟</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/add-car">
+                  <a>افزودن خودرو</a>
+                </Link>
+              </li>
+            </ul>
+          </li>
+        }
         <li>
           <span>
             <Link href="/requests">

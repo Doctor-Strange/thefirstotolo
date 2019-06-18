@@ -11,22 +11,21 @@ import LoginModal from '../Modals/LoginModal';
 import { connect } from '../../store';
 
 const HeaderSticky = styled.div`
+  height: 64px;
+  padding-top: 12px;
   background-color:#1B1B1B;
   p, span, a {
     color: #f9f9f9 !important;
   }
   header {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    padding: 20px 30px;
-    z-index: 99999999;
-    border-bottom: 1px solid rgba(255, 255, 255, 0);
+    
   }
   @media (max-width: 767px) {
-    padding: 15px 15px 5px 15px;
-    padding: 0px 15px 15px 15px;
+    padding:0;
+    height: 56px;
+    .main-menu {
+      top: 16px;
+    }
   }
   /* .logo_sticky {
     display: none;
@@ -49,36 +48,17 @@ const HeaderSticky = styled.div`
     .logo_sticky {
       display: inline-block;
     }
-    ul#top_menu li a {
-      .login,
-      .wishlist_bt_top {
-        :before {
-          color: #444;
-        }
-      }
-    }
   }
   .header_in {
     padding: 10px 0;
     background-color: #fff;
     position: relative;
     border-bottom: 1px solid #ededed;
-
-    ul#top_menu li a {
-      color: #444;
-    }
-
     @media (max-width: 991px) {
       margin-top: 5px;
       padding: 0;
       border-bottom: none;
       background: none;
-
-      ul#top_menu {
-        position: absolute;
-        right: 15px;
-        float: none;
-      }
       #logo a {
         z-index: 9;
         position: relative;
@@ -113,86 +93,17 @@ const HeaderSticky = styled.div`
       margin-top: 48px;
     }
   }
-  ul#top_menu {
-    float: right;
-    margin: 0 0 0 10px;
-    padding: 0;
-    font-size: 13px;
-    font-size: 0.8125rem;
-
-    @media (max-width: 991px) {
-      margin: -2px 0 0 10px;
-    }
-
-    li {
-      list-style: none;
-      float: left;
-      margin: 0;
-      line-height: 1;
-      margin-right: 15px;
-
-      :last-child {
-        margin-right: 0;
-        position: relative;
-        top: 0;
-      }
-      @media (max-width: 991px) {
-        margin: 2px 0 0 10px;
-      }
-      a {
-        color: #444;
-        :hover {
-          color: #444;
-          opacity: 0.7;
-        }
-        .login,
-        .wishlist_bt_top {
-          display: block;
-          width: 22px;
-          height: 23px;
-          position: relative;
-          top: 8px;
-          -moz-transition: opacity 0.5s ease;
-          -o-transition: opacity 0.5s ease;
-          -webkit-transition: opacity 0.5s ease;
-          -ms-transition: opacity 0.5s ease;
-          transition: opacity 0.5s ease;
-
-          @media (max-width: 991px) {
-            top: 2px;
-          }
-        }
-        .wishlist_bt_top {
-          text-indent: -9999px;
-          overflow: hidden;
-          :before {
-            content: \\0043;
-          }
-        }
-        .login {
-          text-indent: -9999px;
-          overflow: hidden;
-          :before {
-            content: \\0042;
-          }
-        }
-      }
-    }
-  }
 
   #logo {
     float: left;
     @media (max-width: 991px) {
-      float: none;
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      text-align: center;
+      top: 12px;
+      left: 12px;
       img {
+        float: left;
         width: auto;
         height: 28px;
-        margin: 12px 0 0 0;
       }
     }
   }
@@ -305,13 +216,13 @@ class Header extends React.Component<{
     return (
       <>
         <HeaderSticky>
-          <header className="justInDesktop">
+          <header>
             <div className="container">
               <div className="row">
-                <div className="col-lg-3 col-12 hidden_mobile">
+                <div className="col-lg-3">
                   <Logo />
                 </div>
-                <div className="col-lg-9 col-12">
+                <div className="col-lg-9 hidden_mobile">
                   <Nav>
                     <>
                       <li>
@@ -331,7 +242,40 @@ class Header extends React.Component<{
                             <a href={`/profile?id=${user_id}`}>
                               {first_name} {last_name}
                               {' '}
-                              <Icon name="user circle" size='big' className="img-header"/>
+                              <Icon name="user circle" size='big' className="img-header" />
+                              {/* <img
+                                src={"https://core.otoli.net/static/core/default_profile_pic.png"}
+                                className="img-header"
+                                alt=""
+                              /> */}
+                            </a>
+                          </span>
+                        )}
+                      </li>
+                    </>
+                  </Nav>
+                </div>
+                <div className="col-lg-9 justInMobile">
+                  <Nav isMobile={true}>
+                    <>
+                      <li>
+                        {!token && (
+                          <a
+                            href="#"
+                            id="sign-in"
+                            className="login"
+                            title={t('signin')}
+                            onClick={this.onClick}
+                          >
+                            {t('signin')}
+                          </a>
+                        )}
+                        {token && (
+                          <span>
+                            <a href={`/profile?id=${user_id}`}>
+                              {first_name} {last_name}
+                              {' '}
+                              <Icon name="user circle" size='big' className="img-header" />
                               {/* <img
                                 src={"https://core.otoli.net/static/core/default_profile_pic.png"}
                                 className="img-header"
@@ -346,43 +290,6 @@ class Header extends React.Component<{
                 </div>
               </div>
             </div>
-          </header>
-          <header className="justInMobile">
-            <ul id="top_menu" style={{ float: 'left', margin: '0 10px 0 0' }}>
-              <li>
-                <Link href="/requests">
-                  <a>سفارش‌های من</a>
-                </Link>
-              </li>
-            </ul>
-
-            <Logo />
-            <ul id="top_menu">
-              <li>
-                {!token && (
-                  <a
-                    href="#"
-                    id="sign-in"
-                    className="login"
-                    title={t('signin')}
-                    onClick={this.onClick}
-                  >
-                    {t('signin')}
-                  </a>
-                )}
-                {token && (
-                  <span>
-                    {first_name}  {last_name}
-                     <Icon name="user circle" size='big' className="img-header"/>
-                      {/* <img
-                        src={"https://core.otoli.net/static/core/default_profile_pic.png"}
-                        className="img-header"
-                        alt=""
-                      /> */}
-                  </span>
-                )}
-              </li>
-            </ul>
           </header>
         </HeaderSticky>
 
