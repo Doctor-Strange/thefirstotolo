@@ -9,7 +9,7 @@ const Card = styled.div`
     text-align: center;
     border-radius: 5px;
     background: white;
-    width: 80px;
+    width: 85px;
     height: 80px;
     padding: 5px;
     margin: 0 auto;
@@ -46,7 +46,7 @@ export const PriceCard: React.FunctionComponent<{
                 {" "}
                 {convertNumbers2Persian(getShortVersion(number).number)}
                 {moreThan &&
-                  "+"  
+                    "+"
                 }
             </span>
         </span>
