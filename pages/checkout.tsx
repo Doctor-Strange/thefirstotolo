@@ -165,7 +165,7 @@ export default withTranslation('common')(
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'} onRef={this.doRef}>
-                        <Section id="checkout" justifyCenter={true} style={{ marginTop: '24px' }}>
+                        <Section id="checkout" justifyCenter={true} style={{ marginTop: '24px', marginBottom: '50px' }}>
                             <aside className="col-lg-4" id="sidebar">
                                 <div className="box_detail booking">
                                     <ul className="thelist">

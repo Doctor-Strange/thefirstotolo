@@ -75,7 +75,7 @@ export class SearchBar extends React.Component<{
     let start = "";
     let end = "";
     let loadingCity = false;
-    let text = "نتیجه برای جست‌وجو در ";
+    let text = "نتیجه برای جستجو در ";
     if (startDate && endDate) {
       start = moment(startDate).format('jD jMMMM jYY');
       end = moment(endDate).format('jD jMMMM jYY');

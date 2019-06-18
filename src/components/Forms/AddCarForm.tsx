@@ -164,7 +164,7 @@ const BoxAccount = styled.div`
     }
   }
   .selection {
-    font-size: 0.875rem;
+    font-size: 14px;
     border-radius: 3px;
     border: 1px solid #d2d8dd;
     &.wide {

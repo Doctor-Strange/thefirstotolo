@@ -110,12 +110,12 @@ export class ResultsCards extends React.Component<{
                     {noResult ?
                         (
                             <span>
-                                نتیجه‌ای برای جست‌وجوی شما یافت نشد
+                                نتیجه‌ای برای جستجوی شما یافت نشد
                            </span>
                         ) : <></>
                     }
                     {showMore ? (
-                        <p className="text-center" style={{ width: '100%', marginTop: '20px' }}>
+                        <p className="text-center" style={{ width: '100%', margin: '20px auto 50px' }}>
                             <Button basic loading={lodingMore} onClick={() => { nextPage() }}>بیشتر بارگذاری کن</Button>
                         </p>) : (<> </>)}
                 </Section>

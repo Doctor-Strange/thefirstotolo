@@ -18,7 +18,7 @@ const Card = styled.div`
   display: block;
   position: relative;
   border-radius: 4px;
-  box-shadow: 1px -1px 11px 3px #0000000f;
+  box-shadow: 0px 1px 5px 1px #0000000f;
   @media (max-width: 768px){
     width: 97vw;
     max-width: 400px;

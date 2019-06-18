@@ -4,60 +4,60 @@ const GlobalStyle = createGlobalStyle`
 @font-face {
   font-family: Vazir;
   src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.ttf') format('truetype');
+  src: url('https://otoli.net/static/fonts/Vazir.eot?#iefix') format('embedded-opentype'),
+       url('https://otoli.net/static/fonts/Vazir.woff2') format('woff2'),
+       url('https://otoli.net/static/fonts/Vazir.woff') format('woff'),
+       url('https://otoli.net/static/fonts/Vazir.ttf') format('truetype');
   font-weight: normal;
 }
 
 @font-face {
   font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Bold.ttf') format('truetype');
+  src: url('https://otoli.net/static/fonts/Vazir-Bold.eot');
+  src: url('https://otoli.net/static/fonts/Vazir-Bold.eot?#iefix') format('embedded-opentype'),
+       url('https://otoli.net/static/fonts/Vazir-Bold.woff2') format('woff2'),
+       url('https://otoli.net/static/fonts/Vazir-Bold.woff') format('woff'),
+       url('https://otoli.net/static/fonts/Vazir-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
 @font-face {
   font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Light.ttf') format('truetype');
+  src: url('https://otoli.net/static/fonts/Vazir-Light.eot');
+  src: url('https://otoli.net/static/fonts/Vazir-Light.eot?#iefix') format('embedded-opentype'),
+       url('https://otoli.net/static/fonts/Vazir-Light.woff2') format('woff2'),
+       url('https://otoli.net/static/fonts/Vazir-Light.woff') format('woff'),
+       url('https://otoli.net/static/fonts/Vazir-Light.ttf') format('truetype');
   font-weight: 300;
 }
 
 @font-face {
   font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Medium.ttf') format('truetype');
+  src: url('https://otoli.net/static/fonts/Vazir-Medium.eot');
+  src: url('https://otoli.net/static/fonts/Vazir-Medium.eot?#iefix') format('embedded-opentype'),
+       url('https://otoli.net/static/fonts/Vazir-Medium.woff2') format('woff2'),
+       url('https://otoli.net/static/fonts/Vazir-Medium.woff') format('woff'),
+       url('https://otoli.net/static/fonts/Vazir-Medium.ttf') format('truetype');
   font-weight: 500;
 }
 
 @font-face {
   font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Thin.ttf') format('truetype');
+  src: url('https://otoli.net/static/fonts/Vazir-Thin.eot');
+  src: url('https://otoli.net/static/fonts/Vazir-Thin.eot?#iefix') format('embedded-opentype'),
+       url('https://otoli.net/static/fonts/Vazir-Thin.woff2') format('woff2'),
+       url('https://otoli.net/static/fonts/Vazir-Thin.woff') format('woff'),
+       url('https://otoli.net/static/fonts/Vazir-Thin.ttf') format('truetype');
   font-weight: 100;
 }
 
 @font-face {
   font-family: Vazir;
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.eot');
-  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.eot?#iefix') format('embedded-opentype'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.woff2') format('woff2'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.woff') format('woff'),
-       url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir-Black.ttf') format('truetype');
+  src: url('https://otoli.net/static/fonts/Vazir-Black.eot');
+  src: url('https://otoli.net/static/fonts/Vazir-Black.eot?#iefix') format('embedded-opentype'),
+       url('https://otoli.net/static/fonts/Vazir-Black.woff2') format('woff2'),
+       url('https://otoli.net/static/fonts/Vazir-Black.woff') format('woff'),
+       url('https://otoli.net/static/fonts/Vazir-Black.ttf') format('truetype');
   font-weight: 900;
 }
 
@@ -180,15 +180,16 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  @media (min-width: 992px){
-    .justInMobile{
-      display:none;
+  @media (min-width: 768px){
+    .justInMobile {
+      display: none;
+    }
+    .carcard {
+        margin-right: auto;
+        margin-left: auto;
     }
   }
   @media (max-width: 992px){
-    .justInDesktop{
-      display:none;
-    }
     .profile_page,#checkout{
       flex-direction: column-reverse;
     }
@@ -1019,7 +1020,7 @@ input{
 }
 .form-control {
     font-size: 14px;
-    font-size: 0.875rem;
+    font-size: 14px;
     border-radius: 3px;
     border: 1px solid #d2d8dd;
 }
@@ -1029,7 +1030,7 @@ input{
   display: block;
   position: relative;
   font-size: 14px;
-  font-size: 0.875rem;
+  font-size: 14px;
   padding-right: 25px;
   line-height: 1.4;
   margin-bottom: 10px;
@@ -1352,7 +1353,7 @@ input[type="email"] {
         @media (max-width: 767px) {
           padding: 0;
           font-size: 14px;
-          font-size: 0.875rem;
+          font-size: 14px;
         }
         strong {
           font-weight: 600;

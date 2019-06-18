@@ -37,7 +37,7 @@ function getShortVersion(num) {
     unit = 'هزار';
   } else if (num >= 1000000 && num <= 999999999) {
     number = num / 1000000.0;
-    unit = 'ملیون';
+    unit = 'میلیون';
   }
   return { number, unit };
 }
