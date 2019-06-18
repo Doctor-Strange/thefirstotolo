@@ -1954,6 +1954,10 @@ textarea {
   /* font-size: 16px !important; */
 }
 
+textarea {
+  direction:rtl;
+}
+
 .DateInput_input{
   text-align:center;
 }
