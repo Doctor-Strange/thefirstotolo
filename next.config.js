@@ -1,3 +1,6 @@
+require('dotenv').config();
+const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const withPlugins = require('next-compose-plugins');
 const images = require('next-images');
 const typescript = require('@zeit/next-typescript');
@@ -15,6 +18,21 @@ if (typeof require !== 'undefined') {
 const nextConfig = {
   // useFileSystemPublicRoutes: false,
   // distDir: 'build',
+  webpack: config => {
+    config.plugins = config.plugins || [];
+
+    config.plugins = [
+      ...config.plugins,
+
+      // Read the .env file
+      new Dotenv({
+        path: path.join(__dirname, '.env'),
+        systemvars: true
+      })
+    ];
+
+    return config;
+  }
 };
 
 module.exports = withPlugins(
