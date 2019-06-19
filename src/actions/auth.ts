@@ -1,4 +1,7 @@
 import jsCookie from 'js-cookie';
+const cook_option = {
+  expires: 100
+};
 
 export const auth = () => {
   const out: Iuser = {
@@ -14,21 +17,25 @@ export const auth = () => {
 };
 
 export const signin = (authData: Iuser) => {
-  jsCookie.set('token', authData.token);
-  jsCookie.set('phone', authData.phone);
+  jsCookie.set('token', authData.token, cook_option);
+  jsCookie.set('phone', authData.phone, cook_option);
   if (authData.complete_register) {
-    jsCookie.set('', authData.complete_register);
+    jsCookie.set('', authData.complete_register, cook_option);
   }
-  if (authData.first_name) jsCookie.set('first_name', authData.first_name);
-  if (authData.last_name) jsCookie.set('last_name', authData.last_name);
-  if (authData.user_id) jsCookie.set('user_id', authData.user_id);
+  if (authData.first_name) {
+    jsCookie.set('first_name', authData.first_name, cook_option);
+  }
+  if (authData.last_name) {
+    jsCookie.set('last_name', authData.last_name, cook_option);
+  }
+  if (authData.user_id) jsCookie.set('user_id', authData.user_id, cook_option);
   return authData;
 };
 
 export const completeRegister = (user: IuserNames) => {
-  jsCookie.set('first_name', user.first_name);
-  jsCookie.set('last_name', user.last_name);
-  jsCookie.set('complete_register', user.complete_register);
+  jsCookie.set('first_name', user.first_name, cook_option);
+  jsCookie.set('last_name', user.last_name, cook_option);
+  jsCookie.set('complete_register', user.complete_register, cook_option);
   return user;
 };
 
