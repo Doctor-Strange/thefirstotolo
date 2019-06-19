@@ -7,6 +7,7 @@ import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
 import { PriceCard, UserCard, CarCard, CarCardPlaceholder } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
+import { ShareBar } from '../src/components/ShareBar'
 import { i18n, withTranslation } from '../src/i18n';
 import { REQUEST_getUserCars, REQUEST_getUser } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
@@ -101,50 +102,8 @@ const Profile: React.SFC<IProfile> = ({ t, id, name, image_url }) => {
                             >
                             </div> */}
                         </div>
-                        <ul className="share-buttons">
-                            <Popup
-                                position='bottom right'
-                                size='tiny'
-                                content='توییت کنید'
-                                inverted
-                                trigger={
-                                    <Button circular icon='twitter' />
-                                }
-                            />
-                            <Popup
-                                position='bottom right'
-                                size='tiny'
-                                content='ارسال از طریق ایمیل'
-                                inverted
-                                trigger={
-                                    <Button circular icon='mail' />
-                                }
-                            />
-                            <Popup
-                                position='bottom right'
-                                size='tiny'
-                                content='ارسال به تلگرام'
-                                inverted
-                                trigger={
-                                    <Button circular icon='telegram' />
-                                }
-                            />
-                            <Popup
-                                position='bottom right'
-                                size='tiny'
-                                content='کپی پیوند پروفایل'
-                                inverted
-                                trigger={
-                                    <CopyToClipboard
-                                        text={"Test"}
-                                        onCopy={() => alert("کپی شد")}
-                                    >
-                                        <Button circular icon='copy' />
-                                    </CopyToClipboard>
-                                }
-                            />
-                        </ul>
-                    </aside>
+                    <ShareBar />
+                </aside>
                 }
             </Section>
             {(isMobile && own) &&

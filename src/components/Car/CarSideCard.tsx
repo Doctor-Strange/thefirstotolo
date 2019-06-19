@@ -4,6 +4,7 @@ import { Box, Flex } from '@rebass/grid';
 import StarRatingComponent from 'react-star-rating-component';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import { UserCard } from '../Cards';
+import { ShareBar } from '../ShareBar'
 import {
     convertDateToMoment,
     convertMomentToDate,
@@ -94,49 +95,7 @@ const CarideCard: React.FunctionComponent<{
                 <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
             </div>
         </Card>
-        <ul className="share-buttons">
-            <Popup
-                position='bottom right'
-                size='tiny'
-                content='توییت کنید'
-                inverted
-                trigger={
-                    <Button circular icon='twitter' />
-                }
-            />
-            <Popup
-                position='bottom right'
-                size='tiny'
-                content='ارسال از طریق ایمیل'
-                inverted
-                trigger={
-                    <Button circular icon='mail' />
-                }
-            />
-            <Popup
-                position='bottom right'
-                size='tiny'
-                content='ارسال به تلگرام'
-                inverted
-                trigger={
-                    <Button circular icon='telegram' />
-                }
-            />
-            <Popup
-                position='bottom right'
-                size='tiny'
-                content='کپی پیوند خودرو'
-                inverted
-                trigger={
-                    <CopyToClipboard
-                        text={"Test"}
-                        onCopy={() => alert("کپی شد")}
-                    >
-                        <Button circular icon='copy' />
-                    </CopyToClipboard>
-                }
-            />
-        </ul>
+        <ShareBar />
     </>
 };
 
