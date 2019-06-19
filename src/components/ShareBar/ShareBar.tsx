@@ -17,7 +17,7 @@ interface IShareBar {
 export const ShareBar: React.SFC<IShareBar> = ({ link }) => {
     const currentPath = () => {
         if (typeof window === 'object') {
-            return `${process.env.PRODUCTION_ENDPOINT}${Router.asPath}`;
+            return `${process.env.SITE_URL}${Router.asPath}`;
         } else {
             return link
         }
