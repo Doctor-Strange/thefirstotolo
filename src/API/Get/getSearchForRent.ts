@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://core.otoli.net';
+const DOMAIN = process.env.PRODUCTION_ENDPOINT;
 const GET_SEARCH_FOR_RENT = '/core/rental-car/search-for-rent/list';
 
 export const REQUEST_getSearchForRent = (data: IgetSearchForRent) => {

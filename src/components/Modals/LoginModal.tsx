@@ -153,7 +153,7 @@ export default withTranslation('common')(
                       validPhoneFormated = phone;
                     }
                     axios
-                      .post('https://core.otoli.net' + '/core/device/send-code', {
+                      .post(process.env.PRODUCTION_ENDPOINT + '/core/device/send-code', {
                         cell: validPhoneFormated
                       })
                       .then(response => {
@@ -243,7 +243,7 @@ export default withTranslation('common')(
                     formikActions: FormikActions<LoginModalCodeValues>
                   ) => {
                     axios
-                      .post('https://core.otoli.net' + '/core/device/login', {
+                      .post(process.env.PRODUCTION_ENDPOINT + '/core/device/login', {
                         cell: this.state.phone,
                         code: convertToEnglishNum(values.code)
                       })
@@ -284,7 +284,7 @@ export default withTranslation('common')(
                           // let also get user name and last name and them sign them in
                           axios
                             .post(
-                              'https://core.otoli.net' + '/core/user/info',
+                              process.env.PRODUCTION_ENDPOINT + '/core/user/info',
                               {},
                               {
                                 headers: {

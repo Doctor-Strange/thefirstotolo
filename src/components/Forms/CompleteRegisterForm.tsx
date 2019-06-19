@@ -158,7 +158,7 @@ export default withTranslation('common')(
               } = values;
               axios
                 .post(
-                  'https://core.otoli.net' + '/core/user/update',
+                  process.env.PRODUCTION_ENDPOINT + '/core/user/update',
                   {
                     first_name: firstName,
                     last_name: lastName,

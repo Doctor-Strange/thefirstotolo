@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://core.otoli.net';
+const DOMAIN = process.env.PRODUCTION_ENDPOINT;
 const GET_FACTORY_CARS = '/core/car/list';
 
 export const REQUEST_getFactoryCars = (data: IgetFactoryCars) => {
