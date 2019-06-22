@@ -7,11 +7,11 @@ import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
 import { PriceCard, UserCard, CarCard, CarCardPlaceholder } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
-import { ShareBar } from '../src/components/ShareBar'
+import { ShareBar } from '../src/components/ShareBar';
+import { Formik, FormikActions, withFormik } from 'formik';
 import { i18n, withTranslation } from '../src/i18n';
 import { REQUEST_getUserCars, REQUEST_getUser } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ResultsCards } from '../src/components/Search';
 import jsCookie from 'js-cookie';
 import {
@@ -23,17 +23,18 @@ import {
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment-jalaali';
-moment.loadPersian({dialect: 'persian-modern'});
-
+moment.loadPersian({ dialect: 'persian-modern' });
 
 interface IProfile {
     t: any;
     id: number;
-    name?: string;
+    first_name?: string;
+    last_name?: string;
     image_url?: string;
+    username?: string;
 }
 
-const Profile: React.SFC<IProfile> = ({ t, id, name, image_url }) => {
+const Profile: React.SFC<IProfile> = ({ t, id, first_name, last_name, image_url, username }) => {
     const [results, setRresults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [own, setOwnership] = useState(false);
@@ -72,41 +73,34 @@ const Profile: React.SFC<IProfile> = ({ t, id, name, image_url }) => {
                     showInProfile={true}
                     userOwnPage={own ? true : false}
                 />
-                {isBrowser &&
-                    <aside className="col-lg-4" id="sidebar">
-                        <div className="box_detail booking">
-                            <div
-                                className="score"
-                            >
-                                <UserCard
-                                    id={22}
-                                    name={name}
-                                    responceTime="میانگین زمان پاسخگویی: نامشخص"
-                                    image={image_url}
-                                />
-                            </div>
-                            <br />
-                            {own &&
-                                <Button
-                                    style={{ height: '48px' }}
-                                    size='small'
-                                    fluid
-                                    basic
-                                    color='teal'>
-                                    ویرایش پروفایل
-                                </Button>
-                            }
-                            {/* <div
+                <aside className="col-lg-4" id="sidebar">
+                    <div className="box_detail booking">
+                        <div
+                            className="score"
+                        >
+                        <UserCard
+                            id={22}
+                            firstname={first_name}
+                            lastname={last_name}
+                            username={username}
+                            responceTime="میانگین زمان پاسخگویی: نامشخص"
+                            image={image_url}
+                            own={own}
+                            onUpdate={() => {
+                                Router.push({pathname: Router.pathname, query:Router.query})
+                            }}
+                        />
+                        </div>
+                        {/* <div
                                 style={{ marginTop: '8px' }}
                                 className="text-center"
                             >
                             </div> */}
-                        </div>
-                    <ShareBar />
+                    </div>
+                <ShareBar />
                 </aside>
-                }
             </Section>
-            {(isMobile && own) &&
+            {/* {(isMobile && own) &&
                 <Button
                     style={{
                         zIndex: '55',
@@ -121,8 +115,8 @@ const Profile: React.SFC<IProfile> = ({ t, id, name, image_url }) => {
                     className="btn_1 full-width"
                 >
                     ویرایش پروفایل
-            </Button>
-            }
+            </Button> */}
+}
         </Layout >
     );
 }
