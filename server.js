@@ -4,9 +4,11 @@ const nextI18NextMiddleware = require('next-i18next/middleware');
 
 const nextI18next = require('./src/i18n');
 
+const routes = require('./routes')
+
 const port = process.env.PORT || 8080;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
-const handle = app.getRequestHandler();
+const handler = routes.getRequestHandler(app)
 
 const { parse } = require('url');
 const { join } = require('path');
@@ -15,22 +17,9 @@ const { join } = require('path');
   await app.prepare();
   const server = express();
 
+  server.use(handler);
+
   server.use(nextI18NextMiddleware(nextI18next));
-
-  /* Car Links */
-  server.get('/car/:id', (req, res) => {
-    const { query, params } = req;
-
-    return app.render(req, res, '/car', { ...query, id: params.id });
-  });
-
-  /* User Links */
-  server.get('/([@]):id', (req, res) => {
-    const { query, params } = req;
-
-    return app.render(req, res, '/profile', { ...query, id: params.id });
-  });
-
 
   server.get('*', (req, res) => {
     const parsedUrl = parse(req.url, true);
