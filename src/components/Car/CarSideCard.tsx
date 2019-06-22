@@ -78,7 +78,8 @@ const CarideCard: React.FunctionComponent<{
             <CarDateRange from={convertMomentToDate(date.start)} to={convertMomentToDate(date.end)} />
             <UserCard
                 id={user.id}
-                name={user.name}
+                firstname={user.first_name}
+                lastname={user.last_name}
                 responceTime="میانگین زمان پاسخگویی: نامشخص"
                 image={user.image_url}
             />

@@ -200,7 +200,9 @@ export default withTranslation('common')(
                                     user={{
                                         id: owner.id,
                                         name: owner.name,
-                                        image_url: owner.image_url
+                                        image_url: owner.image_url,
+                                        first_name: owner.first_name,
+                                        last_name: owner.last_name
                                     }}
                                     reserveFunction={() => { this.reserve(search_id) }}
                                 />
@@ -282,7 +284,8 @@ export default withTranslation('common')(
                                     <div className="strip grid usercard">
                                         <UserCard
                                             id={owner.id}
-                                            name={owner.name}
+                                            firstname={owner.first_name}
+                                            lastname={owner.last_name}
                                             responceTime="میانگین زمان پاسخگویی: نامشخص"
                                             image={owner.image_url}
                                         />
