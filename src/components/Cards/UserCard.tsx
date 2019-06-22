@@ -146,7 +146,7 @@ export const UserCard: React.FunctionComponent<{
             setEditMode(false)
             onUpdate(); // call parent passed function so it will reload the page
           }}
-          render={({ handleChange, handleBlur, handleSubmit, touched, values, errors }) => (
+          render={({ handleChange, handleBlur, handleSubmit, touched, values, errors, isSubmitting }) => (
             <form onSubmit={handleSubmit}>
               {errors.firstname && touched.firstname && <div id="feedback">{errors.firstname}</div>}
               <div className="box">
@@ -194,6 +194,7 @@ export const UserCard: React.FunctionComponent<{
                 basic
                 color='teal'
                 type="submit"
+                loading={isSubmitting}
               >
                 {"ذخیره تغیرات"}
             </Button>
