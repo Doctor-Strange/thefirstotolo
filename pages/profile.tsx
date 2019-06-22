@@ -4,7 +4,7 @@ import Layout from '../src/components/Layout';
 import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
-import Router from 'next/router';
+import {Router} from '../routes';
 import { PriceCard, UserCard, CarCard, CarCardPlaceholder } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
 import { ShareBar } from '../src/components/ShareBar';
@@ -40,7 +40,6 @@ const Profile: React.SFC<IProfile> = ({ t, id, first_name, last_name, image_url,
     const [own, setOwnership] = useState(false);
 
     async function fetchAPI() {
-        // get cas and genrate a dropdown input in form
         const res = await REQUEST_getUserCars({ id });
         setRresults(res);
         setLoading(false);
@@ -86,8 +85,13 @@ const Profile: React.SFC<IProfile> = ({ t, id, first_name, last_name, image_url,
                             responceTime="میانگین زمان پاسخگویی: نامشخص"
                             image={image_url}
                             own={own}
-                            onUpdate={() => {
-                                Router.push({pathname: Router.pathname, query:Router.query})
+                            onUpdate={({username = null, id = null}) => {
+                                if(username){
+                                    Router.pushRoute('profile_username', {username});
+                                }
+                                else {
+                                    Router.pushRoute('profile_id', {id});
+                                }
                             }}
                         />
                         </div>
@@ -127,13 +131,23 @@ Profile.getInitialProps = async (props) => {
     } else {
         console.log('Client side Router Query', props.query);
     }
-    const res = await REQUEST_getUser({
+    const query =  props.query.id? {
         id: props.query.id
-    })
+    } : {
+        username: props.query.username
+    }
+    const resUser = await REQUEST_getUser(query)
+    if(props.query.id && resUser.username && props.res){
+        props.res.writeHead(302, {
+            Location: '/@' + resUser.username
+        })
+        props.res.end()
+    }
     return {
         namespacesRequired: ['common'],
         profileID: props.query.id,
-        ...res
+        profileUsername: props.query.username,
+        ...resUser
     };
 }
 

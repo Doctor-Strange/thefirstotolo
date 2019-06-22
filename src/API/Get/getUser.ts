@@ -6,7 +6,10 @@ const GET_USER = '/core/user/info';
 export const REQUEST_getUser = (data: IgetUser) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(DOMAIN + GET_USER + '?id=' + data.id)
+      .post(DOMAIN + GET_USER +
+        (data.id? '?id=' + data.id
+        : '?username=' + data.username)
+        )
       .then(response => {
         if (response.data.success) {
           resolve(response.data.data);
@@ -15,11 +18,12 @@ export const REQUEST_getUser = (data: IgetUser) => {
         }
       })
       .catch(err => {
-        console.warn('prifle request filed: ', err.message);
+        console.warn('profile request filed: ', err.message);
       });
   });
 };
 
 interface IgetUser {
-  id: string;
+  id?: string;
+  username?: string;
 }

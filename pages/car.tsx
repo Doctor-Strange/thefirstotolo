@@ -201,6 +201,7 @@ export default withTranslation('common')(
                                         id: owner.id,
                                         name: owner.name,
                                         image_url: owner.image_url,
+                                        username: owner.username,
                                         first_name: owner.first_name,
                                         last_name: owner.last_name
                                     }}
@@ -286,6 +287,7 @@ export default withTranslation('common')(
                                             id={owner.id}
                                             firstname={owner.first_name}
                                             lastname={owner.last_name}
+                                            username={owner.username}
                                             responceTime="میانگین زمان پاسخگویی: نامشخص"
                                             image={owner.image_url}
                                         />

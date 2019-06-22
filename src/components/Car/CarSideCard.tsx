@@ -80,6 +80,7 @@ const CarideCard: React.FunctionComponent<{
                 id={user.id}
                 firstname={user.first_name}
                 lastname={user.last_name}
+                username={user.username}
                 responceTime="میانگین زمان پاسخگویی: نامشخص"
                 image={user.image_url}
             />
