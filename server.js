@@ -8,7 +8,8 @@ const routes = require('./routes')
 
 const port = process.env.PORT || 8080;
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
-const handler = routes.getRequestHandler(app)
+const handler = routes.getRequestHandler(app);
+const translation = nextI18NextMiddleware(nextI18next);
 
 const { parse } = require('url');
 const { join } = require('path');
@@ -19,7 +20,7 @@ const { join } = require('path');
 
   server.use(handler);
 
-  server.use(nextI18NextMiddleware(nextI18next));
+  server.use(translation);
 
   server.get('*', (req, res) => {
     const parsedUrl = parse(req.url, true);

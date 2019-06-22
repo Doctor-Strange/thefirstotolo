@@ -45,4 +45,10 @@ const Page = props => (
   </Layout>
 )
 
+Page.getInitialProps = async (props) => {
+  return {
+      namespacesRequired: ['common']
+  };
+}
+
 export default withTranslation('common')(Page);
