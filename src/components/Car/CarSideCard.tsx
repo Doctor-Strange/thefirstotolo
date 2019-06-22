@@ -22,6 +22,9 @@ const Card = styled.nav`
     @media (min-width: 768px){
         margin-top: -60px;
     }
+    .DatePicker__calendarContainer {
+        display: none;
+    }
     .DatePicker__input {
         font-size: 15px;
         font-family: Vazir;
