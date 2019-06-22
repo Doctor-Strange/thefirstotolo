@@ -87,11 +87,6 @@ export default withTranslation('common')(
     query?: any;
     user: any;
   }> {
-    static async getInitialProps() {
-      return {
-        namespacesRequired: ['common']
-      };
-    }
     state = {
       error: '',
       name: null,

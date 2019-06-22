@@ -167,12 +167,6 @@ class Header extends React.Component<{
   onRef?: any;
 }> {
   [x: string]: any;
-  static async getInitialProps() {
-    return {
-      namespacesRequired: ['common']
-    };
-  }
-
   constructor(props) {
     super(props);
   }

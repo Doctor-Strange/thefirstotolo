@@ -45,12 +45,6 @@ export default withTranslation('common')(
     }
     > {
     [x: string]: any;
-
-    static async getInitialProps() {
-      return {
-        namespacesRequired: ['common']
-      };
-    }
     constructor(props) {
       super(props);
       this.state = {
