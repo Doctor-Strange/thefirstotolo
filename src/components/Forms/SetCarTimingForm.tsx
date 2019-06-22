@@ -482,12 +482,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                       setSubmittingSteps(7);
                       setTimeout(() => {
                         actions.setSubmitting(false);
-                        Router.push({
-                          pathname: '/car',
-                          query: {
-                            id: response.data.data.id
-                          }
-                        });
+                        Router.push('/car/'+ id);
                       }, 1000);
                     }
                   });

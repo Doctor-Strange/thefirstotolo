@@ -23,7 +23,6 @@ export const REQUEST_getCar = (data: IgetCar) => {
         });
         const media_set = [];
         data.media_set.map((value, index) => media_set.push(value.url));
-        console.log(data);
         resolve({
           year: data.year.name,
           mileage_range: data.mileage_range,

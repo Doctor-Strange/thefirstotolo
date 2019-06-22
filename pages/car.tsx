@@ -93,7 +93,7 @@ export default withTranslation('common')(
             // const { search_id, rentalCarID } = this.props;
             const href = `/checkout?search_id=${search_id}`;
             // const as = `/checkout/${rentalCarID}/${search_id}`;
-            Router.push(href, href);
+            Router.push(href);
         }
 
         render() {

@@ -225,10 +225,10 @@ export const CarCard: React.FunctionComponent<{
 }) => {
     let link = "";
     if (simpleMode) {
-      link = `/car?id=${id}`;
+      link = `/car/${id}`;
     }
     else {
-      link = `/car?id=${id}${dateURL}&search_id=${search_id}`;
+      link = `/car/${id}${dateURL}?search_id=${search_id}`;
     }
 
     const setCarTiming = () => {
@@ -245,6 +245,7 @@ export const CarCard: React.FunctionComponent<{
     return (
       <Card className="strip grid carcard">
         <Link href={link}>
+          <a>
           <figure>
             {/* <a href="#0" className="wish_bt" >
             
@@ -255,11 +256,12 @@ export const CarCard: React.FunctionComponent<{
             </div>
             {/* <small>Restaurant</small> */}
           </figure>
+          </a>
         </Link>
         <div className="wrapper row">
           <div className="col-8">
             <Link href={link}>
-              <a href={`/car?id=${id}`}>
+              <a>
                 <h3>
                   {title}<br />
                   <small>{year}</small><br />
