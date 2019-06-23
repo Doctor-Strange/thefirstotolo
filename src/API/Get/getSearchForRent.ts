@@ -21,11 +21,13 @@ export const REQUEST_getSearchForRent = (data: IgetSearchForRent) => {
       )
       .then(response => {
         if (response.data.success) {
-          console.log(response.data.result_key);
+          console.log(response.data.items[1]);
           const results = response.data.items.map((value, index) => ({
             key: value.index,
             id: value.id,
             avg_price_per_day: value.avg_price_per_day,
+            discount_percent: value.discount_percent,
+            avg_discounted_price_per_day: value.avg_discounted_price_per_day,
             body_style: value.body_style,
             cancellation_policy: value.cancellation_policy,
             capacity: value.capacity,
@@ -44,7 +46,8 @@ export const REQUEST_getSearchForRent = (data: IgetSearchForRent) => {
             total_price: value.total_price,
             transmission_type: value.transmission_type,
             year: value.year,
-            search_id: value.search_id
+            search_id: value.search_id,
+            is_out_of_service: value.is_out_of_service
           }));
           if (results === undefined || results.length == 0) {
             resolve({

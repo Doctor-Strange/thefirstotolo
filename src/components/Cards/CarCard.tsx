@@ -202,12 +202,15 @@ export const CarCard: React.FunctionComponent<{
   description: string;
   year: string;
   score: any;
-  price: any;
+  price: number;
   deliver_at_renters_place: boolean;
   dateURL?: string;
   search_id?: string;
   simpleMode?: boolean;
-  showEditButtons?: boolean
+  showEditButtons?: boolean;
+  discount_percent?: string;
+  discounted_price?: number;
+  is_out_of_service: boolean;
 }> = ({
   children,
   title,
@@ -221,7 +224,10 @@ export const CarCard: React.FunctionComponent<{
   dateURL,
   search_id,
   simpleMode = true,
-  showEditButtons = false
+  showEditButtons = false,
+  discount_percent,
+  discounted_price,
+  is_out_of_service = false,
 }) => {
     let link = "";
     if (simpleMode) {
@@ -247,9 +253,11 @@ export const CarCard: React.FunctionComponent<{
         <Link href={link}>
           <a>
           <figure>
-            {/* <a href="#0" className="wish_bt" >
-            
-              </a> */}
+            {discount_percent &&
+              <span className="wish_bt" >
+              {discount_percent} تخفیف
+              </span>
+            }
             <img src={img} className="img-fluid" alt="" />
             <div className="read_more">
               <span>{simpleMode ? "مشاهده" : "مشاهده و رزرو"}</span>
@@ -276,7 +284,7 @@ export const CarCard: React.FunctionComponent<{
           </div>
           {!simpleMode &&
             <div className="col-4 leftbox">
-              <PriceCard number={price}>
+              <PriceCard number={discounted_price}>
                 در روز
             </PriceCard>
             </div>

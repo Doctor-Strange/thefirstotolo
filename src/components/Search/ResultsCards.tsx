@@ -95,6 +95,8 @@ export class ResultsCards extends React.Component<{
                                             .url
                                     }
                                     price={value.avg_price_per_day}
+                                    discount_percent={value.discount_percent}
+                                    discounted_price={value.avg_discounted_price_per_day}
                                     description={value.description}
                                     deliver_at_renters_place={value.deliver_at_renters_place}
                                     // text2={value.text2}
@@ -103,6 +105,7 @@ export class ResultsCards extends React.Component<{
                                     search_id={value.search_id}
                                     simpleMode={showInProfile}
                                     showEditButtons={userOwnPage}
+                                    is_out_of_service={value.is_out_of_service}
                                 />
                             )
                         )
