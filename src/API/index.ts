@@ -22,6 +22,7 @@ import { REQUEST_setUsername  } from './Set/setUsername';
 import { REQUEST_getCarAvailabilities } from './Get/getCarAvailabilities';
 import { REQUEST_newCarAvailability } from "./Set/newCarAvailability";
 import { REQUEST_setCarAvailability } from "./Set/setCarAvailablity";
+import { REQUEST_deleteCarAvailability } from "./Set/deleteCarAvailability";
 
 // Rent Requests
 import { REQUEST_getOrderRequests } from './Get/getOrderRequests';
@@ -47,4 +48,5 @@ export {
   REQUEST_newCarAvailability,
   REQUEST_setCarAvailability,
   REQUEST_editCarPartial,
+  REQUEST_deleteCarAvailability
 };

@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start:dev": "next",
-    "dev": "nodemon server.js",
+    "dev": "nodemon server.js -max_old_space_size=8192",
     "build:dev": "next build",
     "build": "NODE_ENV=production next build",
     "export": "next export",
