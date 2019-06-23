@@ -1,20 +1,30 @@
 import * as React from 'react';
+import { i18n, Link, withTranslation } from '../src/i18n';
 
-class Error extends React.Component<{ statusCode: any }> {
+class Error extends React.Component<{ statusCode: any, t: any }> {
   static getInitialProps({ res, err }) {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : null;
-    return { statusCode };
+    let statusCode = null
+    if (res) {
+      ({ statusCode } = res)
+    } else if (err) {
+      ({ statusCode } = err)
+    }
+    return {
+      namespacesRequired: ['common'],
+      statusCode,
+    }
   }
 
   render() {
+    const { statusCode, t } = this.props
     return (
       <p>
-        {this.props.statusCode
-          ? `An error ${this.props.statusCode} occurred on server`
-          : 'An error occurred on client'}
+        {statusCode
+          ? t('error-with-status', { statusCode })
+          : t('error-without-status')}
       </p>
-    );
+    )
   }
 }
 
-export default Error;
+export default withTranslation('common')(Error)
