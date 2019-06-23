@@ -392,7 +392,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
         };
       }
     });
-    setInitialCarTimings(results);
+    setInitialCarTimings(timeRes);
     modifyCarTimings(results);
     setMapApiToFormik(true);
     console.log(results);
@@ -467,12 +467,13 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
         .then(async response => {
           if(radioGroup == false) {
               await initialCarTimings.map(async (val, index) => {
+                console.log("going to remove ", val.id);
                 await REQUEST_deleteCarAvailability({
                   token: jsCookie.get('token'),
                   id: val.id
                 });
               });
-            REQUEST_newCarAvailability({
+            await REQUEST_newCarAvailability({
               token: jsCookie.get('token'),
               rental_car_id: id,
               is_all_time: 1,
