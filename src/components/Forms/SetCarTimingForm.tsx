@@ -464,21 +464,17 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
           days_to_get_reminded: daysToGetReminded,
           min_days_to_rent: minDaysToRent
         })
-        .then(async response => {
+        .then(response => {
           if(radioGroup == false) {
-              await initialCarTimings.map(async (val, index) => {
-                console.log("going to remove ", val.id);
-                await REQUEST_deleteCarAvailability({
-                  token: jsCookie.get('token'),
-                  id: val.id
-                });
-              });
-            await REQUEST_newCarAvailability({
+            REQUEST_setCarAvailability({
               token: jsCookie.get('token'),
               rental_car_id: id,
-              is_all_time: 1,
-              price_per_day: clearNumber(availableInAllPrice),
-              status_id: 'available'
+              data: JSON.stringify([{
+                rental_car_id: id,
+                is_all_time: 1,
+                price_per_day: clearNumber(availableInAllPrice),
+                status_id: 'available'
+              }])
             })
             .then(response => {
                 setTimeout(() => {
