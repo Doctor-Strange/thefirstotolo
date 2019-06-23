@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start:dev": "next",
-    "dev": "nodemon server.js  --exec 'ts-node'",
+    "dev": "nodemon server.js",
     "build:dev": "next build",
     "build": "NODE_ENV=production next build",
     "export": "next export",
@@ -84,6 +84,7 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
     "ts-jest": "^23.10.3",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
