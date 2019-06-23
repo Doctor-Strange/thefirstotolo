@@ -284,7 +284,7 @@ export const CarCard: React.FunctionComponent<{
           </div>
           {!simpleMode &&
             <div className="col-4 leftbox">
-              <PriceCard number={discounted_price}>
+              <PriceCard number={discounted_price? discounted_price : price}>
                 در روز
             </PriceCard>
             </div>
