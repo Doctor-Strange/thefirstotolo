@@ -3,8 +3,6 @@ import * as React from 'react';
 import { useCallback, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import 'otoli-react-persian-calendar-date-picker/lib/DatePicker.css';
-import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 import {
@@ -61,6 +59,7 @@ import {
   convertMomentsToDateRange,
   getBetweenRange
 } from '../../lib/date';
+import TimeRangesPicker from './TimeRangesPicker';
 
 function clearNumber(x) {
   return convertNumbers2English(x.toString())
@@ -319,20 +318,15 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
   const [error, setError] = useState(false);
   const [car, setCar] = useState({ ...carSample });
   const [mapApiToFormik, setMapApiToFormik] = useState(false);
-  const [name, setName] = useState(null);
   const [initialCarTimings, setInitialCarTimings] = useState([]);
   const [carTimings, setCarTimings] = useState([]);
   const [isIsAllTime, setIsIsAllTime] = useState(false);
   const [isAllTimePrice, setIsAllTimePrice] = useState(0);
   const [success, setSuccess] = useState('');
-  const [price, setPrice] = useState(null);
-  const [date, setDate] = useState(empetyDate);
-  const [showNewEntery, setShowNewEntery] = useState(true);
-  const [openEditFor, setOpenEditFor] = useState(null);
-  const [submittingSteps, setSubmittingSteps] = useState(0);
   const [disabledDays, setDisabledDays] = useState([]);
 
   const modifyCarTimings = async (array, curentRange = [] /* fixme */) => {
+    console.log("array is ", array);
     setCarTimings(array);
     let out = [];
     var disabledDaysFiltered = array
@@ -902,292 +896,14 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                   />
                 </Form.Field>
                 {values.radioGroup == true && (
-                  <div style={{ maxWidth: '370px' }}>
-                    <Segment.Group style={{ marginBottom: '12px' }}>
-                      {carTimings.map((val, index) => {
-                        if (val == undefined) {
-                          return <></>;
-                        }
-                        if (openEditFor == index) {
-                          console.log('date is: ', date);
-                          console.log('price is: ', price);
-                          if (
-                            date.to === null &&
-                            date.from === null &&
-                            price === null
-                          ) {
-                            setDate({ from: val.date.from, to: val.date.to });
-                            setPrice(val.price);
-                            console.log(
-                              'date and price setted from carTiming: ',
-                              date
-                            );
-                          }
-                          return (
-                            <Segment key={index} style={{ textAlign: 'right' }}>
-                              <Form.Group>
-                                <Form.Field
-                                  style={{ margin: 0, maxWidth: '47%' }}
-                                >
-                                  <label>{t('carTiming.from')}</label>
-                                </Form.Field>
-                              </Form.Group>
-                              <DatePicker
-                                selectedDayRange={date}
-                                onChange={value => {
-                                  console.log('val ', value);
-                                  setDate({ from: value.from, to: value.to });
-                                  console.log('date ', date);
-                                }}
-                                inputPlaceholder="انتخاب روزهای نمایش"
-                                isDayRange
-                                disableBackward
-                                disabledDays={disabledDays}
-                                colorPrimary={'#00ACC1'}
-                                colorPrimaryLight={'#00acc147'}
-                              />
-                              <Form.Input
-                                style={{ width: '47%' }}
-                                placeholder="قیمت"
-                                label={t('carTiming.price')}
-                                onChange={(e, data) => {
-                                  if (data) {
-                                    setPrice(clearNumber(data.value));
-                                  }
-                                }}
-                                value={
-                                  price
-                                    ? convertNumbers2Persian(
-                                      numberWithCommas(price)
-                                    )
-                                    : price
-                                }
-                              >
-                                <input inputMode="numeric" />
-                                <span
-                                  style={{
-                                    float: 'right',
-                                    lineHeight: '48px',
-                                    marginRight: '8px'
-                                  }}
-                                >
-                                  {t('carTiming.toman')}
-                                </span>
-                              </Form.Input>
-                              <Button.Group
-                                size="tiny"
-                                style={{
-                                  flexDirection: 'row-reverse',
-                                  position: 'relative',
-                                  bottom: '-5px',
-                                  left: '-70px'
-                                }}
-                              >
-                                <Button
-                                  type="button"
-                                  className="pos_bott"
-                                  onClick={e => {
-                                    setDate(empetyDate);
-                                    setPrice('');
-                                    setShowNewEntery(false);
-                                    setOpenEditFor(null);
-                                  }}
-                                >
-                                  لغو
-                                </Button>
-                                <Button
-                                  color="blue"
-                                  basic
-                                  type="button"
-                                  id="pos_bott2"
-                                  className="pos_bott"
-                                  onClick={e => {
-                                    console.log(e);
-                                    let data = carTimings;
-                                    if (date.from && date.to && price) {
-                                      data.splice(index, 1, {
-                                        date,
-                                        price
-                                      });
-                                      modifyCarTimings(data);
-                                      setDate(empetyDate);
-                                      setPrice('');
-                                      setShowNewEntery(false);
-                                      setOpenEditFor(null);
-                                    }
-                                  }}
-                                >
-                                  ثبت
-                                </Button>
-                              </Button.Group>
-                            </Segment>
-                          );
-                        } else {
-                          return (
-                            <Segment key={index} style={{ textAlign: 'right' }}>
-                              <span>
-                                <label>از</label>{' '}
-                                {convertNumbers2Persian(
-                                  convertDateToMoment(val.date.from).format(
-                                    'jDD jMMMM jYY'
-                                  )
-                                )}{' '}
-                                <label>تا</label>{' '}
-                                {convertNumbers2Persian(
-                                  convertDateToMoment(val.date.to).format(
-                                    'jDD jMMMM jYY'
-                                  )
-                                )}{' '}
-                                <br />
-                                <label>با قیمت</label>{' '}
-                                {convertNumbers2Persian(
-                                  numberWithCommas(val.price)
-                                )}{' '}
-                                تومان
-                              </span>
-                              <Icon
-                                name="close"
-                                onClick={e => {
-                                  let data = carTimings;
-                                  data.splice(index, 1);
-                                  console.log(data);
-                                  modifyCarTimings(data);
-                                  setShowNewEntery(false);
-                                  setPrice(null);
-                                  setDate(empetyDate);
-                                }}
-                              />
-                              <Icon
-                                name="edit outline"
-                                onClick={e => {
-                                  setShowNewEntery(false);
-                                  setOpenEditFor(index);
-                                  setPrice(null);
-                                  setDate(empetyDate);
-                                }}
-                              />
-                            </Segment>
-                          );
-                        }
-                      })}
-
-                      {/* ======================  new form ========================= */}
-                      {showNewEntery && (
-                        <Segment className="timingEntery">
-                          <Form.Group>
-                            <Form.Field style={{ margin: 0, maxWidth: '100%' }}>
-                              <label>{t('carTiming.from')}</label>
-                              <DatePicker
-                                selectedDayRange={date}
-                                onChange={setDate}
-                                inputPlaceholder="انتخاب روزهای نمایش"
-                                isDayRange
-                                disableBackward
-                                disabledDays={disabledDays}
-                                colorPrimary={'#00ACC1'}
-                                colorPrimaryLight={'#00acc147'}
-                              />
-                            </Form.Field>
-                          </Form.Group>
-                          <Form.Input
-                            style={{ width: '47%' }}
-                            name="price"
-                            placeholder="قیمت"
-                            label={t('carTiming.price')}
-                            onChange={(e, data) => {
-                              if (data && data.name) {
-                                setPrice(clearNumber(data.value));
-                              }
-                            }}
-                            value={
-                              price
-                                ? convertNumbers2Persian(
-                                  numberWithCommas(price)
-                                )
-                                : price
-                            }
-                          >
-                            <input inputMode="numeric" />
-                            <span
-                              style={{
-                                float: 'right',
-                                lineHeight: '48px',
-                                marginRight: '8px'
-                              }}
-                            >
-                              تومان
-                            </span>
-                          </Form.Input>
-                          <Button.Group
-                            size="tiny"
-                            style={{
-                              flexDirection: 'row-reverse',
-                              position: 'relative',
-                              bottom: '-20px',
-                              left: '-75px'
-                            }}
-                          >
-                            <Button
-                              basic
-                              type="button"
-                              className="pos_bott"
-                              onClick={e => {
-                                setShowNewEntery(false);
-                              }}
-                            >
-                              حذف
-                            </Button>
-                            <Button
-                              color="blue"
-                              basic
-                              type="button"
-                              className="pos_bott"
-                              id="pos_bott"
-                              onClick={e => {
-                                console.log(e);
-                                let data = carTimings;
-                                if (date.from && date.to && price) {
-                                  data.push({
-                                    date,
-                                    price
-                                  });
-                                  modifyCarTimings(data);
-                                  setDate(empetyDate);
-                                  setPrice('');
-                                  setShowNewEntery(false);
-                                }
-                              }}
-                            >
-                              ثبت
-                            </Button>
-                          </Button.Group>
-                        </Segment>
-                      )}
-                    </Segment.Group>
-                    <div
-                      style={{
-                        textAlign: 'right',
-                        marginBottom: '24px'
-                      }}
-                    >
-                      <Button
-                        icon
-                        labelPosition="right"
-                        type="button"
-                        basic
-                        color="blue"
-                        onClick={e => {
-                          setDate(empetyDate);
-                          setPrice('');
-                          setShowNewEntery(true);
-                          setOpenEditFor(null);
-                        }}
-                      >
-                        افزودن
-                        <Icon name="plus" />
-                      </Button>
-                    </div>
-                  </div>
+                  <>
+                  {console.log("car timings before ",carTimings)}
+                  <TimeRangesPicker
+                    carTimings={carTimings}
+                    disabledDays={disabledDays}
+                    modifyCarTimings={modifyCarTimings}
+                  />
+                  </>
                 )}
                 {/* ===================================================================== */}
                 <Form.Group>
