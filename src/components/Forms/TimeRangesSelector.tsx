@@ -31,7 +31,7 @@ function clearNumber(x) {
 const Page = styled.div`
 `;
 
-const TimeRangesPicker: React.FC<{
+const TimeRangesSelector: React.FC<{
   t: any;
   carTimings: any;
   disabledDays: any;
@@ -342,4 +342,4 @@ const TimeRangesPicker: React.FC<{
   );
 }
 
-export default withTranslation('common')(TimeRangesPicker);
+export default withTranslation('common')(TimeRangesSelector);

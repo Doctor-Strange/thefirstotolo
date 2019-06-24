@@ -59,7 +59,8 @@ import {
   convertMomentsToDateRange,
   getBetweenRange
 } from '../../lib/date';
-import TimeRangesPicker from './TimeRangesPicker';
+import TimeRangesSelector from './TimeRangesSelector';
+import DiscountsSelector from './DiscountsSelector';
 
 function clearNumber(x) {
   return convertNumbers2English(x.toString())
@@ -320,6 +321,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
   const [mapApiToFormik, setMapApiToFormik] = useState(false);
   const [initialCarTimings, setInitialCarTimings] = useState([]);
   const [carTimings, setCarTimings] = useState([]);
+  const [carDiscounts, setCarDiscounts] = useState([]);
   const [isIsAllTime, setIsIsAllTime] = useState(false);
   const [isAllTimePrice, setIsAllTimePrice] = useState(0);
   const [success, setSuccess] = useState('');
@@ -345,6 +347,11 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
       });
     await setDisabledDays(out);
     console.log('disabledDays is: ', disabledDays);
+  };
+
+  const modifyCarDiscounts = async (array) => {
+    console.log("array is ", array);
+    setCarDiscounts(array);
   };
 
   const fetchAPI = async () => {
@@ -900,13 +907,25 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                 {values.radioGroup == true && (
                   <>
                   {console.log("car timings before ",carTimings)}
-                  <TimeRangesPicker
+                  <TimeRangesSelector
                     carTimings={carTimings}
                     disabledDays={disabledDays}
                     modifyCarTimings={modifyCarTimings}
                   />
                   </>
                 )}
+                 {/* ===================================================================== */}
+                 <Divider horizontal>
+                  <Header as="h4">
+                    <Icon name="calendar alternate outline" />
+                    {t('carTiming.discounts')}
+                  </Header>
+                </Divider>
+                {/* ===================================================================== */}
+                <DiscountsSelector
+                    carDiscounts={carDiscounts}
+                    modifyCarDiscounts={modifyCarDiscounts}
+                  />
                 {/* ===================================================================== */}
                 <Form.Group>
                   <Form.Field
