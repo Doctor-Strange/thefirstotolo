@@ -97,7 +97,7 @@ const TimeRangesPicker: React.FC<{
                   colorPrimaryLight={'#00acc147'}
                 />
                 <Form.Input
-                  style={{ width: '47%' }}
+                  style={{ width: '47%', direction: 'ltr' }}
                   placeholder="قیمت"
                   label={t('carTiming.price')}
                   onChange={(e, data) => {
@@ -240,7 +240,7 @@ const TimeRangesPicker: React.FC<{
               </Form.Field>
             </Form.Group>
             <Form.Input
-              style={{ width: '47%' }}
+              style={{ width: '47%', direction: 'ltr'  }}
               name="price"
               placeholder="قیمت"
               label={t('carTiming.price')}

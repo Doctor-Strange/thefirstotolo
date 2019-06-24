@@ -636,6 +636,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                   <label>{t('carTiming.daysToGetReminded')}</label>
                   <Input
                     name="daysToGetReminded"
+                    style={{direction:'ltr'}}
                     className="numstep daysToGetReminded"
                     error={Boolean(
                       errors.daysToGetReminded && touched.daysToGetReminded
@@ -679,6 +680,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                   <label>{t('carTiming.minDaysToRent')}</label>
                   <Input
                     name="minDaysToRent"
+                    style={{direction:'ltr'}}
                     className="numstep minDaysToRent"
                     inputMode="numeric"
                     error={Boolean(
