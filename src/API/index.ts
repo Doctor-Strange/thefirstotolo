@@ -24,6 +24,9 @@ import { REQUEST_newCarAvailability } from "./Set/newCarAvailability";
 import { REQUEST_setCarAvailability } from "./Set/setCarAvailablity";
 import { REQUEST_deleteCarAvailability } from "./Set/deleteCarAvailability";
 
+// Car Discounts
+import { REQUEST_setCarDiscounts } from "./Set/setCarDiscount";
+
 // Rent Requests
 import { REQUEST_getOrderRequests } from './Get/getOrderRequests';
 import { REQUEST_newRentRequest } from './Set/newRentRequest';
@@ -48,5 +51,6 @@ export {
   REQUEST_newCarAvailability,
   REQUEST_setCarAvailability,
   REQUEST_editCarPartial,
-  REQUEST_deleteCarAvailability
+  REQUEST_deleteCarAvailability,
+  REQUEST_setCarDiscounts
 };

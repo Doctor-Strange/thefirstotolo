@@ -28,8 +28,7 @@ import {
   REQUEST_getCarAvailabilities,
   REQUEST_setCarAvailability,
   REQUEST_editCarPartial,
-  REQUEST_newCarAvailability,
-  REQUEST_deleteCarAvailability
+  REQUEST_setCarDiscounts
 } from '../../API';
 import { i18n, withTranslation } from '../../i18n';
 import { connect } from '../../store';
@@ -437,7 +436,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
         radioGroup: false,
         cancellationPolicy: ''
       }}
-      onSubmit={(
+      onSubmit={async (
         values: ISetCarTimingFormValues,
         actions: FormikActions<ISetCarTimingFormValues>
       ) => {
@@ -455,7 +454,22 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
           radioGroup
         } = values;
         if (!deliverAtRentersPlace) deliverAtRentersPlace = false;
-        REQUEST_editCarPartial({
+        // car discounts
+        let discounts = [];
+        carDiscounts.map((val, index) => {
+          if(val){
+            discounts.push({
+              days_limit: clearNumber(val.duration),
+              discount_percent: clearNumber(val.percent)
+            });
+          }
+        });
+        await REQUEST_setCarDiscounts({
+          token: jsCookie.get('token'),
+          rental_car_id: id,
+          data: JSON.stringify(discounts)
+        });
+        await REQUEST_editCarPartial({
           token: jsCookie.get('token'),
           id,
           deliver_at_renters_place: deliverAtRentersPlace,
@@ -465,59 +479,59 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
           days_to_get_reminded: daysToGetReminded,
           min_days_to_rent: minDaysToRent
         })
-        .then(response => {
-          if(radioGroup == false) {
-            REQUEST_setCarAvailability({
-              token: jsCookie.get('token'),
-              rental_car_id: id,
-              data: JSON.stringify([{
-                rental_car_id: id,
-                is_all_time: 1,
-                price_per_day: clearNumber(availableInAllPrice),
-                status_id: 'available'
-              }])
-            })
-            .then(response => {
-                setTimeout(() => {
-                  actions.setSubmitting(false);
-                  Router.push('/car/'+ id);
-                }, 1000);
-            })
-          }
-          else {
-            let timings = [];
-            carTimings.map((val, index) => {
-              if(val){
-                timings.push({
-                  start_date: convertDateToMoment(val.date.from).format(
-                    'jYYYY/jMM/jDD'
-                  ),
-                  end_date: convertDateToMoment(val.date.to).format(
-                    'jYYYY/jMM/jDD'
-                  ),
-                  price_per_day: clearNumber(val.price),
-                  status_id: 'available'
-                });
-              }
-            });
-            REQUEST_setCarAvailability({
-              token: jsCookie.get('token'),
-              rental_car_id: id,
-              data: JSON.stringify(timings)
-            })
-            .then(response => {
-                setTimeout(() => {
-                  actions.setSubmitting(false);
-                  Router.push('/car/'+ id);
-                }, 1000);
-            })
-          }
-        })
         .catch(error => {
           console.error(error);
           setError(true);
           setSuccess(false);
         });
+        if(radioGroup == false) {
+          REQUEST_setCarAvailability({
+            token: jsCookie.get('token'),
+            rental_car_id: id,
+            data: JSON.stringify([{
+              rental_car_id: id,
+              is_all_time: 1,
+              price_per_day: clearNumber(availableInAllPrice),
+              status_id: 'available'
+            }])
+          })
+          .then(response => {
+              setTimeout(() => {
+                actions.setSubmitting(false);
+                Router.push('/car/'+ id);
+              }, 1000);
+          })
+        }
+        else {
+          let timings = [];
+          carTimings.map((val, index) => {
+            if(val){
+              timings.push({
+                start_date: convertDateToMoment(val.date.from).format(
+                  'jYYYY/jMM/jDD'
+                ),
+                end_date: convertDateToMoment(val.date.to).format(
+                  'jYYYY/jMM/jDD'
+                ),
+                price_per_day: clearNumber(val.price),
+                status_id: 'available'
+              });
+            }
+          });
+          REQUEST_setCarAvailability({
+            token: jsCookie.get('token'),
+            rental_car_id: id,
+            data: JSON.stringify(timings)
+          })
+          .then(response => {
+              setTimeout(() => {
+                actions.setSubmitting(false);
+                Router.push('/car/'+ id);
+              }, 1000);
+          })
+        }
+        
+       
       }}
       validationSchema={Yup.object().shape({
         daysToGetReminded: Yup.number()
