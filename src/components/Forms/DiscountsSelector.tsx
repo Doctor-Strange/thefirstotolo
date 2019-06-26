@@ -12,6 +12,7 @@ import {
   convertNumbers2Persian,
   convertNumbers2English
 } from '../../lib/numbers';
+import { daysFarsi } from '../../constants/options';
 
 function clearNumber(x) {
   return convertNumbers2English(x.toString())
@@ -20,7 +21,10 @@ function clearNumber(x) {
     .replace(/\D/g, '');
 }
 
-const Page = styled.div`
+const Component = styled.div`
+  .percent.icon{
+    height: 48px !important;
+  }
 `;
 
 const DiscountsSelector: React.FC<{
@@ -32,13 +36,13 @@ const DiscountsSelector: React.FC<{
   carDiscounts = [],
   modifyCarDiscounts
 }) => {
-  const [percent, setPercent] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [percent, setPercent] = useState(null);
+  const [duration, setDuration] = useState(null);
   const [showNewEntery, setShowNewEntery] = useState(true);
   const [openEditFor, setOpenEditFor] = useState(null);
   console.log("Car discounts: ", carDiscounts);
   return (
-      <div style={{ maxWidth: '370px' }}>
+    <Component style={{ maxWidth: '370px' }}>
       <Segment.Group style={{ marginBottom: '12px' }}>
         {carDiscounts.map((val, index) => {
           if (val == undefined) {
@@ -60,12 +64,26 @@ const DiscountsSelector: React.FC<{
                     <label>{t('carTiming.from')}</label>
                   </Form.Field>
                 </Form.Group>
-                {/* TODO: duration picker */}
+                {/* duration picker */}
+                <Form.Dropdown
+                    label={'تعداد روزها'}
+                    placeholder={'تعداد روزها'}
+                    selection
+                    options={daysFarsi}
+                    loading={duration === null}
+                    onChange={(e, data) => {
+                      if (data && data.name) {
+                        setDuration(data.value);
+                      }
+                    }}
+                    defaultValue={duration}
+                  />
                 {/* percent picker */}
                 <Form.Input
                   style={{ width: '47%', direction: 'ltr' }}
                   placeholder="درصد"
                   label="درصد"
+                  icon='percent'
                   onChange={(e, data) => {
                     if (data) {
                         setPercent(clearNumber(data.value));
@@ -77,6 +95,7 @@ const DiscountsSelector: React.FC<{
                       : percent
                   }
                 >
+                  <Icon name='percent' />
                   <input inputMode="numeric" />
                   <span
                     style={{
@@ -176,7 +195,19 @@ const DiscountsSelector: React.FC<{
             <Form.Group>
               <Form.Field style={{ margin: 0, maxWidth: '100%' }}>
                 <label>{t('carTiming.from')}</label>
-                {/* TODO: duration picker */}
+                {/* duration picker */}
+                <Form.Dropdown
+                    label={'تعداد روزها'}
+                    placeholder={'تعداد روزها'}
+                    selection
+                    options={daysFarsi}
+                    onChange={(e, data) => {
+                      if (data && data.value) {
+                        setDuration(data.value);
+                      }
+                    }}
+                    value={(duration || {}).value}
+                  />
               </Form.Field>
             </Form.Group>
             <Form.Input
@@ -184,6 +215,7 @@ const DiscountsSelector: React.FC<{
               name="percent"
               placeholder="درصد تخفیف"
               label="درصد تخفیف"
+              icon='percent'
               onChange={(e, data) => {
                 if (data && data.name) {
                   setPercent(clearNumber(data.value));
@@ -195,16 +227,8 @@ const DiscountsSelector: React.FC<{
                   : percent
               }
             >
+              <Icon name='percent' />
               <input inputMode="numeric" />
-              <span
-                style={{
-                  float: 'right',
-                  lineHeight: '48px',
-                  marginRight: '8px'
-                }}
-              >
-                درصد
-              </span>
             </Form.Input>
             <Button.Group
               size="tiny"
@@ -276,7 +300,7 @@ const DiscountsSelector: React.FC<{
           <Icon name="plus" />
         </Button>
       </div>
-    </div>
+    </Component>
   );
 }
 
