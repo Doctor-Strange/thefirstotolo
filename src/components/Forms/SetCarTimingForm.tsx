@@ -27,6 +27,7 @@ import {
   REQUEST_getCarIsMine,
   REQUEST_getCarAvailabilities,
   REQUEST_setCarAvailability,
+  REQUEST_getCarDiscounts,
   REQUEST_editCarPartial,
   REQUEST_setCarDiscounts
 } from '../../API';
@@ -318,7 +319,6 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
   const [error, setError] = useState(false);
   const [car, setCar] = useState({ ...carSample });
   const [mapApiToFormik, setMapApiToFormik] = useState(false);
-  const [initialCarTimings, setInitialCarTimings] = useState([]);
   const [carTimings, setCarTimings] = useState([]);
   const [carDiscounts, setCarDiscounts] = useState([]);
   const [isIsAllTime, setIsIsAllTime] = useState(false);
@@ -353,24 +353,24 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
     setCarDiscounts(array);
   };
 
+    // Let make calls
   const fetchAPI = async () => {
+    // 1. fetch car data itself 
     const carRes = await REQUEST_getCarIsMine({
       id,
       token: jsCookie.get('token')
     });
+    setCar(carRes);
+
+    // 2. fetch car availablity data and parse it and set it to state
     const timeRes = await REQUEST_getCarAvailabilities({
       id,
       token: jsCookie.get('token')
     });
-    console.log(carRes);
-    console.log(timeRes);
-    setCar(carRes);
-    const results = timeRes.map((value, index) => {
-      console.log('34', value.is_all_time);
+    const parsedTimes = timeRes.map((value, index) => {
       if (value.is_all_time) {
         setIsIsAllTime(true);
         setIsAllTimePrice(value.price_per_day);
-        console.log('isIsAllTime======> ', value.price_per_day);
       } else {
         const s = value.start_date.jalali;
         const e = value.end_date.jalali;
@@ -392,10 +392,23 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
         };
       }
     });
-    setInitialCarTimings(timeRes);
-    modifyCarTimings(results);
+    modifyCarTimings(parsedTimes);
+
+    // 3. fetch car discounts data and parse it and set it to state
+    const discountRes = await REQUEST_getCarDiscounts({
+      id,
+      token: jsCookie.get('token')
+    });
+    const parsedDiscounts = discountRes.map((value, index) => {
+      return {
+        id: value.id,
+        duration: value.days_limit,
+        percent: value.discount_percent,
+      };
+    });
+    modifyCarDiscounts(parsedDiscounts);
+
     setMapApiToFormik(true);
-    console.log(results);
   };
 
   useEffect(() => {
