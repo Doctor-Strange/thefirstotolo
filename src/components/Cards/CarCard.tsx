@@ -83,15 +83,13 @@ const Card = styled.div`
   }
   a.wish_bt {
     position: absolute;
-    left: 15px;
-    bottom: 15px;
+    left: 12px;
+    bottom: 28px;
     z-index: 1;
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 9px 10px;
+    background-color: rgba(0,0,0,0.6);
+    padding: 5px 10px;
     display: inline-block;
     color: #fff;
-    line-height: 1;
     border-radius: 3px;
   }
   .wrapper {
@@ -254,9 +252,9 @@ export const CarCard: React.FunctionComponent<{
           <a>
           <figure>
             {discount_percent &&
-              <span className="wish_bt" >
-              {discount_percent} تخفیف
-              </span>
+              <a className="wish_bt" >
+              ٪{convertNumbers2Persian(discount_percent)} تخفیف
+              </a>
             }
             <img src={img} className="img-fluid" alt="" />
             <div className="read_more">
