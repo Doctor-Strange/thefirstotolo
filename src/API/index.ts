@@ -28,6 +28,8 @@ import { REQUEST_deleteCarAvailability } from "./Set/deleteCarAvailability";
 import { REQUEST_getCarDiscounts } from "./Get/getCarDiscounts";
 import { REQUEST_setCarDiscounts } from "./Set/setCarDiscount";
 
+// Car Media
+import { REQUEST_newCarMedia } from './Set/newCarMedia';
 
 // Rent Requests
 import { REQUEST_getOrderRequests } from './Get/getOrderRequests';
@@ -56,4 +58,5 @@ export {
   REQUEST_deleteCarAvailability,
   REQUEST_getCarDiscounts,
   REQUEST_setCarDiscounts,
+  REQUEST_newCarMedia
 };

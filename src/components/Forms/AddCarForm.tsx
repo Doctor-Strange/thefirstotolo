@@ -37,67 +37,8 @@ import { kmDrivenEnglish, kmDrivenFarsi } from '../../constants/options';
 import { useDropzone } from 'react-dropzone';
 import Dropzone from 'react-dropzone';
 import scrollToElement from 'scroll-to-element';
+import AddCarImageUpload from "./AddCarImageUpload";
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
-
-const DropZoneDiv = styled.section`
-  display: flex;
-  flex-direction: column;
-  font-family: sans-serif;
-  .dropzone {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 24px;
-    border-width: 2px;
-    border-radius: 2px;
-    border-color: #eeeeee;
-    border-style: dashed;
-    background-color: #fafafa;
-    color: #bdbdbd;
-    outline: none;
-    transition: border 0.24s ease-in-out;
-    border-radius: 0.28571429rem;
-    &:focus {
-      border-color: #33acc1;
-    }
-  }
-  .flexParentCards {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    /* justify-content: space-between; */
-    align-items: flex-start;
-    .flexItem {
-      margin: auto 8px;
-      margin-top: -29px;
-      margin-bottom: 16px;
-    }
-    i.delete.icon {
-      margin: 0;
-      display: table-cell;
-    }
-    .label {
-      position: relative;
-      bottom: -30px;
-      right: -2px;
-      z-index: 1;
-      padding: 5px;
-      font-size: 15px;
-    }
-  }
-  .card {
-    margin-top: 0;
-    height: 100px !important;
-    width: 150px !important;
-    .image {
-      height: 100px !important;
-      width: 150px !important;
-    }
-  }
-`;
 
 const BoxAccount = styled.div`
   margin-bottom: 25px;
@@ -583,16 +524,13 @@ export default withTranslation('common')(connect(state => state)(
     }
 
     removePicture(i) {
-      var picturesPreview = this.state.picturesPreview;
       var picturesID = this.state.picturesID;
       console.log(picturesID);
-      var picturesPreviewIndex = picturesPreview.indexOf(i);
       var picturesIDIndex = picturesID.indexOf(i);
       console.log('going to delte');
-      picturesPreview.splice(i, 1);
       picturesID.splice(i, 1);
       console.log(picturesID);
-      this.setState({ picturesID, picturesPreview });
+      this.setState({ picturesID });
     }
 
     openVINHint() {
@@ -1398,89 +1336,11 @@ export default withTranslation('common')(connect(state => state)(
 
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carProperty.uploadImage')}</label>
-                      <Dropzone
-                        accept="image/jpeg, image/png"
-                        onDrop={acceptedFiles => {
-                          acceptedFiles.forEach(file => {
-                            let form = new FormData();
-                            form.append('media', file);
-                            axios
-                              .post(
-                                process.env.PRODUCTION_ENDPOINT +
-                                '/core/rental-car/media/new',
-                                form,
-                                {
-                                  headers: {
-                                    Authorization: 'Bearer ' + token,
-                                    'Content-Type':
-                                      'application/x-www-form-urlencoded'
-                                  }
-                                }
-                              )
-                              .then(response => {
-                                if (response.data.success) {
-                                  const { picturesID } = this.state;
-                                  picturesID.push(response.data.data.id);
-                                  this.setState({
-                                    picturesID
-                                  });
-                                }
-                              })
-                              .catch(error => {
-                                console.error(error);
-                                this.setState({
-                                  error: error,
-                                  success: false
-                                });
-                              });
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onabort = () =>
-                              console.log('file reading was aborted');
-                            reader.onerror = () =>
-                              console.log('file reading has failed');
-                            reader.onload = () => {
-                              console.log('file reading was susceed');
-                              const { picturesPreview } = this.state;
-                              picturesPreview.push(reader.result);
-                              this.setState({
-                                picturesPreview
-                              });
-                            };
-                          });
-                        }}
-                      >
-                        {({ getRootProps, getInputProps }) => (
-                          <DropZoneDiv
-                            className="container"
-                            style={{ padding: 0 }}
-                          >
-                            <div {...getRootProps({ className: 'dropzone' })}>
-                              <input {...getInputProps()} />
-                              <span>{t('carProperty.uploadImageNote')}</span>
-                            </div>
-                            <aside>
-                              <div className="flexParentCards">
-                                {this.state.picturesPreview.map(
-                                  (image, index) => (
-                                    <div className="flexItem">
-                                      <Label
-                                        onClick={() =>
-                                          this.removePicture(index)
-                                        }
-                                        index={index}
-                                      >
-                                        <Icon name="delete" />
-                                      </Label>
-                                      <Card raised image={image} />
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            </aside>
-                          </DropZoneDiv>
-                        )}
-                      </Dropzone>
+                      <AddCarImageUpload
+                        picturesID={this.state.picturesID}
+                        setPicturesID={(val) => this.setState({picturesID:val})}
+                        removePictureID={(i) =>  this.removePicture(i)}
+                      />
                     </Form.Field>
 
                     <Form.Field style={{ margin: 0 }}>
