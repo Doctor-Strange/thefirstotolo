@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Box, Flex } from "@rebass/grid";
 import {Link} from '../../../routes'
@@ -86,6 +86,13 @@ const Card = styled.figure`
   .name {
     color: #333;
   }
+  .img-fluid.edit{
+    cursor: pointer;
+    transition: 0.5s all;
+    :hover {
+      transform: scale(0.9);
+    }
+  }
 `;
 
 export const UserCard: React.FunctionComponent<{
@@ -109,6 +116,7 @@ export const UserCard: React.FunctionComponent<{
 }) => {
   const link = username ? `/@${username}` : `/user/${id}`;
   const [editMode, setEditMode] = useState(false);
+  const inputFile = useRef(null) 
   return (
     <Card className="usercard">
       {!editMode ? (
@@ -148,7 +156,8 @@ export const UserCard: React.FunctionComponent<{
             firstname: firstname,
             lastname: lastname,
             id: id,
-            image: image,
+            image: null,
+            shownImage: image,
             username: username
           }}
           onSubmit={async (values, actions) => {
@@ -163,11 +172,11 @@ export const UserCard: React.FunctionComponent<{
                 token: jsCookie.get("token"),
                 username: values.username
               });
-            // if(values.image)
-            //   await REQUEST_setUserImage({
-            //     token: jsCookie.get('token'),
-            //     image: 8,
-            //   });
+            if(values.image)
+              await REQUEST_setUserImage({
+                token: jsCookie.get('token'),
+                file: values.image,
+              });
             actions.setSubmitting(false);
             toast.success("تغیرات با موفقیت اعمال شد", {
               position: "bottom-center",
@@ -187,14 +196,47 @@ export const UserCard: React.FunctionComponent<{
             touched,
             values,
             errors,
-            isSubmitting
+            isSubmitting,
+            setFieldValue
           }) => (
             <form onSubmit={handleSubmit}>
               {errors.firstname && touched.firstname && (
                 <div id="feedback">{errors.firstname}</div>
               )}
               <div className="box">
-                <img src={values.image} className="img-fluid" alt="" />
+                <img
+                  src={values.shownImage}
+                  className="img-fluid edit"
+                  alt="ویرایش نمایه"
+                  onClick={() => inputFile.current.click()}
+                />
+                <input
+                  type='file'
+                  id='file'
+                  ref={inputFile}
+                  style={{display: 'none'}}
+                  accept=".jpg,.jpeg,.png"
+                  onChange={(e) => {
+                    let file = e.target.files[0];
+                    const types = ['image/png', 'image/jpeg', 'image/png'];
+                      // #2 Catching wrong file types on the client
+                    if (types.every(type => file.type !== type)) {
+                      alert('لطفاً تصویر را با فرمت jpeg بارگذاری کنید.')
+                      return false;
+                    }
+                    setFieldValue('image', file);
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onabort = () =>
+                      console.log('file reading was aborted');
+                    reader.onerror = () =>
+                      console.log('file reading has failed');
+                    reader.onload = () => {
+                      console.log('file reading was susceed');
+                      setFieldValue('shownImage', reader.result);
+                    };
+                  }}
+                />
               </div>
               <div
                 className="media-body hostDetailCard box"
