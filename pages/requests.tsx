@@ -43,9 +43,7 @@ export default props => {
                                 </>
                                 :
                                 requests.map((value, index) => {
-                                    console.log(requests);
                                     const rentDump = value.rent_search_dump;
-                                    console.log(rentDump);
                                     return (
                                         <RequestCard
                                             id={value.id}
@@ -65,6 +63,11 @@ export default props => {
                                                 (value.role === "renter")
                                                     ? null
                                                     : value.renter.cell
+                                            }
+                                            userID={
+                                                (value.role === "owner")
+                                                ? value.renter.id
+                                                : rentDump.owner.id
                                             }
                                             pelak={{
                                                 first: rentDump.registration_plate_first_part,

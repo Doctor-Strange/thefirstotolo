@@ -81,6 +81,13 @@ const Card = styled.div`
             padding: 0 !important;
         }
     }
+    .pelak {
+        margin-top: 16px;
+        .four.column.row {
+            width: 170px !important;
+            left: 0 !important;
+        }
+    }
 `;
 
 interface IRequestCard {
@@ -128,6 +135,7 @@ export const RequestCard: React.SFC<IRequestCard> = ({
     price = 10,
     ownerName,
     ownerPhone,
+    userID,
     pelak = { first: "", second: "", third: "", forth: "" },
     picture,
     style = {},
@@ -139,7 +147,6 @@ export const RequestCard: React.SFC<IRequestCard> = ({
 
     const doAction = async (data: IdoAction) => {
         const res = await REQUEST_setOrderStatus({ ...data, token: jsCookie.get('token') });
-        console.log(res);
         if (data.action == 'pay') {
             Router.push(res.redirect_to, res.redirect_to, { shallow: false });
         }
@@ -164,8 +171,19 @@ export const RequestCard: React.SFC<IRequestCard> = ({
     }
 
     const openRatingModal = (id) => {
-        if (statusOwner === 'renter') {
+        let localStar1;
+        let localStar2;
+        let localText;
+        const settingStar1 = (e, data) => {
+            localStar1 = data.rating;
+        }
 
+        const settingStar2 = (e, data) => {
+            localStar2 = data.rating;
+        }
+
+        const settingText = (e, data) => {
+            localText = data.value;
         }
         swal(
             <div>
@@ -180,7 +198,7 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                             defaultRating={star1}
                             icon='star'
                             size='huge'
-                            onRate={(e, data) => { setStar1(data.rating); console.log(data) }}
+                            onRate={settingStar1}
                         />
                     </Form.Field>
                     {statusOwner === 'renter' &&
@@ -191,7 +209,7 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                                 defaultRating={star2}
                                 icon='star'
                                 size='huge'
-                                onRate={(e, data) => { setStar2(data.rating); console.log(data) }}
+                                onRate={settingStar2}
                             />
                         </Form.Field>
                     }
@@ -202,7 +220,7 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                         <TextArea
                             placeholder='راستشو بگو...'
                             value={text}
-                            onChange={(e, data) => { setText(data.value); console.log(data) }}
+                            onChange={settingText}
                         />
                     </Form.Field>
                 </Form>
@@ -216,36 +234,64 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                 },
             })
             .then((value) => {
-                switch (value) {
-                    case "done":
-                        doAction({
-                            id,
-                            action: 'rate',
-                            payload: {
-                                toRate: statusOwner,
-                                type: 'user',
-                                user_profile_id: id,
-                                rate: star1,
-                                review: text,
-                            }
-                        });
-                        toast.error('مشکلی پیش آمد', {
-                            position: "bottom-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true
-                        });
-                        setStar1(null);
-                        setStar1(null);
-                        setStar1('');
-                        break;
-                    default:
-                        console.log('canceled');
-                }
-                console.log(star1, star2, text)
+                trigerDoAction(value,id,{localStar1,localStar2,localText});
             });
+    }
+
+    const trigerDoAction = async (value,id,localData) => {
+        const {localStar1,localStar2,localText} = localData;
+        setStar1(localStar1);
+        setStar2(localStar2);
+        setText(localText);
+        switch (value) {
+            case "done":
+                try {
+                    const res1 = await doAction({
+                        id,
+                        action: 'rate',
+                        payload: {
+                            toRate: statusOwner,
+                            type: 'rent-order',
+                            rate: localStar1,
+                            review: localText,
+                        }
+                    });
+                    const res2 = await doAction({
+                        id,
+                        action: 'rate',
+                        payload: {
+                            toRate: statusOwner,
+                            user_profile_id: userID,
+                            type: 'user',
+                            rate: localStar2,
+                        }
+                    });
+                    toast.success('نظر شما با موفقیت ثبت شد', {
+                        position: "bottom-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true
+                    });
+                }
+                catch(error) {
+                    toast.error('مشکلی پیش آمد', {
+                        position: "bottom-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true
+                    });
+                }
+                setStar1(null);
+                setStar2(null);
+                setText(null);
+                break;
+            default:
+                console.log('canceled');
+        }
     }
 
     let title;

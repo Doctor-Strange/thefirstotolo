@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://core.otoli.net';
+const DOMAIN = process.env.PRODUCTION_ENDPOINT;
 const SET_ORDER_CANCEL = '/core/rental-car/order/cancel';
 const SET_ORDER_APPROVE = '/core/rental-car/order/approve';
 const SET_ORDER_REJECT = '/core/rental-car/order/reject';
@@ -45,24 +45,31 @@ export const REQUEST_setOrderStatus = (data: InewRentRequest) => {
         if (data.payload.toRate === 'renter') {
           if (data.payload.type === 'user') {
             ACTION_URL = SET_ORDER_RATE.RENTER.USER;
+            more = {
+              user_profile_id: data.payload.user_profile_id,
+              rate: data.payload.rate,
+            };
           }
           if (data.payload.type === 'rent-order') {
             ACTION_URL = SET_ORDER_RATE.RENTER.RENT_ORDER;
+            more = {
+              rent_order_id: data.id,
+              rate: data.payload.rate,
+              review: data.payload.review
+            };
           }
         } else if (data.payload.toRate === 'owner') {
           if (data.payload.type === 'user') {
             ACTION_URL = SET_ORDER_RATE.OWNER.USER;
+            more = {
+              user_profile_id: data.payload.user_profile_id,
+              rate: data.payload.rate,
+            };
           }
-          if (data.payload.type === 'rent-order') {
-            ACTION_URL = SET_ORDER_RATE.OWNER.RENT_ORDER;
-          }
+          // if (data.payload.type === 'rent-order') {
+          //   ACTION_URL = SET_ORDER_RATE.OWNER.RENT_ORDER;
+          // }
         }
-        more = {
-          rent_order_id: data.id,
-          user_profile_id: data.payload.user_profile_id,
-          rate: data.payload.rate,
-          review: data.payload.review
-        };
         break;
     }
     axios
@@ -79,12 +86,10 @@ export const REQUEST_setOrderStatus = (data: InewRentRequest) => {
         }
       )
       .then(response => {
-        if (response.data.success) {
           resolve(response.data);
-        }
       })
       .catch(error => {
-        reject(error);
+          reject(error);
       });
   });
 };
