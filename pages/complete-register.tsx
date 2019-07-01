@@ -6,6 +6,7 @@ import CompleteRegisterForm from '../src/components/Forms/CompleteRegisterForm';
 import { Box, Flex } from '@rebass/grid';
 import Router, { withRouter } from 'next/router';
 import { i18n, withTranslation } from '../src/i18n';
+import { FORMS_WIDTH } from '../src/constants/env';
 
 export default withRouter(withTranslation('common')(
   class extends React.Component<{ t: any, router: any }> {

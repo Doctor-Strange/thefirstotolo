@@ -5,6 +5,7 @@ import Layout from '../src/components/Layout';
 import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, withTranslation } from '../src/i18n';
+import { FORMS_WIDTH } from '../src/constants/env';
 
 export default withTranslation('common')(
   class extends React.Component<{ t: any }> {
