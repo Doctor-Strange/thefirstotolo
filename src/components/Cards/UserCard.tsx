@@ -65,37 +65,65 @@ const Card = styled.figure`
   figure.usercard {
     padding: 0;
   }
-  input[name="firstname"],
-  input[name="lastname"] {
-    border: none !important;
-    text-align: right !important;
-    padding: 0 !important;
-    height: 24px !important;
-    font-family: Vazir;
-  }
-  input[name="username"] {
-    border: 0 !important;
-    height: 24px !important;
-    font-family: Vazir;
-  }
+
   .ui.input.firstname,
   .ui.input.lastname {
-    width: 50%;
+    /* width: 50%; */
     font-size: 16px;
   }
   .name {
     color: #333;
   }
-  .img-fluid.edit{
-    cursor: pointer;
-    transition: 0.5s all;
-    :hover {
-      transform: scale(0.9);
+  .editform {
+    width: 100%;
+    img {
+      height: 100px;
+      width: 100px;
+    }
+    .img-fluid.edit{
+      cursor: pointer;
+      transition: 0.5s all;
+      :hover {
+        transform: scale(0.9);
+      }
+    }
+    label {
+      display: block;
+      margin: 0 0 .28571429rem 0;
+      color: rgba(0,0,0,.87);
+      font-size: .92857143em;
+      font-weight: 700;
+      text-transform: none;
+    }
+    .box {
+      margin: 0 auto;
+      display: table;
+    }
+    input {
+      &[name="firstname"],
+      &[name="lastname"],
+      &[name="username"] {
+        font-family: Vazir;
+        font-family: Vazir;
+      }
+      &[name="firstname"],
+      &[name="lastname"] {
+        text-align: right !important;
+      }
+      margin-bottom: 16px;
+    }
+    .ui.icon.input>i.icon:after, .ui.icon.input>i.icon:before {
+      top: 38%;
+      font-size: 20px;  
+    }
+    .media-body.hostDetailCard.box {
+        width: 100%;
     }
   }
 `;
 
 export const UserCard: React.FunctionComponent<{
+  t: any;
   id: any;
   firstname: string;
   lastname: string;
@@ -105,6 +133,7 @@ export const UserCard: React.FunctionComponent<{
   own?: boolean;
   onUpdate?: any;
 }> = ({
+  t,
   firstname,
   lastname,
   username,
@@ -116,6 +145,7 @@ export const UserCard: React.FunctionComponent<{
 }) => {
   const link = username ? `/@${username}` : `/user/${id}`;
   const [editMode, setEditMode] = useState(false);
+  const [makeUsername, setMakeUsername] = useState(false);
   const inputFile = useRef(null) 
   return (
     <Card className="usercard">
@@ -134,16 +164,22 @@ export const UserCard: React.FunctionComponent<{
                 <span className="name">
                   {firstname} {lastname}
                 </span>
-              </a>
+              {/* <div>5,150 trips<span className="hostDetailCard-dotSeparator"></span>
+                  <span>Joined May 2016</span>
+                </div> */}
+              {/* <div className="hostDetailCard-responseTime">{responceTime}</div> */}
+            </a>
             </Link>
-            {/* <div>5,150 trips<span className="hostDetailCard-dotSeparator"></span>
-                <span>Joined May 2016</span>
-              </div> */}
-            <div className="hostDetailCard-responseTime">{responceTime}</div>
           </div>
           {own && (
             <Icon
               name="pencil"
+              size='large'
+              style={{
+                position: 'absolute',
+                left: 32,
+                top: 16,
+              }}
               onClick={() => {
                 setEditMode(true);
               }}
@@ -199,7 +235,7 @@ export const UserCard: React.FunctionComponent<{
             isSubmitting,
             setFieldValue
           }) => (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="editform">
               {errors.firstname && touched.firstname && (
                 <div id="feedback">{errors.firstname}</div>
               )}
@@ -240,8 +276,8 @@ export const UserCard: React.FunctionComponent<{
               </div>
               <div
                 className="media-body hostDetailCard box"
-                style={{ width: "75%" }}
               >
+                 <label>{'نام کوچک'}</label>
                 <Input
                   type="text"
                   className="firstname"
@@ -251,6 +287,7 @@ export const UserCard: React.FunctionComponent<{
                   value={values.firstname}
                   name="firstname"
                 />
+                 <label>{'نام فامیلی'}</label>
                 <Input
                   type="text"
                   className="lastname"
@@ -266,17 +303,29 @@ export const UserCard: React.FunctionComponent<{
                 <div className="hostDetailCard-responseTime">
                   {values.responceTime}
                 </div>
-                <Input
-                  iconPosition="left"
-                  placeholder="نام کاربری"
-                  name="username"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.username}
-                >
-                  <Icon name="at" />
-                  <input />
-                </Input>
+                {username || makeUsername ?
+                  <>
+                    <label>{'نام کاربری'}</label>
+                    <Input
+                      iconPosition="left"
+                      placeholder="نام کاربری"
+                      name="username"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.username}
+                    >
+                      <Icon name="at" />
+                      <input />
+                    </Input>
+                  </>
+                  : 
+                  <span
+                    onClick={() => setMakeUsername(true)}
+                  >
+                    ایجاد لینک اختصاصی
+                  </span>
+                }
+                
               </div>
               <Button
                 style={{ height: "48px", marginTop: "16px" }}
