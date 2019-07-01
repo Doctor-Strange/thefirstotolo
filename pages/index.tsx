@@ -6,10 +6,32 @@ import Layout from '../src/components/Layout';
 import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import * as backgroundImage from '../static/back.jpg';
+import * as seoImage from '../static/index-landing.jpeg';
+import NextSeo from 'next-seo';
 import { i18n, Link, withTranslation } from '../src/i18n';
 
 const Page = props => (
   <Layout haveSubHeader={true} pageTitle={'Hello World'} bgImage={backgroundImage}>
+    {console.log(`https://otoli.net/${seoImage}`)}
+     <NextSeo
+        config={{
+            title: `اتولی | اجاره آسان خودرو`,
+            description: `اتولی | اجاره آسان خودرو`,
+            openGraph: {
+                title: `اتولی | اجاره آسان خودرو`,
+                description: `اتولی | اجاره آسان خودرو`,
+                images: [
+                  { url: `https://otoli.net${seoImage}` },
+                ],
+                site_name: 'اتولی',
+            },
+            twitter: {
+                handle: '@otoli_net',
+                site: '@otoli_net',
+                cardType: 'summary_large_image',
+            },
+        }}
+    />
     <Section justifyCenter={true}>
       <div className="hero_single version_4">
         <Flex justifyContent="space-around" className="wrapper">
