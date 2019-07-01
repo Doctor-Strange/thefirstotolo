@@ -143,24 +143,24 @@ export const UserCard: React.FunctionComponent<{
   own = false,
   onUpdate
 }) => {
-  const link = username ? `/@${username}` : `/user/${id}`;
+  let link;
+  own ? 
+    link = null 
+  : 
+    link = (username ? `/@${username}` : `/user/${id}`);
   const [editMode, setEditMode] = useState(false);
   const [makeUsername, setMakeUsername] = useState(false);
   const inputFile = useRef(null) 
   return (
+    <Link route={link}>
+    <a>
     <Card className="usercard">
       {!editMode ? (
         <>
           <div className="box">
-            <Link route={link}>
-              <a>
-                <img src={image} className="img-fluid" alt="" />
-              </a>
-            </Link>
+              <img src={image} className="img-fluid" alt="" />
           </div>
           <div className="media-body hostDetailCard box">
-            <Link route={link}>
-              <a>
                 <span className="name">
                   {firstname} {lastname}
                 </span>
@@ -168,8 +168,6 @@ export const UserCard: React.FunctionComponent<{
                   <span>Joined May 2016</span>
                 </div> */}
               {/* <div className="hostDetailCard-responseTime">{responceTime}</div> */}
-            </a>
-            </Link>
           </div>
           {own && (
             <Icon
@@ -343,5 +341,7 @@ export const UserCard: React.FunctionComponent<{
         />
       )}
     </Card>
+    </a>
+    </Link>
   );
 };
