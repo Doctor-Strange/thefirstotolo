@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Box, Flex } from "@rebass/grid";
 import {Link} from '../../../routes'
 import jsCookie from "js-cookie";
-import { Icon, Input, Button } from "semantic-ui-react";
+import { Icon, Input, Button, Grid} from "semantic-ui-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -325,17 +325,34 @@ export const UserCard: React.FunctionComponent<{
                 }
                 
               </div>
-              <Button
-                style={{ height: "48px", marginTop: "16px" }}
-                size="small"
-                fluid
-                basic
-                color="teal"
-                type="submit"
-                loading={isSubmitting}
-              >
-                {"ذخیره تغیرات"}
-              </Button>
+              <Grid.Row className="buttons" style={{width: `100%`,margin: '0 auto'}}>
+                  <Grid.Column width={8} style={{width:`48%`,marginLeft:`2%`}}>
+                      <Button
+                        style={{ height: "48px", marginTop: "16px" }}
+                        size="small"
+                        fluid
+                        color="teal"
+                        type="submit"
+                        loading={isSubmitting}
+                      >
+                        {"ذخیره تغیرات"}
+                      </Button>
+                  </Grid.Column>
+                  <Grid.Column width={8} style={{width:`48%`,marginRight:`2%`}}>
+                      <Button
+                        style={{ height: "48px", marginTop: "16px" }}
+                        size="small"
+                        basic
+                        fluid
+                        color="teal"
+                        onClick={() => {
+                          setEditMode(false);
+                        }}
+                      >
+                        {"لغو"}
+                    </Button>
+                  </Grid.Column>
+              </Grid.Row>
             </form>
           )}
         />
