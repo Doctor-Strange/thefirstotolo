@@ -25,7 +25,7 @@ export default withTranslation('common')(
       return (
         <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
           <Section justifyCenter={true}>
-            <Flex justifyContent="space-around" style={{ width: '600px' }}>
+            <Flex justifyContent="space-around" style={{ width: FORMS_WIDTH }}>
               <Box width={1 / 1} px={2}>
                 <SetCarTimingForm t={t} id={this.props.id} />
               </Box>
