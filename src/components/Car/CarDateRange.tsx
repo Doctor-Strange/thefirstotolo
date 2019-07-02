@@ -12,6 +12,7 @@ import {
     convertMomentsToDateRange,
     getBetweenRange
 } from '../../lib/date';
+import { lightTheme } from "../../theme/colors"; // fixme: serve colors only from styled-component
 
 const Line = styled.nav`
     .DatePicker {
@@ -33,8 +34,8 @@ export const CarDateRange: React.FunctionComponent<{
                         inputPlaceholder="انتخاب روزهای نمایش"
                         isDayRange
                         disableBackward
-                        colorPrimary={"#00ACC1"}
-                        colorPrimaryLight={"#00acc147"}
+                        colorPrimary={lightTheme.mainForeground}
+                        colorPrimaryLight={lightTheme.secondForeground}
                     />
                 }
                 {(!from && !to) &&
