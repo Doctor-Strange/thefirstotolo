@@ -59,12 +59,11 @@ interface IIndexFormValues {
 }
 
 interface IIndexForm {
-  t: any;
   success: boolean;
   name: string;
 }
 
-const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
+const IndexForm: React.SFC<IIndexForm> = ({}) => {
   const [error, setError] = useState('');
   const [name, setName] = useState('');
   const [success, setSuccess] = useState(false);
@@ -205,8 +204,8 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                           label={'خودرو را کجا تحویل می‌گیرید؟'}
                           name="carCity"
                           id="carCity"
-                          placeholder={t('carProperty.city')}
-                          noResultsMessage={t('forms.error_no_result_found')}
+                          placeholder={'شهر'}
+                          noResultsMessage={'نتیجه‌ای یافت نشد'}
                           selection
                           loading={citiesFarsi[0].value == null}
                           options={
@@ -269,7 +268,7 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
                             type="submit"
                             className="btn_1 full-width"
                           >
-                            {t('search')}
+                            {'جستوجو'}
                           </Button>
                         </Form.Field>
                       </Box>
@@ -290,7 +289,7 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
             </Form>
             {error && (
               <Label attached="bottom" color="red">
-                {t('forms.error')}
+                {'خطایی رخ داد'}
               </Label>
             )}
             {Object.keys(errors).length >= 1 && submitCount >= 1 && (
@@ -305,4 +304,4 @@ const IndexForm: React.SFC<IIndexForm> = ({ t }) => {
   );
 
 }
-export default withTranslation('common')(IndexForm);
+export default IndexForm;
