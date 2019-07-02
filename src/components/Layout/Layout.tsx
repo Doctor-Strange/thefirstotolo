@@ -7,13 +7,14 @@ import {
   Segment,
   Sidebar
 } from 'semantic-ui-react';
-import { ltrTheme, rtlTheme } from '../../theme/directions';
+import { rtlTheme, ltrTheme, lightTheme, darkTheme, spacing} from '../../theme';
 import { Header, SubHeader } from '../Header';
 import Footer from '../Footer';
 import Head from 'next/head';
 import Link from 'next/link';
 import { i18n, withTranslation } from '../../i18n';
 import { actions } from "../../store";
+import { ITheme } from "../../theme/Interfaces";
 
 class Layout extends React.Component<{
   haveSubHeader: boolean;
@@ -52,56 +53,20 @@ class Layout extends React.Component<{
   };
 
   render() {
-    const theme = i18n.language == 'en' ? ltrTheme : rtlTheme;
+    const directionTheme = i18n.language == 'en' ? ltrTheme : rtlTheme;
     console.log("i18n.language: ", i18n.language);
     const { t, pageTitle, children, bgImage } = this.props;
-    console.log("bgImage ", bgImage)
+    const theme: ITheme = {
+      lang: i18n.language,
+      direction: directionTheme,
+      color: lightTheme,
+      spacing: spacing,
+    }
     return (
       <ThemeProvider
-        theme={{
-          lang: i18n.language,
-          direction: theme
-        }}
+        theme={theme}
       >
-        {/* <Sidebar.Pushable>
-          <Sidebar
-            as={Menu}
-            animation="push"
-            icon="labeled"
-            inverted
-            onHide={this.handleSidebarHide}
-            vertical
-            visible={this.state.visible}
-            width="thin"
-          >
-            <Menu.Item as="a">
-              <Link href="/" shallow>
-                <span>
-                  <Icon name="home" />
-                  خانه
-                </span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item as="a"> {/* onClick={() => this.onClick()} * /}
-              <Link href="/add-car" shallow>
-                <span>
-                  <Icon name="add circle" />
-                  افزودن خودرو
-                </span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item as="a">
-              <Link href="/requests" shallow>
-                <span>
-                  <Icon name="map signs" />
-                  درخواست‌های اجاره
-                </span>
-              </Link>
-            </Menu.Item>
-          </Sidebar>
-
-          <Sidebar.Pusher dimmed={this.state.visible}> */}
-        <div id="layout" className={theme.direction}>
+        <div id="layout" className={theme.direction.direction}>
           <Head>
             <meta
               name="viewport"

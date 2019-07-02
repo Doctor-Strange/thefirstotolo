@@ -2,11 +2,12 @@ import * as React from 'react';
 import App, { Container } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import { GlobalStyle, lightTheme } from '../src/theme/globalStyle';
+import { rtlTheme, ltrTheme, lightTheme, GlobalStyle, darkTheme, spacing} from '../src/theme';
+import { ITheme } from "../src/theme/Interfaces";
 import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
 import { ToastContainer } from 'react-toastify';
 // upper line is becuase of https://github.com/zeit/next-plugins/issues/282
-import { appWithTranslation } from '../src/i18n';
+import { i18n, appWithTranslation } from '../src/i18n';
 import { Provider, actions } from '../src/store';
 import * as Sentry from '@sentry/browser';
 
@@ -82,9 +83,18 @@ class OtoliApp extends App {
   render() {
     const { props } = this as any;
     const { Component, pageProps } = props;
+    const directionTheme = i18n.language == 'en' ? ltrTheme : rtlTheme;
+    const theme: ITheme = {
+      lang: 'fa',
+      direction: directionTheme,
+      color: lightTheme,
+      spacing: spacing,
+    }
     return (
       <Container>
-        <GlobalStyle />
+        <GlobalStyle 
+        theme={theme}
+        />
         <Provider>
           <Component {...pageProps} />
           <ToastContainer />
