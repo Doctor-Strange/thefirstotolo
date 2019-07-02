@@ -1,4 +1,3 @@
-import { BoxedList } from './BoxedList';
 import { PriceCard } from './PriceCard';
 import { CarCard } from './CarCard';
 import { CarCardPlaceholder } from './CarCardPlaceholder';
@@ -8,7 +7,6 @@ import { RequestCardPlaceholder } from './RequestCardPlaceholder';
 import { Pelak, sizeType } from './Pelak';
 import { DateGrid } from './DateGrid';
 export {
-  BoxedList,
   CarCard,
   CarCardPlaceholder,
   PriceCard,
