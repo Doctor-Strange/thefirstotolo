@@ -98,7 +98,7 @@ const GlobalStyle = createGlobalStyle`
 
   .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
-    color: ${(props:{theme:ITheme}) => props.theme.color.textMain}
+    color: ${(props:{theme:ITheme}) => props.theme.color.textMain};
     margin-bottom: .5rem;
     font-family: inherit;
     font-weight: 500;
@@ -112,7 +112,6 @@ const GlobalStyle = createGlobalStyle`
 
   input,.dropdown[name="month"]{
     height:48px;
-    
   }
 
   @media (min-width: 768px){
@@ -397,27 +396,21 @@ const GlobalStyle = createGlobalStyle`
   .mt-1 {
     margin-top: .25rem!important;
   }
-
   .pt-2{
     padding-top:.5rem!important
   }
-
   .float-right {
       float: right!important;
   }
-
   .float-left {
       float: left!important;
   }
-
   .justify-content-center {
     justify-content: center!important;
   }
-
   .h1, h1 {
     font-size: 2.5rem;
   }
-
   .form-control {
     display: block;
     width: 100%;
@@ -1245,18 +1238,18 @@ const GlobalStyle = createGlobalStyle`
   /** end of focus colors **/
   .ui{
     .basic.button, .basic.buttons .button {
-      box-shadow: 0 0 0 1px #00ACC1 inset;
-      color: #00ACC1 !important;
+      box-shadow: 0 0 0 1px ${({theme}:{theme:ITheme}) => theme.color.mainForeground} inset;
+      color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground} !important;
     }
     .primary{
       &.button{
-        background-color: #00ACC1;
+        background-color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
         :hover{
-          background-color: #00BCD4;
+          background-color: ${({theme}:{theme:ITheme}) => theme.color.secondForeground};
           color: #fff !important;
         }
         :focus{
-          background-color: #0097A7;
+          background-color: ${({theme}:{theme:ITheme}) => theme.color.secondForeground};
         }
       }
     }
@@ -1675,7 +1668,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-transform-style: preserve-3d;
     transform-origin: 0 0;
     transform-style: flat;
-    background: #00ACC1 !important;
+    background: ${({theme}:{theme:ITheme}) => theme.color.mainForeground} !important;
   }
   /* Offset direction
   */
@@ -1960,7 +1953,7 @@ textarea {
     padding: 10px 24px;
     margin: 0;
     cursor: pointer;
-    background-color: #00ACC1;
+    background-color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
     display: block;
     width: 100%;
     text-align: center;
@@ -2476,30 +2469,6 @@ ul.bullets li {
       padding: .75rem;
       vertical-align: top;
       /* border-top: 1px solid #dee2e6; */
-  }
-}
-
-.navbar {
-  padding: 8px 0;
-  color: #141414;
-  background: #fff;
-  position: relative;
-  z-index: 999 !important;
-  text-align:center;
-  h4 {
-    margin: 8px 0 0 0;
-    padding: 0;
-    line-height: 1;
-    font-size: 16px;
-    font-size: 1rem;
-    direction: rtl;
-    line-height: 24px;
-    @media (max-width: 991px) {
-      margin: 5px 0 0 0;
-    }
-    @media (max-width: 767px) {
-      margin: 3px 0 0 0;
-    }
   }
 }
 

@@ -9,17 +9,12 @@ import { i18n, withTranslation } from '../../i18n';
 import ReactModal from 'react-modal';
 import LoginModal from '../Modals/LoginModal';
 import { connect } from '../../store';
+import { ITheme } from "../../theme/Interfaces";
 
 const HeaderSticky = styled.div`
   height: 64px;
   padding-top: 12px;
-  background-color:#1B1B1B;
-  p, span, a {
-    color: #f9f9f9 !important;
-  }
-  header {
-    
-  }
+  background-color: ${({theme}:{theme:ITheme}) => theme.color.darkBackground};
   @media (max-width: 767px) {
     padding:0;
     height: 56px;
@@ -27,73 +22,6 @@ const HeaderSticky = styled.div`
       top: 16px;
     }
   }
-  /* .logo_sticky {
-    display: none;
-  } */
-  .sticky {
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    -webkit-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    border-bottom: 1px solid #ededed;
-    background-color: #fff;
-    padding: 15px 20px;
-    @media (max-width: 991px) {
-      padding: 15px 15px 5px 15px;
-    }
-    .logo_normal {
-      display: none;
-    }
-    .logo_sticky {
-      display: inline-block;
-    }
-  }
-  .header_in {
-    padding: 10px 0;
-    background-color: #fff;
-    position: relative;
-    border-bottom: 1px solid #ededed;
-    @media (max-width: 991px) {
-      margin-top: 5px;
-      padding: 0;
-      border-bottom: none;
-      background: none;
-      #logo a {
-        z-index: 9;
-        position: relative;
-      }
-    }
-  }
-
-  .map_view {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
-
-  .sub_header_in {
-    background-color: #004dda;
-    padding: 20px 0;
-    h1 {
-      color: #fff;
-      margin: 0;
-      font-size: 26px;
-      font-size: 1.625rem;
-      @media (max-width: 575px) {
-        font-size: 18px;
-        font-size: 1.125rem;
-      }
-    }
-  }
-  .sub_header_in.sticky_header {
-    margin-top: 58px;
-    @media (max-width: 991px) {
-      margin-top: 48px;
-    }
-  }
-
   #logo {
     float: left;
     @media (max-width: 991px) {
@@ -106,15 +34,6 @@ const HeaderSticky = styled.div`
         height: 28px;
       }
     }
-  }
-
-  .sticky .hamburger-inner,
-  .sticky .hamburger-inner::before,
-  .sticky .hamburger-inner::after,
-  .header_in .hamburger-inner,
-  .header_in .hamburger-inner::before,
-  .header_in .hamburger-inner::after {
-    background-color: #444;
   }
 
   @media (max-width: 991px) {

@@ -5,12 +5,15 @@ export interface IDirection {
 }
 
 export interface IColors {
+    whiteBackground: string;
     lightBackground: string,
     darkBackground: string,
     mainForeground: string,
     secondForeground: string,
     textMain: string,
+    textMainAlter: string,
     textSecond: string,
+    textSecondAlter: string,
     textThird: string,
     extraColor: string;
 }

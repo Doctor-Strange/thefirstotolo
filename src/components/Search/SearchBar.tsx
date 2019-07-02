@@ -18,8 +18,30 @@ import { Box, Flex } from '@rebass/grid';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { ITheme } from "../../theme/Interfaces";
 
 const SearchResult = styled.div`
+  padding: 8px 0;
+  color: ${({theme}:{theme:ITheme}) => theme.color.textMain};
+  background: ${({theme}:{theme:ITheme}) => theme.color.whiteBackground};
+  position: relative;
+  z-index: 9;
+  text-align:center;
+  h4 {
+    margin: 8px 0 0 0;
+    padding: 0;
+    line-height: 1;
+    font-size: 16px;
+    font-size: 1rem;
+    direction: rtl;
+    line-height: 24px;
+    @media (max-width: 991px) {
+      margin: 5px 0 0 0;
+    }
+    @media (max-width: 767px) {
+      margin: 3px 0 0 0;
+    }
+  }
   @media (max-width: 767px) {
     padding: 12px 0;
   }
@@ -85,7 +107,7 @@ export class SearchBar extends React.Component<{
     }
     const textDate = ` از تاریخ ${convertNumbers2Persian(start)} تا ${convertNumbers2Persian(end)}`;
     return (
-      <SearchResult id="results" className="navbar">
+      <SearchResult id="results">
         <div className="container">
           <Flex justifyContent="space-around" className="row hide_on_mobile">
             <Box width={12 / 12} px={2}>
