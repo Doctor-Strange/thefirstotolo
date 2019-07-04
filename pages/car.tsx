@@ -7,7 +7,7 @@ import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
 import Carousel from 'nuka-carousel';
-import { PriceCard, UserCard } from '../src/components/Cards';
+import { PriceCard, UserCard, ContentCard} from '../src/components/Cards';
 import { Details, CarNav, CarSideCard } from '../src/components/Car';
 import { i18n, withTranslation } from '../src/i18n';
 import { REQUEST_getCar } from '../src/API';
@@ -209,112 +209,86 @@ export default withTranslation('common')(
                                 />
                             </aside>
                         }
-                        <div className="col-lg-8 car_det_wrapper" style={{
-                            position: 'relative',
-                            top: '-30px'
-                        }}>
-
-                            <section id="description" className="car_det">
-                                ‍<div className="detail_title_1">
-                                    {isMobile &&
-                                        <PriceCard style={{
-                                            display: 'inline-grid',
-                                            left: '10px',
-                                            top: '-15px',
-                                            position: 'absolute'
-                                        }} number={avg_price_per_day}>در روز</PriceCard>
-                                    }
-                                    {/* <div className="cat_star">
-                                    <i className="icon_star" /><i className="icon_star" /><i className="icon_star"></i
-                                    ><i className="icon_star" />
-                                </div> */}
-                                    <h1 style={{ fontSize: '22px' }}>{`${car.brand.name.fa} ${car.name.fa}`}</h1>
-                                    <span>{year.fa}</span> <br />
-                                    {/* <a
-                                    className="address"
-                                    href="https://www.goog504327!2d48.8568361"
-                                >۱۰ سفر  با امتیاز پنج ستاره</a
-                                > */}
-                                </div>
-                                <hr />
-                                <Details title="محل خودرو">
-                                    <p>{location.name.breadcrumb_fa}</p>
-                                    <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
-                                </Details>
-                                <Details title="محدودیت مسافت">
-                                    <ul className="">
-                                        <li>{max_km_per_day ? max_km_per_day + "کیلومتر" : "ندارد"}</li>
-                                        <li>{extra_km_price ? `هزینه هر کیلومتر اضافه ${extra_km_price} هزار تومان` : ""}</li>
-                                    </ul>
-                                </Details>
-                                <Details title="توضیحات">
-                                    {description ? description : "ندارد"}
-                                </Details>
-                                <Details title="مشخصات فنی">
-                                    <ul className="bullets">
-                                        <li>نوع بدنه: {body_style.fa}</li>
-                                        <li>دهنده {transmission_type.fa}</li>
-                                        <li>کارکرد: {mileage_range ? this.mileage_ranges[mileage_range.id + 1] : "صفر کیلومتر"}</li>
-                                        <li>ظرفیت: {capacity}</li>
-                                    </ul>
-                                </Details>
-                                <Details title="امکانات">
-                                    <div className="row add_bottom_30not">
-                                        <div className="col-6">
-                                            <ul className="bullets">
-                                                {facility_set.map((value, index) => (<li>{value.name}</li>))}
-                                            </ul>
-                                        </div>
-                                        {/* <div className="col-6">
-                                        <ul className="bullets">
-                                            <li>ماساژور صندلی</li>
-                                            <li>دنده ۲۳تایی</li>
-                                            <li>آب‌سرد کن</li>
-                                            <li>نون گرم </li>
-                                        </ul>
-                                    </div> */}
-                                    </div>
-                                </Details>
-                                {/* <Details title="کارکرد">
-                                {mileage_range ? this.mileage_ranges[mileage_range.id + 1] : "صفر کیلومتر"}
-                            </Details> */}
-                                <Details title="قوانین کنسلی">
-                                    {cancellation_policy ? cancellation_policy : "ندارد"}
-                                </Details>
+                       <ContentCard style={{ top: '-30px'}}>
+                            ‍<div className="detail_title_1">
                                 {isMobile &&
-                                    <div className="strip grid usercard">
-                                        <UserCard
-                                            id={owner.id}
-                                            firstname={owner.first_name}
-                                            lastname={owner.last_name}
-                                            username={owner.username}
-                                            responceTime="میانگین زمان پاسخگویی: نامشخص"
-                                            image={owner.image_url}
-                                        />
-                                    </div>
+                                    <PriceCard style={{
+                                        display: 'inline-grid',
+                                        left: '10px',
+                                        top: '-15px',
+                                        position: 'absolute'
+                                    }} number={avg_price_per_day}>در روز</PriceCard>
                                 }
-                                {/* <h3>Prices</h3>
-                            <table className="table table-striped add_bottom_45">
-                                <tbody>
-                                    <tr>
-                                        <td>Low (from 23/03 to 31/05)</td>
-                                        <td>140$</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Middle (from 23/03 to 31/05)</td>
-                                        <td>180$</td>
-                                    </tr>
-                                    <tr>
-                                        <td>High (from 23/03 to 31/05)</td>
-                                        <td>200$</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                {/* <div className="cat_star">
+                                <i className="icon_star" /><i className="icon_star" /><i className="icon_star"></i
+                                ><i className="icon_star" />
+                            </div> */}
+                                <h1 style={{ fontSize: '22px' }}>{`${car.brand.name.fa} ${car.name.fa}`}</h1>
+                                <span>{year.fa}</span> <br />
+                                {/* <a
+                                className="address"
+                                href="https://www.goog504327!2d48.8568361"
+                            >۱۰ سفر  با امتیاز پنج ستاره</a
+                            > */}
+                            </div>
                             <hr />
-                            <h3>Location</h3>
-                            <div id="map" className="map map_single add_bottom_45"></div> */}
-                            </section>
-                        </div>
+                            <Details title="محل خودرو">
+                                <p>{location.name.breadcrumb_fa}</p>
+                                <p>{deliver_at_renters_place ? "تحویل در محل شما" : ""}</p>
+                            </Details>
+                            <Details title="محدودیت مسافت">
+                                <ul className="">
+                                    <li>{max_km_per_day ? max_km_per_day + "کیلومتر" : "ندارد"}</li>
+                                    <li>{extra_km_price ? `هزینه هر کیلومتر اضافه ${extra_km_price} هزار تومان` : ""}</li>
+                                </ul>
+                            </Details>
+                            <Details title="توضیحات">
+                                {description ? description : "ندارد"}
+                            </Details>
+                            <Details title="مشخصات فنی">
+                                <ul className="bullets">
+                                    <li>نوع بدنه: {body_style.fa}</li>
+                                    <li>دهنده {transmission_type.fa}</li>
+                                    <li>کارکرد: {mileage_range ? this.mileage_ranges[mileage_range.id + 1] : "صفر کیلومتر"}</li>
+                                    <li>ظرفیت: {capacity}</li>
+                                </ul>
+                            </Details>
+                            <Details title="امکانات">
+                                <div className="row add_bottom_30not">
+                                    <div className="col-6">
+                                        <ul className="bullets">
+                                            {facility_set.map((value, index) => (<li>{value.name}</li>))}
+                                        </ul>
+                                    </div>
+                                    {/* <div className="col-6">
+                                    <ul className="bullets">
+                                        <li>ماساژور صندلی</li>
+                                        <li>دنده ۲۳تایی</li>
+                                        <li>آب‌سرد کن</li>
+                                        <li>نون گرم </li>
+                                    </ul>
+                                </div> */}
+                                </div>
+                            </Details>
+                            {/* <Details title="کارکرد">
+                            {mileage_range ? this.mileage_ranges[mileage_range.id + 1] : "صفر کیلومتر"}
+                            </Details> */}
+                            <Details title="قوانین کنسلی">
+                                {cancellation_policy ? cancellation_policy : "ندارد"}
+                            </Details>
+                            {isMobile &&
+                                <div className="strip grid usercard">
+                                    <UserCard
+                                        id={owner.id}
+                                        firstname={owner.first_name}
+                                        lastname={owner.last_name}
+                                        username={owner.username}
+                                        responceTime="میانگین زمان پاسخگویی: نامشخص"
+                                        image={owner.image_url}
+                                    />
+                                </div>
+                            }
+                        </ContentCard>
                     </Section>
                     <Section id="reviews" justifyCenter={false}>
                         {/* <h2>نظرات</h2> */}

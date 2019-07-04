@@ -18,13 +18,17 @@ import {
 } from "react-device-detect";
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
+import { ITheme } from "../../theme/Interfaces";
 
 const Card = styled.div`
     direction: rtl;
     margin-top: 16px;
     margin-bottom: 16px;
     .label{
-        background: #f7f7f7;
+        background: ${({theme}:{theme:ITheme}) => theme.color.cardLabels};
+    }
+    .maincolor { 
+        color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
     }
     .ui.padded.segment {
         padding: 8px 8px 16px 8px;
@@ -478,14 +482,15 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                                         {statusOwner === "owner" &&
                                             <>
                                                 {isMobile &&
-                                                    <a href={`tel:${ownerPhone}`} style={{ color: '#00ACC1' }}>
+                                                    <a href={`tel:${ownerPhone}`} className="maincolor">
                                                         تماس با  درخواست‌دهنده
                                                 </a>
                                                 }
                                                 {isBrowser &&
                                                     <Button
                                                         basic
-                                                        style={{ color: '#00ACC1', boxShadow: 'none' }}
+                                                        className="maincolor"
+                                                        style={{ boxShadow: 'none' }}
                                                         onClick={() => openPhoneModal()}
                                                     >
                                                         تماس با  درخواست‌دهنده

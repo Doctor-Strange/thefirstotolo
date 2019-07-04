@@ -3,10 +3,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Button, Icon } from 'semantic-ui-react'
 import * as CardsAll from '../../../static/cards_all.svg';
+import { ITheme } from "../../theme/Interfaces";
 
 const FooterTag = styled.footer`
-  border-top: 1px solid #ededed;
+  border-top: 1px solid ${({theme}:{theme:ITheme}) => theme.color.cardLabels};
   background-color: #fff;
+  .container{
+    padding-top: 60px;
+    padding-bottom: 35px;
+  }
   h3 {
     margin: 0 0 15px 0;
     font-size: 18px;
@@ -22,7 +27,7 @@ const FooterTag = styled.footer`
     display: block;
     cursor: default;
     @media (max-width: 575px) {
-      border-bottom: 1px solid #ededed;
+      border-bottom: 1px solid ${({theme}:{theme:ITheme}) => theme.color.cardLabels};
       padding: 12px 0;
     }
     .circle-plus {
@@ -49,15 +54,10 @@ const FooterTag = styled.footer`
         transition: all 0.3s ease-in-out;
         display: inline-block;
         position: relative;
-        color: #555;
+        color: ${({theme}:{theme:ITheme}) => theme.color.textThird};
         :hover {
-          color: #004dda;
+          color:${({theme}:{theme:ITheme}) => theme.color.mainForeground};
           opacity: 1;
-        }
-        a,
-        a i {
-          margin-right: 10px;
-          color: #fff;
         }
       }
     }
@@ -74,7 +74,7 @@ const FooterTag = styled.footer`
         }
         :hover:after {
           opacity: 1;
-          color: #004dda;
+          color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
         }
       }
     }
@@ -91,7 +91,7 @@ const FooterTag = styled.footer`
       position: absolute;
       top: 0;
       left: 0;
-      color: #004dda;
+      color: ${({theme}:{theme:ITheme}) => theme.color.textThird};
       line-height: 1;
       font-size: 18px;
       font-size: 1.125rem;
@@ -111,11 +111,9 @@ const FooterTag = styled.footer`
       font-size: 20px;
       font-size: 1.25rem;
       a i {
-        color: #555;
         opacity: 0.6;
         :hover {
           opacity: 1;
-          color: #004dda;
         }
       }
     }
@@ -129,50 +127,13 @@ const FooterTag = styled.footer`
     border: none;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.05);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
     border-radius: 3px;
     padding-right: 35px;
     position: relative;
   }
 
-  .styled-select#lang-selector {
-    color: #555;
-  }
-
-  .styled-select#currency-selector:after {
-    color: #555;
-    position: absolute;
-    right: 10px;
-    top: 0;
-  }
-
-  select {
-    background: transparent;
-    width: 110%;
-    padding-left: 10px;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    height: 30px;
-    color: #555;
-    font-size: 12px;
-    font-size: 0.75rem;
-    margin: 0;
-    font-weight: 500;
-    cursor: pointer;
-    outline: none;
-    :focus {
-      color: #555;
-      outline: none;
-      box-shadow: none;
-    }
-  }
-
   hr {
     margin: 30px 0 30px 0;
-    border-color: #ddd;
     border: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
@@ -302,7 +263,7 @@ const Footer: React.FunctionComponent = ({ changeLangFunc }) => (
   <>
     <div id="toTop" />
     <FooterTag className="plus_border">
-      <div className="container margin_60_35">
+      <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-6 col-sm-6">
             <a

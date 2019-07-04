@@ -65,6 +65,10 @@ const BoxAccount = styled.div`
   input[name="day"] {
     margin-bottom: 0px !important;
   }
+
+  input,.dropdown[name="month"]{
+    height:48px;
+  }
 `;
 
 interface ICompleteRegisterFormValues {

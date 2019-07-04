@@ -1,4 +1,5 @@
 import { PriceCard } from './PriceCard';
+import { ContentCard } from "./ContentCard";
 import { CarCard } from './CarCard';
 import { CarCardPlaceholder } from './CarCardPlaceholder';
 import { UserCard } from './UserCard';
@@ -15,5 +16,6 @@ export {
   RequestCardPlaceholder,
   Pelak,
   sizeType,
-  DateGrid
+  DateGrid,
+  ContentCard,
 };

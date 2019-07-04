@@ -105,36 +105,6 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.2;
   }
 
-  .margin_60_35 {
-    padding-top: 60px;
-    padding-bottom: 35px;
-  }
-
-  input,.dropdown[name="month"]{
-    height:48px;
-  }
-
-  @media (min-width: 768px){
-    #field_input_year,#field_dropdown_month{
-      margin-top:25px;
-    }
-    .car_det_wrapper {
-      z-index: -1;
-      &.checkout{
-        z-index: 1;
-        .car_det {
-          padding: 25px 16px 15px 16px;
-        }
-      }
-      .car_det {
-        background-color: #fff;
-        padding: 25px 25px 15px 25px;
-        box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
-        border-radius: 3px;
-        margin-bottom: 30px;
-      }
-    }
-  }
   /**============================== Bootstrap Styles ==============================**/
   .container {
     width: 100%;
@@ -629,17 +599,6 @@ const GlobalStyle = createGlobalStyle`
     .margin_60 {
       padding-top: 30px;
       padding-bottom: 30px;
-    }
-  }
-
-  .margin_60_35 {
-    padding-top: 60px;
-    padding-bottom: 35px;
-  }
-  @media (max-width: 575px) {
-    .margin_60_35 {
-      padding-top: 30px;
-      padding-bottom: 5px;
     }
   }
 

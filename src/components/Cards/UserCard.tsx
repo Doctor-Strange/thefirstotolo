@@ -17,6 +17,7 @@ import {
   convertNumbers2English
 } from "../../lib/numbers";
 import { Formik, FormikActions, withFormik } from "formik";
+import { ITheme } from "../../theme/Interfaces";
 
 const Card = styled.figure`
   padding: 16px;
@@ -30,12 +31,6 @@ const Card = styled.figure`
   @media (max-width: 768px) {
     /* width: 97vw;
     max-width: 400px; */
-  }
-  .roundedBadge {
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.13);
-    padding: 5px 15px;
   }
   .profilePhotoWithRating-badge {
     position: relative;
@@ -54,7 +49,6 @@ const Card = styled.figure`
       transform: translateY(-2px);
     }
     .hostDetailCard-responseTime {
-      color: #949494;
       margin-top: 2px;
     }
   }
@@ -72,7 +66,7 @@ const Card = styled.figure`
     font-size: 16px;
   }
   .name {
-    color: #333;
+    color: ${({theme}:{theme:ITheme}) => theme.color.textMain};
   }
   .editform {
     width: 100%;

@@ -15,7 +15,8 @@ export interface IColors {
     textSecond: string,
     textSecondAlter: string,
     textThird: string,
-    extraColor: string;
+    extraColor: string,
+    cardLabels: string,
 }
 
 export interface ISpacing {
