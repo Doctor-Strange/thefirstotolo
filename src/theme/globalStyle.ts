@@ -145,10 +145,6 @@ const GlobalStyle = createGlobalStyle`
     .justInMobile {
       display: none;
     }
-    .carcard {
-        margin-right: auto;
-        margin-left: auto;
-    }
   }
   @media (max-width: 992px){
     .profile_page,#checkout{
@@ -184,24 +180,6 @@ const GlobalStyle = createGlobalStyle`
       .carcard{
         width: 375px;
       }
-    }
-  }
-
-  ul.slider-list {
-    max-height: 550px;
-  }
-
-  @media (max-width: 768px){
-    .slider-control-centerleft,.slider-control-centerright {
-        display: none;
-    }
-    .carcards_section{
-      padding-right: 0px !important;
-      padding-left: 0px !important;
-    }
-    .carcard {
-      width: 97vw !important;
-      max-width: 400px !important;
     }
   }
 
@@ -869,7 +847,8 @@ const GlobalStyle = createGlobalStyle`
     direction:ltr !important;
     text-align:left !important;
 
-    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button { /*For Webkits like Chrome and Safari*/
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+      /*For Webkits like Chrome and Safari*/
       -webkit-appearance: none;
       margin: 0;
     }
@@ -974,6 +953,31 @@ const GlobalStyle = createGlobalStyle`
   .form .field>.selection.dropdown {
     min-height: 48px;
   }
+
+
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select:focus,
+textarea {
+  /* font-size: 16px !important; */
+}
+
+textarea {
+  direction:rtl;
+}
+
   /**============================== Colors of semantic UI==============================*/
 
   /** focus colors **/
@@ -1020,6 +1024,73 @@ const GlobalStyle = createGlobalStyle`
           background-color: ${({theme}:{theme:ITheme}) => theme.color.secondForeground};
         }
       }
+    }
+  }
+
+/**============================== Date Picker ==============================*/
+.DatePicker__calendarContainer {
+  opacity: 1;
+  z-index:99;
+}
+
+.DatePicker__calendarContainer.fadein {
+  opacity: 0;
+  animation: fadeIn 0.1s ease-in;
+  transition: all 0.1s ease-in;
+}
+
+.DatePicker__calendarContainer.fadeout {
+  opacity: 0;
+  animation: fadeOut 0.4s ease-in;
+  transition: all 0.4s ease-in;
+  transform: translateX(-50%);
+}
+
+.DatePicker__calendarContainer {
+  top: calc(94% + -2em);
+  transition: all .5s;
+  transform: translateX(-50%);
+}
+.Calendar {
+    /* box-shadow: 0 1em 4em 3px rgba(0, 0, 0, 0.38); */
+}
+.Calendar::after {
+  display:none !important;
+  border-color:transparent transparent transparent transparent;
+}
+@media (max-width: 767px) {
+  .DatePicker__calendarContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: none !important;
+    height: 100vh;
+    width: 100vw;
+    background: #0000005e;
+    .Calendar{
+      margin: 0 auto;
+      transform: translateY(50%);
+    }
+  }
+}
+
+
+  /**============================== Other ==============================*/
+  ul.slider-list {
+    max-height: 550px;
+  }
+
+  @media (max-width: 768px){
+    .slider-control-centerleft,.slider-control-centerright {
+        display: none;
+    }
+    .carcards_section{
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+    }
+    .carcard {
+      width: 97vw !important;
+      max-width: 400px !important;
     }
   }
 
@@ -1117,85 +1188,6 @@ const GlobalStyle = createGlobalStyle`
         }
       }
     }
-    .index-box {
-      .field>.selection.dropdown {
-        min-width: 149px !important;
-      }
-      .field>label {
-        font-weight: 500;
-      }
-      background-color: #FFFFFF;
-      border-radius: 4px;
-      box-shadow: 0 2 0 5px #000000;
-      padding: 32px;
-      width: 100%;
-      @media (min-width: 768px) {
-        width: 100٪;
-      }
-      @media (min-width: 768px) {
-        width: 723px;
-      }
-      @media (min-width: 992px) {
-        width: 933px;
-      }
-      @media (min-width: 1200px) {
-        width: 1056px;
-      }
-      &>div {
-        padding: 0px 8px;
-        @media (min-width: 992px) {
-          :nth-child(2) {
-            padding-left: 0px;
-            input.DatePicker__input {
-              border-bottom-left-radius: 0;
-              border-top-left-radius: 0;
-              border-left:none;
-            }
-          }
-          :nth-child(3) {
-            padding-right: 0px;
-            input.DatePicker__input {
-              border-bottom-right-radius: 0;
-              border-top-right-radius: 0;
-            }
-          }
-        }
-      }
-      .pickerbox {
-        width:50%
-      }
-      .field {
-        margin-bottom: 4px !important;
-      }
-      
-      .btn_1 {
-        bottom: -25px;
-        position: relative;
-      }
-      input.DatePicker__input {
-        cursor: pointer;
-      }
-    }
-    ul.counter {
-      margin: 10px 0 0 0;
-      padding: 0;
-      text-align: center;
-      /* @media (max-width: 767px) {
-          display: none;
-      } */
-      li {
-        padding: 0  10px;
-        display: inline-block;
-        font-size: 18px;
-        font-size: 1.125rem;
-        border-right: 1px solid #fff;
-        text-align: right;
-        :last-child {
-          border-right: none;
-          text-align: left;
-        }
-      }
-    }
   }
   div#filters{
     min-height: 0px;
@@ -1225,111 +1217,6 @@ const GlobalStyle = createGlobalStyle`
     height: 0px;
     visibility: hidden;
     overflow: hidden;
-  }
-
-  /*   react-input-range */
-  .input-range__slider {
-    appearance: none;
-    background: #ffffff;
-    border: 2px solid #3f51b5;
-    border-radius: 100%;
-    cursor: pointer;
-    display: block;
-    height: 1.1rem;
-    margin-left: -0.5rem;
-    margin-top: -0.65rem;
-    outline: none;
-    position: absolute;
-    top: 50%;
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-    width: 1.1rem;
-    :active {
-      transform: scale(1.3);
-    }
-    :focus {
-      box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2);
-    }
-  }
-  .input-range--disabled .input-range__slider {
-    background: #cccccc;
-    border: 1px solid #cccccc;
-    box-shadow: none;
-    transform: none; }
-
-  .input-range__slider-container {
-    transition: left 0.3s ease-out; }
-
-  .input-range__label {
-    color: #aaaaaa;
-    font-family: "Helvetica Neue", san-serif;
-    font-size: 0.8rem;
-    transform: translateZ(0);
-    white-space: nowrap; }
-
-  .input-range__label--min,
-  .input-range__label--max {
-    bottom: -1.4rem;
-    position: absolute; }
-
-  .input-range__label--min {
-    left: 0; }
-
-  .input-range__label--max {
-    right: 0; }
-
-  .input-range__label--value {
-    position: absolute;
-    top: -1.8rem; }
-
-  .input-range__label-container {
-    left: -50%;
-    position: relative; }
-    .input-range__label--max .input-range__label-container {
-      left: 50%; }
-
-  .input-range__track {
-    background: #eeeeee;
-    border-radius: 0.3rem;
-    cursor: pointer;
-    display: block;
-    height: 0.3rem;
-    position: relative;
-    transition: left 0.3s ease-out, width 0.3s ease-out; }
-    .input-range--disabled .input-range__track {
-      background: #eeeeee; }
-
-  .input-range__track--background {
-    left: 0;
-    margin-top: -0.15rem;
-    position: absolute;
-    right: 0;
-    top: 50%; }
-
-  .input-range__track--active {
-    background: #3f51b5; }
-
-  .input-range {
-    height: 1rem;
-    position: relative;
-    width: 100%;
-    direction: ltr;
-  }
-
-  .noUi-horizontal {
-    height: 8px !important;
-    border: 1px solid #00000024;
-    background: none !important;
-  }
-
-  .noUi-handle {
-    top: -8px !important;
-    width: 25px !important;
-    height: 25px !important;
-    border-radius: 50% !important;
-    box-shadow: none !important;
-  }
-  .noUi-handle:before, .noUi-handle:after {
-      content: none !important;
   }
 
   #filters_col {
@@ -1365,30 +1252,10 @@ const GlobalStyle = createGlobalStyle`
       right: -7px;
   }
 
-input[type="color"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="email"],
-input[type="month"],
-input[type="number"],
-input[type="password"],
-input[type="search"],
-input[type="tel"],
-input[type="text"],
-input[type="time"],
-input[type="url"],
-input[type="week"],
-select:focus,
-textarea {
-  /* font-size: 16px !important; */
-}
 
-textarea {
-  direction:rtl;
-}
 
-.DateInput_input{
+
+  .DateInput_input{
   text-align:center;
 }
 
@@ -1571,22 +1438,6 @@ textarea {
   background: #004dda !important;
 }
 
-a.address {
-  display: inline-block;
-  font-weight: 500;
-  color: #999;
-  line-height: 1;
-}
-a.address:before {
-  font-family: 'ElegantIcons';
-  content: "\e01c";
-  margin-right: 5px;
-  display: inline-block;
-}
-a.address:hover {
-  color: #004dda;
-}
-
 ul.bullets {
   line-height: 1.8;
   margin: 0;
@@ -1601,71 +1452,10 @@ ul.bullets li {
     font-size: 1.25rem;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0,0,0,.05);
-}
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-    background-color: transparent;
-    td, th {
-      padding: .75rem;
-      vertical-align: top;
-      /* border-top: 1px solid #dee2e6; */
-  }
-}
-
 .slider {
   height: 100% !important;
 }
 
-
-
-.DatePicker__calendarContainer {
-  opacity: 1;
-  z-index:99;
-}
-
-.DatePicker__calendarContainer.fadein {
-  opacity: 0;
-  animation: fadeIn 0.1s ease-in;
-  transition: all 0.1s ease-in;
-}
-
-.DatePicker__calendarContainer.fadeout {
-  opacity: 0;
-  animation: fadeOut 0.4s ease-in;
-  transition: all 0.4s ease-in;
-  transform: translateX(-50%);
-}
-
-.DatePicker__calendarContainer {
-  top: calc(94% + -2em);
-  transition: all .5s;
-  transform: translateX(-50%);
-}
-.Calendar {
-    /* box-shadow: 0 1em 4em 3px rgba(0, 0, 0, 0.38); */
-}
-.Calendar::after {
-  display:none !important;
-  border-color:transparent transparent transparent transparent;
-}
-@media (max-width: 767px) {
-  .DatePicker__calendarContainer{
-    position: fixed;
-    top: 0;
-    left: 0;
-    transform: none !important;
-    height: 100vh;
-    width: 100vw;
-    background: #0000005e;
-    .Calendar{
-      margin: 0 auto;
-      transform: translateY(50%);
-    }
-  }
-}
 `;
 
 enum Margin {
