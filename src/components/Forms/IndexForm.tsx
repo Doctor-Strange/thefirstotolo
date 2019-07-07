@@ -50,7 +50,65 @@ function clearNumber(x) {
 }
 
 const BoxAccount = styled.div`
+  .index-box {
+    .field>.selection.dropdown {
+      min-width: 149px !important;
+    }
+    .field>label {
+      font-weight: 500;
+    }
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 2 0 5px #000000;
+    padding: 32px;
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 100٪;
+    }
+    @media (min-width: 768px) {
+      width: 723px;
+    }
+    @media (min-width: 992px) {
+      width: 933px;
+    }
+    @media (min-width: 1200px) {
+      width: 1056px;
+    }
+    &>div {
+      padding: 0px 8px;
+      @media (min-width: 992px) {
+        :nth-child(2) {
+          padding-left: 0px;
+          input.DatePicker__input {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+            border-left:none;
+          }
+        }
+        :nth-child(3) {
+          padding-right: 0px;
+          input.DatePicker__input {
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+          }
+        }
+      }
+    }
+    .pickerbox {
+      width:50%
+    }
+    .field {
+      margin-bottom: 4px !important;
+    }
 
+    .btn_1 {
+      bottom: -25px;
+      position: relative;
+    }
+    input.DatePicker__input {
+      cursor: pointer;
+    }
+  }
 `;
 
 interface IIndexFormValues {

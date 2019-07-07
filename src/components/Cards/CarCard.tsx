@@ -109,12 +109,6 @@ const Card = styled.div`
     p {
       margin-bottom: 15px;
     }
-    a.address {
-      display: inline-block;
-      font-weight: 500;
-      color: #999;
-      line-height: 1;
-    }
   }
   ul {
     padding: 0px 0px 0px 0px;
@@ -190,6 +184,11 @@ const Card = styled.div`
     margin: 0 5px 0 5px;
     color: #3e3e3e !important;
   
+  }
+
+  @media (min-width: 768px){
+    margin-right: auto;
+    margin-left: auto;
   }
 `;
 
