@@ -1391,292 +1391,6 @@ const GlobalStyle = createGlobalStyle`
       right: -7px;
   }
 
-
-
-  .noUi-target,
-  .noUi-target * {
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-user-select: none;
-    -ms-touch-action: none;
-    touch-action: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-  .noUi-target {
-    position: relative;
-    direction: ltr;
-  }
-  .noUi-base,
-  .noUi-connects {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 1;
-  }
-  /* Wrapper for all connect elements. */
-  .noUi-connects {
-    overflow: hidden;
-    z-index: 0;
-  }
-  .noUi-connect,
-  .noUi-origin {
-    will-change: transform;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    -ms-transform-origin: 0 0;
-    -webkit-transform-origin: 0 0;
-    -webkit-transform-style: preserve-3d;
-    transform-origin: 0 0;
-    transform-style: flat;
-    background: ${({theme}:{theme:ITheme}) => theme.color.mainForeground} !important;
-  }
-  /* Offset direction
-  */
-  html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
-    left: auto;
-    right: 0;
-  }
-  /* Give origins 0 height/width so they don't interfere with clicking the
-  * connect elements.
-  */
-  .noUi-vertical .noUi-origin {
-    width: 0;
-  }
-  .noUi-horizontal .noUi-origin {
-    height: 0;
-  }
-.noUi-handle {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  position: absolute;
-}
-.noUi-touch-area {
-  height: 100%;
-  width: 100%;
-}
-.noUi-state-tap .noUi-connect,
-.noUi-state-tap .noUi-origin {
-  -webkit-transition: transform 0.3s;
-  transition: transform 0.3s;
-}
-.noUi-state-drag * {
-  cursor: inherit !important;
-}
-/* Slider size and handle placement;
- */
-.noUi-horizontal {
-  height: 18px;
-}
-.noUi-horizontal .noUi-handle {
-  width: 34px;
-  height: 28px;
-  left: -17px;
-  top: -6px;
-}
-.noUi-vertical {
-  width: 18px;
-}
-.noUi-vertical .noUi-handle {
-  width: 28px;
-  height: 34px;
-  left: -6px;
-  top: -17px;
-}
-html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
-  right: -17px;
-  left: auto;
-}
-/* Styling;
- * Giving the connect element a border radius causes issues with using transform: scale
- */
-.noUi-target {
-  background: #FAFAFA;
-  border-radius: 4px;
-  border: 1px solid #D3D3D3;
-  box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
-}
-.noUi-connects {
-  border-radius: 3px;
-}
-.noUi-connect {
-  background: #3FB8AF;
-}
-/* Handles and cursors;
- */
-.noUi-draggable {
-  cursor: ew-resize;
-}
-.noUi-vertical .noUi-draggable {
-  cursor: ns-resize;
-}
-.noUi-handle {
-  border: 1px solid #D9D9D9;
-  border-radius: 3px;
-  background: #FFF;
-  cursor: default;
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
-}
-.noUi-active {
-  box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #DDD, 0 3px 6px -3px #BBB;
-}
-/* Handle stripes;
- */
-.noUi-handle:before,
-.noUi-handle:after {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 14px;
-  width: 1px;
-  background: #E8E7E6;
-  left: 14px;
-  top: 6px;
-}
-.noUi-handle:after {
-  left: 17px;
-}
-.noUi-vertical .noUi-handle:before,
-.noUi-vertical .noUi-handle:after {
-  width: 14px;
-  height: 1px;
-  left: 6px;
-  top: 14px;
-}
-.noUi-vertical .noUi-handle:after {
-  top: 17px;
-}
-/* Disabled state;
- */
-[disabled] .noUi-connect {
-  background: #B8B8B8;
-}
-[disabled].noUi-target,
-[disabled].noUi-handle,
-[disabled] .noUi-handle {
-  cursor: not-allowed;
-}
-/* Base;
- *
- */
-.noUi-pips,
-.noUi-pips * {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.noUi-pips {
-  position: absolute;
-  color: #999;
-}
-/* Values;
- *
- */
-.noUi-value {
-  position: absolute;
-  white-space: nowrap;
-  text-align: center;
-}
-.noUi-value-sub {
-  color: #ccc;
-  font-size: 10px;
-}
-/* Markings;
- *
- */
-.noUi-marker {
-  position: absolute;
-  background: #CCC;
-}
-.noUi-marker-sub {
-  background: #AAA;
-}
-.noUi-marker-large {
-  background: #AAA;
-}
-/* Horizontal layout;
- *
- */
-.noUi-pips-horizontal {
-  padding: 10px 0;
-  height: 80px;
-  top: 100%;
-  left: 0;
-  width: 100%;
-}
-.noUi-value-horizontal {
-  transform: translate(-50%, 50%);
-}
-.noUi-rtl .noUi-value-horizontal {
-  transform: translate(50%, 50%);
-}
-.noUi-marker-horizontal.noUi-marker {
-  margin-left: -1px;
-  width: 2px;
-  height: 5px;
-}
-.noUi-marker-horizontal.noUi-marker-sub {
-  height: 10px;
-}
-.noUi-marker-horizontal.noUi-marker-large {
-  height: 15px;
-}
-/* Vertical layout;
- *
- */
-.noUi-pips-vertical {
-  padding: 0 10px;
-  height: 100%;
-  top: 0;
-  left: 100%;
-}
-.noUi-value-vertical {
-  transform: translate(0, -50%);
-  padding-left: 25px;
-}
-.noUi-rtl .noUi-value-vertical {
-  transform: translate(0, 50%);
-}
-.noUi-marker-vertical.noUi-marker {
-  width: 5px;
-  height: 2px;
-  margin-top: -1px;
-}
-.noUi-marker-vertical.noUi-marker-sub {
-  width: 10px;
-}
-.noUi-marker-vertical.noUi-marker-large {
-  width: 15px;
-}
-.noUi-tooltip {
-  display: block;
-  position: absolute;
-  border: 1px solid #D9D9D9;
-  border-radius: 3px;
-  background: #fff;
-  color: #000;
-  padding: 5px;
-  text-align: center;
-  white-space: nowrap;
-}
-.noUi-horizontal .noUi-tooltip {
-  transform: translate(-50%, 0);
-  left: 50%;
-  bottom: 120%;
-}
-.noUi-vertical .noUi-tooltip {
-  transform: translate(0, -50%);
-  top: 50%;
-  right: 120%;
-}
-
-
 input[type="color"],
 input[type="date"],
 input[type="datetime"],
@@ -1703,7 +1417,6 @@ textarea {
 .DateInput_input{
   text-align:center;
 }
-
 
 .swal-overlay--show-modal .swal-modal {
     animation: none !important;
@@ -1777,9 +1490,6 @@ textarea {
 }
 .hero_in.shop_detail:before {
   background: url(../img/hero_in_shop_detail.jpg) center center no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
 }
 .hero_in.shop_detail .wrapper {
@@ -1795,9 +1505,6 @@ textarea {
 }
 .hero_in.hotels_detail:before {
   background: url(../img/hero_in_hotels_detail.jpg) center center no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
 }
 .hero_in.hotels_detail .wrapper {
@@ -1842,12 +1549,7 @@ textarea {
   left: 20px;
   bottom: 20px;
   background-color: #fff;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
   border-radius: 3px;
-  -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
   line-height: 1;
   padding: 10px 15px;
@@ -1865,58 +1567,13 @@ textarea {
   }
   100% {
     opacity: 1;
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
     transform: scale(1.1);
   }
 }
-.secondary_nav {
-  background: #004dda;
-  padding: 15px 0;
-}
-.secondary_nav.is_stuck {
-  z-index: 99;
-  width: 100% !important;
-  left: 0;
-}
-.secondary_nav ul {
-  margin-bottom: 0;
-}
-.secondary_nav ul li {
-  display: inline-block;
-  margin-right: 20px;
-  font-weight: 500;
-  font-size: 16px;
-  font-size: 1rem;
-}
-.secondary_nav ul li a {
-  color: rgba(255, 255, 255, 0.5);
-}
-.secondary_nav ul li a:hover {
-  color: #fff;
-  opacity: 1;
-}
-.secondary_nav ul li a.active {
-  color: white;
-}
-.secondary_nav ul li:last-child {
-  display: none;
-}
-@media (max-width: 575px) {
-  .secondary_nav ul li:last-child {
-    display: inline-block;
-  }
-}
-
 .carousel_detail {
   margin-bottom: 40px;
 }
 .carousel_detail .item {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
   border-radius: 3px;
   overflow: hidden;
 }
@@ -1938,24 +1595,6 @@ textarea {
 }
 .carousel_detail .owl-nav [class*='owl-']:hover {
   background: #004dda !important;
-}
-
-.detail_title_1 {
-  margin-bottom: 25px;
-}
-.detail_title_1 h1 {
-  font-size: 32px;
-  font-size: 2rem;
-  margin: 0;
-}
-.detail_title_1 ul {
-  float: right;
-  margin: 10px 0 0 0;
-}
-.detail_title_1 ul li {
-  display: inline-block;
-  margin-right: 20px;
-  font-weight: 500;
 }
 
 a.address {

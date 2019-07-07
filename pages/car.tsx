@@ -23,8 +23,22 @@ import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 
-const SearchResult = styled.div`
-
+const ContentCardTitle = styled.div`
+    margin-bottom: 25px;
+    h1 {
+    font-size: 32px;
+    font-size: 2rem;
+    margin: 0;
+    }
+    ul {
+        float: right;
+        margin: 10px 0 0 0;
+        li {
+            display: inline-block;
+            margin-right: 20px;
+            font-weight: 500;
+        }
+    }
 `;
 
 export default withTranslation('common')(
@@ -211,7 +225,7 @@ export default withTranslation('common')(
                             </ContentSideCard>
                         }
                        <ContentCard style={{ top: '-30px'}}>
-                            ‍<div className="detail_title_1">
+                            ‍<ContentCardTitle>
                                 {isMobile &&
                                     <PriceCard style={{
                                         display: 'inline-grid',
@@ -231,7 +245,7 @@ export default withTranslation('common')(
                                 href="https://www.goog504327!2d48.8568361"
                             >۱۰ سفر  با امتیاز پنج ستاره</a
                             > */}
-                            </div>
+                            </ContentCardTitle>
                             <hr />
                             <Details title="محل خودرو">
                                 <p>{location.name.breadcrumb_fa}</p>
