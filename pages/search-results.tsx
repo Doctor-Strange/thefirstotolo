@@ -1,10 +1,7 @@
 import { i18n, withTranslation } from '../src/i18n';
 import * as React from 'react';
-import IndexForm from '../src/components/Forms/IndexForm';
 import Layout from '../src/components/Layout';
 import debounce from 'lodash.debounce';
-import { Margin } from '../src/theme/globalStyle';
-import { Box, Flex } from '@rebass/grid';
 import styled from 'styled-components';
 import { connect } from '../src/store';
 import {
@@ -19,7 +16,6 @@ import {
     SearchBar
 } from '../src/components/Search';
 import Router, { withRouter } from 'next/router';
-import axios from 'axios';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 

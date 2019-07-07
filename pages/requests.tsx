@@ -3,11 +3,9 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, Image, Item, Label } from 'semantic-ui-react'
 import { Section } from '../src/components/row/Sections';
-import IndexForm from '../src/components/Forms/IndexForm';
 import { RequestCard, RequestCardPlaceholder } from '../src/components/Cards';
 import Layout from '../src/components/Layout';
 import { REQUEST_getOrderRequests } from '../src/API';
-import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import jsCookie from 'js-cookie';
 import moment from 'moment-jalaali';

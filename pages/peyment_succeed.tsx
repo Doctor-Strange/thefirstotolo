@@ -9,7 +9,6 @@ import { List } from '../src/components/List';
 import Layout from '../src/components/Layout';
 import { REQUEST_getOrderRequests } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
-import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import jsCookie from 'js-cookie';
 import moment from 'moment-jalaali';

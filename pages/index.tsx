@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Section } from '../src/components/row/Sections';
 import IndexForm from '../src/components/Forms/IndexForm';
 import Layout from '../src/components/Layout';
-import { Margin } from '../src/theme/globalStyle';
 import { Box, Flex } from '@rebass/grid';
 import * as backgroundImage from '../static/back.jpg';
 import * as seoImage from '../static/index-landing.jpeg';

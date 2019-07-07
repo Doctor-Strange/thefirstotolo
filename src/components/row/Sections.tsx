@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Margin } from '../../theme/globalStyle';
 
 export const Section: React.FunctionComponent<{
   justifyCenter?: boolean;

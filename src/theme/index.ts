@@ -1,5 +1,5 @@
-import { rtlTheme, ltrTheme  } from './directions';
-import { GlobalStyle, } from './globalStyle';
-import { lightTheme, darkTheme } from './colors';
-import { spacing } from './spacings';
+import { rtlTheme, ltrTheme  } from './Directions';
+import { GlobalStyle, } from './GlobalStyle';
+import { lightTheme, darkTheme } from './Colors';
+import { spacing } from './Spacings';
 export { rtlTheme, ltrTheme, GlobalStyle, lightTheme, darkTheme, spacing };
