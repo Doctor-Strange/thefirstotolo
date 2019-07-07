@@ -16,6 +16,7 @@ const lightTheme: IColors = {
 
     extraColor: '#A3678B',
     cardLabels: '#f7f7f7',
+    fadedGray: '#ededed5c',
 };
   
 const darkTheme: IColors = {
@@ -34,6 +35,7 @@ const darkTheme: IColors = {
 
     extraColor: '#A3678B',
     cardLabels: '#f7f7f7',
+    fadedGray: '#ededed5c',
 };
 
 export {lightTheme, darkTheme};

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Link from 'next/link';
-import styled, { StyledFunction } from 'styled-components';
+import styled from 'styled-components';
+import { ITheme } from "../../theme/Interfaces";
 
 interface YourProps {
   boldLastItem: boolean
@@ -14,7 +14,7 @@ const ListStyles = styled.ul<YourProps>`
     margin-bottom: 8px;
     padding-bottom: 4px;
     font-weight: 500;
-    border-bottom: 1px solid rgba(237, 237, 237, 0.36);
+    border-bottom: 1px solid ${({theme}:{theme:ITheme}) => theme.color.fadedGray}};  
     :last-child {
       font-size: ${(p) => p.boldLastItem ? '18px' : 'inherit'};;
       font-weight: ${(p) => p.boldLastItem ? '600' : '500'};;
