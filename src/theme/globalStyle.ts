@@ -2138,64 +2138,6 @@ section#reviews {
   }
 }
 
-
-ul.share-buttons {
-  padding: 0;
-  list-style: none;
-  text-align: center;
-  margin: 0 0 25px 0;
-}
-ul.share-buttons li {
-  display: inline-block;
-  margin: 0 5px 5px 5px;
-}
-ul.share-buttons li a {
-  background: #fff;
-  border: 1px solid #666;
-  border-radius: 50px;
-  font-weight: 500;
-  font-size: 13px;
-  padding: 7px 20px;
-  transition: 0.3s;
-  display: inline-block;
-  line-height: 17px;
-  font-weight: 500;
-}
-ul.share-buttons li a:hover {
-  color: #fff;
-}
-ul.share-buttons li a.fb-share {
-  border-color: #3b5998;
-  color: #3b5998;
-}
-ul.share-buttons li a.fb-share:hover {
-  background: #3b5998;
-  color: #fff;
-}
-ul.share-buttons li a.gplus-share {
-  border-color: #dd4b39;
-  color: #dd4b39;
-}
-ul.share-buttons li a.gplus-share:hover {
-  background: #dd4b39;
-  color: #fff;
-}
-ul.share-buttons li a.twitter-share {
-  border-color: #1da1f2;
-  color: #1da1f2;
-}
-ul.share-buttons li a.twitter-share:hover {
-  background: #1da1f2;
-  color: #fff;
-}
-ul.share-buttons li i {
-  font-size: 16px;
-  font-size: 1rem;
-  position: relative;
-  right: 3px;
-  top: 2px;
-}
-
 a.address {
   display: inline-block;
   font-weight: 500;
@@ -2241,22 +2183,10 @@ ul.bullets li {
 }
 
 .slider {
-    height: 100% !important;
+  height: 100% !important;
 }
-.strip.grid.usercard{
-  min-width: 300px;
-  width: 400px;
-  max-width: 100%;
-  margin: 10px 10px;
-  /* background-color: #fff; */
-  display: block;
-  position: relative;
-  margin-bottom: 30px;
-  border-radius: 3px;
-  box-shadow: 1px -1px 11px 3px #00000005; 
-  margin: 10px auto;
-  direction: rtl;
-}
+
+
 
 .DatePicker__calendarContainer {
   opacity: 1;

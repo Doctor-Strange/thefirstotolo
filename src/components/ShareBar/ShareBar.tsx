@@ -6,7 +6,44 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import styled from 'styled-components';
 
 const ShareUL = styled.ul`
-    
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    margin: 0 0 25px 0;
+    li {
+        display: inline-block;
+        margin: 0 5px 5px 5px;
+        a {
+            background: #fff;
+            border: 1px solid #666;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 13px;
+            padding: 7px 20px;
+            transition: 0.3s;
+            display: inline-block;
+            line-height: 17px;
+            font-weight: 500;
+            :hover {
+                color: #fff;
+            }
+            &.fb-share {
+                border-color: #3b5998;
+                color: #3b5998;
+                :hover {
+                    background: #3b5998;
+                    color: #fff;
+                }
+            }
+        }
+        i {
+            font-size: 16px;
+            font-size: 1rem;
+            position: relative;
+            right: 3px;
+            top: 2px;
+        }
+    }
 `;
 
 

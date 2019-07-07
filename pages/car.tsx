@@ -277,7 +277,7 @@ export default withTranslation('common')(
                                 {cancellation_policy ? cancellation_policy : "ندارد"}
                             </Details>
                             {isMobile &&
-                                <div className="strip grid usercard">
+                                <div style={{margin: '10px auto', direction: 'rtl'}}>
                                     <UserCard
                                         id={owner.id}
                                         firstname={owner.first_name}
