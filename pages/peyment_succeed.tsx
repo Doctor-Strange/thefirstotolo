@@ -5,6 +5,7 @@ import { Button, Icon, Image, Item, Label, Message} from 'semantic-ui-react'
 import { Section } from '../src/components/row/Sections';
 import IndexForm from '../src/components/Forms/IndexForm';
 import { RequestCard, RequestCardPlaceholder } from '../src/components/Cards';
+import { List } from '../src/components/List';
 import Layout from '../src/components/Layout';
 import { REQUEST_getOrderRequests } from '../src/API';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
@@ -114,11 +115,6 @@ img{
     border-radius: 4px;
     margin-bottom: 8px;
 }
-
-.thelist li:last-child {
-    font-size: 14px;
-    font-weight: 500;
-}
 `;
 
 export default props => {
@@ -139,7 +135,7 @@ export default props => {
                             <h2 className="center">سایپا تیبا ۱۴۲</h2>
                             <h3 className="center">طاها میرمیرانی</h3>
                         </div>
-                         <ul className="thelist">
+                         <List>
                             <li>شماره پیگری 
                                 <span className="float-left">
                                     ۵۲۵۳۷۳۵۷۴۲۷۴۲
@@ -168,8 +164,7 @@ export default props => {
                                     ۳۰۰ کیلومتر
                                  </span>
                              </li>
-
-                         </ul>
+                         </List>
                      </div>
                     :
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">

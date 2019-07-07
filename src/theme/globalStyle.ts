@@ -2258,26 +2258,6 @@ ul.bullets li {
   direction: rtl;
 }
 
-.thelist {
-  list-style: none;
-  margin: 0px 0px 20px;
-  padding: 0px;
-  li {
-    margin-bottom: 8px;
-    padding-bottom: 4px;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(237, 237, 237, 0.36);
-    :last-child {
-      font-size: 18px;
-      font-weight: 600;
-    }
-  }
-}
-.float-left {
-  float: left !important;
-  direction: rtl;
-}
-
 .DatePicker__calendarContainer {
   opacity: 1;
   z-index:99;

@@ -7,8 +7,9 @@ import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup, Grid } from 'semantic-ui-react';
 import Router from 'next/router';
 import Carousel from 'nuka-carousel';
-import { ContentCard } from '../src/components/Cards'
-import { Details, CarNav } from '../src/components/Car'
+import { ContentCard } from '../src/components/Cards';
+import { Details, CarNav } from '../src/components/Car';
+import { List } from '../src/components/List';
 import { i18n, withTranslation } from '../src/i18n';
 import { connect } from '../src/store';
 import { REQUEST_getCar, REQUEST_newRentRequest } from '../src/API';
@@ -167,7 +168,7 @@ export default withTranslation('common')(
                         <Section id="checkout" justifyCenter={true} style={{ marginTop: '24px', marginBottom: '50px' }}>
                             <aside className="col-lg-4" id="sidebar">
                                 <div className="box_detail booking">
-                                    <ul className="thelist">
+                                    <List boldLastItem={true}>
                                         <li>قیمت روزانه
                                                 <span className="float-left">
                                                 <span>{convertNumbers2Persian(numberWithCommas(avg_price_per_day))}</span>
@@ -197,7 +198,7 @@ export default withTranslation('common')(
                                                 </span>
                                             </li>
                                         }
-                                    </ul>
+                                    </List>
                                     {isBrowser && <>
                                         <br />
                                         <Button
