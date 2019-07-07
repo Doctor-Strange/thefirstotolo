@@ -12,7 +12,7 @@ import { PanelsWrapper } from '../Carousel/PanelsWrapper';
 import { Panel } from '../Carousel/Panel';
 // import { mobileNumberOptions } from '../../constants/options';
 import { i18n, withTranslation } from '../../i18n';
-import { ltrTheme, rtlTheme } from '../../theme/directions';
+import { ltrTheme, rtlTheme } from '../../theme/Directions';
 import { actions } from "../../store";
 
 function convertToEnglishNum(s) {

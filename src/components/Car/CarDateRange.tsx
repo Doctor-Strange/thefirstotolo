@@ -12,7 +12,7 @@ import {
     convertMomentsToDateRange,
     getBetweenRange
 } from '../../lib/date';
-import { lightTheme } from "../../theme/colors"; // fixme: serve colors only from styled-component
+import { lightTheme } from "../../theme/Colors"; // fixme: serve colors only from styled-component
 
 const Line = styled.nav`
     .DatePicker {

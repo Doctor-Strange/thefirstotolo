@@ -39,7 +39,7 @@ import {
   getBetweenRange
 } from '../../lib/date';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
-import { lightTheme } from "../../theme/colors"; // fixme: serve colors only from styled-component
+import { lightTheme } from "../../theme/Colors"; // fixme: serve colors only from styled-component
 
 
 function clearNumber(x) {
