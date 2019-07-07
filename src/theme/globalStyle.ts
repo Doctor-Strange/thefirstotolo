@@ -1355,33 +1355,7 @@ const GlobalStyle = createGlobalStyle`
     direction: rtl;
     text-align: start;
   }
-  .filter_type {
-    h6 {
-      border-top: 1px solid #ededed;
-      margin: 15px 0;
-      padding: 15px 0 0 0;
-      font-size: 13px !important;
-      font-size: 0.8125rem;
-      direction: rtl;
-      text-align:right;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 15px 0;
-      li {
-        margin-bottom: 5px;
-        :last-child {
-          margin-bottom: 0;
-        }
-        small {
-          float: left;
-          position: relative;
-          top: 4px;
-        }
-      }
-    }
-  }
+
 
   label.dv-star-rating-star {
       float: left !important;

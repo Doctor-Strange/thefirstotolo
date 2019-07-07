@@ -22,6 +22,7 @@ import { i18n, withTranslation } from '../../i18n';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 import { Box, Flex } from '@rebass/grid';
+import { FilterType } from "./FilterType";
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
 import { PriceCard } from '../Cards'
 
@@ -757,8 +758,7 @@ export class FilterAndSortBar extends React.Component<{
               >گزینه‌ها
               </a>
               <div className="collapse show" id="collapseFilters">
-                <div className="filter_type">
-                  <h6>قیمت</h6>
+                <FilterType title='قیمت'>
                   <div className="rangeclass">
                     <div className="row" style={{ padding: '20px', paddingTop: '0px' }}>
                       <div className="col-6">
@@ -795,9 +795,8 @@ export class FilterAndSortBar extends React.Component<{
                       </label>
                     </li>
                   </ul>
-                </div>
-                <div className="filter_type">
-                  <h6>نوع شاسی</h6>
+                </FilterType>
+                <FilterType title='نوع شاسی'>
                   <ul>
                     <li>
                       <label
@@ -868,9 +867,8 @@ export class FilterAndSortBar extends React.Component<{
                       </label>
                     </li>
                   </ul>
-                </div>
-                <div className="filter_type">
-                  <h6>برند</h6>
+                </FilterType>
+                <FilterType title='برند'>
                   <Form.Dropdown
                     name="carBrand"
                     id="carBrand"
@@ -930,7 +928,7 @@ export class FilterAndSortBar extends React.Component<{
                     // defaultValue={model[0].value}
                     value={model}
                   />
-                </div>
+                </FilterType>
               </div>
             </div>
           </Form>
