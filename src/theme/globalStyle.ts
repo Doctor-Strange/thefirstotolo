@@ -414,26 +414,7 @@ const GlobalStyle = createGlobalStyle`
     border-top: 1px solid rgba(0,0,0,.1);
   }
 
-  /*============================== Modal Styles ==============================*/
-  .md-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 50%;
-    max-width: 630px;
-    min-width: 320px;
-    height: auto;
-    z-index: 2000;
-    transform: translateX(-50%) translateY(-50%) scale(.7);
-    opacity:0;
-    transition: all .3s;
-  }
-
-  .md-show.md-modal {
-    opacity:1;
-    transform: translateX(-50%) translateY(-50%) scale(1);
-  }
-
+/*============================== Modal Styles ==============================*/
   .md-overlay{
     text-align: center;
     position: fixed;
@@ -449,133 +430,37 @@ const GlobalStyle = createGlobalStyle`
     overflow-y: auto;
     z-index: 99999999999;
     transition: all .3s;
+    &.md-show {
+      background: hsla(0, 0%, 0%, 0.8);
+    }
   }
-
-  .md-show.md-overlay {
-    background: hsla(0, 0%, 0%, 0.8);
-  }
-
-  /*============================== btn Styles ==============================*/
-  .btn_1 {
+    /*============================== btn Styles ==============================*/
+  .ui.button:not(.circular) {
+    font-family: ${(props:{theme:ITheme}) => props.theme.direction.font};
     border: none;
-    color: #fff;
-    background: #004dda;
+    background:${(props:{theme:ITheme}) => props.theme.color.mainForeground};
     outline: none;
     cursor: pointer;
-    display: inline-block;
-    text-decoration: none;
-    padding: 17px 30px !important;
-    color: #fff;
-    font-weight: 600;
-    text-align: center;
-    line-height: 1;
+    color: ${(props:{theme:ITheme}) => props.theme.color.whiteBackground};
+    font-weight: ${(props:{theme:ITheme}) => props.theme.spacing.fontWeightBold};
     transition: all 0.3s ease-in-out;
-    border-radius: 3px;
-
+    border-radius: ${(props:{theme:ITheme}) => props.theme.spacing.smallBorderRadus};
     :hover {
       background-color: ${(props:{theme:ITheme}) => props.theme.color.secondForeground};
     }
-
     &.full-width {
       display: block;
       width: 100%;
       text-align: center;
-      margin-bottom: 5px;
-
-    }
-
-    .medium {
-      font-size: 16px;
-      font-size: 1re                  m;
-      padding: 18px 40px;
-    }
-
-    .rounded {
-      border-radius: 25px !important;
-    }
-
-    .outline {
-      border: 2px solid #004dda;
-      color: #004dda;
-      padding: 11px 40px;
-      background: none;
-
-      :hover {
-        background: #0054a6;
-        border-color: #0054a6;
-      }
-
-      :focus {
-        outline: none;
-      }
     }
   }
 
   /**============================== 3.4 Spacing ==============================*/
-  .add_bottom_10 {
-    margin-bottom: 10px;
-  }
-
-  .add_bottom_15 {
-    margin-bottom: 15px;
-  }
-
-  .add_bottom_30 {
-    margin-bottom: 30px;
-  }
-
-  .add_bottom_45 {
-    margin-bottom: 45px;
-  }
-
-  .add_bottom_60 {
-    margin-bottom: 60px;
-  }
-
-  .add_bottom_75 {
-    margin-bottom: 75px;
-  }
 
   .add_top_8 {
     margin-top: 8px;
   }
 
-  .add_top_10 {
-    margin-top: 10px;
-  }
-
-  .add_top_15 {
-    margin-top: 15px;
-  }
-
-  .add_top_20 {
-    margin-top: 20px;
-  }
-
-  .add_top_30 {
-    margin-top: 30px;
-  }
-
-  .add_top_60 {
-    margin-top: 60px;
-  }
-
-  .more_padding_left {
-    padding-left: 40px;
-  }
-
-  .nomargin_top {
-    margin-top: 0;
-  }
-
-  .nopadding {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .nomargin {
-    margin: 0 !important;
-  }
 
   .margin_16 {
     padding-top: 16px;
@@ -589,82 +474,6 @@ const GlobalStyle = createGlobalStyle`
   .margin_30_5 {
     padding-top: 30px;
     padding-bottom: 5px;
-  }
-
-  .margin_60 {
-    padding-top: 60px;
-    padding-bottom: 60px;
-  }
-  @media (max-width: 767px) {
-    .margin_60 {
-      padding-top: 30px;
-      padding-bottom: 30px;
-    }
-  }
-
-  .margin_80 {
-    padding-top: 80px;
-    padding-bottom: 80px;
-  }
-  @media (max-width: 991px) {
-    .margin_80 {
-      padding-bottom: 60px;
-      padding-top: 60px;
-    }
-  }
-  @media (max-width: 575px) {
-    .margin_80 {
-      padding-top: 30px;
-      padding-bottom: 30px;
-    }
-  }
-
-  .margin_80_55 {
-    padding-top: 80px;
-    padding-bottom: 55px;
-  }
-  @media (max-width: 991px) {
-    .margin_80_55 {
-      padding-top: 60px;
-      padding-bottom: 35px;
-    }
-  }
-  @media (max-width: 575px) {
-    .margin_80_55 {
-      padding-top: 45px;
-      padding-bottom: 15px;
-    }
-  }
-
-  .margin_80_0 {
-    padding-top: 80px;
-  }
-  @media (max-width: 991px) {
-    .margin_80_0 {
-      padding-top: 60px;
-    }
-  }
-  @media (max-width: 575px) {
-    .margin_80_0 {
-      padding-top: 30px;
-    }
-  }
-
-  .margin_30_95 {
-    padding-top: 30px;
-    padding-bottom: 95px;
-  }
-  @media (max-width: 991px) {
-    .margin_30_95 {
-      padding-top: 15px;
-      padding-bottom: 35px;
-    }
-  }
-  @media (max-width: 575px) {
-    .margin_30_95 {
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
   }
 
   @media (max-width: 991px) {

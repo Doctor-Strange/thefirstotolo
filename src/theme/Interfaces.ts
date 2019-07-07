@@ -20,9 +20,21 @@ export interface IColors {
 }
 
 export interface ISpacing {
+
     fontWeightNormal: string,
     fontWeightBold: string,
+
     lineHeight: string,
+
+    smallPadding: string,
+    mediumPadding: string,
+    largePadding: string,
+    bigPadding: string,
+    hugePadding: string,
+    massivePadding: string,
+
+    smallBorderRadus: string,
+    
 }
 
 export interface ITheme {

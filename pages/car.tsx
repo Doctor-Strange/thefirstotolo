@@ -254,7 +254,7 @@ export default withTranslation('common')(
                                 </ul>
                             </Details>
                             <Details title="امکانات">
-                                <div className="row add_bottom_30not">
+                                <div className="row">
                                     <div className="col-6">
                                         <ul className="bullets">
                                             {facility_set.map((value, index) => (<li>{value.name}</li>))}

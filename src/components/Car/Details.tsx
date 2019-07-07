@@ -15,7 +15,7 @@ export const Details: React.FunctionComponent<{
     showHr?: boolean;
 }> = ({ title, children, showHr = true }) => (
     <Item>
-        <h5 className="add_bottom_15not">{title}</h5>
+        <h5>{title}</h5>
         {children}
         {showHr ? <hr /> : ""}
     </Item>

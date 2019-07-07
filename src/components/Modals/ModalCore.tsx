@@ -3,6 +3,17 @@ import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
 
 const ModalDiv = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  max-width: 630px;
+  min-width: 320px;
+  height: auto;
+  z-index: 2000;
+  transform: translateX(-50%) translateY(-50%) scale(.7);
+  opacity:0;
+  transition: all .3s;
   #sign-in-dialog {
     overflow-x: hidden;
     overflow-y: hidden;
@@ -44,7 +55,6 @@ const ModalDiv = styled.div`
       }
     }
   }
-
   .small-dialog-header {
     font-size: 18px;
     width: calc(100% + 60px);
@@ -63,6 +73,11 @@ const ModalDiv = styled.div`
       font-size: 1.125rem;
       font-weight: 500;
     }
+  }
+
+  &.md-show {
+    opacity:1;
+    transform: translateX(-50%) translateY(-50%) scale(1);
   }
 `;
 
