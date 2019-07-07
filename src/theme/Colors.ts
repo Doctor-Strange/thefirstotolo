@@ -15,8 +15,11 @@ const lightTheme: IColors = {
     textThird: '#707070',
 
     extraColor: '#A3678B',
-    cardLabels: '#f7f7f7',
+    cardLabels: '#f7f7f7ee',
     fadedGray: '#ededed5c',
+
+    successColor: '#32a067',
+    failColor: '#32a067',
 };
   
 const darkTheme: IColors = {
@@ -36,6 +39,9 @@ const darkTheme: IColors = {
     extraColor: '#A3678B',
     cardLabels: '#f7f7f7',
     fadedGray: '#ededed5c',
+
+    successColor: '#32a067',
+    failColor: '#32a067',
 };
 
 export {lightTheme, darkTheme};

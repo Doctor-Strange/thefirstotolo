@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { ITheme } from '../../../theme/Interfaces';
 
 const SubHeaderDiv = styled.div`
-  background-color: #004dda;
+  background-color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
   padding: 20px 0;
   h1 {
     color: #fff;

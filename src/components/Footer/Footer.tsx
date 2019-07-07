@@ -230,7 +230,7 @@ const Newsletter = styled.div`
     line-height: 42px;
     cursor: pointer;
     border-radius: 0 3px 3px 0;
-    background-color: #004dda;
+    background-color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
     transition: all 0.3s ease-in-out;
     outline: none;
 

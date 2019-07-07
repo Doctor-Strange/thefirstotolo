@@ -46,7 +46,7 @@ const HeaderSticky = styled.div`
   .btn_add {
     border: none;
     color: #fff;
-    background: #004dda;
+    background: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
     outline: none;
     cursor: pointer;
     display: inline-block;

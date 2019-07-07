@@ -767,7 +767,7 @@ const GlobalStyle = createGlobalStyle`
       cursor: pointer;
     }
     input:checked ~ .checkmark {
-      background-color: #004dda;
+      background-color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
       border: 1px solid transparent;
     }
     .checkmark {
@@ -836,7 +836,7 @@ const GlobalStyle = createGlobalStyle`
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background: #004dda;
+        background: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
         transition: all 0.3s ease-in-out;
       }
     }
@@ -1398,7 +1398,7 @@ textarea {
   font-weight: 500;
 }
 .hero_in a.btn_photos:hover {
-  color: #004dda;
+  color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
 }
 
 /* Animations */
@@ -1435,7 +1435,7 @@ textarea {
   margin: 0;
 }
 .carousel_detail .owl-nav [class*='owl-']:hover {
-  background: #004dda !important;
+  background: ${({theme}:{theme:ITheme}) => theme.color.mainForeground} !important;
 }
 
 ul.bullets {

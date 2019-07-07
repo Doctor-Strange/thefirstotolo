@@ -18,6 +18,8 @@ export interface IColors {
     extraColor: string,
     cardLabels: string,
     fadedGray: string,
+    successColor: string,
+    failColor: string,
 }
 
 export interface ISpacing {

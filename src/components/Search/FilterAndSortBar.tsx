@@ -24,13 +24,14 @@ moment.loadPersian({ dialect: 'persian-modern' });
 import { Box, Flex } from '@rebass/grid';
 import { FilterType } from "./FilterType";
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
-import { PriceCard } from '../Cards'
+import { PriceCard } from '../Cards';
+import { ITheme } from "../../theme/Interfaces";
 
 const FilterAndSort = styled.div`
     width: 100vw;
     padding: 10px 0 5px 0;
-    background: #fff;
-    border-bottom: 1px solid #ededed;
+    background: ${({theme}:{theme:ITheme}) => theme.color.whiteBackground};
+    border-bottom: 1px solid ${({theme}:{theme:ITheme}) => theme.color.fadedGray};
     z-index: 99 !important;
     position: relative;
     ul {
@@ -101,7 +102,7 @@ const FilterAndSort = styled.div`
             }
             &:hover {
                 cursor: pointer;
-                color: #004dda;
+                color: ${({theme}:{theme:ITheme}) => theme.color.mainForeground};
             }
         }
     }
@@ -418,8 +419,8 @@ const FilterAndSort = styled.div`
 `;
 
 const FiltersDiv = styled.div`
-  background-color: #fff;
-  border-bottom: 1px solid #ededed;
+  background-color: ${({theme}:{theme:ITheme}) => theme.color.whiteBackground};
+  border-bottom: 1px solid ${({theme}:{theme:ITheme}) => theme.color.fadedGray};
   overflow: hidden;
   .rangeclass{
     padding: 5px 30px;

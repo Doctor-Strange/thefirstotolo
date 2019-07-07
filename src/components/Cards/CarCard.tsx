@@ -7,6 +7,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { Icon, Button, Grid } from 'semantic-ui-react';
 import { PriceCard } from './index'
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { ITheme } from "../../theme/Interfaces";
 
 const Card = styled.div`
   max-height: 300px;
@@ -14,7 +15,7 @@ const Card = styled.div`
   width: 340px;
   max-width: 100%;
   margin: 10px 10px;
-  background-color: #fff;
+  background-color: ${({theme}:{theme:ITheme}) => theme.color.whiteBackground};
   display: block;
   position: relative;
   border-radius: 4px;
@@ -70,11 +71,10 @@ const Card = styled.div`
       transition: all 0.6s;
       z-index: 2;
       span {
-        background-color: #fcfcfc;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: ${({theme}:{theme:ITheme}) => theme.color.cardLabels};
         border-radius: 20px;
         display: inline-block;
-        color: #222;
+        color: ${({theme}:{theme:ITheme}) => theme.color.textMain};
         font-size: 12px;
         font-size: 0.75rem;
         padding: 5px 10px;
@@ -86,10 +86,10 @@ const Card = styled.div`
     left: 12px;
     bottom: 28px;
     z-index: 1;
-    background-color: rgba(0,0,0,0.6);
+    background-color: ${({theme}:{theme:ITheme}) => theme.color.fadedGray};
     padding: 5px 10px;
     display: inline-block;
-    color: #fff;
+    color: ${({theme}:{theme:ITheme}) => theme.color.whiteBackground};
     border-radius: 3px;
   }
   .wrapper {
@@ -150,11 +150,11 @@ const Card = styled.div`
     }
   }
 
-  .loc_open {
-    color: #32a067;
-    border: 1px solid #32a067;
+  .delivery {
+    color: ${({theme}:{theme:ITheme}) => theme.color.successColor};
+    border: 1px solid ${({theme}:{theme:ITheme}) => theme.color.successColor};
   }
-  .loc_open, .loc_closed {
+  .delivery, .loc_closed {
     position: relative;
     font-size: 11px;
     font-size: 0.6875rem;
@@ -177,13 +177,6 @@ const Card = styled.div`
         padding: 0 !important;
         text-align:center !important;
       }
-  }
-  button.ui.basic.button {
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 5px 0 5px;
-    color: #3e3e3e !important;
-  
   }
 
   @media (min-width: 768px){
@@ -294,7 +287,7 @@ export const CarCard: React.FunctionComponent<{
               {deliver_at_renters_place ?
                 (
                   <li>
-                    <span className="loc_open">تحویل در محل</span>
+                    <span className="delivery">تحویل در محل</span>
                   </li>
                 ) : (<li></li>)
               }
