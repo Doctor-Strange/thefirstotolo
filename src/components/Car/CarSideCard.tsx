@@ -16,11 +16,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { CarDateRange } from './index';
 
 const Card = styled.nav`
-    border-top-left-radius: 10%;
-    border-top-right-radius: 10%;
-    @media (min-width: 768px){
-        margin-top: -60px;
-    }
     .DatePicker__calendarContainer {
         display: none;
     }

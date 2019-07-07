@@ -190,7 +190,7 @@ export default withTranslation('common')(
 
                     <Section justifyCenter={true} style={{ marginTop: '24px' }}>
                         {isBrowser &&
-                            <ContentSideCard shareBar={true}>
+                            <ContentSideCard shareBar={true} pushTopMargin={true}>
                                 <CarSideCard
                                     date={{
                                         start: startDate,

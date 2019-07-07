@@ -81,24 +81,31 @@ h3 {
   font-size: 1.25rem;
   margin: 25px 0 10px 0;
 }
+.push_top{
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
+    @media (min-width: 768px){
+        margin-top: -60px;
+    }
+}
 `;
 
 export const ContentSideCard: React.FunctionComponent<{
     style?: object;
     shareBar?: boolean;
+    pushTopMargin?: boolean;
 }> = ({
   children,
   style,
-  shareBar = false
+  shareBar = false,
+  pushTopMargin = false,
 }) => {
     return (
-        <>
-            <Card className="col-lg-4" id="sidebar">
-                <div className="box_detail booking">
-                    {children}
-                </div>
-            </Card>
-           {shareBar && <ShareBar/>}
-        </>
+        <Card className={`col-lg-4`} id="sidebar">
+            <div className={`box_detail ${pushTopMargin? "push_top" : ""}`}>
+                {children}
+            </div>
+            {shareBar && <ShareBar/>}
+        </Card>
     );
   }
