@@ -4,7 +4,6 @@ import { Box, Flex } from '@rebass/grid';
 import StarRatingComponent from 'react-star-rating-component';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import { UserCard } from '../Cards';
-import { ShareBar } from '../ShareBar'
 import {
     convertDateToMoment,
     convertMomentToDate,
@@ -63,8 +62,8 @@ const CarideCard: React.FunctionComponent<{
     user: any;
     reserveFunction: any;
 }> = ({ date, price, user, reserveFunction }) => {
-    return <>
-        <Card className="box_detail booking">
+    return (
+        <Card>
             {(price > 0) &&
                 <div className="price">
                     <span className="number" style={{ fontSize: 30 + 'px' }}>
@@ -100,8 +99,7 @@ const CarideCard: React.FunctionComponent<{
                 <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
             </div>
         </Card>
-        <ShareBar />
-    </>
+    )
 };
 
 export default CarideCard;

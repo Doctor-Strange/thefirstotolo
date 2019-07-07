@@ -7,7 +7,7 @@ import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import Router from 'next/router';
 import Carousel from 'nuka-carousel';
-import { PriceCard, UserCard, ContentCard} from '../src/components/Cards';
+import { PriceCard, UserCard, ContentCard, ContentSideCard} from '../src/components/Cards';
 import { Details, CarNav, CarSideCard } from '../src/components/Car';
 import { i18n, withTranslation } from '../src/i18n';
 import { REQUEST_getCar } from '../src/API';
@@ -190,7 +190,7 @@ export default withTranslation('common')(
 
                     <Section justifyCenter={true} style={{ marginTop: '24px' }}>
                         {isBrowser &&
-                            <aside className="col-lg-4" id="sidebar">
+                            <ContentSideCard shareBar={true}>
                                 <CarSideCard
                                     date={{
                                         start: startDate,
@@ -207,7 +207,7 @@ export default withTranslation('common')(
                                     }}
                                     reserveFunction={() => { this.reserve(search_id) }}
                                 />
-                            </aside>
+                            </ContentSideCard>
                         }
                        <ContentCard style={{ top: '-30px'}}>
                             ‍<div className="detail_title_1">

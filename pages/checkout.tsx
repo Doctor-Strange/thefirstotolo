@@ -7,7 +7,7 @@ import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup, Grid } from 'semantic-ui-react';
 import Router from 'next/router';
 import Carousel from 'nuka-carousel';
-import { ContentCard } from '../src/components/Cards';
+import { ContentCard, ContentSideCard } from '../src/components/Cards';
 import { Details, CarNav } from '../src/components/Car';
 import { List } from '../src/components/List';
 import { i18n, withTranslation } from '../src/i18n';
@@ -166,59 +166,57 @@ export default withTranslation('common')(
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'} onRef={this.doRef}>
                         <Section id="checkout" justifyCenter={true} style={{ marginTop: '24px', marginBottom: '50px' }}>
-                            <aside className="col-lg-4" id="sidebar">
-                                <div className="box_detail booking">
-                                    <List boldLastItem={true}>
-                                        <li>قیمت روزانه
+                            <ContentSideCard>
+                                <List boldLastItem={true}>
+                                    <li>قیمت روزانه
+                                            <span className="float-left">
+                                            <span>{convertNumbers2Persian(numberWithCommas(avg_price_per_day))}</span>
+                                            {' '}
+                                            <span> تومان </span>
+                                        </span>
+                                    </li>
+                                    <li>از <span className="float-left">{LongDate(startDate)}</span></li>
+                                    <li>تا <span className="float-left">{LongDate(endDate)}</span></li>
+                                    <li>مدت زمان
+                                            <span className="float-left">
+                                            {convertNumbers2Persian(no_of_days)}
+                                            <span> روز </span>
+                                        </span>
+                                    </li>
+                                    <li>هزینه کل
+                                            <span className="float-left">
+                                            <span>{convertNumbers2Persian(numberWithCommas(total_price || 0))}</span>
+                                            <span> تومان </span>
+                                        </span>
+                                    </li>
+                                    {discount_percent &&
+                                        <li> هزینه پس از کاستن تخفیف
                                                 <span className="float-left">
-                                                <span>{convertNumbers2Persian(numberWithCommas(avg_price_per_day))}</span>
-                                                {' '}
+                                                <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price || 0))}</span>
                                                 <span> تومان </span>
                                             </span>
                                         </li>
-                                        <li>از <span className="float-left">{LongDate(startDate)}</span></li>
-                                        <li>تا <span className="float-left">{LongDate(endDate)}</span></li>
-                                        <li>مدت زمان
-                                                <span className="float-left">
-                                                {convertNumbers2Persian(no_of_days)}
-                                                <span> روز </span>
-                                            </span>
-                                        </li>
-                                        <li>هزینه کل
-                                                <span className="float-left">
-                                                <span>{convertNumbers2Persian(numberWithCommas(total_price || 0))}</span>
-                                                <span> تومان </span>
-                                            </span>
-                                        </li>
-                                        {discount_percent &&
-                                            <li> هزینه پس از کاستن تخفیف
-                                                    <span className="float-left">
-                                                    <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price || 0))}</span>
-                                                    <span> تومان </span>
-                                                </span>
-                                            </li>
-                                        }
-                                    </List>
-                                    {isBrowser && <>
-                                        <br />
-                                        <Button
-                                            style={{ height: '48px' }}
-                                            size='large'
-                                            fluid
-                                            onClick={() => {
-                                                this.reserve(search_id);
-                                            }}
-                                            color='teal'>ثبت درخواست</Button>
-                                        <div
-                                            style={{ marginTop: '8px' }}
-                                            className="text-center"
-                                        >
-                                            <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
-                                        </div>
-                                    </>
                                     }
-                                </div>
-                            </aside>
+                                </List>
+                                {isBrowser && <>
+                                    <br />
+                                    <Button
+                                        style={{ height: '48px' }}
+                                        size='large'
+                                        fluid
+                                        onClick={() => {
+                                            this.reserve(search_id);
+                                        }}
+                                        color='teal'>ثبت درخواست</Button>
+                                    <div
+                                        style={{ marginTop: '8px' }}
+                                        className="text-center"
+                                    >
+                                        <small>دراین مرحله هزینه‌ای اخذ نمی‌شود.</small>
+                                    </div>
+                                </>
+                                }
+                            </ContentSideCard>
                             <ContentCard>
                                 <Grid>
                                     <Grid.Row columns={2} centered className="property">
