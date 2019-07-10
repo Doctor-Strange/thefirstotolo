@@ -128,7 +128,7 @@ export default withTranslation('common')(
             }
             const { media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location, facility_set,
-                max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day } = this.props;
+                max_km_per_day, description, capacity, extra_km_price, car, loaded, avg_price_per_day, avg_discounted_price_per_day } = this.props;
             let metaImagesArr = [];
             media_set.length >= 1 ? media_set.map((value, index) =>
                 metaImagesArr.push({
@@ -211,7 +211,7 @@ export default withTranslation('common')(
                                         start: startDate,
                                         end: endDate
                                     }}
-                                    price={avg_price_per_day}
+                                    price={avg_discounted_price_per_day}
                                     user={{
                                         id: owner.id,
                                         name: owner.name,
@@ -232,7 +232,7 @@ export default withTranslation('common')(
                                         left: '10px',
                                         top: '-15px',
                                         position: 'absolute'
-                                    }} number={avg_price_per_day}>در روز</PriceCard>
+                                    }} number={avg_discounted_price_per_day}>در روز</PriceCard>
                                 }
                                 {/* <div className="cat_star">
                                 <i className="icon_star" /><i className="icon_star" /><i className="icon_star"></i
