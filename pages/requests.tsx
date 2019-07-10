@@ -42,6 +42,12 @@ export default props => {
                                 :
                                 requests.map((value, index) => {
                                     const rentDump = value.rent_search_dump;
+                                    const {
+                                        has_owner_reviewed_rent_order,
+                                        has_owner_reviewed_renter,
+                                        has_renter_reviewed_owner,
+                                        has_renter_reviewed_rent_order
+                                    } = value;
                                     return (
                                         <RequestCard
                                             id={value.id}
@@ -75,6 +81,12 @@ export default props => {
                                             }}
                                             picture={rentDump.media_set[0].url}
                                             refresh={fetchAPI}
+                                            reviewStatus={{
+                                                has_owner_reviewed_rent_order,
+                                                has_owner_reviewed_renter,
+                                                has_renter_reviewed_owner,
+                                                has_renter_reviewed_rent_order
+                                            }}
                                         />
                                     )
                                 })
