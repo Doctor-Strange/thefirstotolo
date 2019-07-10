@@ -7,14 +7,17 @@ import IndexForm from '../src/components/Forms/IndexForm';
 import { BoxCard } from '../src/components/Cards';
 import { List } from '../src/components/List';
 import Layout from '../src/components/Layout';
-import { REQUEST_getOrderRequests } from '../src/API';
+import { REQUEST_getOrderRequest } from '../src/API';
+import jsCookie from 'js-cookie';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
 import { Box, Flex } from '@rebass/grid';
-import jsCookie from 'js-cookie';
+import { i18n, Link, withTranslation } from '../src/i18n';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
+import { ITheme } from "../src/theme/Interfaces";
 
-const Page = styled.div`
+const ThePage = styled.div`
+margin-top: ${({theme}:{theme:ITheme}) => theme.spacing.largePadding};
 svg {
   width: 100px;
   display: block;
@@ -116,64 +119,94 @@ img{
 }
 `;
 
-export default props => {
+const Page = ({id}) => {
+
+    const [request, setRequest] = useState({});
+
+      async function fetchAPI() {
+        const res = await REQUEST_getOrderRequest({ token: jsCookie.get('token'), id  });
+        setRequest(res);
+    }
+
+    useEffect(() => {
+        fetchAPI();
+    }, []);
+
+    const rentDump = request.success? request.data.rent_search_dump : {};
+    console.log(rentDump);
     return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
             <Section justifyCenter={true}>
-                <br/><br/>
-                <Page>
-                    {true ?
-                     <BoxCard>
+                <ThePage>
+                    {request.success ?
+                      <BoxCard>
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
                             <circle className="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
                             <polyline className="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
                         </svg>
                         <div style={{textAlign:'center'}}>
                             <h1 className="center">پرداخت با موفقیت انجام شد</h1>
-                            <img src="https://core.otoli.net/media/17/i/20190507/1557234331_15e443c2e330.jpg"/>
-                            <h2 className="center">سایپا تیبا ۱۴۲</h2>
-                            <h3 className="center">طاها میرمیرانی</h3>
+                            <img src={(rentDump.car.media_set[0] || {url:"https://www.iol.co.za/assets/images/general/no-image.png"}).url}/>
+                            <h2 className="center">{rentDump.car.name.fa}</h2>
+                            <h3 className="center">{rentDump.owner.name}</h3>
+                            <br/>
                         </div>
                          <List>
-                            <li>شماره پیگری 
+                            <li>هزینه پرداختی
                                 <span className="float-left">
-                                    ۵۲۵۳۷۳۵۷۴۲۷۴۲
-                                 </span>
-                             </li>
-                             <li>رسید پرداخت
-                                <span className="float-left">
-                                    ۵۲۵۳۷۳۵۷۴۲۷۴۲
-                                 </span>
+                                  {convertNumbers2Persian(numberWithCommas(rentDump.discounted_total_price))}
+                                </span>
                              </li>
                              <li>محل تحویل
                                      <span className="float-left">
-                                     سعادت آباد
+                                     {rentDump.deliver_at_renters_place ? "تحویل در محل شما" : rentDump.location.name.fa}
                                  </span>
                              </li>
-                             <li>از <span className="float-left">دوشنبه ۱۲ اردیبهشت ۹۷</span></li>
-                             <li>تا <span className="float-left">جمعه ۲۴ اردیبهشت ۹۷</span></li>
+                             <li>از <span className="float-left">
+                              {convertNumbers2Persian(
+                                moment(rentDump.start_date, 'jYYYY/jMM/jDD')
+                                .format('jD jMMMM jYYYY')
+                              )}
+                              </span></li>
+                             <li>تا <span className="float-left">
+                             {convertNumbers2Persian(
+                                moment(rentDump.end_date, 'jYYYY/jMM/jDD')
+                                .format('jD jMMMM jYYYY')
+                              )}
+                             </span></li>
                              <li>مدت زمان
                                      <span className="float-left">
-                                     {convertNumbers2Persian(5)}
+                                     {convertNumbers2Persian(rentDump.no_of_days)}
                                      <span> روز </span>
                                  </span>
                              </li>
-                             <li>مسافت 
+                             <li>محدودیت مسافت در روز 
                                 <span className="float-left">
-                                    ۳۰۰ کیلومتر
+                                    {convertNumbers2Persian(rentDump.max_km_per_day)} کیلومتر
                                  </span>
                              </li>
                          </List>
                      </BoxCard>
                     :
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                            <circle className="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
-                            <line className="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
-                            <line className="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
-                        </svg>
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                          <circle className="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                          <line className="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+                          <line className="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+                      </svg>
                     }
-                </Page>
+                </ThePage>
             </Section>
         </Layout>
     );
 }
+
+
+Page.getInitialProps = async (props) => {
+  return {
+    namespacesRequired: ['common'],
+    id: props.query.id,
+  };
+}
+
+export default withTranslation('common')(Page);
+
