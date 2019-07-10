@@ -430,6 +430,7 @@ const GlobalStyle = createGlobalStyle`
       display: block;
       width: 100%;
       text-align: center;
+      height: ${(props:{theme:ITheme}) => props.theme.spacing.massivePadding};
     }
   }
 

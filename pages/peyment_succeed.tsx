@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Button, Icon, Image, Item, Label, Message} from 'semantic-ui-react'
 import { Section } from '../src/components/row/Sections';
 import IndexForm from '../src/components/Forms/IndexForm';
-import { RequestCard, RequestCardPlaceholder } from '../src/components/Cards';
+import { BoxCard } from '../src/components/Cards';
 import { List } from '../src/components/List';
 import Layout from '../src/components/Layout';
 import { REQUEST_getOrderRequests } from '../src/API';
@@ -123,7 +123,7 @@ export default props => {
                 <br/><br/>
                 <Page>
                     {true ?
-                     <div className="box_detail booking">
+                     <BoxCard>
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
                             <circle className="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
                             <polyline className="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
@@ -164,7 +164,7 @@ export default props => {
                                  </span>
                              </li>
                          </List>
-                     </div>
+                     </BoxCard>
                     :
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
                             <circle className="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>

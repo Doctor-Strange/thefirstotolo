@@ -5,7 +5,7 @@ import SetCarTimingForm from '../src/components/Forms/SetCarTimingForm';
 import { Box, Flex } from '@rebass/grid';
 import { Icon, Segment, Button, Popup } from 'semantic-ui-react';
 import {Router} from '../routes';
-import { PriceCard, UserCard, CarCard, CarCardPlaceholder } from '../src/components/Cards'
+import { PriceCard, UserCard, CarCard, CarCardPlaceholder, BoxCard } from '../src/components/Cards'
 import { Details, CarNav } from '../src/components/Car'
 import { ShareBar } from '../src/components/ShareBar';
 import { Formik, FormikActions, withFormik } from 'formik';
@@ -73,7 +73,7 @@ const Profile: React.SFC<IProfile> = ({ t, id, first_name, last_name, image_url,
                     userOwnPage={own ? true : false}
                 />
                 <aside className="col-lg-4" id="sidebar">
-                    <div className="box_detail booking">
+                    <BoxCard>
                         <div
                             className="score"
                         >
@@ -100,7 +100,7 @@ const Profile: React.SFC<IProfile> = ({ t, id, first_name, last_name, image_url,
                                 className="text-center"
                             >
                             </div> */}
-                    </div>
+                    </BoxCard>
                 <ShareBar />
                 </aside>
             </Section>

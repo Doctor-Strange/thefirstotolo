@@ -1,6 +1,7 @@
 import { PriceCard } from './PriceCard';
 import { ContentCard } from './ContentCard';
 import { ContentSideCard } from './ContentSideCard';
+import { BoxCard } from "./BoxCard";
 import { CarCard } from './CarCard';
 import { CarCardPlaceholder } from './CarCardPlaceholder';
 import { UserCard } from './UserCard';
@@ -20,4 +21,5 @@ export {
   DateGrid,
   ContentCard,
   ContentSideCard,
+  BoxCard,
 };

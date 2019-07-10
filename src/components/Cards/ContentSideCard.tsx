@@ -1,15 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import{ BoxCard } from './index';
 import { ShareBar } from '../ShareBar'
 import { ITheme } from "../../theme/Interfaces";
 
 const Card = styled.aside`
 .box_detail {
-    background-color: #fff;
-    padding: 25px 25px 15px 25px;
-    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-    margin-bottom: 30px;
     ul {
         margin-bottom: 0;
             li {
@@ -81,13 +77,6 @@ h3 {
   font-size: 1.25rem;
   margin: 25px 0 10px 0;
 }
-.push_top{
-    border-top-left-radius: 10%;
-    border-top-right-radius: 10%;
-    @media (min-width: 768px){
-        margin-top: -60px;
-    }
-}
 `;
 
 export const ContentSideCard: React.FunctionComponent<{
@@ -102,9 +91,9 @@ export const ContentSideCard: React.FunctionComponent<{
 }) => {
     return (
         <Card className={`col-lg-4`} id="sidebar">
-            <div className={`box_detail ${pushTopMargin? "push_top" : ""}`}>
+            <BoxCard pushTopMargin={pushTopMargin}>
                 {children}
-            </div>
+            </BoxCard>
             {shareBar && <ShareBar/>}
         </Card>
     );
