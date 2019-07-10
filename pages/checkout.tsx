@@ -161,7 +161,7 @@ export default withTranslation('common')(
             const { media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location, facility_set,
                 max_km_per_day, description, capacity, extra_km_price, car, loaded, discount_percent,
-                discounted_total_price, total_price, avg_price_per_day, no_of_days } = this.props;
+                discounted_total_price, total_price, avg_price_per_day, no_of_days, avg_discounted_price_per_day} = this.props;
             if (loaded) {
                 return (
                     <Layout haveSubHeader={true} pageTitle={'list Your Car'} onRef={this.doRef}>
@@ -170,7 +170,7 @@ export default withTranslation('common')(
                                 <List boldLastItem={true}>
                                     <li>قیمت روزانه
                                             <span className="float-left">
-                                            <span>{convertNumbers2Persian(numberWithCommas(avg_price_per_day))}</span>
+                                            <span>{convertNumbers2Persian(numberWithCommas(avg_discounted_price_per_day))}</span>
                                             {' '}
                                             <span> تومان </span>
                                         </span>
@@ -185,18 +185,18 @@ export default withTranslation('common')(
                                     </li>
                                     <li>هزینه کل
                                             <span className="float-left">
-                                            <span>{convertNumbers2Persian(numberWithCommas(total_price || 0))}</span>
+                                            <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price || 0))}</span>
                                             <span> تومان </span>
                                         </span>
                                     </li>
-                                    {discount_percent &&
+                                    {/* {discount_percent &&
                                         <li> هزینه پس از کاستن تخفیف
                                                 <span className="float-left">
                                                 <span>{convertNumbers2Persian(numberWithCommas(discounted_total_price || 0))}</span>
                                                 <span> تومان </span>
                                             </span>
                                         </li>
-                                    }
+                                    } */}
                                 </List>
                                 {isBrowser && <>
                                     <br />
