@@ -143,6 +143,11 @@ export const Nav: React.FunctionComponent = ({ children, isMobile = false }) => 
                   <a>افزودن خودرو</a>
                 </Link>
               </li>
+              <li>
+                <Link href="/faq">
+                  <a>سوالات پرتکرار</a>
+                </Link>
+              </li>
             </ul>
           </li>
         }
