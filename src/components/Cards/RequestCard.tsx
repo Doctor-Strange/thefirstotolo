@@ -108,6 +108,7 @@ interface IRequestCard {
     picture?: any;
     style?: any;
     refresh?: any;
+    reviewStatus?: any;
 }
 
 interface IdoAction {
@@ -143,11 +144,13 @@ export const RequestCard: React.SFC<IRequestCard> = ({
     pelak = { first: "", second: "", third: "", forth: "" },
     picture,
     style = {},
-    refresh
+    refresh,
+    reviewStatus
 }) => {
     const [star1, setStar1] = useState();
     const [star2, setStar2] = useState();
     const [text, setText] = useState();
+    const [canRate, setCanRate] = useState(false);
 
     const doAction = async (data: IdoAction) => {
         const res = await REQUEST_setOrderStatus({ ...data, token: jsCookie.get('token') });
@@ -158,6 +161,16 @@ export const RequestCard: React.SFC<IRequestCard> = ({
             refresh();
         }
     }
+
+    const parseReviewStatus = rs => {
+        if(statusOwner === "owner" && 
+            (rs.has_owner_reviewed_rent_order || rs.has_owner_reviewed_renter)
+        ) setCanRate(true);
+        else if(statusOwner === "renter" && 
+            (rs.has_renter_reviewed_owner || rs.has_renter_reviewed_rent_order)
+        ) setCanRate(true);
+    }
+    parseReviewStatus(reviewStatus);
 
     const openPhoneModal = (id) => {
         swal(
@@ -414,20 +427,22 @@ export const RequestCard: React.SFC<IRequestCard> = ({
         case 'returned':
             title = <span><Icon name="flag checkered" /> پایان اجاره</span>;
             actions = <>
-                <Grid.Row className="buttons">
-                    <Grid.Column width={16}>
-                        <div style={{ marginLeft: '8px' }}>
-                            <Button
-                                primary
-                                fluid
-                                className="left"
-                                onClick={() => openRatingModal(id)}
-                            >
-                                ثبت نظر
-                            </Button>
-                        </div>
-                    </Grid.Column>
-                </Grid.Row>
+                {canRate &&
+                    <Grid.Row className="buttons">
+                        <Grid.Column width={16}>
+                            <div style={{ marginLeft: '8px' }}>
+                                <Button
+                                    primary
+                                    fluid
+                                    className="left"
+                                    onClick={() => openRatingModal(id)}
+                                >
+                                    ثبت نظر
+                                </Button>
+                            </div>
+                        </Grid.Column>
+                    </Grid.Row>
+                }
             </>;
             break;
         default:

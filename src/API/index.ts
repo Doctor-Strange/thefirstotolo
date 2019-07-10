@@ -37,6 +37,9 @@ import { REQUEST_getOrderRequest } from './Get/getOrderRequest'
 import { REQUEST_newRentRequest } from './Set/newRentRequest';
 import { REQUEST_setOrderStatus } from './Set/setRequestsActions';
 
+// Other
+import { REQUEST_getFAQ } from "./Get/getFAQ";
+
 export {
   REQUEST_getCar,
   REQUEST_getLocations,
@@ -60,5 +63,6 @@ export {
   REQUEST_getCarDiscounts,
   REQUEST_setCarDiscounts,
   REQUEST_newCarMedia,
-  REQUEST_getOrderRequest
+  REQUEST_getOrderRequest,
+  REQUEST_getFAQ
 };
