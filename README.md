@@ -3,13 +3,14 @@
 ![Otoli](static/logo_sticky.svg)
 
 ## Stack
-- Next.js
-- TypeScript
-- StyledComponent
-- Semantic UI
-- SEO & analytics(Google Analytics, Facebook Pixel, Next SEO)
+- **Next.js** for SSR
+- **TypeScript** for sake of god
+- **StyledComponent** for styling components
+- **Semantic UI**
+- **SEO & analytics**(Google Analytics, Facebook Pixel, Next SEO)
 - ~~Storybook~~
-- Jest & Enzyme
+- **Jest** & **Enzyme**
+- **Docz** for documenting
 
 ### Load from CDN
 - font-awesome@5
@@ -28,6 +29,12 @@ yarn test # test
 yarn test:watch
 yarn test:coverage # report coverage
 ```
+
+####  Docs
+```bash
+yarn docz:dev # run docs webserver in http://127.0.0.1:3000/
+yarn docz:build # build docs in docz```
+
 
 #### Development
 
