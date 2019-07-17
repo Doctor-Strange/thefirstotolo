@@ -52,13 +52,13 @@ import {
   numberWithCommas,
   convertNumbers2Persian,
   convertNumbers2English
-} from '../../lib/numbers';
+} from '../../utils/numbers';
 import {
   convertDateToMoment,
   convertRangeDateToMoment,
   convertMomentsToDateRange,
   getBetweenRange
-} from '../../lib/date';
+} from '../../utils/date';
 import TimeRangesSelector from './TimeRangesSelector';
 import DiscountsSelector from './DiscountsSelector';
 

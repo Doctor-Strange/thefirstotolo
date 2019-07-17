@@ -23,7 +23,7 @@ import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 import { Box, Flex } from '@rebass/grid';
 import { FilterType } from "./FilterType";
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../utils/numbers';
 import { PriceCard } from '../Cards';
 import { ITheme } from "../../theme/Interfaces";
 

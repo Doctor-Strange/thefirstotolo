@@ -27,7 +27,7 @@ import axios from 'axios';
 import * as NewUser from '../../../static/new_user.svg';
 import { Box, Flex } from '@rebass/grid';
 import { monthsEnglish, monthsFarsi } from '../../constants/options';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
 function clearNumber(x) {
   return Number(convertNumbers2English(x.toString())
     .replace(/,/g, '')

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Button, Icon, Image, Label, Grid, Segment } from 'semantic-ui-react'
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 const Card = styled(Grid)`

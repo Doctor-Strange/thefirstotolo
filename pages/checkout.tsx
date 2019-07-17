@@ -13,8 +13,8 @@ import { List } from '../src/components/List';
 import { i18n, withTranslation } from '../src/i18n';
 import { connect } from '../src/store';
 import { REQUEST_getCar, REQUEST_newRentRequest } from '../src/API';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
-import { LongDate, ShortDate } from '../src/lib/date';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/utils/numbers';
+import { LongDate, ShortDate } from '../src/utils/date';
 import {
     BrowserView,
     MobileView,

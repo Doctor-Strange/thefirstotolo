@@ -11,7 +11,7 @@ import { ShareBar } from '../src/components/ShareBar';
 import { Formik, FormikActions, withFormik } from 'formik';
 import { i18n, withTranslation } from '../src/i18n';
 import { REQUEST_getUserCars, REQUEST_getUser } from '../src/API';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/utils/numbers';
 import { ResultsCards } from '../src/components/Search';
 import jsCookie from 'js-cookie';
 import {

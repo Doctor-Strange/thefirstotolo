@@ -1,50 +1,39 @@
 # Next.js TypeScript Otoli Front-end
 
-![samples](assets/samples.png)
+![Otoli](static/logo_sticky.svg)
 
-It has applied React 16.7.0-alpha2 and FunctionComponenet style.
-Start with sample
-
-> see **[ChangeLog](CHANGELOG.md)**
-
-## Feature
-
+## Stack
+- Next.js
 - TypeScript
-- Styled-jsx
-- Module css **(PostCSS - cssnext, nested, import)**
-- SEO & analytics(Google Analytics, Facebook Pixel, <s>Naver Analytics</s>)
-- ~~Storybook **(support module css)**~~
-- Jest & Enzyme **(support module css)**
+- StyledComponent
+- Semantic UI
+- SEO & analytics(Google Analytics, Facebook Pixel, Next SEO)
+- ~~Storybook~~
+- Jest & Enzyme
 
 ### Load from CDN
-
 - font-awesome@5
 
-## Installation
+## Seting up
+### Installation
 
 ```sh
-git clone
-cd my-project
+git clone https://gitlab.com/otoli/mvp-front
+cd mvp-front
 yarn
 ```
-
-## Run :rocket:
-
-#### :rocket: Test
-
+####  Test
 ```bash
 yarn test # test
 yarn test:watch
 yarn test:coverage # report coverage
 ```
 
-### :rocket: Development
+#### Development
 
 ```bash
 yarn start:dev # run
 ```
-
-### :rocket: Production
 
 #### Serve
 
@@ -54,19 +43,10 @@ yarn build # create .next directory
 yarn start # start server
 ```
 
-#### Build static HTML
-
-```bash
-yarn
-yarn build # create .next directory
-yarn export # create .out directory
-```
-
 ## Configuration
 
 Set SEO & analytics variables
-
-> src/constants/env.ts
+> src/constants/env'
 
 ```typescript
 export const GA_TRACKING_ID = '';
@@ -83,46 +63,143 @@ export const SITE_IMAGE = '';
 If each variable evaluated false, it does not load related library
 
 ## Usage
+This project is biult on top of [Next.js](https://nextjs.org/docs). 
 
-### Module CSS ([src/components/Home.tsx](src/components/Home.tsx))
+## Folder Structure
 
-```typescript jsx
-import * as classnames from 'classnames'
-import * as css from './Home.css'
-
-export const Just = props => <div className={css.className}>
-export const Mixed = props => <div className={classnames('row', 'home', css.home)}>
 ```
+└── pages
+    │   # [Next.js files]
+    ├── _app
+    ├── _document
+    ├── _error
+    │
+    │   # [Otoli Pages]
+    ├── index
+    ├── search-results
+    ├── car
+    ├── checkout
+    ├── peyment_succeed
+    ├── request
+    ├── requests
+    ├── complete-register
+    ├── profile
+    ├── add-car
+    ├── set-car-timing
+    └── faq
+└── src
+    ├── @types
+    ├── actions
+    │   # [API calls, wrapped in an async function]
+    ├── API
+    │   ├── Get
+    │   │   ├── getCarAvailabilities
+    │   │   ├── getCarDiscounts
+    │   │   ├── getCarIsMine
+    │   │   ├── getCar
+    │   │   ├── getFactoryBrands
+    │   │   ├── getFactoryCars
+    │   │   ├── getFAQ
+    │   │   ├── getLocations
+    │   │   ├── getOrderRequests
+    │   │   ├── getOrderRequest
+    │   │   ├── getSearchForRent
+    │   │   ├── getUserCars
+    │   │   └── getUser
+    │   └── Set
+    │       ├── deleteCarAvailability
+    │       ├── editCarPartial
+    │       ├── newCarAvailability
+    │       ├── newCarMedia
+    │       ├── newRentRequest
+    │       ├── setCarAvailablity
+    │       ├── setCarDiscount
+    │       ├── setRequestsActions
+    │       ├── setUserImage
+    │       ├── setUserNameLastName
+    │       └── setUsername
+    ├── components
+    │   ├── 404
+    │   │   └── 404
+    │   ├── Car
+    │   │   ├── CarDateRange
+    │   │   ├── CarNav
+    │   │   ├── CarSideCard
+    │   │   └── Details
+    │   ├── Cards
+    │   │   ├── BoxCard
+    │   │   ├── CarCardPlaceholder
+    │   │   ├── CarCard
+    │   │   ├── ContentCard
+    │   │   ├── ContentSideCard
+    │   │   ├── DateGrid
+    │   │   ├── Pelak
+    │   │   ├── PriceCard
+    │   │   ├── RequestCardPlaceholder
+    │   │   ├── RequestCard
+    │   │   └── UserCard
+    │   ├── Carousel
+    │   │   ├── PanelsWrapper
+    │   │   └── Panel
+    │   ├── Comments
+    │   │   └── CommentSection
+    │   ├── Footer
+    │   │   └── Footer
+    │   ├── Forms
+    │   │   ├── AddCarForm
+    │   │   ├── AddCarImageUpload.ts
+    │   │   ├── CompleteRegisterForm
+    │   │   ├── DiscountsSelector
+    │   │   ├── indexForm.test
+    │   │   ├── IndexForm
+    │   │   ├── SetCarTimingForm
+    │   │   └── TimeRangesSelector
+    │   ├── Header
+    │   │   ├── Header
+    │   │   └── SubHeader
+    │   ├── Layout
+    │   │   └── Layout
+    │   ├── List
+    │   │   └── List
+    │   ├── Logo
+    │   │   └── Logo
+    │   ├── Modals
+    │   │   ├── LoginModal
+    │   │   ├── LoginStyle.ts
+    │   │   ├── ModalCore
+    │   │   └── ModalWrapper
+    │   ├── Nav
+    │   │   └── Nav
+    │   ├── row
+    │   │   └── Sections
+    │   ├── Search
+    │   │   ├── FilterAndSortBar
+    │   │   ├── FilterType
+    │   │   ├── ResultsCards
+    │   │   └── SearchBar
+    │   └── ShareBar
+    │       └── ShareBar
+    ├── constants
+    │   ├── env
+    │   └── options
+    ├── theme
+    │   ├── Colors
+    │   ├── Directions
+    │   ├── GlobalStyle
+    │   ├── Interfaces
+    │   └── Spacings
+    │── utils
+    │   ├── date
+    │   ├── numbers
+    │   └── timer
+    │── store.ts
+    └── i18n.js
+└── static
+    ├── fonts
+    └── locales
+└── babel.config.js
+└── next.config.js
+└── routes.js
+└── server.js
 
-### Styled-jsx
-
-#### Global scope ([src/components/Layout.tsx](src/components/Layout.tsx))
-
-```typescript jsx
-const Layout = props => (
-  <head>
-    <style jsx global>
-      {`
-        div > * {
-          font-size: 32px;
-        }
-      `}
-    </style>
-  </head>
-);
-```
-
-#### Local scope ([src/components/Home.tsx](src/components/Home.tsx))
-
-```typescript jsx
-export const Home = props => (
-  <div>
-    <style jsx>{`
-       {
-        color: darkred;
-      }
-    `}</style>
-    home
-  </div>
-);
 ```

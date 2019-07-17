@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import swal from '@sweetalert/with-react'
 import { Pelak, DateGrid } from './index';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../utils/numbers';
 import jsCookie from 'js-cookie';
 import { REQUEST_setOrderStatus } from '../../API';
 import {
@@ -162,15 +162,6 @@ export const RequestCard: React.SFC<IRequestCard> = ({
         }
     }
 
-    const parseReviewStatus = rs => {
-        if(statusOwner === "owner" && 
-            (rs.has_owner_reviewed_rent_order || rs.has_owner_reviewed_renter)
-        ) setCanRate(true);
-        else if(statusOwner === "renter" && 
-            (rs.has_renter_reviewed_owner || rs.has_renter_reviewed_rent_order)
-        ) setCanRate(true);
-    }
-    parseReviewStatus(reviewStatus);
 
     const openPhoneModal = (id) => {
         swal(
@@ -310,6 +301,20 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                 console.log('canceled');
         }
     }
+
+    if(!canRate){
+        if(statusOwner === "owner" && 
+            (reviewStatus.has_owner_reviewed_rent_order || reviewStatus.has_owner_reviewed_renter)
+        ) {
+            setCanRate(true);
+        }
+        else if(statusOwner === "renter" && 
+            (reviewStatus.has_renter_reviewed_owner || reviewStatus.has_renter_reviewed_rent_order)
+        ) {
+            setCanRate(true);
+        }
+    }
+    
 
     let title;
     let actions;

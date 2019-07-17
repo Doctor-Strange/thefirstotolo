@@ -15,7 +15,7 @@ import {
   numberWithCommas,
   convertNumbers2Persian,
   convertNumbers2English
-} from "../../lib/numbers";
+} from "../../utils/numbers";
 import { Formik, FormikActions, withFormik } from "formik";
 import { ITheme } from "../../theme/Interfaces";
 

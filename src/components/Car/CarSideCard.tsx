@@ -10,8 +10,8 @@ import {
     convertRangeDateToMoment,
     convertMomentsToDateRange,
     getBetweenRange
-} from '../../lib/date';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../lib/numbers';
+} from '../../utils/date';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English, getShortVersion } from '../../utils/numbers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { CarDateRange } from './index';
 

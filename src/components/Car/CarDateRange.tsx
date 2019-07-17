@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import StarRatingComponent from 'react-star-rating-component';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
-import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
+import "otoli-react-persian-calendar-date-picker/utils/datePicker.css";
 import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import {
     convertDateToMoment,
@@ -11,7 +11,7 @@ import {
     convertRangeDateToMoment,
     convertMomentsToDateRange,
     getBetweenRange
-} from '../../lib/date';
+} from '../../utils/date';
 import { lightTheme } from "../../theme/Colors"; // fixme: serve colors only from styled-component
 
 const Line = styled.nav`

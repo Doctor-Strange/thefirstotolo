@@ -21,7 +21,7 @@ import { i18n, withTranslation } from '../../i18n';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
 import { Box, Flex } from '@rebass/grid';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
 
 const Results = styled.div`
 `;

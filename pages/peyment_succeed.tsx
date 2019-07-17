@@ -9,7 +9,7 @@ import { List } from '../src/components/List';
 import Layout from '../src/components/Layout';
 import { REQUEST_getOrderRequest } from '../src/API';
 import jsCookie from 'js-cookie';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../src/utils/numbers';
 import { Box, Flex } from '@rebass/grid';
 import { i18n, Link, withTranslation } from '../src/i18n';
 import moment from 'moment-jalaali';

@@ -38,7 +38,7 @@ import { useDropzone } from 'react-dropzone';
 import Dropzone from 'react-dropzone';
 import scrollToElement from 'scroll-to-element';
 import AddCarImageUpload from "./AddCarImageUpload";
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
 
 const BoxAccount = styled.div`
   margin-bottom: 25px;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import StarRatingComponent from 'react-star-rating-component';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
 import { ITheme } from "../../theme/Interfaces";
 
 const Line = styled.nav`

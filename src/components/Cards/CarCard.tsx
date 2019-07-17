@@ -6,7 +6,7 @@ import Router from 'next/router';
 import StarRatingComponent from 'react-star-rating-component';
 import { Icon, Button, Grid } from 'semantic-ui-react';
 import { PriceCard } from './index'
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
 import { ITheme } from "../../theme/Interfaces";
 
 const Card = styled.div`

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useCallback } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
+import "otoli-react-persian-calendar-date-picker/utils/datePicker.css";
 import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import moment from 'moment-jalaali';
 moment.loadPersian({ dialect: 'persian-modern' });
@@ -37,8 +37,8 @@ import {
   convertRangeDateToMoment,
   convertMomentsToDateRange,
   getBetweenRange
-} from '../../lib/date';
-import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../lib/numbers';
+} from '../../utils/date';
+import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
 import { lightTheme } from "../../theme/Colors"; // fixme: serve colors only from styled-component
 
 
