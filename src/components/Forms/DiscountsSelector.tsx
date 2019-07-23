@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, Image, Item, Label, Segment, Form} from 'semantic-ui-react';
-import 'otoli-react-persian-calendar-date-picker/lib/datePicker.css';
+import 'otoli-react-persian-calendar-date-picker/lib/DatePicker.css';
 import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import { i18n, withTranslation } from '../../i18n';
 import { Box, Flex } from '@rebass/grid';
