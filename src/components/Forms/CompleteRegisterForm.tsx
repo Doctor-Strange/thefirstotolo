@@ -24,6 +24,7 @@ import { actions } from '../../store';
 import Router from 'next/router';
 import * as Yup from 'yup';
 import axios from 'axios';
+import jsCookie from 'js-cookie';
 import * as NewUser from '../../../static/new_user.svg';
 import { Box, Flex } from '@rebass/grid';
 import { monthsEnglish, monthsFarsi } from '../../constants/options';
@@ -121,7 +122,7 @@ export default withTranslation('common')(
         $birthdate
       } = this.props.strings;
       const { error } = this.state;
-      const { phone, token, completeRegister } = this.props.user;
+      const token = jsCookie.get('token');
       const { t, query } = this.props;
       if (token) {
         return (
