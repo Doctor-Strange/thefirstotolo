@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Box, Flex } from '@rebass/grid';
 import StarRatingComponent from 'react-star-rating-component';
 import { numberWithCommas, convertNumbers2Persian, convertNumbers2English } from '../../utils/numbers';
-import "otoli-react-persian-calendar-date-picker/utils/datePicker.css";
+import "otoli-react-persian-calendar-date-picker/lib/DatePicker.css";
 import DatePicker from 'otoli-react-persian-calendar-date-picker';
 import {
     convertDateToMoment,
