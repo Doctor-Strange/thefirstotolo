@@ -166,6 +166,7 @@ export default withRouter(
                     this.renderResults = debounce(this.renderResults.bind(this), 1000);
                 }
 
+                // it's not toggleing. it's a set.
                 toggleShowFilters(showFilters) {
                     this.setState({ showFilters });
                 }
