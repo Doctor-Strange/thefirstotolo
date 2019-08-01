@@ -100,6 +100,7 @@ export default withTranslation('common')(
 
         componentDidMount() {
             setTimeout(() => {
+                // trying to solve slider issues
                 window.dispatchEvent(new Event('resize'));
             }, 0);
         }

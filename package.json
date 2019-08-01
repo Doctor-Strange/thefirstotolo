@@ -17,8 +17,8 @@
     "export": "next export",
     "start": "NODE_ENV=production node server.js",
     "ts:check": "tsc --noEmit",
-    "docz:dev": "docz dev",
-    "docz:build": "docz build",
+    "docz:dev": "docz dev --typescript",
+    "docz:build": "docz build --typescript",
     "heroku-postbuild": "NODE_ENV=production next build"
   },
   "dependencies": {

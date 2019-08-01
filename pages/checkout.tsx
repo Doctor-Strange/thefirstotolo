@@ -119,6 +119,7 @@ export default withTranslation('common')(
         }
 
         async reserve(search_id) {
+            // check if user is logged in, if its not, open login modal
             if (!jsCookie.get('token')) {
                 this.state.openModal();
                 return;
