@@ -56,7 +56,7 @@ typings/
 
 
 # next.js build output
-.next/
+# .next/
 
 build/
 .docz
