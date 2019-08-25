@@ -127,10 +127,11 @@ export const Nav: React.FunctionComponent = ({ children, isMobile = false }) => 
   <Navigation>
     <nav id="menu" className="main-menu">
       <ul>
-        {!isMobile &&
+        {/* commented by sajad bug fix */}
+        {/* {!isMobile && */}
           <li>
             <span>
-              <a href="#">بیشتر بدانید</a>
+              <a href="#">راهنما</a>
             </span>
             <ul>
               <li>
@@ -150,11 +151,11 @@ export const Nav: React.FunctionComponent = ({ children, isMobile = false }) => 
               </li>
             </ul>
           </li>
-        }
+        // }
         <li>
           <span>
             <Link href="/requests">
-              <a>سفارش‌های من</a>
+              <a>رزروهای من</a>
             </Link>
           </span>
         </li>

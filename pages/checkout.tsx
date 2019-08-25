@@ -35,9 +35,9 @@ export default withTranslation('common')(
 
         static async getInitialProps(props) {
             if (typeof window === 'undefined') {
-                console.log('Server Side Router Query', props.query);
+                //console.log('Server Side Router Query', props.query);
             } else {
-                console.log('Client side Router Query', props.query);
+                //console.log('Client side Router Query', props.query);
             }
             try {
                 const res = await REQUEST_getCar({
@@ -139,7 +139,7 @@ export default withTranslation('common')(
                 }
             }
             catch (error) {
-                console.log(error.data);
+                //console.log(error.data);
                 this.showError(error.data.message);
             }
         }
@@ -148,16 +148,16 @@ export default withTranslation('common')(
             const { t, start_date, end_date, search_id } = this.props;
             let start, end = null;
             let startDate, endDate = null;
-            console.log(start_date);
+            //console.log(start_date);
             if (start_date && end_date) {
                 startDate = moment(start_date, 'jYYYY/jMM/jDD');
                 endDate = moment(end_date, 'jYYYY/jMM/jDD');
-                console.log(startDate);
+                //console.log(startDate);
             }
             if (startDate && endDate) {
                 start = moment(startDate).format('jD jMMMM jYY');
                 end = moment(endDate).format('jD jMMMM jYY');
-                console.log(start);
+                //console.log(start);
             }
             const { media_set, year, mileage_range, owner, body_style, color, color_code,
                 deliver_at_renters_place, cancellation_policy, transmission_type, location, facility_set,

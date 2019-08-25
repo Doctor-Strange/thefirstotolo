@@ -11,14 +11,14 @@ import { i18n, Link, withTranslation } from '../src/i18n';
 
 const Page = props => (
   <Layout haveSubHeader={true} pageTitle={'Hello World'} bgImage={backgroundImage}>
-    {console.log(`https://otoli.net/${seoImage}`)}
+    {/* {console.log(`https://otoli.net/${seoImage}`)} */}
      <NextSeo
         config={{
             title: `اتولی | اجاره آسان خودرو`,
-            description: `اتولی | اجاره آسان خودرو`,
+            description: `اجاره خودرو`,
             openGraph: {
                 title: `اتولی | اجاره آسان خودرو`,
-                description: `اتولی | اجاره آسان خودرو`,
+                description: `اجاره خودرو`,
                 images: [
                   { url: `https://otoli.net${seoImage}` },
                 ],
@@ -35,7 +35,7 @@ const Page = props => (
       <div className="hero_single version_4">
         <Flex justifyContent="space-around" className="wrapper">
           <Box width={2 / 2} px={2}>
-            <h3>ماشین اجاره کردن خیلی راحت‌تره!</h3>
+            <h3>اتولی | اجاره آسان خودرو</h3>
             <p>
               ماشینی که دوست دارید رو پیدا کنید و در سریع‌ترین زمان اجاره کنید
             </p>

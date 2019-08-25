@@ -50,7 +50,7 @@ const TimeRangesSelector: React.FC<{
   const [date, setDate] = useState(empetyDate);
   const [showNewEntery, setShowNewEntery] = useState(true);
   const [openEditFor, setOpenEditFor] = useState(null);
-  console.log("Car timings: ", carTimings);
+  // console.log("Car timings: ", carTimings);
   return (
       <div style={{ maxWidth: '370px' }}>
       <Segment.Group style={{ marginBottom: '12px' }}>
@@ -59,8 +59,8 @@ const TimeRangesSelector: React.FC<{
             return <></>;
           }
           if (openEditFor == index) {
-            console.log('date is: ', date);
-            console.log('price is: ', price);
+            // console.log('date is: ', date);
+            // console.log('price is: ', price);
             if (
               date.to === null &&
               date.from === null &&
@@ -68,10 +68,10 @@ const TimeRangesSelector: React.FC<{
             ) {
               setDate({ from: val.date.from, to: val.date.to });
               setPrice(val.price);
-              console.log(
-                'date and price setted from carTiming: ',
-                date
-              );
+              // console.log(
+              //   'date and price setted from carTiming: ',
+              //   date
+              // );
             }
             return (
               <Segment key={index} style={{ textAlign: 'right' }}>
@@ -85,9 +85,9 @@ const TimeRangesSelector: React.FC<{
                 <DatePicker
                   selectedDayRange={date}
                   onChange={value => {
-                    console.log('val ', value);
+                    // console.log('val ', value);
                     setDate({ from: value.from, to: value.to });
-                    console.log('date ', date);
+                    // console.log('date ', date);
                   }}
                   inputPlaceholder="انتخاب روزهای نمایش"
                   isDayRange
@@ -152,7 +152,7 @@ const TimeRangesSelector: React.FC<{
                     id="pos_bott2"
                     className="pos_bott"
                     onClick={e => {
-                      console.log(e);
+                      // console.log(e);
                       let data = carTimings;
                       if (date.from && date.to && price) {
                         data.splice(index, 1, {
@@ -200,7 +200,7 @@ const TimeRangesSelector: React.FC<{
                   onClick={e => {
                     let data = carTimings;
                     data.splice(index, 1);
-                    console.log(data);
+                    // console.log(data);
                     modifyCarTimings(data);
                     setShowNewEntery(false);
                     setPrice(null);
@@ -294,9 +294,9 @@ const TimeRangesSelector: React.FC<{
                 className="pos_bott"
                 id="pos_bott"
                 onClick={e => {
-                  console.log(e);
+                  // console.log(e);
                   let data = carTimings;
-                  console.log("Data is ", data);
+                  // console.log("Data is ", data);
                   if (date.from && date.to && price) {
                     data.push({
                       date,

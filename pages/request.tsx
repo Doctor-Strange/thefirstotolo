@@ -17,7 +17,7 @@ const Request = ({id}) => {
 
     async function fetchAPI() {
         const res = await REQUEST_getOrderRequest({ token: jsCookie.get('token'), id  });
-        console.log(res)
+        // console.log(res)
         setRequest(res);
     }
 
@@ -87,9 +87,9 @@ const Request = ({id}) => {
 
 Request.getInitialProps = async (props) => {
     if (typeof window === 'undefined') {
-        console.log('Server Side Router Query', props.query);
+        // console.log('Server Side Router Query', props.query);
     } else {
-        console.log('Client side Router Query', props.query);
+        // console.log('Client side Router Query', props.query);
     }
     const id = props.query.id;
     return {

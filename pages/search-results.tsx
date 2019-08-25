@@ -30,9 +30,9 @@ export default withRouter(
             }> {
                 static async getInitialProps(props) {
                     if (typeof window === 'undefined') {
-                        console.log('Server Side Router Query', props.query);
+                        // console.log('Server Side Router Query', props.query);
                     } else {
-                        console.log('Client side Router Query', props.query);
+                        // console.log('Client side Router Query', props.query);
                     }
                     let queryString = '';
                     const {
@@ -187,7 +187,7 @@ export default withRouter(
                 }
 
                 nextPage() {
-                    console.log('nextpage is ', this.state.page + 1);
+                    // console.log('nextpage is ', this.state.page + 1);
                     this.setState({ lodingMore: true }, () => {
                         this.renderResults(this.state.page + 1);
                         this.setState({ page: this.state.page + 1 })
@@ -195,16 +195,16 @@ export default withRouter(
                 }
 
                 toggleToCarBodyType(id) {
-                    console.log('runned');
+                    // console.log('runned');
                     const carBodyType = this.state.carBodyType;
                     const index = carBodyType.indexOf(id);
                     // console.log({ index, a: "1" });
                     if (index > -1) {
                         carBodyType.splice(index, 1);
-                        console.log(id + 'removed');
+                        // console.log(id + 'removed');
                     } else {
                         carBodyType.push(id);
-                        console.log(id + 'pushed');
+                        // console.log(id + 'pushed');
                     }
 
                     this.setState({ carBodyType, loadingResults: true }, () => {
@@ -426,7 +426,7 @@ export default withRouter(
                         const as = href;
                         Router.replace(href, as);
                     } else if (this.state.latest_result_key) {
-                        console.log('here we go again...!');
+                        // console.log('here we go again...!');
                         const res = await REQUEST_getSearchForRent({
                             page,
                             limit: 8,

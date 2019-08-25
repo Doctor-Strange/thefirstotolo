@@ -1,6 +1,6 @@
 /* tslint:disable */
 import * as React from 'react';
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 import swal from '@sweetalert/with-react'
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -69,7 +69,7 @@ const BoxAccount = styled.div`
       left: 40px;
       width: 40px !important;
       padding: 8px;
-      top: -5px;
+      top: 9px;
       font-size: 18px;
     }
     #carLicensePlates2 {
@@ -77,9 +77,9 @@ const BoxAccount = styled.div`
       position: relative;
       left: -150px;
       width: 70px !important;
-      height: 47px;
+      height: 48px;
       padding: 8px;
-      top: -40px;
+      top: -35px;
       font-size: 18px;
       text-align: center;
       direction: rtl;
@@ -90,7 +90,7 @@ const BoxAccount = styled.div`
       left: 166px;
       width: 55px !important;
       padding: 8px;
-      top: -119px;
+      top: -101px;
       font-size: 18px;
     }
     #carLicensePlates4 {
@@ -100,7 +100,7 @@ const BoxAccount = styled.div`
       width: 55px !important;
       height: 39px;
       padding: 8px;
-      top: -160px;
+      top: -133px;
       font-size: 18px;
     }
   }
@@ -224,7 +224,10 @@ export default withTranslation('common')(connect(state => state)(
     }
 
     componentDidMount() {
-      scrollToElement('#form');
+      // changed by sajad 980528
+      // disable Auto scroll because of small screens
+      // scrollToElement('#form');
+
       //get cities and genrate a dropdown input in form
       axios
         .post(process.env.PRODUCTION_ENDPOINT + '/core/location/list?limit=800')
@@ -455,20 +458,20 @@ export default withTranslation('common')(connect(state => state)(
     setFasalities(id, OnlyActive = false) {
       const cblist = this.state.checkboxes;
       let IDs = [];
-      console.log(id);
-      // console.log(cblist[i].id);
+      //console.log(id);
+      //console.log(cblist[i].id);
       try {
         cblist.map((value, index) => {
           if (value.id === id) {
             if (!OnlyActive) cblist[index].checked = !cblist[index].checked;
             else cblist[index].checked = true;
-            console.log(
-              `"id" is ${cblist[index].label} and "checkboxes[${index}]" is ${
-              cblist[index].checked
-              }`
-            );
+            // console.log(
+            //   `"id" is ${cblist[index].label} and "checkboxes[${index}]" is ${
+            //   cblist[index].checked
+            //   }`
+            // );
             IDs.push(id);
-            console.log(id + ' added.');
+            //console.log(id + ' added.');
           }
         });
       } catch (error) {
@@ -509,7 +512,7 @@ export default withTranslation('common')(connect(state => state)(
               if (capacity && capacity != 0) {
                 output['capacity'] = capacity;
               }
-              console.log(output);
+              //console.log(output);
               resolve(output);
             } else {
               resolve({});
@@ -525,11 +528,11 @@ export default withTranslation('common')(connect(state => state)(
 
     removePicture(i) {
       var picturesID = this.state.picturesID;
-      console.log(picturesID);
+      //console.log(picturesID);
       var picturesIDIndex = picturesID.indexOf(i);
-      console.log('going to delte');
+      //console.log('going to delte');
       picturesID.splice(i, 1);
-      console.log(picturesID);
+      //console.log(picturesID);
       this.setState({ picturesID });
     }
 
@@ -583,7 +586,7 @@ export default withTranslation('common')(connect(state => state)(
             actions: FormikActions<IAddCarFormValues>
           ) => {
             actions.setSubmitting(true);
-            console.log(this.state.picturesID);
+            //console.log(this.state.picturesID);
             if (this.state.picturesID.length <= 0) {
               // alert("لطفاً حداقل یک تصویر بارگذاری کنید.");
               this.setState({ error: 'لطفاً حداقل یک تصویر بارگذاری کنید.' });
@@ -591,7 +594,7 @@ export default withTranslation('common')(connect(state => state)(
               return false;
             }
             this.setState({ error: '' });
-            console.log(values);
+            //console.log(values);
             const {
               carCity,
               carDistrict,
@@ -642,7 +645,7 @@ export default withTranslation('common')(connect(state => state)(
               )
               .then(response => {
                 if (response.data.success) {
-                  console.log(response.data);
+                  //console.log(response.data);
                   Router.push({
                     pathname: '/set-car-timing',
                     query: {
@@ -660,7 +663,7 @@ export default withTranslation('common')(connect(state => state)(
                 actions.setSubmitting(false);
               });
             setTimeout(() => {
-              console.log(values);
+              //console.log(values);
 
               actions.setSubmitting(false);
             }, 3000);
@@ -741,6 +744,7 @@ export default withTranslation('common')(connect(state => state)(
                   <h3 className="new_client">{t('add_car')}</h3>
                   {/* <small className="float-right pt-2">* {$required_fields}</small> */}
                   <Segment>
+<p>مشخصات خودرو را با مطابق با مدارک آن پر کنید. </p>
                     {/* <Form.Field style={{ margin: 0 }}>
                       <label>{t('carProperty.whereIsIt')}</label>
                     </Form.Field> */}
@@ -750,6 +754,14 @@ export default withTranslation('common')(connect(state => state)(
                           name="carCity"
                           id="carCity"
                           label={t('carProperty.whereIsIt')}
+                          render={({ field, form }: FieldProps<MyFormValues>) => (
+                <div>
+                  <input type="text" {...field} placeholder="First Name" />
+                  {form.touched.firstName &&
+                    form.errors.firstName &&
+                    form.errors.firstName}
+                </div>
+              )}
                           placeholder={t('carProperty.city')}
                           noResultsMessage={t('forms.error_no_result_found')}
                           selection
@@ -768,7 +780,7 @@ export default withTranslation('common')(connect(state => state)(
                             }
                           }}
                           onClose={(e, data) => {
-                            console.log(e);
+                            //console.log(e);
                             if (data && data.name) {
                               setFieldTouched(data.name);
                             }
@@ -784,7 +796,7 @@ export default withTranslation('common')(connect(state => state)(
                             className={Boolean(errors.carCity && touched.carCity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                             value={values.carCity}
                             onChange={(e) => {
-                              console.log(e.target.value);
+                              //console.log(e.target.value);
                               if (e.target && e.target.name) {
                                 setFieldValue(e.target.name, Number(e.target.value));
                                 setFieldValue('carDistrict', undefined);
@@ -801,7 +813,6 @@ export default withTranslation('common')(connect(state => state)(
                           </select>
                         </div>
                       }
-
                       {this.state.shouldCityDistrictShow ? (
                         <Form.Dropdown
                           name="carDistrict"
@@ -920,7 +931,7 @@ export default withTranslation('common')(connect(state => state)(
                                 });
                               })
                               .catch(function (error) {
-                                console.log(error.message);
+                                //console.log(error.message);
                               });
                           }
                         }}
@@ -969,7 +980,7 @@ export default withTranslation('common')(connect(state => state)(
                             className={Boolean(errors.carYear && touched.carYear) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                             value={values.carYear}
                             onChange={(e) => {
-                              console.log(e.target.value);
+                              //console.log(e.target.value);
                               if (e.target && e.target.name) {
                                 setFieldValue(e.target.name, Number(e.target.value));
                               }
@@ -1063,7 +1074,7 @@ export default withTranslation('common')(connect(state => state)(
                           className={Boolean(errors.carBodyStyle && touched.carBodyStyle) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                           value={values.carBodyStyle}
                           onChange={(e) => {
-                            console.log(e.target.value);
+                            //console.log(e.target.value);
                             if (e.target && e.target.name) {
                               setFieldValue(e.target.name, Number(e.target.value));
                             }
@@ -1105,7 +1116,7 @@ export default withTranslation('common')(connect(state => state)(
                           className={Boolean(errors.carCapacity && touched.carCapacity) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                           value={values.carCapacity}
                           onChange={(e) => {
-                            console.log(e.target.value);
+                            //console.log(e.target.value);
                             if (e.target && e.target.name) {
                               setFieldValue(e.target.name, Number(e.target.value));
                             }
@@ -1172,7 +1183,7 @@ export default withTranslation('common')(connect(state => state)(
                             className={Boolean(errors.carKmDriven && touched.carKmDriven) ? "ui search selection dropdown error" : "ui search selection dropdown noterror"}
                             value={values.carKmDriven}
                             onChange={(e) => {
-                              console.log(e.target.value);
+                              // console.log(e.target.value);
                               if (e.target && e.target.name) {
                                 setFieldValue(e.target.name, Number(e.target.value));
                               }
@@ -1210,6 +1221,9 @@ export default withTranslation('common')(connect(state => state)(
                       <span onClick={this.openVINHint} style={{ fontSize: '12px', fontWeight: 400 }}>
                         <Icon name="help circle" />{' '}
                         VIN را از کجا پیدا کنیم؟
+                        </span>
+                      <span   style={{ fontSize: '12px', fontWeight: 400, color:"firebrick" }}>
+                       کد شناسایی خودرو فقط جهت تنظیم قرارداد اجاره به کار می‌رود و در سایت نمایش داده نمی‌شود.
                         </span>
                     </div>
 
@@ -1312,7 +1326,10 @@ export default withTranslation('common')(connect(state => state)(
                         />
                       </div>
                     </Form.Group>
-
+                    <span   style={{ fontSize: '12px', fontWeight: 400, color:"firebrick",marginBottom: '20px',
+                    marginTop: "-25px",display: 'block' }}>
+                    پلاک خودرو فقط جهت تنظیم قرارداد اجاره به کار می‌رود و در سایت نمایش داده نمی‌شود.
+                        </span>
                     <Form.Field style={{ margin: 0 }}>
                       <label>{t('carProperty.option')}</label>
                     </Form.Field>
@@ -1421,7 +1438,7 @@ export default withTranslation('common')(connect(state => state)(
                         type="submit"
                         className="btn_1 full-width"
                       >
-                        {t('signup')}
+                        {t('ثبت خودرو')}
                       </Button>
                     </Form.Field>
 

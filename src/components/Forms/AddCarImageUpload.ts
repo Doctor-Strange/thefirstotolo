@@ -83,7 +83,7 @@ const AddCarImageUpload: React.FC<{
     removePictureID(i);
     var picturesPreviewIndex = picturesPreview.indexOf(i);
     picturesPreview.splice(i, 1);
-    console.log(picturesID);
+    // console.log(picturesID);
     setPicturesPreview(picturesPreview);
   }
   return (
@@ -102,13 +102,13 @@ const AddCarImageUpload: React.FC<{
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onabort = () =>
-            console.log('file reading was aborted');
+            // console.log('file reading was aborted');
           reader.onerror = () =>
-            console.log('file reading has failed');
+            // console.log('file reading has failed');
           reader.onload = () => {
-            console.log('file reading was susceed',picturesPreview);
+            // console.log('file reading was susceed',picturesPreview);
             picturesPreview.push(reader.result);
-            console.log(picturesPreview)
+            // console.log(picturesPreview)
             setPicturesPreview(picturesPreview);
           };
         });

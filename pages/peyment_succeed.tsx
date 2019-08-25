@@ -133,7 +133,7 @@ const Page = ({id}) => {
     }, []);
 
     const rentDump = request.success? request.data.rent_search_dump : {};
-    console.log(rentDump);
+    // console.log(rentDump);
     return (
         <Layout haveSubHeader={true} pageTitle={'Hello World'}>
             <Section justifyCenter={true}>

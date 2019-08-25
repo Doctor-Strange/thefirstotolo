@@ -26,6 +26,7 @@ export default withTranslation('common')(
     };
 
     render() {
+      //console.log(t)
       const { t } = this.props;
       return (
         <Layout haveSubHeader={true} pageTitle={'list Your Car'} onRef={this.doRef}>

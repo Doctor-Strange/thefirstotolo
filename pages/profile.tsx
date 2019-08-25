@@ -127,9 +127,9 @@ const Profile: React.SFC<IProfile> = ({ t, id, first_name, last_name, image_url,
 
 Profile.getInitialProps = async (props) => {
     if (typeof window === 'undefined') {
-        console.log('Server Side Router Query', props.query);
+        // console.log('Server Side Router Query', props.query);
     } else {
-        console.log('Client side Router Query', props.query);
+        // console.log('Client side Router Query', props.query);
     }
     const query =  props.query.id? {
         id: props.query.id

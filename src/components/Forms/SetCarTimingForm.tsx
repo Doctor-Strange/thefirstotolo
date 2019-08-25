@@ -327,7 +327,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
   const [disabledDays, setDisabledDays] = useState([]);
 
   const modifyCarTimings = async (array, curentRange = [] /* fixme */) => {
-    console.log("array is ", array);
+    // console.log("array is ", array);
     setCarTimings(array);
     let out = [];
     var disabledDaysFiltered = array
@@ -339,17 +339,17 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
       })
       .map((value, index) => {
         if(value){
-          console.log('index:', value);
+          // console.log('index:', value);
           var days = getBetweenRange(value.date);
           out.push(...days);
         }
       });
     await setDisabledDays(out);
-    console.log('disabledDays is: ', disabledDays);
+    // console.log('disabledDays is: ', disabledDays);
   };
 
   const modifyCarDiscounts = async (array) => {
-    console.log("array is ", array);
+    // console.log("array is ", array);
     setCarDiscounts(array);
   };
 
@@ -455,7 +455,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
       ) => {
         actions.setSubmitting(true);
         setError(false);
-        console.log(values);
+        // console.log(values);
         let {
           availableInAllPrice,
           cancellationPolicy,
@@ -610,14 +610,14 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
           setFieldValue('deliverAtRentersPlace', car.deliver_at_renters_place);
           setFieldValue('daysToGetReminded', car.days_to_get_reminded);
           setFieldValue('minDaysToRent', car.min_days_to_rent);
-          console.log('isAllTimePrice: ', isAllTimePrice);
+          // console.log('isAllTimePrice: ', isAllTimePrice);
           if (isIsAllTime) {
-            console.log('setting is all time price', isAllTimePrice);
+            // console.log('setting is all time price', isAllTimePrice);
             setFieldValue('availableInAllPrice', isAllTimePrice);
           } else {
-            console.log('setFieldValue', values.radioGroup);
+            // console.log('setFieldValue', values.radioGroup);
             setFieldValue('radioGroup', true);
-            console.log('setFieldValue', values.radioGroup);
+            // console.log('setFieldValue', values.radioGroup);
           }
         }
         return (
@@ -933,7 +933,7 @@ const SetCarTimingForm: React.SFC<ISetCarTimingForm> = ({ t, id }) => {
                 </Form.Field>
                 {values.radioGroup == true && (
                   <>
-                  {console.log("car timings before ",carTimings)}
+                  {/* {console.log("car timings before ",carTimings)} */}
                   <TimeRangesSelector
                     carTimings={carTimings}
                     disabledDays={disabledDays}

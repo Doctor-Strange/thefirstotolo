@@ -16,12 +16,12 @@ Sentry.init({
 });
 
 Router.events.on('routeChangeStart', url => {
-  console.log(`Loading: ${url}`);
+  //console.log(`Loading: ${url}`);
   NProgress.start();
 });
 
 Router.events.on('hashChangeStart', url => {
-  console.log(`hashChangeStart: ${url}`);
+  //console.log(`hashChangeStart: ${url}`);
 });
 
 Router.events.on('routeChangeComplete', () => {
@@ -31,12 +31,12 @@ Router.events.on('routeChangeComplete', () => {
     const timestamp = new Date().valueOf();
     els[0].href = '/_next/static/css/styles.chunk.css?v=' + timestamp;
   }
-  console.log(`Complete loading`);
+  //console.log(`Complete loading`);
   NProgress.done()
 });
 
 Router.events.on('routeChangeError', (err, url) => {
-  console.log(`Error loading: ${url}`);
+  //console.log(`Error loading: ${url}`);
   console.error(err);
   NProgress.done()
 });
@@ -60,7 +60,7 @@ class OtoliApp extends App {
       navigator.serviceWorker
         .register('/service-worker.js')
         .then(registration => {
-          console.log('service worker registration successful')
+          //console.log('service worker registration successful')
         })
         .catch(err => {
           console.warn('service worker registration failed', err.message)

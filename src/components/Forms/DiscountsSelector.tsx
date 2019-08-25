@@ -40,7 +40,7 @@ const DiscountsSelector: React.FC<{
   const [duration, setDuration] = useState(null);
   const [showNewEntery, setShowNewEntery] = useState(true);
   const [openEditFor, setOpenEditFor] = useState(null);
-  console.log("Car discounts: ", carDiscounts);
+  // console.log("Car discounts: ", carDiscounts);
   return (
     <Component style={{ maxWidth: '370px' }}>
       <Segment.Group style={{ marginBottom: '12px' }}>
@@ -49,8 +49,8 @@ const DiscountsSelector: React.FC<{
             return <></>;
           }
           if (openEditFor == index) {
-            console.log('percent is: ', percent);
-            console.log('duration is: ', duration);
+            // console.log('percent is: ', percent);
+            // console.log('duration is: ', duration);
             if (percent === null && duration === null) {
                 setDuration(val.duration);
                 setPercent(val.percent);
@@ -168,7 +168,7 @@ const DiscountsSelector: React.FC<{
                   onClick={e => {
                     let data = carDiscounts;
                     data.splice(index, 1);
-                    console.log(data);
+                    // console.log(data);
                     modifyCarDiscounts(data);
                     setShowNewEntery(false);
                     setPercent(null);
@@ -256,9 +256,9 @@ const DiscountsSelector: React.FC<{
                 className="pos_bott"
                 id="pos_bott"
                 onClick={e => {
-                  console.log(e);
+                  // console.log(e);
                   let data = carDiscounts;
-                  console.log("Data is ", data);
+                  // console.log("Data is ", data);
                   if (duration && percent) {
                     data.push({
                       duration,

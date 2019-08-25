@@ -121,7 +121,7 @@ class Header extends React.Component<{
 
   render() {
     let { t, user } = this.props;
-    console.log(user);
+    // console.log(user);
     if (!user) {
       user = { token: "", user_id: "", phone: "", first_name: "", last_name: "" };
     }
@@ -144,10 +144,15 @@ class Header extends React.Component<{
                             href="#"
                             id="sign-in"
                             className="login"
-                            title={t('signin')}
+                            // commented by sajad saderi 
+                            // title={t('signin')}
+                            title={t('ورود/ثبت نام')}
                             onClick={this.onClick}
                           >
-                            {t('signin')}
+                            {/* commented by sajad saderi */}
+                            {/* {t('signin')} */}
+                            {t('ورود/ثبت نام')}
+
                           </a>
                         )}
                         {token && (
@@ -177,10 +182,13 @@ class Header extends React.Component<{
                             href="#"
                             id="sign-in"
                             className="login"
-                            title={t('signin')}
+                            // commented by sajad saderi 
+                            // title={t('signin')}
+                            title={t('ورود/ثبت نام')}
                             onClick={this.onClick}
                           >
-                            {t('signin')}
+                            {/* {t('signin')} */}
+                            {t('ورود/ثبت نام')}
                           </a>
                         )}
                         {token && (

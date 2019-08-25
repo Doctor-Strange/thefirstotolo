@@ -106,6 +106,9 @@ const Card = styled.div`
       font-size: 13px;
       font-size: 0.8125rem;
     }
+    .number span , .unit span{
+      color: #2A2A2A;
+    }
     p {
       margin-bottom: 15px;
     }
@@ -250,66 +253,67 @@ export const CarCard: React.FunctionComponent<{
             }
             <img src={img} className="img-fluid" alt="" />
             <div className="read_more">
-              <span>{simpleMode ? "مشاهده" : "مشاهده و رزرو"}</span>
+              <span>{simpleMode ? "مشاهده" : "مشاهده مشخصات"}</span>
             </div>
             {/* <small>Restaurant</small> */}
           </figure>
-          </a>
-        </Link>
-        <div className="wrapper row">
-          <div className="col-8">
-            <Link href={link}>
-              <a>
-                <h3>
-                  {title}<br />
-                  <small>{year}</small><br />
-                  {/* <StarRatingComponent
-                        name="rate1"
-                        starCount={5}
-                        value={3}
-                      /> */}
-                </h3>
-              </a>
-            </Link>
-          </div>
-          {!simpleMode &&
-            <div className="col-4 leftbox">
-              <PriceCard number={discounted_price? discounted_price : price}>
-                در روز
-            </PriceCard>
+          
+          <div className="wrapper row">
+            <div className="col-8">
+              <Link href={link}>
+                <a>
+                  <h3>
+                    {title}<br />
+                    <small>{year}</small><br />
+                    {/* <StarRatingComponent
+                          name="rate1"
+                          starCount={5}
+                          value={3}
+                        /> */}
+                  </h3>
+                </a>
+              </Link>
             </div>
-          }
-          {/* <small>{text2}</small> */}
-          {/* <p>{description}</p> */}
-          {/* <a className="address" href={`/car?id=${id}`}>Get directions</a> */}
-          {!simpleMode &&
-            <ul>
-              {deliver_at_renters_place ?
-                (
-                  <li>
-                    <span className="delivery">تحویل در محل</span>
-                  </li>
-                ) : (<li></li>)
-              }
-            </ul>
-          }
-          {showEditButtons &&
-            <Grid className="edit">
-              <Grid.Row columns={2} centered className="property">
-                <Grid.Column width={8} className="item">
-                  <Button basic onClick={setCarTiming}>
-                    <Icon name='calendar alternate outline' /> تغیر تاریخ و قیمت
-                    </Button>
-                </Grid.Column>
-                <Grid.Column width={8} className="item">
-                  <Button basic onClick={pauseCar}>
-                    <Icon name='pause circle outline' /> توقف نمایش
-                    </Button>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          }
-        </div>
+            {!simpleMode &&
+              <div className="col-4 leftbox">
+                <PriceCard number={discounted_price? discounted_price : price}>
+                  در روز
+              </PriceCard>
+              </div>
+            }
+            {/* <small>{text2}</small> */}
+            {/* <p>{description}</p> */}
+            {/* <a className="address" href={`/car?id=${id}`}>Get directions</a> */}
+            {!simpleMode &&
+              <ul>
+                {deliver_at_renters_place ?
+                  (
+                    <li>
+                      <span className="delivery">تحویل در محل</span>
+                    </li>
+                  ) : (<li></li>)
+                }
+              </ul>
+            }
+            {showEditButtons &&
+              <Grid className="edit">
+                <Grid.Row columns={2} centered className="property">
+                  <Grid.Column width={8} className="item">
+                    <Button basic onClick={setCarTiming}>
+                      <Icon name='calendar alternate outline' /> تغیر تاریخ و قیمت
+                      </Button>
+                  </Grid.Column>
+                  <Grid.Column width={8} className="item">
+                    <Button basic onClick={pauseCar}>
+                      <Icon name='pause circle outline' /> توقف نمایش
+                      </Button>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            }
+          </div>
+          </a>
+        </Link>      
       </Card>
     );
   }

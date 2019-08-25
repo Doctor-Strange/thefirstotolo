@@ -11,9 +11,9 @@ export default withTranslation('common')(
   class extends React.Component<{ t: any }> {
     static async getInitialProps(props) {
       if (typeof window === 'undefined') {
-        console.log('Server Side Router Query', props.query);
+        //console.log('Server Side Router Query', props.query);
       } else {
-        console.log('Client side Router Query', props.query);
+        //console.log('Client side Router Query', props.query);
       }
       return {
         namespacesRequired: ['common'],

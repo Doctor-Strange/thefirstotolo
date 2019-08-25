@@ -298,7 +298,7 @@ export const RequestCard: React.SFC<IRequestCard> = ({
                 setText(null);
                 break;
             default:
-                console.log('canceled');
+                //console.log('canceled');
         }
     }
 

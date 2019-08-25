@@ -39,8 +39,8 @@ export default props => {
                                     <RequestCardPlaceholder />
                                     <RequestCardPlaceholder />
                                 </>
-                                :
-                                requests.map((value, index) => {
+                                : requests.length === 0 ? <p>در حال حاضر درخواستی ثبت نشده.</p>
+                                : requests.map((value, index) => {
                                     const rentDump = value.rent_search_dump;
                                     const {
                                         has_owner_reviewed_rent_order,
@@ -91,9 +91,10 @@ export default props => {
                                     )
                                 })
                             }
-                            {(requestsCount <= -1) &&
-                                <p>در حال حاظر  درخواستی ثبت نشده.</p>
-                            }
+                            {/* commented by sajad 980528  `bug fixed` */}
+                            {/* {(requestsCount <= -1) &&
+                                <p>در حال حاضر درخواستی ثبت نشده.</p>
+                            } */}
                         </Item.Group>
                     </Box>
                 </Flex>

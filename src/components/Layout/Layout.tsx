@@ -54,7 +54,7 @@ class Layout extends React.Component<{
 
   render() {
     const directionTheme = i18n.language == 'en' ? ltrTheme : rtlTheme;
-    console.log("i18n.language: ", i18n.language);
+    // console.log("i18n.language: ", i18n.language);
     const { t, pageTitle, children, bgImage } = this.props;
     const theme: ITheme = {
       lang: i18n.language,

@@ -258,7 +258,7 @@ export default withTranslation('common')(
                           this.handleCloseModal();
                           let go_to_pathname = Router.pathname;
                           let go_to_queries = Router.query;
-                          console.log(go_to_queries);
+                          // console.log(go_to_queries);
                           Router.push({
                             pathname: '/complete-register', query: {
                               cell: this.state.phone,
@@ -289,7 +289,7 @@ export default withTranslation('common')(
 
                             .then(response2 => {
                               // now lets sign them in
-                              console.log(response);
+                              // console.log(response);
                               actions.signin({
                                 user_id: response.data.user_profile.id,
                                 token: response.data.token,

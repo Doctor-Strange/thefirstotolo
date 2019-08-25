@@ -7,7 +7,7 @@ const Error404: React.FunctionComponent<{ token: any; openModal?: any;}> = ({
   openModal
 }) => {
   if (!token) {
-    console.log("user not logged in");
+    //console.log("user not logged in");
     if (openModal) {
       openModal();
     }

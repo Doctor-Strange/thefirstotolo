@@ -256,11 +256,11 @@ export const UserCard: React.FunctionComponent<{
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onabort = () =>
-                      console.log('file reading was aborted');
+                      //console.log('file reading was aborted');
                     reader.onerror = () =>
-                      console.log('file reading has failed');
+                      //console.log('file reading has failed');
                     reader.onload = () => {
-                      console.log('file reading was susceed');
+                      //console.log('file reading was susceed');
                       setFieldValue('shownImage', reader.result);
                     };
                   }}

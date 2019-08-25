@@ -43,19 +43,19 @@ function convertMomentsToDateRange(start, end) {
 function getBetweenRange(date: IRange) {
   const { from, to } = convertRangeDateToMoment(date);
   if (from && to) {
-    console.log('from and to  are:', { from, to });
+    // console.log('from and to  are:', { from, to });
     const days = [];
     const out = [];
     const duration = from.diff(to, 'days');
-    console.log('duration is:', duration);
+    // console.log('duration is:', duration);
     for (let i = 0; i <= -duration; i++) {
       days.push(moment(from).add(i, 'days'));
     }
-    console.log('days is:', out);
+    // console.log('days is:', out);
     days.map((value, index) => {
       out.push(convertMomentToDate(value));
     });
-    console.log('out is:', out);
+    // console.log('out is:', out);
     return out;
   }
 }

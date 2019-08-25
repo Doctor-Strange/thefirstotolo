@@ -46,9 +46,9 @@ export default withTranslation('common')(
 
         static async getInitialProps(props) {
             if (typeof window === 'undefined') {
-                console.log('Server Side Router Query', props.query);
+                //console.log('Server Side Router Query', props.query);
             } else {
-                console.log('Client side Router Query', props.query);
+                //console.log('Client side Router Query', props.query);
             }
             let res = await REQUEST_getFAQ();
             const qaArr1 = [];
@@ -80,7 +80,7 @@ export default withTranslation('common')(
             let start, end = null;
             let startDate, endDate = null;
             const { qaArr1,  qaArr2, } = this.props;
-            console.log(qaArr1);
+            //console.log(qaArr1);
             return (
                 <Layout haveSubHeader={true} pageTitle={'list Your Car'}>
                     <NextSeo

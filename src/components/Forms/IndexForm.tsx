@@ -198,7 +198,7 @@ const IndexForm: React.SFC<IIndexForm> = ({}) => {
           queryString = queryString + `location_id=${values.carCity}&`;
           shownURL = shownURL + `city=${values.carCity}&`;
         }
-        console.log(date);
+        // console.log(date);
         if (date.from) {
           queryString = queryString +
             `start_date=${date.from.year}/${date.from.month}/${date.from.day}` +
@@ -239,7 +239,7 @@ const IndexForm: React.SFC<IIndexForm> = ({}) => {
               <DatePicker
                 selectedDayRange={date}
                 onChange={(v) => {
-                  console.log("fe", v);
+                  // console.log("fe", v);
                   if (!v.to) {
                     setCalEnd();
                   }
@@ -279,13 +279,16 @@ const IndexForm: React.SFC<IIndexForm> = ({}) => {
                             }
                           }}
                           onClose={(e, data) => {
-                            console.log(e);
+                            // console.log(e);
                             if (data && data.name) {
                               setFieldTouched(data.name);
                             }
                           }}
                           value={values.carCity}
+                          // onBlur={() => { console.log("on Blur for To")}}
+                          
                         />
+                        
                       </Box>
                       <Box className="indexFullOnMobile" width={[4 / 16]}>
                         <Form.Field style={{ margin: 0 }}>
@@ -295,7 +298,8 @@ const IndexForm: React.SFC<IIndexForm> = ({}) => {
                           readOnly
                           ref={ref}
                           onFocus={() => { setCalStart(); onFocus() }}
-                          onBlur={() => { }}
+                          // onBlur={() => { console.log("on Blur for from")}}
+
                           value={getSelectedDayValue(date.from)}
                           placeholder="از تاریخ"
                           className="DatePicker__input index"
@@ -310,7 +314,7 @@ const IndexForm: React.SFC<IIndexForm> = ({}) => {
                           readOnly
                           ref={ref}
                           onFocus={() => { setCalEnd(); onFocus() }}
-                          onBlur={() => { }}
+                          // onBlur={() => { console.log("on Blur for To")}}
                           value={getSelectedDayValue(date.to)}
                           placeholder="تا تاریخ"
                           className="DatePicker__input"
@@ -327,7 +331,7 @@ const IndexForm: React.SFC<IIndexForm> = ({}) => {
                             type="submit"
                             className="btn_1 full-width"
                           >
-                            {'جستوجو'}
+                            {'جستجو'}
                           </Button>
                         </Form.Field>
                       </Box>

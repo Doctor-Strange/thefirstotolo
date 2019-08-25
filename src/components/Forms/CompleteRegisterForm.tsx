@@ -144,7 +144,7 @@ export default withTranslation('common')(
             ) => {
               formikActions.setSubmitting(true);
               this.setState({ error: '' });
-              console.log(values);
+              // console.log(values);
               const {
                 firstName,
                 lastName,
@@ -175,7 +175,7 @@ export default withTranslation('common')(
                 )
                 .then(response => {
                   if (response.data.success) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     this.setState({
                       success: response.data.success,
                       error: ''
@@ -186,7 +186,7 @@ export default withTranslation('common')(
                       complete_register: false
                     });
                     let path_to_go = '/me';
-                    console.log(query);
+                    // console.log(query);
                     if (query.go_to_pathname) {
                       // fixme
                       path_to_go = decodeURIComponent(query.go_to_pathname) + decodeURIComponent("?") + decodeURIComponent(query.go_to_queries);
@@ -206,7 +206,7 @@ export default withTranslation('common')(
                   formikActions.setSubmitting(false);
                 });
               setTimeout(() => {
-                console.log(values);
+                // console.log(values);
                 this.setState({
                   name: values.firstName + ' ' + values.lastName
                 });
@@ -424,7 +424,7 @@ export default withTranslation('common')(
                               }
                               value={values.month}
                               onChange={(e) => {
-                                console.log(e.target.value);
+                                // console.log(e.target.value);
                                 if (e.target && e.target.name) {
                                   setFieldValue(e.target.name, Number(e.target.value));
                                 }
