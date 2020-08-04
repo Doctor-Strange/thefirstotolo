@@ -1,119 +1,17 @@
 {
-  "devFiles": [],
+  "devFiles": [
+    "static/development/dll/dll_4b0746e12e4485c42d64.js"
+  ],
   "pages": {
-    "/": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
     "/_app": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
+      "static/runtime/webpack.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/runtime/main.js"
     ],
     "/_error": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/add-car": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/car": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/checkout": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/complete-register": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/faq": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/index": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/peyment_succeed": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/profile": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/request": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/requests": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/search-results": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
-    ],
-    "/set-car-timing": [
-      "static/runtime/webpack-8ed9452df514b4d17d80.js",
-      "static/css/commons.b856ac70.chunk.css",
-      "static/chunks/commons.e342e5ed3d199861d394.js",
-      "static/css/styles.853d08db.chunk.css",
-      "static/chunks/styles.71dfdc6ac9aa14fd751a.js",
-      "static/runtime/main-9b62717c7dd5c5b7ec2b.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ]
   }
 }

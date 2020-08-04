@@ -34,6 +34,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+.next/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -60,3 +61,5 @@ typings/
 
 build/
 .docz
+
+.next
