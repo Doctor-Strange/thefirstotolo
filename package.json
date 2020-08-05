@@ -18,10 +18,10 @@
     "start": " node server.js",
     "ts:check": "tsc --noEmit",
     "docz:dev": "docz dev --typescript",
-    "docz:build": "docz build --typescript",
-    "heroku-postbuild": "next build"
+    "docz:build": "docz build --typescript"
   },
   "dependencies": {
+    "express": "^4.17.1", 
     "@rebass/grid": "^6.0.0-7",
     "@sentry/browser": "^5.4.0",
     "@sweetalert/with-react": "^0.1.1",
